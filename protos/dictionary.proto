@@ -13,5 +13,5 @@ message BrainDictionary {
 
 message BrainVerticalDictionary {
   // key = type (entity, event, etc.)
-  map<string, BrainIndex> type = 1;
+  map<string, BrainForwardIndex> type = 1;
 }

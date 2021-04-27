@@ -14,7 +14,7 @@ message BrainEventSchema {
 
 message BrainStoreSchema {
   // key = brain-descriptor-key
-  map<string, BrainIndex> schema = 1;
+  map<string, BrainForwardIndex> schema = 1;
 }
 
 

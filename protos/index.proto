@@ -12,12 +12,25 @@ message Index {
   map<string, uint32> index = 2;
 }
 
-message BrainIndex {
-  map<string, uint32> key2index = 1;
-  map<uint32, string> index2key = 2;
-  map<string, string> key2quantity = 3;
-  map<uint32, string> index2quantity = 4;
-  map<string, google.protobuf.Any> key2schema = 5;
-  map<uint32, google.protobuf.Any> index2schema = 6;
+message BrainForwardIndex {
+  map<string, uint32> name_to_index = 1;
+  map<uint32, string> index_to_name = 2;
+  map<string, string> name_to_type = 3;
+  map<uint32, string> index_to_type = 4;
 }
+
+message BrainReverseIndex {
+  // key = type (e.g. document, video)
+  map<string, BrainReverseIndexStore> store = 1;
+}
+message BrainReverseIndexStore {
+  // key = key (e.g. keyword)
+  map<string, BrainIndexList> list = 1;
+}
+
+message BrainIndexList {
+  // e.g. document indices
+  repeated uint32 index = 1;
+}
+
 

@@ -11,11 +11,8 @@ message BrainStatus {
 
 message BrainStatusInstance {
   BrainStatusCode status_code = 1;
-  string api_name = 2;
-  string function_name = 3;
-  map<string, string> parameters = 4;
+  map<string, string> parameters = 2;
 }
-
 
 enum BrainStatusCode {
   OK = 0;

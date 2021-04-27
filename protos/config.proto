@@ -4,11 +4,41 @@ package com.jio.brain;
 
 option java_multiple_files = true;
 
+import "quantity/quantity.proto";
+
+message BrainConfigDictionary {
+  BrainQuantityConfigDictionary quantity = 1;
+//  BrainEntityConfigDictionary entity = 2;
+//  BrainEventConfigDictionary event = 3;
+//  BrainProcessConfigDictionary process = 4;
+}
+
+message BrainQuantityConfigDictionary {
+  string vertical = 1;
+  repeated BrainQuantityConfig quantity = 2;
+}
+
 message BrainQuantityConfig {
   string name = 1;
   string type = 2;
   string unit = 3;
   map<string, string> parameters = 4;
+}
+
+message BrainSchemaDictionary {
+  BrainQuantitySchemaDictionary quantity = 1;
+//  BrainEntitySchemaDictionary entity = 2;
+//  BrainEventSchemaDictionary event = 3;
+//  BrainProcessSchemaDictionary process = 4;
+}
+
+message BrainQuantitySchemaDictionary {
+  repeated BrainQuantitySchema schema = 2;
+}
+
+message BrainQuantitySchema {
+  string unit = 1;
+  Quantity template = 2;
 }
 
 message BrainEventConfig {
