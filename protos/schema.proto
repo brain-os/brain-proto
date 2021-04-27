@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+import "index.proto";
+
+message BrainEventSchema {
+  string topic = 1;
+  BrainStoreSchema key_store = 2;
+  BrainStoreSchema value_store = 3;
+}
+
+message BrainStoreSchema {
+  // key = brain-descriptor-key
+  map<string, BrainIndex> schema = 1;
+}
+
+
+message BrainEntitySchema {
+  string vertical = 1;
+  string entity = 2;
+  // key = attribute-name
+  map<string, BrainAttributeSchema> attribute = 4;
+  // key = predicate-name
+  map<string, BrainPredicateSchema> predicate = 5;
+}
+
+message BrainAttributeSchema {
+  string quantity_type = 4;
+  // key = qualifier-name, value = quantity-type
+  map<string, string> qualifier = 5;
+}
+
+message BrainPredicateSchema {
+  string object = 1;
+  // key = qualifier-name, value = quantity-type
+  map<string, string> qualifier = 5;
+}

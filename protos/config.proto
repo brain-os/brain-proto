@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+message BrainQuantityConfig {
+  string name = 1;
+  string type = 2;
+  string unit = 3;
+  map<string, string> parameters = 4;
+}
+
+message BrainEventConfig {
+  string topic = 1;
+  BrainStoreConfig key = 2;
+  BrainStoreConfig value = 3;
+}
+
+message BrainStoreConfig {
+  map<string, uint32> entity = 1;
+  map<string, uint32> attribute = 2;
+  map<string, uint32> predicate = 3;
+  map<string, uint32> property = 4;
+  map<string, uint32> context = 5;
+}

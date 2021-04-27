@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+import "index.proto";
+
+message BrainDictionary {
+  // key = vertical (common, telecom, retail, etc.)
+  map<string, BrainVerticalDictionary> vertical = 1;
+}
+
+message BrainVerticalDictionary {
+  // key = type (entity, event, etc.)
+  map<string, BrainIndex> type = 1;
+}

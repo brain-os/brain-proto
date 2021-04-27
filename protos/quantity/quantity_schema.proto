@@ -1,0 +1,143 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+import "quantity/quantity_misc.proto";
+import "index.proto";
+import "quantity/quantity.proto";
+
+message QuantitySchema {
+  // Following four are searchable keys and make an overall key.
+  string vertical = 1; 	// e.g. telecom
+//  string domain = 2;	// e.g. network
+//  string group = 3;	// e.g. radio_4g
+//  string name = 4;  // e.g. rsrp
+  string type = 5;  // e.g. /fabric/quantity/telecom/network/radio_4g/rsrp
+  QuantityUnit unit = 6;
+
+  oneof quantity_schema_is_one_of {
+    // e.g. count, temperature, volume, area, etc.
+    NumericQuantitySchema numeric = 7;
+    // e.g. color, texture, fit, style, genre, etc.
+    SymbolicQuantitySchema symbolic = 8;
+    // e.g. order, size buckets, rating buckets, KPI buckets
+    OrdinalQuantitySchema ordinal = 9;
+    BinnedQuantitySchema binned = 10;
+    // e.g. LatLong, IPAddress, locality, building, city, district,
+    LocationQuantitySchema Location = 11;
+    // e.g. date, time, date-range, time-range, duration, season.
+    TemporalQuantitySchema temporal = 12;
+    // e.g. currency + amount
+    MonetaryQuantitySchema monetary = 13;
+    // e.g. age-bucket, gender, income-bucket, etc.
+    DemograhicQuantitySchema demographic = 14;
+  }
+}
+
+enum QuantityUnit {
+  NOT_APPLICABLE = 0;
+  LENGTH_CM = 1;
+  LENGTH_METER = 2;
+  LENGTH_KM = 3;
+  WEIGHT_MG = 4;
+  WEIGHT_GRAMS = 5;
+  WEIGHT_KG = 6;
+  TEMPERATURE_CELSIUS = 7;
+  TEMPERATURE_FAHRENHEIT = 8;
+  TIME_MILLISECOND = 9;
+  TIME_SECOND = 10;
+}
+
+// For numeric quantities, we can specify min/max values.
+// example: rsrp values are in a certain range
+message NumericQuantitySchema {
+  QuantityNumeric minimum = 1;
+  QuantityNumeric maximum = 2;
+  QuantityNumeric value_type = 3; // TODO
+}
+
+// Example Brands, Colors, etc.
+message SymbolicQuantitySchema {
+  Index dictionary = 1;
+  repeated Archive archive = 2;
+}
+
+// e.g. small, medium, large, etc.
+message OrdinalQuantitySchema {
+  // name given to bins.
+  // In the IndexBuilder we dont sort this by key.
+  Index dictionary = 1; // “excellent”, “good”, “bad”
+//  QuantityBins bins = 2;
+}
+
+message BinnedQuantitySchema {
+  // Which quantity being binned?
+  string source_quantity_type = 1; // /fabric/qt/...
+  // What names are we giving to each bin?
+  Index dictionary = 2;
+  // Bin boundaries
+  QuantityBins bin = 3;
+  // Previous archived values
+  repeated Archive archived_dictionary = 4;
+  repeated Archive archived_bins = 5;
+}
+
+
+message QuantityBins {
+  // Which raw quantity are we binning?
+//  string numeric_quantity_name = 1;
+  repeated QuantityNumeric bin_boundary = 1;
+  // Below lowest bin_boundary adds another bin before.
+  bool below_minimum_valid = 2;
+  // Above highest bin_boundary adds another bin after.
+  bool above_maximum_valid = 3;
+}
+
+// Ultimately we need to support the location quantization services
+// lat-long to X (X = everything blow)
+message LocationQuantitySchema {
+  ContinentSchema continent = 1;
+  CountrySchema country = 2;
+  DistrictSchema district = 3;
+  CitySchema city = 4;
+  LocalitySchema locality = 5;
+  VillageSchema village = 6;
+  BuildingSchema building = 7;
+}
+
+message ContinentSchema {
+  Index index = 1;
+  map< uint32, LocationPolygon > polygon = 2;  // per continent
+}
+
+message GeoSchema {
+  LocationBoundinBox box = 1;  // for fast exclusion
+  map< uint32, LocationPolygon > polygon = 2;  // for exact inclusion
+}
+
+message LocationPolygon {
+}
+message LocationBoundinBox {
+}
+message CountrySchema {
+}
+message DistrictSchema {
+}
+message CitySchema {
+}
+message LocalitySchema {
+}
+message VillageSchema {
+}
+message BuildingSchema {
+}
+message TemporalQuantitySchema {
+}
+
+message MonetaryQuantitySchema {
+}
+
+message DemograhicQuantitySchema {
+}

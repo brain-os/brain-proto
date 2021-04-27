@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+message BrainStatus {
+  bool is_ok = 1;
+  repeated BrainStatusInstance instance = 2;
+}
+
+message BrainStatusInstance {
+  BrainStatusCode status_code = 1;
+  string api_name = 2;
+  string function_name = 3;
+  map<string, string> parameters = 4;
+}
+
+
+enum BrainStatusCode {
+  OK = 0;
+  ALREADY_EXIST = 1;
+  DOES_NOT_EXIST = 2;
+  WRONG_UNITS = 3;
+  OUT_OF_RANGE = 4;
+  WRONG_QUANTITY_TYPE = 5;
+  INVALID_ENTITY_TYPE = 6;
+  // define more types as we discover
+}

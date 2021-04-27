@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+import "quantity/quantity.proto";
+
+message Index {
+  repeated string key = 1;
+  map<string, uint32> index = 2;
+}
+
+message BrainIndex {
+  map<string, uint32> key2index = 1;
+  map<uint32, string> index2key = 2;
+  map<string, string> key2quantity = 3;
+  map<uint32, string> index2quantity = 4;
+  map<string, google.protobuf.Any> key2schema = 5;
+  map<uint32, google.protobuf.Any> index2schema = 6;
+}
+
