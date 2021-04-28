@@ -5,7 +5,7 @@ package com.jio.brain;
 option java_multiple_files = true;
 
 import "google/protobuf/any.proto";
-import "quantity/quantity.proto";
+import "quantity.proto";
 
 message Index {
   repeated string key = 1;

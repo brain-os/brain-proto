@@ -4,20 +4,6 @@ package com.jio.brain;
 
 option java_multiple_files = true;
 
-import "quantity/quantity.proto";
-
-message BrainConfigDictionary {
-  BrainQuantityConfigDictionary quantity = 1;
-//  BrainEntityConfigDictionary entity = 2;
-//  BrainEventConfigDictionary event = 3;
-//  BrainProcessConfigDictionary process = 4;
-}
-
-message BrainQuantityConfigDictionary {
-  string vertical = 1;
-  repeated BrainQuantityConfig quantity = 2;
-}
-
 message BrainQuantityConfig {
   string name = 1;
   string type = 2;
@@ -25,21 +11,48 @@ message BrainQuantityConfig {
   map<string, string> parameters = 4;
 }
 
-message BrainSchemaDictionary {
-  BrainQuantitySchemaDictionary quantity = 1;
-//  BrainEntitySchemaDictionary entity = 2;
-//  BrainEventSchemaDictionary event = 3;
-//  BrainProcessSchemaDictionary process = 4;
+message BrainEntityConfig {
+  string name = 1;
+  repeated BrainAttributeConfig attribute = 2;
+  repeated BrainPredicateConfig predicate = 3;
 }
 
-message BrainQuantitySchemaDictionary {
-  repeated BrainQuantitySchema schema = 2;
+message BrainAttributeConfig {
+  repeated BrainQuantityType value = 1;
+  repeated BrainQualifierType qualifier = 2;
+  repeated BrainContextType context = 3;
 }
 
-message BrainQuantitySchema {
-  string unit = 1;
-  Quantity template = 2;
+message BrainPredicateConfig {
+  string name = 1;
+  string object = 2;
+  repeated BrainQuantityType value = 3;
+  repeated BrainQuantityType qualifier = 4;
+  repeated BrainContextType context = 5;
 }
+
+message BrainQuantityType {
+  string name = 1;  // attribute/quantifier-name
+  string type = 2;  // quantity-type
+}
+
+message BrainQualifierType {
+  string name = 1;
+  string type = 2;  // quantity-type
+}
+
+// Cross product between all window x aggregate created.
+message BrainContextType {
+  repeated string window = 1;
+  // minute_XX (e.g. minute_15)
+  // day_XX (e.g. day_01)
+  // week_XX (e.g. week_01)
+  // month_XX (e.g. month_01)
+
+  repeated string aggregate = 2;
+  // minimum, maximum, average, percentile_XX, stdv, slope
+}
+
 
 message BrainEventConfig {
   string topic = 1;
@@ -48,9 +61,18 @@ message BrainEventConfig {
 }
 
 message BrainStoreConfig {
-  map<string, uint32> entity = 1;
-  map<string, uint32> attribute = 2;
-  map<string, uint32> predicate = 3;
-  map<string, uint32> property = 4;
-  map<string, uint32> context = 5;
+  repeated string entity = 1;
+  repeated string attribute = 2;
+  repeated string predicate = 3;
+  repeated BrainNameType property = 4;
+  repeated BrainNameType context = 5;
+}
+
+message BrainNameType {
+  string name = 1;
+  string type = 2;
+}
+
+message BrainProcessConfig {
+
 }

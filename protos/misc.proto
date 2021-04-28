@@ -5,14 +5,9 @@ package com.jio.brain;
 option java_multiple_files = true;
 
 import "google/protobuf/any.proto";
-import "quantity/quantity.proto";
+import "quantity.proto";
 
 message Archive {
   QuantityDate date = 1;
   google.protobuf.Any quantity = 2;
-}
-
-message MinMaxCount {
-  uint32 minimum = 1;
-  uint32 maximum = 2;
 }

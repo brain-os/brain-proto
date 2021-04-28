@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+import "index.proto";
+import "quantity.proto";
+
+message BrainStore {
+  // key = index-entity
+  map<uint32, Index> entity_index = 1;
+  repeated Quantity attribute = 2;
+  map<uint32, Quantity> attribute_qualifier = 3;
+  repeated Quantity property = 4;
+  repeated Quantity context = 5;
+  repeated Quantity predicate = 6;
+}
