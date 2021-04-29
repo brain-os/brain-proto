@@ -18,6 +18,7 @@ message Quantity {
     QuantityTemporal temporal = 6;// e.g. date, time, date-range, time-range, duration, season.
     QuantityMonetary monetary = 7;// e.g. currency + amount
     QuantityDemographic demographic = 8;  // e.g. age-bucket, gender, income-bucket, etc.
+    QuantityBoolean boolean = 9;
   }
 }
 
@@ -150,4 +151,10 @@ message QuantityDuration {
 
 message QuantityPolygon {
   repeated LatLong lat_long = 1;
+}
+
+enum QuantityBoolean {
+  TRUE = 0;
+  FALSE = 1;
+  NOT_ASSIGNED = 2;
 }

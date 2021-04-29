@@ -10,19 +10,19 @@ import "process/enrich_config.proto";
 import "process/filter_config.proto";
 import "process/pivot_config.proto";
 import "process/reduce_config.proto";
-import "store.proto";
+import "wip.proto";
 
 message ProcessConfig {
-  EventConfig input_event_config = 1;
-  repeated EventConfig output_event_config = 2;
+  string input_queue = 1;
+  string input_event_config = 2; // event key in dictionary
+  map<string, string> output_event_config = 3; // key = output_topic, value = event key in dictionary
+  ProcessDictionary dictionary = 4; // dictionary of all "things" required for this process. Data driven from input and output event configs
   oneof config {
-    EnrichConfig enrich_config = 3;
-    FilterConfig filter_config = 4;
-    PivotConfig pivot_config = 5;
-    ReduceConfig reduce_config = 6;
-    IngestConfig ingest_config = 7;
-    QuantizationConfig quantization_config = 8;
+    EnrichConfig enrich_config = 5;
+    FilterConfig filter_config = 6;
+    PivotConfig pivot_config = 7;
+    ReduceConfig reduce_config = 8;
+    IngestConfig ingest_config = 9;
+    QuantizationConfig quantization_config = 10;
   }
-  IndexDictionary index_dictionary = 9;
-  KeyDictionary key_dictionary = 10;
 }

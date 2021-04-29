@@ -17,6 +17,9 @@ message BrainQuantitySchema {
     // e.g. order, size buckets, rating buckets, KPI buckets
     OrdinalQuantitySchema ordinal = 3;
     BinnedQuantitySchema binned = 4;
+    TemporalSchema temporal = 5;
+    QuantityBoolean boolean = 6;
+    LatLong lat_long = 7;
   }
 }
 
@@ -32,6 +35,11 @@ enum QuantityUnit {
   TEMPERATURE_FAHRENHEIT = 8;
   TIME_MILLISECOND = 9;
   TIME_SECOND = 10;
+  TIME_YEARS = 11;
+  TIME_EPOCH = 12;
+  DECIBEL = 13;
+  MONETARY_INR = 14;
+  PERCENT = 15;
 }
 
 // For numeric quantities, we can specify min/max values.
@@ -76,6 +84,15 @@ message QuantityBins {
   bool below_minimum_valid = 2;
   // Above highest bin_boundary adds another bin after.
   bool above_maximum_valid = 3;
+}
+
+message TemporalSchema {
+//  uint32 year = 1; // 2021
+//  uint32 month = 2; // 1-12
+//  uint32 day_of_month = 3; // 1-31
+//  uint32 hour_of_day = 4; // 0 - 23
+//  uint32 minute = 5; // 0 - 59
+//  uint32 second = 6; // 0 - 59
 }
 
 message BrainEntitySchema {
