@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+import "process/ingestion_config.proto";
+import "process/quantization_config.proto";
+import "process/enrich_config.proto";
+import "process/filter_config.proto";
+import "process/pivot_config.proto";
+import "process/reduce_config.proto";
+import "store.proto";
+
+message ProcessConfig {
+  EventConfig input_event_config = 1;
+  repeated EventConfig output_event_config = 2;
+  oneof config {
+    EnrichConfig enrich_config = 3;
+    FilterConfig filter_config = 4;
+    PivotConfig pivot_config = 5;
+    ReduceConfig reduce_config = 6;
+    IngestConfig ingest_config = 7;
+    QuantizationConfig quantization_config = 8;
+  }
+  IndexDictionary index_dictionary = 9;
+  KeyDictionary key_dictionary = 10;
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+
+message ReduceConfig {
+  oneof reduce_config_is_one_of {
+    PurgeReduceConfig purge_reduce_config = 1;
+  }
+}
+
+message PurgeReduceConfig {
+  // ...
+}

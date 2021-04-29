@@ -9,6 +9,7 @@ import "index.proto";
 import "schema.proto";
 
 message BrainDictionary {
+  // key = vertical (common, telecom, retail, etc.)
   map<string, BrainQuantityDictionary> quantity = 1;
   map<string, BrainEntityDictionary> entity = 2;
   map<string, BrainEventDictionary> event = 3;
@@ -18,7 +19,7 @@ message BrainDictionary {
 message BrainQuantityDictionary {
   BrainQuantityConfigDictionary config_dict = 1;
   BrainQuantitySchemaDictionary schema_dict = 2;
-  BrainForwardIndex forward = 3;
+  BrainForwardIndex forward = 3;// /telecom/quantity/rsrp - 3
   BrainReverseIndex reverse = 4;
 }
 
@@ -79,15 +80,22 @@ message BrainSchemaDictionary {
 }
 
 message BrainQuantitySchemaDictionary {
-  repeated BrainQuantitySchema schema = 2;
+  // key = quantity-descriptor
+  // e.g. /telecom/quantity/RSRP
+  // e.g. /telecom/quantity/RSRP_BIN
+  // e.g. /telecom/quantity/TOWER_TYPE
+  // e.g. /telecom/quantity/TOWER_LOCATION
+  // e.g. /telecom/quantity/CELL_AZIMUTH
+  // e.g. /telecom/quantity/CUSTOMER_ADDRESS
+  map<string, BrainQuantitySchema> schema = 1;
 }
 
 message BrainEntitySchemaDictionary {
-
+  map<string, BrainEntitySchema> schema = 1;
 }
 
 message BrainEventSchemaDictionary {
-  map<string, BrainEventSchema> schema = 2;
+  map<string, BrainEventSchema> schema = 1;
   // key = topic
   // e.g. /telecom/event/NETWORK_LSR_RAW
   // e.g. /telecom/event/NETWORK_LSR_QUANTIEZED

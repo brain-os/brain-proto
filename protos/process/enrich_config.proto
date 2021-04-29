@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+import "index.proto";
+
+message EnrichConfig {
+  string input_topic = 1;
+  string output_topic = 2;
+  EnrichAttributesConfig attributes = 3;
+  EnrichPredicatesConfig predicates = 4;
+}
+
+message EnrichAttributesConfig {
+  map<string, Index> type = 1;
+}
+
+message EnrichPredicatesConfig {
+  map<string, Index> type = 1;
+}

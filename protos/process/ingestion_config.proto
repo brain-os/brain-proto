@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+message IngestConfig {
+  string output_topic = 1;
+  oneof data_transport {
+      KafkaTransport kafka_transport = 2;
+      CsvFileTransport csv_transport = 3;
+      JsonFileTransport json_transport = 4;
+  }
+}
+
+message KafkaTransport {
+  string input_topic = 1;
+  repeated FieldMapping mappings = 2;
+}
+
+message CsvFileTransport {
+  string folder_to_watch = 1;
+  repeated FieldMapping mappings = 2;
+}
+
+message JsonFileTransport {
+  string folder_to_watch = 1;
+  repeated FieldMapping mappings = 2;
+}
+
+message FieldMapping {
+  string mapping_name = 1;
+  oneof input_field_config {
+    uint32 input_field_index = 2;
+    string input_field_name = 3;
+  }
+  DataType input_data_type = 4;
+  string output_field_name = 5;
+  DataType output_data_type = 6;
+}
+
+enum DataType {
+  STRING = 0;
+  BOOL = 1;
+  IN32 = 2;
+  IN64 = 3;
+  UIN32 = 4;
+  UIN64 = 5;
+  SIN32 = 6;
+  SIN64 = 7;
+  FIXED32 = 8;
+  FIXED64 = 9;
+  SFIXED32 = 10;
+  SFIXED64 = 11;
+  DOUBLE = 12;
+  FLOAT = 13;
+}

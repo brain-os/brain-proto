@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+message PivotConfig {
+  string input_topic = 1;
+  repeated PivotConfigInstance pivot_config = 2;
+}
+
+message PivotConfigInstance {
+  string output_topic = 1;
+  PivotKeyConfig pivot_key_config = 2;
+  PivotValueConfig pivot_value_config = 3;
+}
+
+message PivotKeyConfig {
+  repeated string entities = 1;
+  repeated string contexts = 2;
+}
+
+message PivotValueConfig {
+  repeated string entities = 1;
+  repeated string attributes = 2;
+  repeated string properties = 3;
+  repeated string predicates = 4;
+}
