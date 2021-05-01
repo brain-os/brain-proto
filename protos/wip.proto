@@ -51,7 +51,9 @@ message AttributeStore {
 }
 
 /*
-Stored in database
+******** Stored in database **********
+
+Few of the things are redundant, added for readability purpose. Will remove it if required
  */
 message QuantityConfig {
   string vertical = 1; // telecom
@@ -114,7 +116,11 @@ message AttributeQualifierConfig {
   string attribute_index = 7;
   string attribute_key = 8;
   string quantity_type = 9; // key in quantity dictionary since above is date
-  // value will always be of same type of attribute quantity type
+  // key => type value => dynamic or static
+  // key => window value => 15_min, 30_min, hour, 6_hour, day, week
+  // key => aggregate value => sum, average, max, min, slope, percentile_25, percentile_50
+  // TODO - will these parameters will be part of process config for reducer
+  // if no - same can be done for quantization
   map<string, string> parameters = 10;
   bool is_deleted = 11; // if true, dont load this at startup
 }
@@ -191,6 +197,10 @@ message ReverseIndexDictionary {
 message ProcessDictionary {
   IndexDictionary index = 1;
   ReverseIndexDictionary key = 2;
+}
+// Transient - initialise at startup
+message QuantitySchemaDictionary {
+  map<uint32, QuantitySchema> quantity_dictionary = 1;
 }
 ////////// Schemas ///////
 
