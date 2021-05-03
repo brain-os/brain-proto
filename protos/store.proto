@@ -6,7 +6,7 @@ option java_multiple_files = true;
 
 import "quantity.proto";
 
-message Event {
+message BrainEvent {
   string event_id = 1;
   uint32 event_type = 2;
   Store key_store = 3;
