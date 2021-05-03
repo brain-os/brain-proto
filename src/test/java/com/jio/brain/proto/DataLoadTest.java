@@ -27,4 +27,32 @@ public class DataLoadTest {
         }
     }
 
+    @Test
+    public void testLoadEntityConfig() throws IOException {
+        File file = new File(VERTICAL_FOLDER, "entity.json");
+        if(file.exists()) {
+            BrainEntityConfigDictionary.Builder builder = BrainEntityConfigDictionary.newBuilder();
+            JsonFormat.parser().ignoringUnknownFields().merge(new FileReader(file), builder);
+            BrainEntityConfigDictionary dictionary = builder.build();
+            System.out.println(dictionary);
+        }
+        else {
+            Assertions.fail("File does not exists : " + VERTICAL_FOLDER);
+        }
+    }
+
+    @Test
+    public void testLoadProcessConfig() throws IOException {
+        File file = new File(VERTICAL_FOLDER, "entity.json");
+        if(file.exists()) {
+            ProcessConfig.Builder builder = ProcessConfig.newBuilder();
+            JsonFormat.parser().ignoringUnknownFields().merge(new FileReader(file), builder);
+            ProcessConfig processConfig = builder.build();
+            System.out.println(processConfig);
+        }
+        else {
+            Assertions.fail("File does not exists : " + VERTICAL_FOLDER);
+        }
+    }
+
 }
