@@ -43,7 +43,7 @@ public class DataLoadTest {
 
     @Test
     public void testLoadProcessConfig() throws IOException {
-        File file = new File(VERTICAL_FOLDER, "entity.json");
+        File file = new File(VERTICAL_FOLDER, "process_config.json");
         if(file.exists()) {
             ProcessConfig.Builder builder = ProcessConfig.newBuilder();
             JsonFormat.parser().ignoringUnknownFields().merge(new FileReader(file), builder);
