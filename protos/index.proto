@@ -5,7 +5,18 @@ package com.jio.brain;
 option java_multiple_files = true;
 
 import "google/protobuf/any.proto";
-import "quantity.proto";
+
+message BrainList {
+  repeated string item = 1;
+}
+
+message BrainIndex {
+  BrainList list = 1;
+  map<string, uint32> item2index = 2;
+  map<uint32, string> index2item = 3;
+}
+
+//////////// OLD BELOW ///////////
 
 message Index {
   repeated string key = 1;

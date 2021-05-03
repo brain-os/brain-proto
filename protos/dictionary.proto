@@ -8,6 +8,8 @@ import "config.proto";
 import "index.proto";
 import "schema.proto";
 
+//////////// OLD BELOW ///////////
+
 message BrainDictionary {
   // key = vertical (common, telecom, retail, etc.)
   map<string, BrainQuantityDictionary> quantity = 1;
@@ -52,10 +54,10 @@ message BrainConfigDictionary {
   BrainProcessConfigDictionary process = 4;
 }
 
-message BrainQuantityConfigDictionary {
-  string vertical = 1;
-  repeated BrainQuantityConfig quantity = 2;
-}
+//message BrainQuantityConfigDictionary {
+//  string vertical = 1;
+//  repeated BrainQuantityConfig quantity = 2;
+//}
 
 message BrainEntityConfigDictionary {
   string vertical = 1;
@@ -79,16 +81,16 @@ message BrainSchemaDictionary {
   BrainProcessSchemaDictionary process = 4;
 }
 
-message BrainQuantitySchemaDictionary {
-  // key = quantity-descriptor
-  // e.g. /telecom/quantity/RSRP
-  // e.g. /telecom/quantity/RSRP_BIN
-  // e.g. /telecom/quantity/TOWER_TYPE
-  // e.g. /telecom/quantity/TOWER_LOCATION
-  // e.g. /telecom/quantity/CELL_AZIMUTH
-  // e.g. /telecom/quantity/CUSTOMER_ADDRESS
-  map<string, BrainQuantitySchema> schema = 1;
-}
+//message BrainQuantitySchemaDictionary {
+//  // key = quantity-descriptor
+//  // e.g. /telecom/quantity/RSRP
+//  // e.g. /telecom/quantity/RSRP_BIN
+//  // e.g. /telecom/quantity/TOWER_TYPE
+//  // e.g. /telecom/quantity/TOWER_LOCATION
+//  // e.g. /telecom/quantity/CELL_AZIMUTH
+//  // e.g. /telecom/quantity/CUSTOMER_ADDRESS
+//  map<string, BrainQuantitySchema> schema = 1;
+//}
 
 message BrainEntitySchemaDictionary {
   map<string, BrainEntitySchema> schema = 1;

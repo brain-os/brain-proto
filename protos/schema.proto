@@ -8,20 +8,76 @@ import "index.proto";
 import "quantity.proto";
 import "misc.proto";
 
+message BrainQuantitySchemaDictionary {
+  string vertical = 1;
+  map<string, BrainIndex> meta_data = 2;
+  map<string, BrainQuantitySchema> quantity = 3;
+  // key = quantity-name
+}
+
 message BrainQuantitySchema {
-  oneof quantity_schema_is_one_of {
-    // e.g. count, temperature, volume, area, etc.
-    NumericQuantitySchema numeric = 1;
-    // e.g. color, texture, fit, style, genre, etc.
-    SymbolicQuantitySchema symbolic = 2;
-    // e.g. order, size buckets, rating buckets, KPI buckets
-    OrdinalQuantitySchema ordinal = 3;
-    BinnedQuantitySchema binned = 4;
-    TemporalSchema temporal = 5;
-    QuantityBoolean boolean = 6;
-    LatLong lat_long = 7;
+  oneof quantity_schema {
+    BrainNumericQuantitySchema numeric = 1;
+    BrainSymbolicQuantitySchema symbolic = 2;
+    BrainOrdinalQuantitySchema ordinal = 3;
+    BrainBinnedQuantitySchema binned = 4;
+    BrainSpatialQuantitySchema spatial = 5;
+    BrainTemporalQuantitySchema temporal = 6;
   }
 }
+
+message BrainNumericQuantitySchema {
+  string unit = 1;
+  BrainNumericQuantity minimum = 2;
+  BrainNumericQuantity maximum = 3;
+}
+
+message BrainSymbolicQuantitySchema {
+  BrainIndex dictionary = 1;
+}
+
+message BrainOrdinalQuantitySchema {
+  BrainIndex dictionary = 1;
+}
+
+message BrainBinnedQuantitySchema {
+  string source = 1;
+  BrainIndex dictionary = 2;
+  repeated float boundary = 3;
+  bool minimum_open = 4;
+  bool maximum_open = 5;
+}
+
+message BrainSpatialQuantitySchema {
+  bool lat_long = 1;
+  repeated string location_type = 2;
+  // These can only come from locations_types
+}
+
+message BrainTemporalQuantitySchema {
+  oneof temporal_schema_is_one_of {
+    BrainTemporalInstanceQuantitySchema instance = 1; // which
+    BrainTemporalDurationQuantitySchema duration = 2; // how man
+    BrainTemporalRangeQuantitySchema range = 3;       // from to to
+  }
+}
+
+message BrainTemporalInstanceQuantitySchema {
+  map<string, uint32> selected = 1;
+  // These come from the temporal_types above
+}
+
+message BrainTemporalDurationQuantitySchema {
+  map<string, uint32> selected = 1;
+}
+
+message BrainTemporalRangeQuantitySchema {
+  map<string, uint32> selected = 1;
+  bool include_minimum = 2; // <= vs. <
+  bool include_maximum = 3;  //>= vs. >
+}
+
+//////////// OLD BELOW ///////////
 
 enum QuantityUnit {
   NOT_APPLICABLE = 0;

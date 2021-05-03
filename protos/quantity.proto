@@ -5,10 +5,83 @@ package com.jio.brain;
 option java_multiple_files = true;
 
 import "google/protobuf/timestamp.proto";
+import "index.proto";
+
+message BrainQuantity {
+  oneof quantity_is_one_of {
+    BrainNumericQuantity numeric = 1;
+    BrainSymbolicQuantity symbolic = 2;
+    BrainOrdinalQuantity ordinal = 3;
+    BrainBinnedQuantity binned = 4;
+    BrainSpatialQuantity spatial = 5;
+    BrainTemporalQuantity temporal = 6;
+  }
+}
+
+message BrainNumericQuantity {
+  oneof numeric_is_one_of {
+    float float_value = 1;
+    double double_value = 2;
+    int32 int_value = 3;
+    int64 long_value = 4;
+  }
+}
+
+message BrainSymbolicQuantity {
+  repeated uint32 item = 1;  // one or more symbols from dictionary
+}
+
+message BrainOrdinalQuantity {
+  repeated uint32 item = 1;  // one or more symbols from dictionary
+}
+
+message BrainBinnedQuantity {
+  repeated uint32 item = 1;  // one or more symbols from dictionary
+}
+
+message BrainSpatialQuantity {
+  BrainLatLongQuantity lat_long = 1;
+  map<uint32, BrainIndex> type2item = 3;  // one or more id’s
+  // key = index of the following types:
+  //   - ghohash6, … geohash9
+  //   - ward, village, locality, city, district, state, country
+  //   - building, campus, stadium, airport, railway, metro, ...
+}
+
+message BrainLatLongQuantity {
+  float latitude = 1;
+  float longitude = 2;
+}
+
+// One or more of these can be populated
+message BrainTemporalQuantity {
+  oneof temporal_is_one_of {
+    BrainTemporalInstanceQuantity instance = 1; // which
+    BrainTemporalDurationQuantity duration = 2; // how many
+    BrainTemporalRangeQuantity range = 3;       // from to to
+  }
+}
+
+message BrainTemporalInstanceQuantity {
+  map<uint32, uint32> value = 1;
+}
+
+message BrainTemporalDurationQuantity {
+  map<uint32, uint32> value = 1;
+}
+
+message BrainTemporalRangeQuantity {
+  BrainTemporalInstanceQuantity minimum = 1;
+  BrainTemporalInstanceQuantity maximum = 2;
+  bool include_minimum = 3; // <= vs. <
+  bool include_maximum = 4; // >= vs. >
+}
+
+//////////// OLD BELOW ///////////
 
 message Quantity {
-//  string type = 1; // e.g. /qt/count, /qt/temperature, /qt/area, /qt/data, /qt/ram, /qt/frequency
-//  string unit = 2; // e.g. /qu/temperature/celcius, /qu/area/sq_m, /qu/ram/gb, …
+  //  string type = 1; // e.g. /qt/count, /qt/temperature, /qt/area, /qt/data, /qt/ram, /qt/frequency
+  //  string unit = 2; // e.g. /qu/temperature/celcius, /qu/area/sq_m, /qu/ram/gb, …
   oneof quantity_is_one_of {
     QuantityNumeric numeric = 1;  // e.g. count, temperature, volume, area, etc.
     QuantitySymbolic symbolic = 2;// e.g. color, texture, fit, style, genre, etc.

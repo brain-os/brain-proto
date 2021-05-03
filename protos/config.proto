@@ -4,12 +4,83 @@ package com.jio.brain;
 
 option java_multiple_files = true;
 
-message BrainQuantityConfig {
-  string name = 1;
-  string type = 2;
-  string unit = 3;
-  map<string, string> parameters = 4;
+import "index.proto";
+import "quantity.proto";
+
+message BrainQuantityConfigDictionary {
+  string vertical = 1;
+  repeated BrainQuantityMetaData meta_data = 2;
+  repeated BrainQuantityConfig quantity = 3;
 }
+
+message BrainQuantityMetaData {
+  string name = 1;
+  BrainList list = 2;
+}
+
+message BrainQuantityConfig {
+  string vertical = 1;  // if not given, borrow from dictionary
+  string quantity_type = 2;
+  oneof quantity_config_is_one_of {
+    BrainNumericQuantityConfig numeric = 4;
+    BrainSymbolicQuantityConfig symbolic = 5;
+    BrainOrdinalQuantityConfig ordinal = 6;
+    BrainBinnedQuantityConfig binned = 7;
+    BrainTemporalQuantityConfig temporal = 8;
+    BrainSpatialQuantityConfig spatial = 9;
+  }
+}
+
+message BrainNumericQuantityConfig {
+  string unit = 1;
+  BrainNumericQuantity minimum = 2;
+  BrainNumericQuantity maximum = 3;
+}
+
+message BrainSymbolicQuantityConfig {
+  repeated string item = 1;
+}
+
+message BrainOrdinalQuantityConfig {
+  repeated string item = 1;
+}
+
+message BrainBinnedQuantityConfig {
+  string source = 1;
+  repeated string name = 2;  // bin-name
+  repeated float boundary = 3;
+  bool minimum_open = 4;
+  bool maximum_open = 5;
+}
+
+message BrainTemporalQuantityConfig {
+  oneof temporal_config_is_one_of {
+    BrainTemporalInstanceQuantityConfig instance = 1; // which
+    BrainTemporalDurationQuantityConfig duration = 2; // how man
+    BrainTemporalRangeQuantityConfig range = 3;       // from to to
+  }
+}
+
+message BrainTemporalInstanceQuantityConfig {
+  repeated string selected = 1;
+  // These come from the temporal_types above
+}
+
+message BrainTemporalDurationQuantityConfig {
+  repeated string selected = 1;
+}
+
+message BrainTemporalRangeQuantityConfig {
+  repeated string selected = 1;
+  bool include_minimum = 2;  //< = vs. <
+  bool include_maximum = 3;  //> = vs. >
+}
+
+message BrainSpatialQuantityConfig {
+
+}
+
+//////////// OLD BELOW ///////////
 
 message BrainEntityConfig {
   string name = 1;
