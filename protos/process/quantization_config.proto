@@ -51,7 +51,7 @@ message TimeQuantizationConfig {
   bool win_15 = 2;
   bool win_30 = 3;
   bool win_60 = 4;
-  map<string, QuantityDateRange> time_bin = 5;
+  map<string, BrainTemporalRangeQuantity> time_bin = 5;
 }
 
 // copy from QtySpatial
@@ -68,17 +68,17 @@ message LocationQuantizationConfig {
   bool continent = 10;
 //  map<string, QtyPolygon> location_bin = 11;
 //  map<string, QtyDistance> location_range = 12;
-  repeated LocationType location_type = 13;
+//  repeated LocationType location_type = 13;
 }
 
 message BinQuantizationConfig {
   string output_quantity_name = 1;
-  repeated QuantityNumeric threshold = 2;
+  repeated BrainNumericQuantity threshold = 2;
 }
 
 message GroupQuantizationConfig {
   string output_quantity_name = 1;
-  repeated QuantitySymbolic elements = 2;
+  repeated BrainSymbolicQuantity elements = 2;
 }
 
 /**

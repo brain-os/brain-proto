@@ -15,33 +15,3 @@ message BrainIndex {
   map<string, uint32> item2index = 2;
   map<uint32, string> index2item = 3;
 }
-
-//////////// OLD BELOW ///////////
-
-message Index {
-  repeated string key = 1;
-  map<string, uint32> index = 2;
-}
-
-message BrainForwardIndex {
-  map<string, uint32> name_to_index = 1;
-  map<uint32, string> index_to_name = 2;
-  map<string, string> name_to_type = 3;
-  map<uint32, string> index_to_type = 4;
-}
-
-message BrainReverseIndex {
-  // key = type (e.g. document, video)
-  map<string, BrainReverseIndexStore> store = 1;
-}
-message BrainReverseIndexStore {
-  // key = key (e.g. keyword)
-  map<string, BrainIndexList> list = 1;
-}
-
-message BrainIndexList {
-  // e.g. document indices
-  repeated uint32 index = 1;
-}
-
-

@@ -14,9 +14,9 @@ message EnrichConfig {
 }
 
 message EnrichAttributesConfig {
-  map<string, Index> type = 1;
+  map<string, BrainList> type = 1;
 }
 
 message EnrichPredicatesConfig {
-  map<string, Index> type = 1;
+  map<string, BrainList> type = 1;
 }

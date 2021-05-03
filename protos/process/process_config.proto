@@ -10,13 +10,12 @@ import "process/enrich_config.proto";
 import "process/filter_config.proto";
 import "process/pivot_config.proto";
 import "process/reduce_config.proto";
-import "wip.proto";
 
 message ProcessConfig {
   string input_queue = 1;
   string input_event_config = 2; // event key in dictionary
   map<string, string> output_event_config = 3; // key = output_topic, value = event key in dictionary
-  ProcessDictionary dictionary = 4; // dictionary of all "things" required for this process. Data driven from input and output event configs
+//  ProcessDictionary dictionary = 4; // dictionary of all "things" required for this process. Data driven from input and output event configs
   oneof config {
     EnrichConfig enrich_config = 5;
     FilterConfig filter_config = 6;
