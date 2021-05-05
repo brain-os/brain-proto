@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+import "index.proto";
+
+message BrainDictionaryConfig {
+  oneof dictionary_config_is_one_of {
+    string name = 1;
+    BrainList list = 2;  // Locally defined or cached from global
+  }
+}
+
+message BrainDictionarySchema {
+  oneof dictionary_schema_is_one_of {
+    string name = 1;
+    BrainIndex index = 2;  // Locally defined or cached from global
+  }
+}
+

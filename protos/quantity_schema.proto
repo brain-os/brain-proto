@@ -4,54 +4,99 @@ package com.jio.brain;
 
 option java_multiple_files = true;
 
+import "dictionary.proto";
 import "index.proto";
-import "quantity.proto";
 import "misc.proto";
+import "quantity.proto";
 
 message BrainQuantitySchemaDictionary {
   string vertical = 1;
-  map<string, BrainIndex> meta_data = 2;
+  map<string, BrainIndex> dictionary = 2;
   map<string, BrainQuantitySchema> quantity = 3;
   // key = quantity-name
 }
 
 message BrainQuantitySchema {
+  string name = 1;  // e.g. “length”
+  string unit = 2; // comes from BrainQuantityUnit (depending on name)
+  string type = 3; // // e.g. numeric, range, series, distribution, ...
   oneof quantity_schema {
-    BrainNumericQuantitySchema numeric = 1;
-    BrainSymbolicQuantitySchema symbolic = 2;
-    BrainOrdinalQuantitySchema ordinal = 3;
-    BrainBinnedQuantitySchema binned = 4;
-    BrainSpatialQuantitySchema spatial = 5;
-    BrainTemporalQuantitySchema temporal = 6;
+    BrainNumericQuantitySchema numeric = 4;
+    BrainOrdinalQuantitySchema ordinal = 5;
+    BrainSymbolicQuantitySchema symbolic = 6;
+    BrainRangeQuantitySchema range =	7; // (min, max)
+    BrainSeriesQuantitySchema series = 8;		// x_1, x_2, … x_n
+    BrainDistributionQuantitySchema distribution = 9; // p(s_1), p(s_2), …, p(s_n)
+    BrainBasketQuantitySchema basket = 10;		// {s_1, s_2, …, s_k}
+    BrainBagQuantitySchema bag = 11;			// {(w_1, s_1), (w_2, s_2), …}
+    BrainSequenceQuantitySchema sequence = 12;  // (s_1, s_2, …, s_k)
+    BrainBinnedQuantitySchema binned = 13; // bin from a set of bins
+    BrainSpatialQuantitySchema spatial = 14; // latlong, village, city, ...
+    BrainTemporalQuantitySchema temporal = 15; // instance, range, duration
   }
 }
 
 message BrainNumericQuantitySchema {
-  string unit = 1;
-  BrainNumericQuantity minimum = 2;
-  BrainNumericQuantity maximum = 3;
-}
+  BrainNumericQuantity minimum = 1;
+  BrainNumericQuantity maximum = 2;
+  bool include_minimum = 3;
+  bool include_maximum = 4;
 
-message BrainSymbolicQuantitySchema {
-  BrainIndex dictionary = 1;
 }
 
 message BrainOrdinalQuantitySchema {
   BrainIndex dictionary = 1;
 }
 
+message BrainSymbolicQuantitySchema {
+  BrainDictionarySchema dictionary = 1;
+}
+
+message BrainRangeQuantitySchema {
+  BrainNumericQuantity minimum = 1;
+  BrainNumericQuantity maximum = 2;
+  bool include_minimum = 3;
+  bool include_maximum = 4;
+}
+
+message BrainSeriesQuantitySchema {
+  string y_uint = 1;
+  string x_unit = 2;
+  BrainNumericQuantity xmin = 3;
+  BrainNumericQuantity xmax = 4;
+  BrainNumericQuantity xstep = 5;
+}
+
+message BrainDistributionQuantitySchema {
+  BrainDictionarySchema dictionary = 1;
+}
+
+message BrainBasketQuantitySchema {
+  BrainDictionarySchema dictionary = 1;
+}
+
+message BrainBagQuantitySchema {
+  BrainDictionarySchema dictionary = 1;
+}
+
+message BrainSequenceQuantitySchema {
+  BrainDictionarySchema dictionary = 1;
+}
+
 message BrainBinnedQuantitySchema {
   string source = 1;
-  BrainIndex dictionary = 2;
+  BrainDictionarySchema dictionary = 2;
   repeated float boundary = 3;
   bool minimum_open = 4;
   bool maximum_open = 5;
 }
 
 message BrainSpatialQuantitySchema {
-  bool lat_long = 1;
-  repeated string location_type = 2;
-  // These can only come from locations_types
+  BrainHierarchySchema hierarchy = 1;
+}
+
+message BrainHierarchySchema {
+
 }
 
 message BrainTemporalQuantitySchema {

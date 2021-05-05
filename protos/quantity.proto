@@ -10,11 +10,17 @@ import "index.proto";
 message BrainQuantity {
   oneof quantity_is_one_of {
     BrainNumericQuantity numeric = 1;
-    BrainSymbolicQuantity symbolic = 2;
-    BrainOrdinalQuantity ordinal = 3;
-    BrainBinnedQuantity binned = 4;
-    BrainSpatialQuantity spatial = 5;
-    BrainTemporalQuantity temporal = 6;
+    BrainOrdinalQuantity ordinal = 2;
+    BrainSymbolicQuantity symbolic = 3;
+    BrainRangeQuantity range = 4;    // (min, max)
+    BrainSeriesQuantity series = 5;    // x_1, x_2, … x_n
+    BrainDistributionQuantity distribution = 6;  // p(s_1), p(s_2), …, p(s_n)
+    BrainBasketQuantity basket = 7;    // {s_1, s_2, …, s_k}
+    BrainBagQuantity bag = 8;      // {(w_1, s_1), (w_2, s_2), …}
+    BrainSequenceQuantity sequence = 9;
+    BrainBinnedQuantity binned = 10;
+    BrainSpatialQuantity spatial = 11; // latlong, village, city, ...
+    BrainTemporalQuantity temporal = 12; // instance, range, duration
   }
 }
 
@@ -27,30 +33,79 @@ message BrainNumericQuantity {
   }
 }
 
+message BrainOrdinalQuantity {
+  repeated uint32 value = 1;  // one or more symbols from dictionary
+}
+
 message BrainSymbolicQuantity {
   repeated uint32 item = 1;  // one or more symbols from dictionary
 }
 
-message BrainOrdinalQuantity {
-  repeated uint32 item = 1;  // one or more symbols from dictionary
+message BrainRangeQuantity {
+  BrainNumericQuantity minimum = 1;    // -\inf if missing
+  BrainNumericQuantity maximum = 2;    // +\inf is missing
+  bool include_minimum = 3;
+  bool include_maximum = 4;
+}
+
+message BrainSeriesQuantity {
+  oneof series_quantity_is_one_of {
+    BrainIntegerSeriesQuantity int_series = 1;
+    BrainLongSeriesQuantity long_series = 2;
+    BrainFloatSeriesQuantity float_series = 3;
+    BrainDoubleSeriesQuantity double_series = 4;
+  }
+}
+
+message BrainIntegerSeriesQuantity {
+  repeated int32 value = 1;
+}
+
+message BrainLongSeriesQuantity {
+  repeated int64 value = 1;
+}
+
+message BrainFloatSeriesQuantity {
+  repeated float value = 1;
+}
+
+message BrainDoubleSeriesQuantity {
+  repeated double value = 1;
+}
+
+message BrainDistributionQuantity {
+  // key = bucket-index
+  map<uint32, float> probability = 1;
+}
+
+message BrainBasketQuantity {
+  map<uint32, bool> item = 1;  // A set of elements from possible
+}
+
+message BrainBagQuantity {
+  map<uint32, float> item = 1;
+}
+
+message BrainSequenceQuantity {
+  repeated uint32 item = 1;
 }
 
 message BrainBinnedQuantity {
-  repeated uint32 item = 1;  // one or more symbols from dictionary
+  uint32 item = 1;  // one or more symbols from dictionary
 }
 
 message BrainSpatialQuantity {
   BrainLatLongQuantity lat_long = 1;
-  map<uint32, BrainIndex> type2item = 3;  // one or more id’s
-  // key = index of the following types:
-  //   - ghohash6, … geohash9
-  //   - ward, village, locality, city, district, state, country
-  //   - building, campus, stadium, airport, railway, metro, ...
+  BrainHierarchy location = 2;
 }
 
 message BrainLatLongQuantity {
   float latitude = 1;
   float longitude = 2;
+}
+
+message BrainHierarchy {
+
 }
 
 // One or more of these can be populated
