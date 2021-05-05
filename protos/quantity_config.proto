@@ -15,7 +15,7 @@ message BrainQuantityConfigDictionary {
 
 message BrainQuantityMetaData {
   string name = 1;
-  BrainList list = 2;
+  repeated string item = 2;
 }
 
 message BrainQuantityConfig {
