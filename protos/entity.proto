@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "common.proto";
+import "quant.proto";
+
+message BrainEntitySchema {
+  string name = 1;
+  map<string, BrainAttributeSchema> attribute = 2;
+  // key = attribute-name
+  map<string, BrainPredicateSchema> predicate = 3;
+  // key = predicate-name
+}
+
+message BrainAttributeSchema {
+  BrainQuantitySchema value = 1;
+  map<string, BrainQuantitySchema> qualifier = 2;
+}
+
+message BrainPredicateSchema {
+  string object = 1;
+  map<string, BrainQuantitySchema> qualifier = 2;
+}
+
+message BrainEntityConfig {
+  string name = 1;
+  repeated BrainAttributeConfig attribute = 2;
+  repeated BrainPredicateConfig predicate = 3;
+}
+message BrainAttributeConfig {
+  string name = 1;
+  string quantity = 2; // from quantity-dictionary
+  repeated BrainQualifierConfig qualifier = 3;
+}
+message BrainPredicateConfig {
+  string name = 1;
+  string object = 2;
+  repeated BrainQualifierConfig qualifier = 3;
+}
+message BrainQualifierConfig {
+  string name = 1;
+  string quantity = 2;
+}

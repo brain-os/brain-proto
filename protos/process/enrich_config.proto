@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package com.jio.brain;
+package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "index.proto";
+import "common.proto";
 
 message EnrichConfig {
   string input_topic = 1;
@@ -14,9 +14,9 @@ message EnrichConfig {
 }
 
 message EnrichAttributesConfig {
-  map<string, BrainList> type = 1;
+  map<string, BrainItemList> type = 1;
 }
 
 message EnrichPredicatesConfig {
-  map<string, BrainList> type = 1;
+  map<string, BrainItemList> type = 1;
 }

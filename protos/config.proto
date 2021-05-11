@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "common.proto";
+import "quant.proto";
+import "entity.proto";
+import "event.proto";
+import "process.proto";
+
+message BrainDictionaryConfig {
+  repeated BrainCollectionConfig collection = 1;
+  repeated BrainEntityConfig entity = 2;
+  repeated BrainQuantityConfig quantity = 3;
+  repeated BrainEventConfig event = 4;
+  repeated BrainProcessConfig process = 5;
+}
+
+message BrainCollectionConfig {
+  string name = 1;
+  oneof list {
+    BrainItemList item_list = 2;
+    string entity = 3;
+    BrainConditionalEntityConfig entity_set = 4;
+  }
+}
+
+message BrainConditionalEntityConfig {
+
+}
+
+message BrainDictionarySchema {
+  // key = “/<vertical>/collection/<dictionary-name>
+  // e.g. “/retail/collection/product_brand”
+  // e.g. “/media/collection/movie_genre”
+  map<string, BrainCollectionSchema> collection = 1;
+
+  // key = “/<vertical>/entity/<entity-name>”
+  // e.g. /common/entity/city
+  map<string, BrainEntitySchema> entity = 2;
+
+  // key = “/<vertical>/quantity/<quantity-name>/<condition>
+  map<string, BrainQuantitySchema> quantity = 3;
+
+  // key = “/<vertical>/event/<event-name>/<condition>
+  map<string, BrainEventSchema> event = 4;
+
+  // key = “/<vertical>/process/<process-name>/<condition>
+  map<string, BrainProcessSchema> process = 5;
+}
+

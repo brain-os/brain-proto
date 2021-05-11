@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.jio.brain;
+package com.jio.fabric;
 
 option java_multiple_files = true;
 
@@ -11,15 +11,11 @@ import "process/filter_config.proto";
 import "process/pivot_config.proto";
 import "process/reduce_config.proto";
 
-import "quantity_config.proto";
-import "entity_config.proto";
-import "event_config.proto";
-
 message ProcessConfig {
   string input_queue = 1;
   string input_event_config = 2; // event key in dictionary
   map<string, string> output_event_config = 3; // key = output_topic, value = event key in dictionary
-  BrainDictionary dictionary = 4;
+//  BrainDictionary dictionary = 4; //TODO
   oneof config {
     EnrichConfig enrich_config = 5;
     FilterConfig filter_config = 6;
@@ -29,10 +25,4 @@ message ProcessConfig {
     QuantizationConfig quantization_config = 10;
   }
 
-}
-
-message BrainDictionary {
-    BrainQuantityConfigDictionary quantity_dictionary = 1;
-    BrainEntityConfigDictionary entity_dictionary = 2;
-    BrainEventConfigDictionary event_dictionary = 3;
 }

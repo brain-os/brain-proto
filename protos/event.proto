@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "common.proto";
+import "quant.proto";
+
+message BrainEvent {
+  string id = 1;
+  string topic = 2;
+  BrainEventKey key = 3;
+  repeated BrainEventValue value = 4;
+}
+
+message BrainEventKey {
+  // Key = entity-type-index
+  map<uint32, BrainEntitySet> entities = 1;
+
+}
+
+message BrainEventValue {
+
+}
+
+message BrainEventSchema {
+
+}
+
+message BrainEventConfig {
+
+}

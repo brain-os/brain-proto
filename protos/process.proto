@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "common.proto";
+
+message BrainProcessConfig {
+
+}
+
+message BrainProcessSchema {
+
+}

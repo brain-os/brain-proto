@@ -1,0 +1,717 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "common.proto";
+
+message BrainQuantityMetadata {
+  string vertical = 1;
+  string name = 2;
+  string unit = 3;
+  string type = 4;
+}
+
+message BrainQuantity {
+  BrainQuantityMetadata meta = 1;
+  uint32 unit = 2;  // index in a dictionary.
+  oneof quantity_is_one_of {
+    // Atomic quantities
+    BrainNumericQuantity numeric = 3;  // int/long/float/double
+    BrainOrdinalQuantity ordinal = 4;    // e.g. small, medium, large
+    BrainSymbolicQuantity symbolic = 5;  // symbol from a dictionary
+
+    // Compound quantities
+    BrainRangeQuantity range = 6;    // (min, max)
+    BrainSeriesQuantity series = 7;  // x_1, x_2, … x_n
+    BrainDistributionQuantity distribution = 8;  // p(s_1), p(s_2), …, p(s_n)
+    BrainBasketQuantity basket = 9;  // {s_1, s_2, …, s_k}
+    BrainBagQuantity bag = 10;    // {(w_1, s_1), (w_2, s_2), …}
+    BrainSequenceQuantity sequence = 11; // (s_1, s_2, …, s_k)
+
+    // Quantized quantities
+    BrainBinnedQuantity binned = 12;  // bin from a set of bins
+    BrainSpatialQuantity spatial = 13; // latlong, village, city, ...
+    BrainTemporalQuantity temporal = 14;  // instance, range, duration
+  }
+}
+
+message BrainQuantitySchema {
+  BrainQuantityMetadata meta = 1;
+  BrainItemMap unit = 2;
+  oneof quantity_schema {
+    // Atomic quantities
+    BrainNumericQuantitySchema numeric = 3;	// int/long/float/double
+    BrainOrdinalQuantitySchema ordinal = 4;  // e.g. small, medium, large
+    BrainSymbolicQuantitySchema symbolic = 5;	// symbol from a dictionary
+
+    // Compound quantities
+    BrainRangeQuantitySchema range = 6;	// (min, max)
+    BrainSeriesQuantitySchema series = 7;	// x_1, x_2, … x_n
+    BrainDistributionQuantitySchema distribution = 8;// p(s_1), p(s_2), …, p(s_n)
+    BrainBasketQuantitySchema basket = 9;	// {s_1, s_2, …, s_k}
+    BrainBagQuantitySchema bag = 10;		// {(w_1, s_1), (w_2, s_2), …}
+    BrainSequenceQuantitySchema sequence = 11; // (s_1, s_2, …, s_k)
+
+    // Quantized quantities
+    BrainBinnedQuantitySchema binned = 12;		// bin from a set of bins
+    BrainSpatialQuantitySchema spatial = 13;	// latlong, village, city, ...
+    BrainTemporalQuantitySchema temporal = 14;	// instance, range, duration
+  }
+}
+message BrainQuantityConfig {
+  string name = 1;
+  string type = 2;
+  BrainItemList unit = 3;  // all possible units for this quantity
+  oneof quantity_config {
+    // Atomic quantities
+    BrainNumericQuantityConfig numeric = 4;// int/long/float/double
+    BrainOrdinalQuantityConfig ordinal = 5;   // e.g. small, medium, large
+    BrainSymbolicQuantityConfig symbolic = 6;	// symbol from a dictionary
+
+    // Compound quantities
+    BrainRangeQuantityConfig range	= 7;	// (min, max)
+    BrainSeriesQuantityConfig series	= 8;	// x_1, x_2, … x_n
+    BrainDistributionQuantityConfig distribution = 9; // p(s_1), p(s_2), …, p(s_n)
+    BrainBasketQuantityConfig basket = 10;	// {s_1, s_2, …, s_k}
+    BrainBagQuantityConfig bag = 11;			// {(w_1, s_1), (w_2, s_2), …}
+    BrainSequenceQuantityConfig sequence = 12; // (s_1, s_2, …, s_k)
+
+    // Quantized quantities
+    BrainBinnedQuantityConfig binned = 13;		// bin from a set of bins
+    BrainSpatialQuantityConfig spatial = 14;	// latlong, village, city, ...
+    BrainTemporalQuantityConfig temporal = 15;	// instance, range, duration
+  }
+}
+
+message BrainNumericQuantity {
+  oneof numeric_quantity_is_one_of {
+    float float_value = 1;
+    double double_value = 2;
+    int32 int_value = 3;
+    int64 long_value = 4;
+  }
+}
+message BrainNumericQuantitySchema {
+  BrainNumericQuantityType type = 1;
+  BrainNumericQuantity minimum = 2;    // -\inf if missing
+  BrainNumericQuantity maximum = 3;    // +\inf is missing
+  bool include_minimum = 4;
+  bool include_maximum = 5;
+}
+enum BrainNumericQuantityType {
+    BRAIN_NUMERIC_INTEGER = 0;
+    BRAIN_NUMERIC_LONG = 1;
+    BRAIN_NUMERIC_FLOAT = 2;
+    BRAIN_NUMERIC_DOUBLE = 3;
+}
+message BrainNumericQuantityConfig {
+  BrainNumericQuantity minimum = 1;   // -\inf if missing
+  BrainNumericQuantity maximum = 2;  // +\inf is missing
+  bool include_minimum = 3;
+  bool include_maximum = 4;
+}
+/*
+$root/vertical/quantity.config
+
+quantity {
+   name: “length”
+   unit {
+     item:  “meter”
+     item: “centi_meter”
+     item: “milli_meter”
+     ...
+   }
+   type: “numeric/float”
+   numeric {
+      minimum { float_value: 0.0 }
+      include_minimum: true
+   }
+}
+
+quantity {
+   name: “area”
+   unit: “meter_square”
+   unit: “centi_meter_square”
+   ...
+   type: “numeric/float”
+   numeric {
+      minimum { float_value: 0.0 }
+      include_minimum: true
+   }
+}
+
+quantity {
+   name: “rsrp”
+   unit: “decibel”
+   type: “numeric/float”
+   numeric {
+      minimum { float_value: -120 }
+      maximum { float_value: -80 }
+      include_minimum: true
+      include_maximum: true
+   }
+}
+ */
+
+message BrainOrdinalQuantity {
+  BrainToken token = 1;
+}
+message BrainOrdinalQuantitySchema {
+  BrainCollectionSchema collection = 1;
+}
+message BrainOrdinalQuantityConfig {
+  string collection = 1;
+}
+
+message BrainSymbolicQuantity {
+  BrainToken token = 1;
+}
+message BrainSymbolicQuantitySchema {
+  BrainCollectionSchema collection = 1;
+}
+message BrainSymbolicQuantityConfig {
+  string collection = 1;
+}
+/*
+Quantity.config
+
+quantity {
+    name: “brand”
+    type: “symbolic”
+    symbolic {
+       collection: “/retail/collection/product_brand”
+    }
+ }
+
+ quantity {
+    name: “city”
+    type: “symbolic”
+    symbolic {
+       entity: “/common/entity/city”
+    }
+ }
+
+quantity {
+    name: “tier_1_city”
+    type: “symbolic”
+    symbolic {
+       conditional_entity {
+          entity_type: “/common/entity/city”
+          entity_condition: “population > 5M”
+       }
+    }
+ }
+
+
+ $root/retail/collection.config
+
+ collection {
+    name: “product_brand”
+    item_list {
+       item: “fabindia”
+       item: “...”
+    }
+}
+ */
+
+message BrainRangeQuantity {
+  BrainNumericQuantity minimum = 1;   // -\inf if missing
+  BrainNumericQuantity maximum = 2;  // +\inf is missing
+  bool include_minimum = 3;
+  bool include_maximum = 4;
+}
+message BrainRangeQuantitySchema {
+  //NOTE: There is no special proto for this.
+  //TODO
+}
+message BrainRangeQuantityConfig {
+  //NOTE: There is no special proto for this.
+  // They system knows a quantity is a range quantity by “type:” (example below)
+  // These quantities are useful in specifying conditions/qualifiers.
+  //TODO
+}
+/*
+$root/medical/quantity.config
+ ...
+ quantity {
+    name: “rbc_range_men”
+    type: “range/float”
+    unit: “cells/mcL”
+ }
+ */
+
+message BrainSeriesQuantity {
+  oneof series_quantity_is_one_of {
+    BrainIntegerSeriesQuantity int_series = 1;
+    BrainLongSeriesQuantity long_series = 2;
+    BrainFloatSeriesQuantity float_series = 3;
+    BrainDoubleSeriesQuantity double_series = 4;
+  }
+}
+message BrainIntegerSeriesQuantity {
+  repeated int32 value = 1;
+}
+message BrainLongSeriesQuantity {
+  repeated int64 value = 1;
+}
+message BrainFloatSeriesQuantity {
+  repeated float value = 1;
+}
+message BrainDoubleSeriesQuantity {
+  repeated double value = 1;
+}
+message BrainSeriesQuantitySchema {
+  BrainQuantitySchema x_type = 1;
+  BrainQuantitySchema y_type = 2;
+  BrainQuantity x_min = 3;
+  BrainQuantity x_max = 4;
+  BrainQuantity x_step = 5;
+}
+message BrainSeriesQuantityConfig {
+  string x_type = 1;
+  string y_type = 2;
+  BrainQuantity x_min = 3;
+  BrainQuantity x_max = 4;
+  BrainQuantity x_step = 5;
+}
+/*
+TODO
+Example needed
+ */
+
+message BrainDistributionQuantity {
+  oneof distribution_quantity {
+    BrainIndexDistributionQuantity index = 1;
+    BrainItemDistributionQuantity item = 2;
+    BrainEntityDistributionQuantity entity = 3;
+  }
+}
+message BrainIndexDistributionQuantity {
+  map<uint32, double> value = 1;
+}
+message BrainItemDistributionQuantity {
+  map<string, double> value = 1;
+}
+message BrainEntityDistributionQuantity {
+  map<string, double> value = 1;
+}
+message BrainDistributionQuantitySchema {
+  oneof distribution_quantity_schema {
+    BrainCollectionSchema collection = 1;
+    string entity = 2;
+  }
+}
+message BrainDistributionQuantityConfig {
+  oneof distribution_quantity_config {
+    string entity = 1;
+    string collection = 2;
+  }
+}
+/*
+TODO
+Example needed
+ */
+message BrainBasketQuantity {
+  oneof basket_quantity {
+    BrainItemBasketQuantity item = 1;
+    BrainIndexBasketQuantity index = 2;
+    BrainEntityBasketQuantity entity = 3;
+  }
+}
+message BrainItemBasketQuantity {
+  map<string, bool> value = 1;
+}
+message BrainIndexBasketQuantity {
+  map<uint32, bool> value = 1;
+}
+message BrainEntityBasketQuantity {
+  map<string, bool> value = 1;
+}
+message BrainBasketQuantitySchema {
+  BrainCollectionSchema collection = 1;
+}
+message BrainBasketQuantityConfig {
+  string collection = 1;
+}
+/*
+TODO
+Example needed
+ */
+
+message BrainBagQuantity {
+  oneof bag_quantity {
+    BrainIndexBagQuantity index = 1;
+    BrainItemBagQuantity item = 2;
+    BrainEntityBagQuantity entity = 3;
+  }
+}
+message BrainIndexBagQuantity {
+  map<uint32, BrainNumericQuantity> value = 1;
+}
+message BrainItemBagQuantity {
+  map<string, BrainNumericQuantity> value = 1;
+}
+message BrainEntityBagQuantity {
+  map<string, BrainNumericQuantity> value = 1;
+}
+message BrainBagQuantitySchema {
+  BrainNumericQuantitySchema weight = 1;
+  oneof bag_quantity_schema {
+    string entity = 2;
+    BrainCollectionSchema collection = 3;
+  }
+}
+message BrainBagQuantityConfig {
+  BrainNumericQuantityConfig weight = 1;
+  oneof bag_quantity_config {
+    string entity = 2;
+    string collection = 3;
+  }
+}
+/*
+TODO
+Example needed
+ */
+
+message BrainSequenceQuantity {
+  oneof sequence_quantity {
+    BrainItemSequenceQuantity item = 1;
+    BrainIndexSequenceQuantity index = 2;
+    BrainEntitySequenceQuantity entity = 3;
+  }
+}
+message BrainItemSequenceQuantity {
+  // TODO
+}
+message BrainIndexSequenceQuantity {
+  // TODO
+}
+message BrainEntitySequenceQuantity {
+  // TODO
+}
+message BrainSequenceQuantitySchema {
+  BrainQuantity x_min = 1;
+  BrainQuantity x_max = 2;
+  BrainQuantity x_step = 3;
+  oneof sequence_quantity_schema {
+    string entity = 4;
+    BrainCollectionSchema collection = 5;
+  }
+}
+message BrainSequenceQuantityConfig {
+  BrainQuantity x_min = 1;
+  BrainQuantity x_max = 2;
+  BrainQuantity x_step = 3;
+  oneof sequence_quantity_schema {
+    string entity = 4;
+    string collection = 5;
+  }
+}
+/*
+TODO
+Example needed
+ */
+
+message BrainBinnedQuantity {
+  oneof binned_quantity {
+    uint32 bin_index = 1;
+    string bin_item = 2;
+  }
+}
+message BrainBinnedQuantitySchema {
+  string source_quantity = 1;	 		// quantity being binned
+  BrainCollectionSchema collection = 2;
+  repeated double boundary = 3;		// bin boundaries
+  bool minimum_open = 4;
+  bool maximum_open = 5;
+}
+message BrainBinnedQuantityConfig {
+  string source_quantity = 1;	 		// quantity being binned
+  string collection = 2;
+  repeated double boundary = 3;		// bin boundaries
+  bool minimum_open = 4;
+  bool maximum_open = 5;
+}
+/*
+TODO
+Example needed
+ */
+
+message BrainSpatialQuantity {
+  BrainLatLongQuantity lat_long = 1;
+  BrainHierarchy location = 2;
+}
+message BrainHierarchy {
+  // TODO
+}
+message BrainLatLongQuantity {
+  float latitude = 1;
+  float longitude = 2;
+}
+message BrainSpatialQuantitySchema {
+  BrainHierarchySchema hierarchy = 1;
+}
+message BrainHierarchySchema {
+  // TODO
+}
+message BrainSpatialQuantityConfig {
+  BrainHierarchyConfig hierarchy = 1;
+}
+message BrainHierarchyConfig {
+  // TODO
+}
+/*
+TODO
+Example needed
+ */
+
+message BrainTemporalQuantity {
+  oneof temporal_is_one_of {
+    BrainTemporalInstanceQuantity instance = 1; // which
+    BrainTemporalDurationQuantity duration = 2; // how many
+    BrainTemporalRangeQuantity range = 3;       // from to to
+  }
+}
+message BrainTemporalInstanceQuantity {
+  map<uint32, uint32> value = 1;
+  // key = temporal-instance-type-index
+}
+message BrainTemporalDurationQuantity {
+  map<uint32, uint32> value = 1;
+  // key = temporal-duration-type-index
+}
+message BrainTemporalRangeQuantity {
+  BrainTemporalInstanceQuantity minimum = 1;
+  BrainTemporalInstanceQuantity maximum = 2;
+  bool include_minimum = 3;  //<= vs. <
+  bool include_maximum = 4;  //>= vs. >
+}
+message BrainTemporalQuantitySchema {
+  oneof temporal_schema_is_one_of {
+    BrainTemporalInstanceQuantitySchema instance = 1; // which
+    BrainTemporalInstanceQuantitySchema duration = 2; // how man
+    BrainTemporalRangeQuantitySchema range = 3;       // from to to
+  }
+}
+message BrainTemporalInstanceQuantitySchema {
+  map<string, uint32> selected = 1;
+}
+
+message BrainTemporalDurationQuantitySchema {
+  map<string, uint32> selected = 1;
+}
+message BrainTemporalRangeQuantitySchema {
+  map<string, uint32> selected = 1;
+  bool include_minimum = 2;  //<= vs. <
+  bool include_maximum = 3;  //>= vs. >
+}
+message BrainTemporalQuantityConfig {
+    oneof temporal_config_is_one_of {
+      BrainTemporalInstanceQuantityConfig instance = 1; // which
+      BrainTemporalDurationQuantityConfig duration = 2; // how man
+      BrainTemporalRangeQuantityConfig range = 3;       // from to to
+    }
+}
+message BrainTemporalInstanceQuantityConfig {
+  string reference_dictionary = 1;
+  repeated string selected = 2;
+}
+message BrainTemporalDurationQuantityConfig {
+  string reference_dictionary = 1;
+  repeated string selected = 2;
+}
+message BrainTemporalRangeQuantityConfig {
+  string reference_dictionary = 1;
+  repeated string selected = 2;
+  bool include_minimum = 3; // <= vs. <
+  bool include_maximum = 4; //  >= vs. >
+}
+/*
+vertical: “common”
+meta_data {
+   name: “spatial/types”
+   list: {
+    item: “grid”
+    item: “geohash8”
+    item: “geohash7”
+    item: “geohash6”
+    item: “locality”
+    item: “ward”
+    item: “city”
+    item: “village”
+    item: “district”
+    item: “state”
+    item: “jio_center”
+    item: “jio_point”
+    item: “jio_territory”
+    item: “building”
+  }
+}
+meta_data {
+   name: “temporal/instances” {
+   list: {
+    item: “minute05”
+    item: “minute15”
+    item: “hour”
+    item: “day_part” (morning, afternoon, evening, night)
+    item: “day”
+    item: “day_of_week”
+    item: “day_type” (weekday, weekend)
+    item: “week”
+    item: “month”
+    item: “quarter”
+    item: “year”
+  }
+}
+
+meta_data {
+   name: “temporal/durations” {
+   list {
+    item: “milliseconds”
+    item: “seconds”
+    item: “minutes”
+    item: “hours”
+    item: “days”
+    item: “weeks”
+    item: “months”
+    item: “quarters”
+    item: “years”
+  }
+}
+
+quantity {
+   name: “temporal/instance/date/minute05”
+   temporal {
+     instance {
+       selected: “year”
+       selected: “month”
+       selected: “date”
+       selected: “minute05”
+     }
+  }
+}
+
+quantity {
+   name: “temporal/instance/date/minute15”
+   temporal {
+     instance {
+       selected: “year”
+       selected: “month”
+       selected: “date”
+       selected: “minute15”
+     }
+  }
+}
+
+quantity {
+   name: “temporal/instance/date/second”
+   temporal {
+     instance {
+       selected: “year”
+       selected: “month”
+       selected: “date”
+       selected: “hour”
+       selected: “second”
+     }
+   }
+}
+
+quantity {
+   name: “temporal/instance/hour”
+   temporal {
+     instance {
+       selected: “hour”
+     }
+  }
+}
+
+quantity {
+   name: “temporal/date/day_part”
+   temporal {
+     instance {
+       selected: “year”
+       selected: “month”
+       selected: “date”
+       selected: “day_part”
+     }
+  }
+}
+
+quantity {
+   name: “temporal/instance/date”
+   temporal {
+     instance {
+       selected: “year”
+       selected: “month”
+       selected: “date”
+     }
+   }
+}
+
+quantity {
+   name: “temporal/instance/day_of_week/minute15”
+   temporal {
+     instance {
+       selected: “day_of_week”
+       selected: “minute15”
+     }
+   }
+}
+
+quantity {
+   name: “temporal/instance/day_of_week/hour”
+   temporal {
+     instance {
+       selected: “day_of_week”
+       selected: “hour”
+     }
+   }
+ }
+
+quantity {
+   name: “temporal/instance/day_of_week/day_part”
+   temporal {
+     instance {
+       selected: “day_of_week”
+       selected: “day_part”
+     }
+   }
+ }
+
+quantity {
+   name: “temporal/instance/day_of_week”
+   temporal {
+     instance {
+       selected: “day_of_week”
+     }
+   }
+}
+
+quantity {
+   name: “temporal/instance/month”
+   temporal {
+     instance {
+       selected: “year”
+       selected: “month”
+     }
+  }
+}
+
+quantity {
+   name: “temporal/instance/year”
+   temporal {
+     instance {
+       selected: “year”
+     }
+  }
+}
+
+ */
+
+
+
+
+
+

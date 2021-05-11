@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+message BrainItemMap {
+  map<string, uint32> item2index = 1;
+  map<uint32, string> index2item = 2;
+}
+
+message BrainToken {
+  oneof brain_token {
+    uint32 index = 1;	// from a dictionary
+    string item = 2;	// from a dictionary
+    string entity	= 3; // ID of an entity in a knowledge graph
+  }
+}
+
+message BrainItemList {
+  string name = 1;
+  repeated string item = 2;
+}
+
+message BrainTokenSet {
+  oneof brain_set {
+    BrainIndexSet index_set = 1;
+    BrainItemSet item_set = 2;
+    BrainEntitySet entity_set = 3;
+  }
+}
+
+message BrainIndexSet {
+  string item_dictionary = 1;
+  map<uint32, bool> index = 2;  // payload of the set (O(1) access)
+}
+
+message BrainItemSet {
+  string item_dictionary = 1;
+  map<string, bool> item = 2; // payload of the set (O(1) access)
+}
+
+message BrainEntitySet {
+  string entity_type = 1;
+  map<string, bool> entity = 2;  // payload of the set (O(1) access)
+}
+
+// ******* SCHEMA ******
+message BrainCollectionSchema {
+  oneof collection_schema {
+    BrainItemCollectionSchema item = 1;
+    BrainEntityCollectionSchema entity = 2;
+  }
+}
+
+message BrainItemCollectionSchema {
+  oneof item_collection_schema {
+    BrainItemSet item_set = 1;  // keep item as string
+    BrainItemMap item_map = 2;  // convert item into index
+  }
+}
+
+message BrainEntityCollectionSchema {
+  string entity_type = 1;
+  BrainEntityCondition entity_condition = 2;
+}
+
+message BrainEntityCondition {
+  string entity_type = 1;
+  oneof entity_condition {
+    BrainAtomicEntityCondition atomic_condition = 2;
+    BrainCompoundEntityCondition or_condition = 3;
+    BrainCompoundEntityCondition and_condition = 4;
+  }
+}
+
+message BrainAtomicEntityCondition {
+  oneof atomic_entity_condition {
+    BrainAttributeCondition attribute_condition = 1;
+    BrainPredicateCondition predicate_condition = 2;
+  }
+}
+
+message BrainCompoundEntityCondition {
+  repeated BrainAtomicEntityCondition condition = 1;
+}
+// All entities that satisfy the following attribute condition
+// Example 1: Unconditional attribute (no qualifier condition)
+//   - All cities with area > 20sqkm
+// Example 2: Conditional attribute
+//   - All cities with population > 1M in 2011 (qualifier = in 2011)
+message BrainAttributeCondition {
+  string entity_type = 1;
+  string attribute_name = 2;
+  BrainQuantityCondition value = 3;
+  // key = attribute-qualifier-name
+  map<string, BrainQuantityCondition> qualifier = 4;
+}
+
+// Return all object of the subject (entity_type)
+message BrainPredicateCondition {
+  string subject_type = 1;
+  string subject_id = 2;
+  string predicate_name = 3;
+  // key = predicate-qualifier-name
+  map<string, BrainQuantityCondition> qualifier = 4;
+}
+
+// Quantity condition depends on the type of the quantity.
+message BrainQuantityCondition {
+  // TODO
+//  oneof quantity_condition {
+//
+//  }
+}
+
+
