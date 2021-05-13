@@ -95,8 +95,8 @@ message BrainNumericQuantity {
 }
 message BrainNumericQuantitySchema {
   BrainNumericQuantityType type = 1;
-  BrainNumericQuantity minimum = 2;    // -\inf if missing
-  BrainNumericQuantity maximum = 3;    // +\inf is missing
+  double minimum = 2;    // -\inf if missing
+  double maximum = 3;    // +\inf is missing
   bool include_minimum = 4;
   bool include_maximum = 5;
 }
@@ -107,8 +107,8 @@ enum BrainNumericQuantityType {
     BRAIN_NUMERIC_DOUBLE = 3;
 }
 message BrainNumericQuantityConfig {
-  BrainNumericQuantity minimum = 1;   // -\inf if missing
-  BrainNumericQuantity maximum = 2;  // +\inf is missing
+  double minimum = 1;   // -\inf if missing
+  double maximum = 2;  // +\inf is missing
   bool include_minimum = 3;
   bool include_maximum = 4;
 }
