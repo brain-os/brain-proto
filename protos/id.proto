@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+message BrainID {
+  oneof brain_id {
+    BrainMetaID meta = 1;  // (/m/* …)
+    BrainItemID item = 2;  //(/i/* …)
+  }
+}
+
+message BrainMetaID {
+  uint32 mid = 1;  // machine id
+  BrainMetaKey key = 2;  // human readable form
+}
+
+message BrainMetaKey {
+  string vertical = 1;	// see below list of Verticals
+  string type = 2;
+  string name = 3;
+  string key_string = 4;  // created from vertical, type, and name
+}
+
+message BrainItemID {
+  uint64 id = 1;  // machine id
+  BrainItemKey key = 2;
+}
+
+message BrainItemKey {
+  string vertical = 1;
+  string type = 2;  // entity, collection
+  oneof item_key {
+    string name = 3;  // single, default key. (e.g. “white”)
+    BrainBizKey biz = 4;  // multiple business keys for same entity
+  }
+}
+
+message BrainBizKey {
+  map<string, string> kv = 3;
+}
+

@@ -42,22 +42,22 @@ message BrainQuantitySchema {
   BrainItemMap unit = 2;
   oneof quantity_schema {
     // Atomic quantities
-    BrainNumericQuantitySchema numeric = 3;	// int/long/float/double
+    BrainNumericQuantitySchema numeric = 3;  // int/long/float/double
     BrainOrdinalQuantitySchema ordinal = 4;  // e.g. small, medium, large
-    BrainSymbolicQuantitySchema symbolic = 5;	// symbol from a dictionary
+    BrainSymbolicQuantitySchema symbolic = 5;  // symbol from a dictionary
 
     // Compound quantities
-    BrainRangeQuantitySchema range = 6;	// (min, max)
-    BrainSeriesQuantitySchema series = 7;	// x_1, x_2, … x_n
+    BrainRangeQuantitySchema range = 6;  // (min, max)
+    BrainSeriesQuantitySchema series = 7;  // x_1, x_2, … x_n
     BrainDistributionQuantitySchema distribution = 8;// p(s_1), p(s_2), …, p(s_n)
-    BrainBasketQuantitySchema basket = 9;	// {s_1, s_2, …, s_k}
-    BrainBagQuantitySchema bag = 10;		// {(w_1, s_1), (w_2, s_2), …}
+    BrainBasketQuantitySchema basket = 9;  // {s_1, s_2, …, s_k}
+    BrainBagQuantitySchema bag = 10;    // {(w_1, s_1), (w_2, s_2), …}
     BrainSequenceQuantitySchema sequence = 11; // (s_1, s_2, …, s_k)
 
     // Quantized quantities
-    BrainBinnedQuantitySchema binned = 12;		// bin from a set of bins
-    BrainSpatialQuantitySchema spatial = 13;	// latlong, village, city, ...
-    BrainTemporalQuantitySchema temporal = 14;	// instance, range, duration
+    BrainBinnedQuantitySchema binned = 12;    // bin from a set of bins
+    BrainSpatialQuantitySchema spatial = 13;  // latlong, village, city, ...
+    BrainTemporalQuantitySchema temporal = 14;  // instance, range, duration
   }
 }
 message BrainQuantityConfig {
@@ -68,20 +68,20 @@ message BrainQuantityConfig {
     // Atomic quantities
     BrainNumericQuantityConfig numeric = 4;// int/long/float/double
     BrainOrdinalQuantityConfig ordinal = 5;   // e.g. small, medium, large
-    BrainSymbolicQuantityConfig symbolic = 6;	// symbol from a dictionary
+    BrainSymbolicQuantityConfig symbolic = 6;  // symbol from a dictionary
 
     // Compound quantities
-    BrainRangeQuantityConfig range	= 7;	// (min, max)
-    BrainSeriesQuantityConfig series	= 8;	// x_1, x_2, … x_n
+    BrainRangeQuantityConfig range = 7;  // (min, max)
+    BrainSeriesQuantityConfig series = 8;  // x_1, x_2, … x_n
     BrainDistributionQuantityConfig distribution = 9; // p(s_1), p(s_2), …, p(s_n)
-    BrainBasketQuantityConfig basket = 10;	// {s_1, s_2, …, s_k}
-    BrainBagQuantityConfig bag = 11;			// {(w_1, s_1), (w_2, s_2), …}
+    BrainBasketQuantityConfig basket = 10;  // {s_1, s_2, …, s_k}
+    BrainBagQuantityConfig bag = 11;      // {(w_1, s_1), (w_2, s_2), …}
     BrainSequenceQuantityConfig sequence = 12; // (s_1, s_2, …, s_k)
 
     // Quantized quantities
-    BrainBinnedQuantityConfig binned = 13;		// bin from a set of bins
-    BrainSpatialQuantityConfig spatial = 14;	// latlong, village, city, ...
-    BrainTemporalQuantityConfig temporal = 15;	// instance, range, duration
+    BrainBinnedQuantityConfig binned = 13;    // bin from a set of bins
+    BrainSpatialQuantityConfig spatial = 14;  // latlong, village, city, ...
+    BrainTemporalQuantityConfig temporal = 15;  // instance, range, duration
   }
 }
 
@@ -95,20 +95,20 @@ message BrainNumericQuantity {
 }
 message BrainNumericQuantitySchema {
   BrainNumericQuantityType type = 1;
-  double minimum = 2;    // -\inf if missing
-  double maximum = 3;    // +\inf is missing
+  BrainNumericQuantity minimum = 2;    // -\inf if missing
+  BrainNumericQuantity maximum = 3;    // +\inf is missing
   bool include_minimum = 4;
   bool include_maximum = 5;
 }
 enum BrainNumericQuantityType {
-    BRAIN_NUMERIC_INTEGER = 0;
-    BRAIN_NUMERIC_LONG = 1;
-    BRAIN_NUMERIC_FLOAT = 2;
-    BRAIN_NUMERIC_DOUBLE = 3;
+  BRAIN_NUMERIC_INTEGER = 0;
+  BRAIN_NUMERIC_LONG = 1;
+  BRAIN_NUMERIC_FLOAT = 2;
+  BRAIN_NUMERIC_DOUBLE = 3;
 }
 message BrainNumericQuantityConfig {
-  double minimum = 1;   // -\inf if missing
-  double maximum = 2;  // +\inf is missing
+  BrainNumericQuantity minimum = 1;   // -\inf if missing
+  BrainNumericQuantity maximum = 2;  // +\inf is missing
   bool include_minimum = 3;
   bool include_maximum = 4;
 }
@@ -154,7 +154,9 @@ quantity {
    }
 }
  */
-
+/*
+  TODO : we have not stored any ordering information
+ */
 message BrainOrdinalQuantity {
   BrainToken token = 1;
 }
@@ -217,20 +219,47 @@ quantity {
  */
 
 message BrainRangeQuantity {
-  BrainNumericQuantity minimum = 1;   // -\inf if missing
-  BrainNumericQuantity maximum = 2;  // +\inf is missing
-  bool include_minimum = 3;
-  bool include_maximum = 4;
+  oneof range_quantity_is_one_of {
+    BrainIntegerRange integer_range = 1;
+    BrainLongRange long_range = 2;
+    BrainFloatRange float_range = 3;
+    BrainDoubleRange double_range = 4;
+  }
+  bool include_minimum = 5;
+  bool include_maximum = 6;
+}
+message BrainIntegerRange {
+  uint32 minimum = 1;
+  uint32 maximum = 2;
+}
+message BrainLongRange {
+  uint64 minimum = 1;
+  uint64 maximum = 2;
+}
+message BrainFloatRange {
+  float minimum = 1;
+  float maximum = 2;
+}
+message BrainDoubleRange {
+  double minimum = 1;
+  double maximum = 2;
 }
 message BrainRangeQuantitySchema {
   //NOTE: There is no special proto for this.
-  //TODO
+  BrainNumericQuantityType type = 1;
+  BrainNumericQuantity minimum = 2;   // -\inf if missing
+  BrainNumericQuantity maximum = 3;  // +\inf is missing
+  bool include_minimum = 4;
+  bool include_maximum = 5;
 }
 message BrainRangeQuantityConfig {
   //NOTE: There is no special proto for this.
   // They system knows a quantity is a range quantity by “type:” (example below)
   // These quantities are useful in specifying conditions/qualifiers.
-  //TODO
+  BrainNumericQuantity minimum = 1;   // -\inf if missing
+  BrainNumericQuantity maximum = 2;  // +\inf is missing
+  bool include_minimum = 3;
+  bool include_maximum = 4;
 }
 /*
 $root/medical/quantity.config
@@ -410,8 +439,34 @@ message BrainSequenceQuantityConfig {
   }
 }
 /*
-TODO
-Example needed
+boundaries -5,10,40 <-> Cold, Warm
+minimum_open = false
+maximum_open = false
+Range 1 (Cold) - T>=-5 - T<10
+Range 2 (Warm) - T>=10 - T<40
+
+boundaries -5,10,40 <-> Freezing, Cold, Warm
+minimum_open = true
+maximum_open = false
+Range 1 (Freezing) - T<-5
+Range 2 (Cold) - T>=-5 - T<10
+Range 3 (Warm) - T>=10 - T<40
+
+boundaries -5,10,40 <-> Freezing, Cold, Warm, Hot
+minimum_open = true
+maximum_open = true
+Range 1 (Freezing) - T<-5
+Range 2 (Cold) - T>=-5 - T<10
+Range 3 (Warm) - T>=10 - T<40
+Range 4 (Hot) - T>=40
+
+boundaries -5,10,40 <-> Cold, Warm, Hot
+minimum_open = false
+maximum_open = true
+Range 1 (Cold) - T>=-5 - T<10
+Range 2 (Warm) - T>=10 - T<40
+Range 3 (Hot) - T>=40
+
  */
 
 message BrainBinnedQuantity {
@@ -421,16 +476,16 @@ message BrainBinnedQuantity {
   }
 }
 message BrainBinnedQuantitySchema {
-  string source_quantity = 1;	 		// quantity being binned
+  string source_quantity = 1;      // quantity being binned
   BrainCollectionSchema collection = 2;
-  repeated double boundary = 3;		// bin boundaries
+  repeated double boundary = 3;    // bin boundaries
   bool minimum_open = 4;
   bool maximum_open = 5;
 }
 message BrainBinnedQuantityConfig {
-  string source_quantity = 1;	 		// quantity being binned
-  string collection = 2;
-  repeated double boundary = 3;		// bin boundaries
+  string source_quantity = 1;      // quantity being binned
+  string collection = 2; //Freezing, Cold, Warm, Hot
+  repeated double boundary = 3;    // bin boundaries
   bool minimum_open = 4;
   bool maximum_open = 5;
 }
@@ -508,11 +563,11 @@ message BrainTemporalRangeQuantitySchema {
   bool include_maximum = 3;  //>= vs. >
 }
 message BrainTemporalQuantityConfig {
-    oneof temporal_config_is_one_of {
-      BrainTemporalInstanceQuantityConfig instance = 1; // which
-      BrainTemporalDurationQuantityConfig duration = 2; // how man
-      BrainTemporalRangeQuantityConfig range = 3;       // from to to
-    }
+  oneof temporal_config_is_one_of {
+    BrainTemporalInstanceQuantityConfig instance = 1; // which
+    BrainTemporalDurationQuantityConfig duration = 2; // how man
+    BrainTemporalRangeQuantityConfig range = 3;       // from to to
+  }
 }
 message BrainTemporalInstanceQuantityConfig {
   string reference_dictionary = 1;
