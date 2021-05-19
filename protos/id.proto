@@ -4,14 +4,14 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-message BrainID {
+message BrainId {
   oneof brain_id {
-    BrainMetaID meta = 1;  // (/m/* …)
-    BrainItemID item = 2;  //(/i/* …)
+    BrainMetaId meta = 1;  // (/m/* …)
+    BrainItemId item = 2;  //(/i/* …)
   }
 }
 
-message BrainMetaID {
+message BrainMetaId {
   uint32 mid = 1;  // machine id
   BrainMetaKey key = 2;  // human readable form
 }
@@ -23,7 +23,7 @@ message BrainMetaKey {
   string key_string = 4;  // created from vertical, type, and name
 }
 
-message BrainItemID {
+message BrainItemId {
   uint64 id = 1;  // machine id
   BrainItemKey key = 2;
 }
