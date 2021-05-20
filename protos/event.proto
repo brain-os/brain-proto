@@ -16,7 +16,7 @@ message BrainEvent {
 
 message BrainEventKey {
   // Key = entity-type-index
-  map<uint32, BrainEntitySet> entities = 1;
+//  map<uint32, BrainEntitySet> entities = 1;
 
 }
 

@@ -4,10 +4,12 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
+//used in BrainQuantitySchema - to represent units
 message BrainItemMap {
   map<string, uint32> item2index = 1;
   map<uint32, string> index2item = 2;
 }
+// used in BrainQuantity for symbolic and ordinal
 message BrainToken {
   oneof brain_token {
     uint32 index = 1;	// from a dictionary
@@ -21,13 +23,13 @@ message BrainItemList {
   repeated string item = 2;
 }
 
-message BrainTokenSet {
-  oneof brain_set {
-    BrainIndexSet index_set = 1;
-    BrainItemSet item_set = 2;
-    BrainEntitySet entity_set = 3;
-  }
-}
+//message BrainTokenSet {
+//  oneof brain_set {
+//    BrainIndexSet index_set = 1;
+//    BrainItemSet item_set = 2;
+//    BrainEntitySet entity_set = 3;
+//  }
+//}
 
 message BrainIndexSet {
   string item_dictionary = 1;
@@ -39,10 +41,10 @@ message BrainItemSet {
   map<string, bool> item = 2; // payload of the set (O(1) access)
 }
 
-message BrainEntitySet {
-  string entity_type = 1;
-  map<string, bool> entity = 2;  // payload of the set (O(1) access)
-}
+//message BrainEntitySet {
+//  string entity_type = 1;
+//  map<string, bool> entity = 2;  // payload of the set (O(1) access)
+//}
 
 // ******* SCHEMA ******
 message BrainCollectionSchema {

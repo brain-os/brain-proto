@@ -5,7 +5,12 @@ package com.jio.fabric;
 option java_multiple_files = true;
 
 import "common.proto";
-
+import "id.proto";
+/*
+  Config - UI Friendly way to define/represent object configuration
+  Schema - Programming friendly representation of configuration to help read/write actual data into event efficiently
+  Quantity - What go into actual event object as property, context, attribute, attribute qualifier and predicate qualifier
+ */
 message BrainQuantityMetadata {
   string vertical = 1;
   string name = 2;
@@ -14,8 +19,8 @@ message BrainQuantityMetadata {
 }
 
 message BrainQuantity {
-  BrainQuantityMetadata meta = 1;
-  uint32 unit = 2;  // index in a dictionary.
+//  BrainQuantityMetadata meta = 1;
+//  uint32 unit = 2;  // index in a dictionary.
   oneof quantity_is_one_of {
     // Atomic quantities
     BrainNumericQuantity numeric = 3;  // int/long/float/double
@@ -38,8 +43,10 @@ message BrainQuantity {
 }
 
 message BrainQuantitySchema {
-  BrainQuantityMetadata meta = 1;
-  BrainItemMap unit = 2;
+  uint32 identity = 1;
+  uint64 unit = 2; // in some collection
+//  uint32 unit_index = 3; // Do i need it?
+//  uint32 unit_name = 4; // Do i need it?
   oneof quantity_schema {
     // Atomic quantities
     BrainNumericQuantitySchema numeric = 3;  // int/long/float/double
@@ -61,8 +68,9 @@ message BrainQuantitySchema {
   }
 }
 message BrainQuantityConfig {
-  string name = 1;
-  string type = 2;
+  //
+  BrainMetaId identity = 1; // uint32 will not be used in case of quantity
+  string assigned_unit = 2; // should be one of below in BrainItemList
   BrainItemList unit = 3;  // all possible units for this quantity
   oneof quantity_config {
     // Atomic quantities
@@ -217,7 +225,6 @@ quantity {
     }
 }
  */
-
 message BrainRangeQuantity {
   oneof range_quantity_is_one_of {
     BrainIntegerRange integer_range = 1;

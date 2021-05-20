@@ -15,11 +15,23 @@ message BrainMetaId {
   uint32 mid = 1;  // machine id
   BrainMetaKey key = 2;  // human readable form
 }
-
+/*
+key_string below
+  <vertical>/meta/<see below>
+      collection/<collection>
+      quantity/<quantity>
+      entity/<entity>
+      attribute/<entity>/<attribute>
+      attribute_qualifier/<entity>/<attribute>/<qualifier>
+      predicate/<subject>/<predicate>/<object>
+      predicate_qualifier/<subject>/<predicate>/<object>/<qualifier>
+      event/<event>
+      process/<process>
+ */
 message BrainMetaKey {
-  string vertical = 1;	// see below list of Verticals
-  string type = 2;
-  string name = 3;
+  string vertical = 1;	// common, retail, telecom, hydrocarbon, media
+  string type = 2; // collection, quantity, entity, attribute, attribute_qualifier, predicate, predicate_qualifier, event, process
+  string name = 3; // day_of_week, length, tower, azimuth, last_change, mayor_of_city, since, lsr_event, lsr_filter
   string key_string = 4;  // created from vertical, type, and name
 }
 
