@@ -4,10 +4,12 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
+import "id.proto";
+
 //used in BrainQuantitySchema - to represent units
 message BrainItemMap {
-  map<string, uint32> item2index = 1;
-  map<uint32, string> index2item = 2;
+  map<string, uint64> item2index = 1;
+  map<uint64, string> index2item = 2;
 }
 // used in BrainQuantity for symbolic and ordinal
 message BrainToken {
@@ -21,6 +23,13 @@ message BrainToken {
 message BrainItemList {
   string name = 1;
   repeated string item = 2;
+}
+
+message BrainIdList {
+  string name = 1;
+  bool is_ordinal = 2;
+  bool is_cyclic = 3;
+  repeated BrainId item = 4;
 }
 
 //message BrainTokenSet {
@@ -45,74 +54,5 @@ message BrainItemSet {
 //  string entity_type = 1;
 //  map<string, bool> entity = 2;  // payload of the set (O(1) access)
 //}
-
-// ******* SCHEMA ******
-message BrainCollectionSchema {
-  oneof collection_schema {
-    BrainItemCollectionSchema item = 1;
-    BrainEntityCollectionSchema entity = 2;
-  }
-}
-
-message BrainItemCollectionSchema {
-  oneof item_collection_schema {
-    BrainItemSet item_set = 1;  // keep item as string
-    BrainItemMap item_map = 2;  // convert item into index
-  }
-}
-
-message BrainEntityCollectionSchema {
-  string entity_type = 1;
-  BrainEntityCondition entity_condition = 2;
-}
-
-message BrainEntityCondition {
-  string entity_type = 1;
-  oneof entity_condition {
-    BrainAtomicEntityCondition atomic_condition = 2;
-    BrainCompoundEntityCondition or_condition = 3;
-    BrainCompoundEntityCondition and_condition = 4;
-  }
-}
-
-message BrainAtomicEntityCondition {
-  oneof atomic_entity_condition {
-    BrainAttributeCondition attribute_condition = 1;
-    BrainPredicateCondition predicate_condition = 2;
-  }
-}
-
-message BrainCompoundEntityCondition {
-  repeated BrainAtomicEntityCondition condition = 1;
-}
-// All entities that satisfy the following attribute condition
-// Example 1: Unconditional attribute (no qualifier condition)
-//   - All cities with area > 20sqkm
-// Example 2: Conditional attribute
-//   - All cities with population > 1M in 2011 (qualifier = in 2011)
-message BrainAttributeCondition {
-  string entity_type = 1;
-  string attribute_name = 2;
-  BrainQuantityCondition value = 3;
-  // key = attribute-qualifier-name
-  map<string, BrainQuantityCondition> qualifier = 4;
-}
-
-// Return all object of the subject (entity_type)
-message BrainPredicateCondition {
-  string subject_type = 1;
-  string subject_id = 2;
-  string predicate_name = 3;
-  // key = predicate-qualifier-name
-  map<string, BrainQuantityCondition> qualifier = 4;
-}
-
-// Quantity condition depends on the type of the quantity.
-message BrainQuantityCondition {
-  // TODO
-//  oneof quantity_condition {
-//
-//  }
-}
 
 

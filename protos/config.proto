@@ -5,6 +5,7 @@ package com.jio.fabric;
 option java_multiple_files = true;
 
 import "common.proto";
+import "collection.proto";
 import "quant.proto";
 import "entity.proto";
 import "event.proto";
@@ -16,19 +17,6 @@ message BrainDictionaryConfig {
   repeated BrainQuantityConfig quantity = 3;
   repeated BrainEventConfig event = 4;
   repeated BrainProcessConfig process = 5;
-}
-
-message BrainCollectionConfig {
-  string name = 1;
-  oneof list {
-    BrainItemList item_list = 2;
-    string entity = 3;
-    BrainConditionalEntityConfig entity_set = 4;
-  }
-}
-
-message BrainConditionalEntityConfig {
-
 }
 
 message BrainDictionarySchema {

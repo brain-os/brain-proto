@@ -6,13 +6,13 @@ option java_multiple_files = true;
 
 message BrainId {
   oneof brain_id {
-    BrainMetaId meta = 1;  // (/m/* …)
-    BrainItemId item = 2;  //(/i/* …)
+    BrainMetaId meta_id = 1;  // (/m/* …)
+    BrainItemId item_id = 2;  //(/i/* …)
   }
 }
 
 message BrainMetaId {
-  uint32 mid = 1;  // machine id
+  uint32 id = 1;  // machine id
   BrainMetaKey key = 2;  // human readable form
 }
 /*
@@ -47,6 +47,7 @@ message BrainItemKey {
     string name = 3;  // single, default key. (e.g. “white”)
     BrainBizKey biz = 4;  // multiple business keys for same entity
   }
+  string key_string = 5;
 }
 
 message BrainBizKey {

@@ -4,6 +4,7 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
+import "collection.proto";
 import "common.proto";
 import "id.proto";
 /*
@@ -23,27 +24,27 @@ message BrainQuantity {
 //  uint32 unit = 2;  // index in a dictionary.
   oneof quantity_is_one_of {
     // Atomic quantities
-    BrainNumericQuantity numeric = 3;  // int/long/float/double
-    BrainOrdinalQuantity ordinal = 4;    // e.g. small, medium, large
-    BrainSymbolicQuantity symbolic = 5;  // symbol from a dictionary
+    BrainNumericQuantity numeric = 1;  // int/long/float/double
+    BrainOrdinalQuantity ordinal = 2;    // e.g. small, medium, large
+    BrainSymbolicQuantity symbolic = 3;  // symbol from a dictionary
 
     // Compound quantities
-    BrainRangeQuantity range = 6;    // (min, max)
-    BrainSeriesQuantity series = 7;  // x_1, x_2, … x_n
-    BrainDistributionQuantity distribution = 8;  // p(s_1), p(s_2), …, p(s_n)
-    BrainBasketQuantity basket = 9;  // {s_1, s_2, …, s_k}
-    BrainBagQuantity bag = 10;    // {(w_1, s_1), (w_2, s_2), …}
-    BrainSequenceQuantity sequence = 11; // (s_1, s_2, …, s_k)
+    BrainRangeQuantity range = 4;    // (min, max)
+    BrainSeriesQuantity series = 5;  // x_1, x_2, … x_n
+    BrainDistributionQuantity distribution = 6;  // p(s_1), p(s_2), …, p(s_n)
+    BrainBasketQuantity basket = 7;  // {s_1, s_2, …, s_k}
+    BrainBagQuantity bag = 8;    // {(w_1, s_1), (w_2, s_2), …}
+    BrainSequenceQuantity sequence = 9; // (s_1, s_2, …, s_k)
 
     // Quantized quantities
-    BrainBinnedQuantity binned = 12;  // bin from a set of bins
-    BrainSpatialQuantity spatial = 13; // latlong, village, city, ...
-    BrainTemporalQuantity temporal = 14;  // instance, range, duration
+    BrainBinnedQuantity binned = 10;  // bin from a set of bins
+    BrainSpatialQuantity spatial = 11; // latlong, village, city, ...
+    BrainTemporalQuantity temporal = 12;  // instance, range, duration
   }
 }
 
 message BrainQuantitySchema {
-  uint32 identity = 1;
+  BrainId identity = 1;
   uint64 unit = 2; // in some collection
 //  uint32 unit_index = 3; // Do i need it?
 //  uint32 unit_name = 4; // Do i need it?
@@ -68,10 +69,9 @@ message BrainQuantitySchema {
   }
 }
 message BrainQuantityConfig {
-  //
-  BrainMetaId identity = 1; // uint32 will not be used in case of quantity
-  string assigned_unit = 2; // should be one of below in BrainItemList
-  BrainItemList unit = 3;  // all possible units for this quantity
+  BrainId identity = 1; // uint32 will not be used in case of quantity
+  BrainItemList unit_list = 2;  // all possible units for this quantity
+  string unit = 3; // should be one in above in BrainItemList
   oneof quantity_config {
     // Atomic quantities
     BrainNumericQuantityConfig numeric = 4;// int/long/float/double
@@ -299,18 +299,18 @@ message BrainDoubleSeriesQuantity {
   repeated double value = 1;
 }
 message BrainSeriesQuantitySchema {
-  BrainQuantitySchema x_type = 1;
+  BrainQuantitySchema x_type = 1; // TODO - it need to be string
   BrainQuantitySchema y_type = 2;
-  BrainQuantity x_min = 3;
-  BrainQuantity x_max = 4;
-  BrainQuantity x_step = 5;
+  BrainNumericQuantity x_min = 3;
+  BrainNumericQuantity x_max = 4;
+  BrainNumericQuantity x_step = 5;
 }
 message BrainSeriesQuantityConfig {
   string x_type = 1;
   string y_type = 2;
-  BrainQuantity x_min = 3;
-  BrainQuantity x_max = 4;
-  BrainQuantity x_step = 5;
+  BrainNumericQuantity x_min = 3;
+  BrainNumericQuantity x_max = 4;
+  BrainNumericQuantity x_step = 5;
 }
 /*
 TODO
