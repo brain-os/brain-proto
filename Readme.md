@@ -1,14 +1,13 @@
-# Example
-## Quantities
-### Symbolic Quantity
-#### Item Collection
+# Quantities
+## Symbolic Quantity
+### Item Collection
 1. Color Collection
-   1. [Collection Config Json](docs/quantity/symbol-quantity.md#Items-as-BrainCollectionConfig)
+   1. [Item Collection Config Json](docs/quantity/symbol-quantity.md#Items-as-BrainCollectionConfig)
       1. Proto Used
          1. [BrainCollectionConfig](protos/collection.proto)
          1. [BrainId](protos/id.proto)
          1. [BrainIdList](protos/common.proto)
-   1. [Collection Schema Json](docs/quantity/symbol-quantity.md#Item BrainCollectionSchema)
+   1. [Collection Schema Json](docs/quantity/symbol-quantity.md#Item-BrainCollectionSchema)
       1. Proto Used
          1. [BrainCollectionSchema](protos/collection.proto)
          1. [BrainItemCollectionSchema](protos/collection.proto)
@@ -35,6 +34,46 @@
          1. [BrainItemCollectionSchema](protos/collection.proto)
          1. [BrainItemMap](protos/common.proto)
 
+### Entity Collection
+1. City Collection
+   1. [Entity Collection Config Json](docs/quantity/symbol-quantity.md#Entity-as-Collection)
+      1. [Simple Entity Collection](docs/quantity/symbol-quantity.md#Entity-as-BrainCollectionConfig)
+         1. Proto Used
+            1. [BrainCollectionConfig](protos/collection.proto)
+            1. [BrainId](protos/id.proto)
+      1. [Entity with Attribute Condition](docs/quantity/symbol-quantity.md#Entity-attribute-condition-as-BrainCollectionConfig)
+         1. Proto Used
+            1. [BrainCollectionConfig](protos/collection.proto)
+            1. [BrainId](protos/id.proto)
+            1. [BrainConditionalEntityConfig](protos/collection.proto)
+            1. [BrainEntityConditionConfig](protos/collection.proto)
+      1. [Entity with Predicate Condition](docs/quantity/symbol-quantity.md#Entity-predicate-condition-as-BrainCollectionConfig)
+         1. Proto Used
+            1. [BrainCollectionConfig](protos/collection.proto)
+            1. [BrainId](protos/id.proto)
+            1. [BrainConditionalEntityConfig](protos/collection.proto)
+            1. [BrainEntityConditionConfig](protos/collection.proto)
+#### Quantity
+1. Mumbai City
+   1. [Brain Quantity Json](docs/quantity/symbol-quantity.md#BrainQuantity-as-Entity)
+      1. Proto Used
+         1. [BrainQuantity](protos/quant.proto)
+         1. [BrainSymbolicQuantity](protos/quant.proto)
+         1. [BrainToken](protos/common.proto)
+   1. [Brain Quantity Config Json](docs/quantity/symbol-quantity.md#BrainQuantityConfig-for-BrainSymbolicQuantityConfig)
+      1. Proto Used
+         1. [BrainQuantityConfig](protos/quant.proto)
+         1. [BrainId](protos/id.proto)
+         1. [BrainItemList](protos/common.proto)
+         1. [BrainSymbolicQuantityConfig](protos/quant.proto)
+   1. [Brain Quantity Schema Json](docs/quantity/symbol-quantity.md#BrainQuantityConfig-for-BrainSymbolicQuantityConfig)
+      1. Proto Used
+         1. [BrainQuantitySchema](protos/quant.proto)
+         1. [BrainSymbolicQuantitySchema](protos/quant.proto)
+         1. [BrainId](protos/id.proto)
+         1. [BrainCollectionSchema](protos/collection.proto)
+         1. [BrainItemCollectionSchema](protos/collection.proto)
+         1. [BrainItemMap](protos/common.proto)
 
 ## Entities
 ### Element (name : "/chemistry/entity/element")

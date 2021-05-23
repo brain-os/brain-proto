@@ -158,9 +158,7 @@ Representation for item blue
 
 ## Entity as Collection
 
-### BrainCollectionConfig
-
-#### BrainCollectionConfig - entity
+### Entity as BrainCollectionConfig
 
 ```json
 {
@@ -177,7 +175,7 @@ Representation for item blue
 }
 ```
 
-#### BrainCollectionConfig - condition on entity attribute 
+### Entity attribute condition as BrainCollectionConfig 
 
 ```json
 {
@@ -197,7 +195,7 @@ Representation for item blue
 }
 ```
 
-#### BrainCollectionConfig - condition on entity predicate
+### Entity predicate condition as BrainCollectionConfig
 
 ```json
 {
@@ -216,75 +214,61 @@ Representation for item blue
   }
 }
 ```
-
-### BrainSymbolicQuantity
+## Symbolic Quantity for Entity
+### BrainQuantity as Entity 
 
 for entity city e.g. mumbai has machine id of _453628_
 
 ```json
 {
-  "token": {
-    "index": 453628
+  "symbolic" : {
+    "token": {
+      "index": 453628
+    }
   }
 }
 ```
-### BrainQuantitySchema
-#### BrainQuantitySchema - entity
+### BrainSymbolicQuantityConfig for Entity
 ```json
 {
   "identity": {
-    "id": 234567,
+    "id": 43210,
     "key": {
       "vertical": "common",
-      "type": "collection",
-      "name": "city",
-      "key": "/meta/common/collection/city"
-    },
-    "symbolic": {
-      "collection": {
-        "entity_set" : {
-          "condition" : {
-            "entity_type" : ""
-          }
-        }
+      "type": "quantity",
+      "name": "maharashtra_cities",
+      "key": "/meta/common/quantity/symbolic/maharashtra_cities"
+    }
+  },
+  "unit_list" : {
+    "name" : "NA",
+    "item" : ["NA"]
+  },
+  "unit" : "NA",
+  "symbolic": {
+    "collection": "/meta/common/collection/maharashtra_cities"
+  }
+}
+```
+### BrainSymbolicQuantitySchema for Entity
+583749 below refer to NA
+```json
+{
+  "identity": {
+    "id": 43210,
+    "key": {
+      "vertical": "common",
+      "type": "quantity",
+      "name": "maharashtra_cities",
+      "key": "/meta/common/quantity/symbolic/maharashtra_cities"
+    }
+  },
+  "unit" : 583749,
+  "symbolic": {
+    "collection": {
+      "entity": {
+        "collection" : "/meta/common/collection/maharashtra_cities"
       }
-    }
-  }
-}
-```
-#### BrainQuantitySchema - condition on entity attribute
-
-```json
-{
-  "identity": {
-    "id": 472829,
-    "key": {
-      "vertical": "common",
-      "type": "collection",
-      "name": "city",
-      "key": "/meta/common/collection/metro_city"
-    },
-    "symbolic": {
-      "collection": "/meta/common/collection/maharashtra_cities"
-    }
-  }
-}
-```
-
-#### BrainQuantitySchema - condition on entity predicate
-
-```json
-{
-  "identity": {
-    "id": 946582,
-    "key": {
-      "vertical": "common",
-      "type": "collection",
-      "name": "city",
-      "key": "/meta/common/collection/maharashtra_cities"
-    },
-    "symbolic": {
-      "collection": "/meta/common/collection/maharashtra_cities"
     }
   }
 }

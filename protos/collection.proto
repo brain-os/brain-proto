@@ -31,7 +31,7 @@ message BrainEntityConditionConfig {
 message BrainCollectionSchema {
   oneof collection_schema {
     BrainItemCollectionSchema item = 1;
-    BrainEntityCollectionSchema entity = 2;
+    BrainItemMap item_map = 2;
   }
 }
 
