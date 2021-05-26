@@ -26,9 +26,9 @@ message BrainItemList {
 }
 
 message BrainIdList {
-  string name = 1;
-  bool is_ordinal = 2;
-  bool is_cyclic = 3;
+  string name = 1; // UI + DB
+  bool is_ordinal = 2; // UI + DB
+  bool is_cyclic = 3; // UI + DB
   repeated BrainId item = 4;
 }
 
