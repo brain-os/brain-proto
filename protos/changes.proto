@@ -1,299 +1,301 @@
 syntax = "proto3";
-
-package com.jio.brain;
-
-option java_multiple_files = true;
-
-import "common.proto";
-import "id.proto";
-import "quant.proto";
-
-// Actual Event Value
-message Event {
-  Store key = 1;
-  repeated Store value = 2;
-}
-message Store {
-  ValueSet property = 1;
-  ValueSet context = 2;
-  repeated EntitySet entity_set = 3;
-  map<string, ValueSet> value = 4; // string key = entity id
-}
-message EntitySet {
-  uint32 entity_index = 1;
-  repeated uint64 id = 2;
-}
-/*
- 1. contain all properties for event
- 2. contain all contexts for event
- 3. contain all attribute, attribute qualifiers and predicate qualifier for entity
-*/
-message ValueSet {
-  map<uint32, com.jio.fabric.BrainQuantity> value = 1;
-}
-
-// Dictionary Reference (used during runtime)
-message ItemMap {
-  map<string, uint64> item2index = 1;
-  map<uint64, string> index2item = 2;
-}
-message BrainDictionarySchema {
-  map<string, CollectionSchema> collection = 1;
-  map<string, QuantitySchema> quantity = 2;
-  map<string, EntitySchema> entity = 3;
-  map<string, StoreSchema> store = 4;
-  map<string, AttributeSchema> attribute = 5;
-  map<string, QuantityValueSchema> attribute_qualifier = 6;
-  map<string, PredicateSchema> predicate = 7;
-  map<string, QuantityValueSchema> predicate_qualifier = 8;
-  map<string, EventSchema> event = 9;
-  map<string, ProcessSchema> process = 10;
-}
-
-// Event and related schemas
-message EventSchema {
-  com.jio.fabric.BrainId id = 1;
-  StoreSchema key = 4;
-  map<string, StoreSchema> value = 5; // key is same as key-string index in store schema
-}
-
-message StoreSchema {
-  com.jio.fabric.BrainId id = 1;
-  map<string, QuantityValueSchema> property = 2;
-  map<string, QuantityValueSchema> context = 3;
-  map<string, EntitySchema> entity = 4;
-}
-
-message EntitySchema {
-  com.jio.fabric.BrainId id = 1;
-  map<string, AttributeSchema> attribute = 2;
-  map<string, PredicateSchema> predicate = 3;
-}
-
-message AttributeSchema {
-  QuantityValueSchema value = 1;
-  map<string, QuantityValueSchema> attribute_qualifier = 2;
-}
-
-message PredicateSchema {
-  com.jio.fabric.BrainId id = 1;
-  string name = 2;
-  string object = 3; // /common/entity/state
-  map<string, QuantityValueSchema> predicate_qualifier = 4;
-}
-
-message QuantityValueSchema {
-  com.jio.fabric.BrainId id = 1;
-  com.jio.fabric.BrainId unit = 2;
-  QuantitySchema quantity_schema = 3;
-}
-
-// Collection
-message CollectionSchema {
-  com.jio.fabric.BrainId id = 1;
-  oneof list {
-    ItemCollectionSchema item_schema = 2;
-    EntityCollectionSchema entity_schema = 3;
-  }
-  ItemMap key_index_map = 5; // Runtime
-}
-message ItemCollectionSchema {
-  com.jio.fabric.BrainIdList item_list = 1;
-  ItemMap key_index_map = 2; // Runtime
-}
-message EntityCollectionSchema {
-  oneof list {
-    string entity = 1; // /common/entity/city
-    BrainConditionalEntitySchema entity_set = 2;
-  }
-  ItemMap key_index_map = 3; // Runtime
-}
-message BrainConditionalEntitySchema {
-  string entity_type = 1; // /common/entity/city
-  // Example condition
-  // /common/predicate/city/of_state/state == 'Maharashtra'
-  // /common/attribute/city/population > 5000000 // population is attribute of entity city
-  string condition = 2;
-}
-message QuantitySchema {
-  com.jio.fabric.BrainId id = 1;
-  repeated com.jio.fabric.BrainId unit = 2;
-  oneof quantity_schema {
-    BrainNumericQuantitySchema numeric = 3;  // int/long/float/double
-    BrainOrdinalQuantitySchema ordinal = 4;  // e.g. small, medium, large
-    BrainSymbolicQuantitySchema symbolic = 5;  // symbol from a dictionary
-
-    // Compound quantities
-    BrainRangeQuantitySchema range = 6;  // (min, max)
-    BrainSeriesQuantitySchema series = 7;  // x_1, x_2, … x_n
-    BrainDistributionQuantitySchema distribution = 8;// p(s_1), p(s_2), …, p(s_n)
-    BrainBasketQuantitySchema basket = 9;  // {s_1, s_2, …, s_k}
-    BrainBagQuantitySchema bag = 10;    // {(w_1, s_1), (w_2, s_2), …}
-    BrainSequenceQuantitySchema sequence = 11; // (s_1, s_2, …, s_k)
-
-    // Quantized quantities
-    BrainBinnedQuantitySchema binned = 12;    // bin from a set of bins
-    BrainSpatialQuantitySchema spatial = 13;  // latlong, village, city, ...
-    BrainTemporalQuantitySchema temporal = 14;  // instance, range, duration
-    BrainMultivariateQuantitySchema features = 15;
-  }
-}
-
-message BrainNumericQuantity {
-  oneof numeric_quantity_is_one_of {
-    float float_value = 1;
-    double double_value = 2;
-    int32 int_value = 3;
-    int64 long_value = 4;
-  }
-}
-enum BrainNumericQuantityType {
-    BRAIN_QUANTITY_NUMERIC_INTEGER = 0;
-    BRAIN_QUANTITY_NUMERIC_LONG = 1;
-    BRAIN_QUANTITY_NUMERIC_FLOAT = 2;
-    BRAIN_QUANTITY_NUMERIC_DOUBLE = 3;
-}
 //
-message BrainNumericQuantitySchema {
-  BrainNumericQuantityType type = 1; // DB + UI
-  double minimum = 2; // DB + UI
-  double maximum = 3; // DB + UI
-  bool include_minimum = 4; // DB + UI
-  bool include_maximum = 5; // DB + UI
-}
-
-message BrainOrdinalQuantitySchema {
-  ItemCollectionSchema collection_schema = 1;
-}
-message BrainSymbolicQuantitySchema {
-  CollectionSchema collection_schema = 1;
-}
-message BrainRangeQuantitySchema {
-  BrainNumericQuantityType type = 1; // DB + UI
-  double minimum = 2; // DB + UI
-  double maximum = 3; // DB + UI
-  bool include_minimum = 4; // DB + UI
-  bool include_maximum = 5; // DB + UI
-}
-// TODO
-message Xaxis {
-  com.jio.fabric.BrainId x_type_id = 1; // Runtime
-  oneof value {
-    BrainTemporalInstanceQuantity instance = 2;
-    BrainNumericQuantity numeric = 3;
-  }
-}
-message BrainSeriesQuantitySchema {
-  string x_type = 1; //quantity_type // DB + UI // Temporal type, uint32
-  com.jio.fabric.BrainId x_type_id = 2; // Runtime
-  string y_type = 3; //quantity_type // DB + UI // Numrical type
-  com.jio.fabric.BrainId y_type_id = 4; // Runtime
-  BrainNumericQuantityType quantity_type = 5; // int, float, double, long // DB + UI
-  oneof min_or_max {
-    BrainNumericQuantity x_min = 6; // DB + UI
-    BrainNumericQuantity x_max = 7; // DB + UI
-  }
-  BrainNumericQuantity x_step = 8; // DB + UI
-  uint32 x_step_count = 9; // DB + UI
-}
-// value will always be double with value between 0 and 1
-message BrainDistributionQuantitySchema {
-  CollectionSchema collection_schema = 1;
-}
-message BrainBasketQuantitySchema {
-  CollectionSchema collection_schema = 1;
-}
-message BrainBagQuantitySchema {
-  CollectionSchema collection_schema = 1;
-  BrainNumericQuantityType type = 2; // DB + UI
-}
-message BrainSequenceQuantitySchema {
-  CollectionSchema collection_schema = 1;
-  uint32 size = 2; // DB + UI - if not defined it can take variable number e.g. words in sentence
-}
-message BrainBinnedQuantitySchema {
-  string source_quantity = 1;	// quantity being binned and must be numeric
-  ItemCollectionSchema collection_schema = 2;
-  repeated double boundary = 3;		// DB + UI - bin boundaries & order matter here and should be ascending
-  bool minimum_open = 4; // DB + UI
-  bool maximum_open = 5; // DB + UI
-
-}
-
-// Multivariate
-enum FeatureQuantityType {
-  QUANTITY_NUMERIC = 0;
-  QUANTITY_SYMBOLIC = 1;
-  QUANTITY_ORDINAL = 2;
-  QUANTITY_BINNED = 3;
-}
-message BrainAtomicQuantity {
-  // same as document
-}
-message BrainMultivariateQuantity {
-  map<uint32, BrainAtomicQuantity> value = 1;
-}
-// TODO Wrong
-message BrainMultivariateQuantitySchema {
-  CollectionSchema collection_schema = 2;
-  map<string, FeatureQuantityType> feature_quantity_type = 3; // DB + UI
-}
-
-// Temporal - Need to tightly control from UI for selection of collection
-message BrainTemporalQuantity {
-  oneof temporal_is_one_of {
-    BrainTemporalInstanceQuantity instance = 1; // which
-    BrainTemporalDurationQuantity duration = 2; // how many
-    BrainTemporalRangeQuantity range = 3;       // from to to
-  }
-}
-
-message BrainTemporalInstanceQuantity {
-  map<uint32, uint32> value = 1; // key is => key collection index and value is symbolic quantity
-}
-// each item below will have corresponding collection
-message BrainTemporalInstanceQuantitySchema {
-  string key_collection = 1; // DB + UI
-  repeated string selected = 2; // DB + UI
-  ItemMap key_index_map = 3; // Runtime
-  map<string, string> date_time_component_collection = 4; // key is item of selected list  & value is again collection
-  ItemMap date_time_component_index_map = 5; // Runtime & all values of all collection in above map
-}
-
-message BrainTemporalDurationQuantity {
-  map<uint32, uint32> value = 1;
-}
-message BrainTemporalDurationQuantitySchema {
-  string key_collection = 1; // DB + UI - collection related to time as numeric quantity (years, months, days, hours, minutes and seconds)
-  repeated string selected = 2; // DB + UI
-  ItemMap key_index_map = 3; // Runtime
-}
-message BrainTemporalRangeQuantity {
-  map<uint32, uint32> minimum = 1;
-  map<uint32, uint32> maximum = 2;
-  bool include_minimum = 3;  //<= vs. <
-  bool include_maximum = 4;  // >= vs. >
-}
-message BrainTemporalRangeQuantitySchema {
-  string key_collection = 1; // DB + UI
-  repeated string selected = 2; // DB + UI
-  ItemMap key_index_map = 3; // Runtime
-  map<string, string> date_time_component_collection = 4; // key is item of selected list  & value is again collection
-  ItemMap date_time_component_index_map = 5; // Runtime & all values of all collection in above map
-  bool include_minimum = 6;  //<= vs. <
-  bool include_maximum = 7;  // >= vs. >
-}
-message BrainTemporalQuantitySchema {
-  oneof schema {
-      BrainTemporalInstanceQuantitySchema instance = 1;
-      BrainTemporalDurationQuantitySchema duration = 2;
-      BrainTemporalRangeQuantitySchema range = 3;
-  }
-}
-message BrainSpatialQuantitySchema {
-
-}
-message ProcessSchema {
-  string collection = 1; // DB + UI
-  ItemMap key_index_map = 2; // Runtime
-}
+//
+//package com.jio.brain;
+//
+//option java_multiple_files = true;
+//
+//import "common.proto";
+//import "id.proto";
+//import "quant.proto";
+//
+//// Actual Event Value
+////message Event {
+////  Store key = 1;
+////  repeated Store value = 2;
+////
+////}
+////message Store {
+////  ValueSet property = 1;
+////  ValueSet context = 2;
+////  repeated EntitySet entity_set = 3;
+////  map<string, ValueSet> value = 4; // string key = entity id
+////}
+////message EntitySet {
+////  uint32 entity_index = 1;
+////  repeated uint64 id = 2;
+////}
+/////*
+//// 1. contain all properties for event
+//// 2. contain all contexts for event
+//// 3. contain all attribute, attribute qualifiers and predicate qualifier for entity
+////*/
+////message ValueSet {
+////  map<uint32, com.jio.fabric.BrainQuantity> value = 1;
+////}
+//
+//// Dictionary Reference (used during runtime)
+////message ItemMap {
+////  map<string, uint64> item2index = 1;
+////  map<uint64, string> index2item = 2;
+////}
+////message BrainDictionarySchema {
+////  map<string, CollectionSchema> collection = 1;
+////  map<string, QuantitySchema> quantity = 2;
+////  map<string, EntitySchema> entity = 3;
+////  map<string, StoreSchema> store = 4;
+////  map<string, AttributeSchema> attribute = 5;
+////  map<string, QuantityValueSchema> attribute_qualifier = 6;
+////  map<string, PredicateSchema> predicate = 7;
+////  map<string, QuantityValueSchema> predicate_qualifier = 8;
+////  map<string, EventSchema> event = 9;
+////  map<string, ProcessSchema> process = 10;
+////}
+//
+//// Event and related schemas
+////message EventSchema {
+////  com.jio.fabric.BrainId id = 1;
+////  StoreSchema key = 4;
+////  map<string, StoreSchema> value = 5; // key is same as key-string index in store schema
+////}
+//
+////message StoreSchema {
+////  com.jio.fabric.BrainId id = 1;
+////  map<string, QuantityValueSchema> property = 2;
+////  map<string, QuantityValueSchema> context = 3;
+////  map<string, EntitySchema> entity = 4;
+////}
+//
+////message EntitySchema {
+////  com.jio.fabric.BrainId id = 1;
+////  map<string, AttributeSchema> attribute = 2;
+////  map<string, PredicateSchema> predicate = 3;
+////}
+//
+////message AttributeSchema {
+////  QuantityValueSchema value = 1;
+////  map<string, QuantityValueSchema> attribute_qualifier = 2;
+////}
+//
+////message PredicateSchema {
+////  com.jio.fabric.BrainId id = 1;
+////  string name = 2;
+////  string object = 3; // /common/entity/state
+////  map<string, QuantityValueSchema> predicate_qualifier = 4;
+////}
+//
+////message QuantityValueSchema {
+////  com.jio.fabric.BrainId id = 1;
+////  com.jio.fabric.BrainId unit = 2;
+////  QuantitySchema quantity_schema = 3;
+////}
+//
+//// Collection
+////message CollectionSchema {
+////  com.jio.fabric.BrainId id = 1;
+////  oneof list {
+////    ItemCollectionSchema item_schema = 2;
+////    EntityCollectionSchema entity_schema = 3;
+////  }
+////  ItemMap key_index_map = 5; // Runtime
+////}
+////message ItemCollectionSchema {
+////  com.jio.fabric.BrainIdList item_list = 1;
+////  ItemMap key_index_map = 2; // Runtime
+////}
+////message EntityCollectionSchema {
+////  oneof list {
+////    string entity = 1; // /common/entity/city
+////    BrainConditionalEntitySchema entity_set = 2;
+////  }
+////  ItemMap key_index_map = 3; // Runtime
+////}
+////message BrainConditionalEntitySchema {
+////  string entity_type = 1; // /common/entity/city
+////  // Example condition
+////  // /common/predicate/city/of_state/state == 'Maharashtra'
+////  // /common/attribute/city/population > 5000000 // population is attribute of entity city
+////  string condition = 2;
+////}
+////message QuantitySchema {
+////  com.jio.fabric.BrainId id = 1;
+////  repeated com.jio.fabric.BrainId unit = 2;
+////  oneof quantity_schema {
+////    BrainNumericQuantitySchema numeric = 3;  // int/long/float/double
+////    BrainOrdinalQuantitySchema ordinal = 4;  // e.g. small, medium, large
+////    BrainSymbolicQuantitySchema symbolic = 5;  // symbol from a dictionary
+////
+////    // Compound quantities
+////    BrainRangeQuantitySchema range = 6;  // (min, max)
+////    BrainSeriesQuantitySchema series = 7;  // x_1, x_2, … x_n
+////    BrainDistributionQuantitySchema distribution = 8;// p(s_1), p(s_2), …, p(s_n)
+////    BrainBasketQuantitySchema basket = 9;  // {s_1, s_2, …, s_k}
+////    BrainBagQuantitySchema bag = 10;    // {(w_1, s_1), (w_2, s_2), …}
+////    BrainSequenceQuantitySchema sequence = 11; // (s_1, s_2, …, s_k)
+////
+////    // Quantized quantities
+////    BrainBinnedQuantitySchema binned = 12;    // bin from a set of bins
+////    BrainSpatialQuantitySchema spatial = 13;  // latlong, village, city, ...
+////    BrainTemporalQuantitySchema temporal = 14;  // instance, range, duration
+////    BrainMultivariateQuantitySchema features = 15;
+////  }
+////}
+//
+////message BrainNumericQuantity {
+////  oneof numeric_quantity_is_one_of {
+////    float float_value = 1;
+////    double double_value = 2;
+////    int32 int_value = 3;
+////    int64 long_value = 4;
+////  }
+////}
+////enum BrainNumericQuantityType {
+////    BRAIN_QUANTITY_NUMERIC_INTEGER = 0;
+////    BRAIN_QUANTITY_NUMERIC_LONG = 1;
+////    BRAIN_QUANTITY_NUMERIC_FLOAT = 2;
+////    BRAIN_QUANTITY_NUMERIC_DOUBLE = 3;
+////}
+////
+////message BrainNumericQuantitySchema {
+////  BrainNumericQuantityType type = 1; // DB + UI
+////  double minimum = 2; // DB + UI
+////  double maximum = 3; // DB + UI
+////  bool include_minimum = 4; // DB + UI
+////  bool include_maximum = 5; // DB + UI
+////}
+//
+////message BrainOrdinalQuantitySchema {
+////  ItemCollectionSchema collection_schema = 1;
+////}
+////message BrainSymbolicQuantitySchema {
+////  CollectionSchema collection_schema = 1;
+////}
+////message BrainRangeQuantitySchema {
+////  BrainNumericQuantityType type = 1; // DB + UI
+////  double minimum = 2; // DB + UI
+////  double maximum = 3; // DB + UI
+////  bool include_minimum = 4; // DB + UI
+////  bool include_maximum = 5; // DB + UI
+////}
+////// TODO
+////message Xaxis {
+////  com.jio.fabric.BrainId x_type_id = 1; // Runtime
+////  oneof value {
+////    BrainTemporalInstanceQuantity instance = 2;
+////    BrainNumericQuantity numeric = 3;
+////  }
+////}
+////message BrainSeriesQuantitySchema {
+////  string x_type = 1; //quantity_type // DB + UI // Temporal type, uint32
+////  com.jio.fabric.BrainId x_type_id = 2; // Runtime
+////  string y_type = 3; //quantity_type // DB + UI // Numrical type
+////  com.jio.fabric.BrainId y_type_id = 4; // Runtime
+////  BrainNumericQuantityType quantity_type = 5; // int, float, double, long // DB + UI
+////  oneof min_or_max {
+////    BrainNumericQuantity x_min = 6; // DB + UI
+////    BrainNumericQuantity x_max = 7; // DB + UI
+////  }
+////  BrainNumericQuantity x_step = 8; // DB + UI
+////  uint32 x_step_count = 9; // DB + UI
+////}
+//// value will always be double with value between 0 and 1
+////message BrainDistributionQuantitySchema {
+////  CollectionSchema collection_schema = 1;
+////}
+////message BrainBasketQuantitySchema {
+////  CollectionSchema collection_schema = 1;
+////}
+////message BrainBagQuantitySchema {
+////  CollectionSchema collection_schema = 1;
+////  BrainNumericQuantityType type = 2; // DB + UI
+////}
+////message BrainSequenceQuantitySchema {
+////  CollectionSchema collection_schema = 1;
+////  uint32 size = 2; // DB + UI - if not defined it can take variable number e.g. words in sentence
+////}
+////message BrainBinnedQuantitySchema {
+////  string source_quantity = 1;	// quantity being binned and must be numeric
+////  ItemCollectionSchema collection_schema = 2;
+////  repeated double boundary = 3;		// DB + UI - bin boundaries & order matter here and should be ascending
+////  bool minimum_open = 4; // DB + UI
+////  bool maximum_open = 5; // DB + UI
+////
+////}
+//
+//// Multivariate
+////enum FeatureQuantityType {
+////  QUANTITY_NUMERIC = 0;
+////  QUANTITY_SYMBOLIC = 1;
+////  QUANTITY_ORDINAL = 2;
+////  QUANTITY_BINNED = 3;
+////}
+//message BrainAtomicQuantity {
+//  // same as document
+//}
+////message BrainMultivariateQuantity {
+////  map<uint32, BrainAtomicQuantity> value = 1;
+////}
+//// TODO Wrong
+////message BrainMultivariateQuantitySchema {
+////  CollectionSchema collection_schema = 2;
+////  map<string, FeatureQuantityType> feature_quantity_type = 3; // DB + UI
+////}
+//
+//// Temporal - Need to tightly control from UI for selection of collection
+////message BrainTemporalQuantity {
+////  oneof temporal_is_one_of {
+////    BrainTemporalInstanceQuantity instance = 1; // which
+////    BrainTemporalDurationQuantity duration = 2; // how many
+////    BrainTemporalRangeQuantity range = 3;       // from to to
+////  }
+////}
+//
+////message BrainTemporalInstanceQuantity {
+////  map<uint32, uint32> value = 1; // key is => key collection index and value is symbolic quantity
+////}
+//// each item below will have corresponding collection
+////message BrainTemporalInstanceQuantitySchema {
+////  string key_collection = 1; // DB + UI
+////  repeated string selected = 2; // DB + UI
+////  ItemMap key_index_map = 3; // Runtime
+////  map<string, string> date_time_component_collection = 4; // key is item of selected list  & value is again collection
+////  ItemMap date_time_component_index_map = 5; // Runtime & all values of all collection in above map
+////}
+//
+////message BrainTemporalDurationQuantity {
+////  map<uint32, uint32> value = 1;
+////}
+////message BrainTemporalDurationQuantitySchema {
+////  string key_collection = 1; // DB + UI - collection related to time as numeric quantity (years, months, days, hours, minutes and seconds)
+////  repeated string selected = 2; // DB + UI
+////  ItemMap key_index_map = 3; // Runtime
+////}
+////message BrainTemporalRangeQuantity {
+////  map<uint32, uint32> minimum = 1;
+////  map<uint32, uint32> maximum = 2;
+////  bool include_minimum = 3;  //<= vs. <
+////  bool include_maximum = 4;  // >= vs. >
+////}
+////message BrainTemporalRangeQuantitySchema {
+////  string key_collection = 1; // DB + UI
+////  repeated string selected = 2; // DB + UI
+////  ItemMap key_index_map = 3; // Runtime
+////  map<string, string> date_time_component_collection = 4; // key is item of selected list  & value is again collection
+////  ItemMap date_time_component_index_map = 5; // Runtime & all values of all collection in above map
+////  bool include_minimum = 6;  //<= vs. <
+////  bool include_maximum = 7;  // >= vs. >
+////}
+////message BrainTemporalQuantitySchema {
+////  oneof schema {
+////      BrainTemporalInstanceQuantitySchema instance = 1;
+////      BrainTemporalDurationQuantitySchema duration = 2;
+////      BrainTemporalRangeQuantitySchema range = 3;
+////  }
+////}
+//message BrainSpatialQuantitySchema {
+//
+//}
+////message ProcessSchema {
+////  string collection = 1; // DB + UI
+////  ItemMap key_index_map = 2; // Runtime
+////}

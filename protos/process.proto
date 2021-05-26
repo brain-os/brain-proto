@@ -6,10 +6,7 @@ option java_multiple_files = true;
 
 import "common.proto";
 
-message BrainProcessConfig {
-
-}
-
 message BrainProcessSchema {
-
+  string collection = 1; // DB + UI
+  BrainItemMap key_index_map = 2; // Runtime
 }

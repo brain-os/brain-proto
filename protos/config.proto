@@ -4,38 +4,24 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "common.proto";
 import "collection.proto";
 import "quant.proto";
 import "entity.proto";
 import "event.proto";
 import "process.proto";
 
-message BrainDictionaryConfig {
-  repeated BrainCollectionConfig collection = 1;
-  repeated BrainEntityConfig entity = 2;
-  repeated BrainQuantityConfig quantity = 3;
-  repeated BrainEventConfig event = 4;
-  repeated BrainProcessConfig process = 5;
-}
-
 message BrainDictionarySchema {
-  // key = “/<vertical>/collection/<dictionary-name>
-  // e.g. “/retail/collection/product_brand”
-  // e.g. “/media/collection/movie_genre”
   map<string, BrainCollectionSchema> collection = 1;
-
-  // key = “/<vertical>/entity/<entity-name>”
-  // e.g. /common/entity/city
-  map<string, BrainEntitySchema> entity = 2;
-
-  // key = “/<vertical>/quantity/<quantity-name>/<condition>
-  map<string, BrainQuantitySchema> quantity = 3;
-
-  // key = “/<vertical>/event/<event-name>/<condition>
-  map<string, BrainEventSchema> event = 4;
-
-  // key = “/<vertical>/process/<process-name>/<condition>
-  map<string, BrainProcessSchema> process = 5;
+  map<string, BrainQuantitySchema> quantity = 2;
+  map<string, BrainEntitySchema> entity = 3;
+  map<string, BrainStoreSchema> store = 4;
+  map<string, BrainAttributeSchema> attribute = 5;
+  map<string, BrainQuantityValueSchema> attribute_qualifier = 6;
+  map<string, BrainPredicateSchema> predicate = 7;
+  map<string, BrainQuantityValueSchema> predicate_qualifier = 8;
+  map<string, BrainEventSchema> event = 9;
+  map<string, BrainProcessSchema> process = 10;
 }
+
+
 

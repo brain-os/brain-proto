@@ -60,8 +60,18 @@ message BrainCompoundQuantity {
     BrainMultivariateQuantity features = 7;
   }
 }
+enum FeatureQuantityType {
+  QUANTITY_NUMERIC = 0;
+  QUANTITY_SYMBOLIC = 1;
+  QUANTITY_ORDINAL = 2;
+  QUANTITY_BINNED = 3;
+}
 message BrainMultivariateQuantity {
   map<uint32, BrainAtomicQuantity> value = 1;
+}
+message BrainMultivariateQuantitySchema {
+  BrainCollectionSchema collection_schema = 2;
+  map<string, FeatureQuantityType> feature_quantity_type = 3; // DB + UI
 }
 
 message BrainSpecialQuantity {
@@ -71,14 +81,10 @@ message BrainSpecialQuantity {
   }
 }
 
-
 message BrainQuantitySchema {
-  BrainId identity = 1;
-  uint64 unit = 2; // in some collection
-//  uint32 unit_index = 3; // Do i need it?
-//  uint32 unit_name = 4; // Do i need it?
+  BrainId id = 1;
+  repeated BrainId unit = 2;
   oneof quantity_schema {
-    // Atomic quantities
     BrainNumericQuantitySchema numeric = 3;  // int/long/float/double
     BrainOrdinalQuantitySchema ordinal = 4;  // e.g. small, medium, large
     BrainSymbolicQuantitySchema symbolic = 5;  // symbol from a dictionary
@@ -95,33 +101,9 @@ message BrainQuantitySchema {
     BrainBinnedQuantitySchema binned = 12;    // bin from a set of bins
     BrainSpatialQuantitySchema spatial = 13;  // latlong, village, city, ...
     BrainTemporalQuantitySchema temporal = 14;  // instance, range, duration
+    BrainMultivariateQuantitySchema features = 15;
   }
 }
-message BrainQuantityConfig {
-  BrainId identity = 1; // uint32 will not be used in case of quantity
-  BrainItemList unit_list = 2;  // all possible units for this quantity
-  string unit = 3; // should be one in above in BrainItemList
-  oneof quantity_config {
-    // Atomic quantities
-    BrainNumericQuantityConfig numeric = 4;// int/long/float/double
-    BrainOrdinalQuantityConfig ordinal = 5;   // e.g. small, medium, large
-    BrainSymbolicQuantityConfig symbolic = 6;  // symbol from a dictionary
-
-    // Compound quantities
-    BrainRangeQuantityConfig range = 7;  // (min, max)
-    BrainSeriesQuantityConfig series = 8;  // x_1, x_2, … x_n
-    BrainDistributionQuantityConfig distribution = 9; // p(s_1), p(s_2), …, p(s_n)
-    BrainBasketQuantityConfig basket = 10;  // {s_1, s_2, …, s_k}
-    BrainBagQuantityConfig bag = 11;      // {(w_1, s_1), (w_2, s_2), …}
-    BrainSequenceQuantityConfig sequence = 12; // (s_1, s_2, …, s_k)
-
-    // Quantized quantities
-    BrainBinnedQuantityConfig binned = 13;    // bin from a set of bins
-    BrainSpatialQuantityConfig spatial = 14;  // latlong, village, city, ...
-    BrainTemporalQuantityConfig temporal = 15;  // instance, range, duration
-  }
-}
-
 message BrainNumericQuantity {
   oneof numeric_quantity_is_one_of {
     float float_value = 1;
@@ -131,24 +113,19 @@ message BrainNumericQuantity {
   }
 }
 message BrainNumericQuantitySchema {
-  BrainNumericQuantityType type = 1;
-  BrainNumericQuantity minimum = 2;    // -\inf if missing
-  BrainNumericQuantity maximum = 3;    // +\inf is missing
-  bool include_minimum = 4;
-  bool include_maximum = 5;
+  BrainNumericQuantityType type = 1; // DB + UI
+  double minimum = 2; // DB + UI
+  double maximum = 3; // DB + UI
+  bool include_minimum = 4; // DB + UI
+  bool include_maximum = 5; // DB + UI
 }
 enum BrainNumericQuantityType {
-  BRAIN_NUMERIC_INTEGER = 0;
-  BRAIN_NUMERIC_LONG = 1;
-  BRAIN_NUMERIC_FLOAT = 2;
-  BRAIN_NUMERIC_DOUBLE = 3;
+  BRAIN_QUANTITY_NUMERIC_INTEGER = 0;
+  BRAIN_QUANTITY_NUMERIC_LONG = 1;
+  BRAIN_QUANTITY_NUMERIC_FLOAT = 2;
+  BRAIN_QUANTITY_NUMERIC_DOUBLE = 3;
 }
-message BrainNumericQuantityConfig {
-  BrainNumericQuantity minimum = 1;   // -\inf if missing
-  BrainNumericQuantity maximum = 2;  // +\inf is missing
-  bool include_minimum = 3;
-  bool include_maximum = 4;
-}
+
 /*
 $root/vertical/quantity.config
 
@@ -198,20 +175,13 @@ message BrainOrdinalQuantity {
   BrainToken token = 1;
 }
 message BrainOrdinalQuantitySchema {
-  BrainCollectionSchema collection = 1;
+  BrainItemCollectionSchema collection_schema = 1;
 }
-message BrainOrdinalQuantityConfig {
-  string collection = 1;
-}
-
 message BrainSymbolicQuantity {
   BrainToken token = 1;
 }
 message BrainSymbolicQuantitySchema {
-  BrainCollectionSchema collection = 1;
-}
-message BrainSymbolicQuantityConfig {
-  string collection = 1;
+  BrainCollectionSchema collection_schema = 1;
 }
 /*
 Quantity.config
@@ -281,22 +251,13 @@ message BrainDoubleRange {
   double maximum = 2;
 }
 message BrainRangeQuantitySchema {
-  //NOTE: There is no special proto for this.
-  BrainNumericQuantityType type = 1;
-  BrainNumericQuantity minimum = 2;   // -\inf if missing
-  BrainNumericQuantity maximum = 3;  // +\inf is missing
-  bool include_minimum = 4;
-  bool include_maximum = 5;
+  BrainNumericQuantityType type = 1; // DB + UI
+  double minimum = 2; // DB + UI
+  double maximum = 3; // DB + UI
+  bool include_minimum = 4; // DB + UI
+  bool include_maximum = 5; // DB + UI
 }
-message BrainRangeQuantityConfig {
-  //NOTE: There is no special proto for this.
-  // They system knows a quantity is a range quantity by “type:” (example below)
-  // These quantities are useful in specifying conditions/qualifiers.
-  BrainNumericQuantity minimum = 1;   // -\inf if missing
-  BrainNumericQuantity maximum = 2;  // +\inf is missing
-  bool include_minimum = 3;
-  bool include_maximum = 4;
-}
+
 /*
 $root/medical/quantity.config
  ...
@@ -327,23 +288,28 @@ message BrainFloatSeriesQuantity {
 message BrainDoubleSeriesQuantity {
   repeated double value = 1;
 }
-message BrainSeriesQuantitySchema {
-  BrainQuantitySchema x_type = 1;
-  BrainQuantitySchema y_type = 2;
-  BrainNumericQuantityType x_numeric_type = 3;
-  BrainNumericQuantityType y_numeric_type = 4;
-  uint32 x_coordinate_count = 5; // = x_step_count + 1
-}
-message BrainSeriesQuantityConfig {
-  string x_type = 1;// quantity type
-  string y_type = 2;// quantity type
-  oneof min_or_max {
-    BrainNumericQuantity x_min = 3;
-    BrainNumericQuantity x_max = 4;
+// TODO
+message Xaxis {
+  BrainId x_type_id = 1; // Runtime
+  oneof value {
+    BrainTemporalInstanceQuantity instance = 2;
+    BrainNumericQuantity numeric = 3;
   }
-  BrainNumericQuantity x_step = 5; // size of each step
-  uint32 x_step_count = 6;
 }
+message BrainSeriesQuantitySchema {
+  string x_type = 1; //quantity_type // DB + UI // Temporal type, uint32
+  BrainId x_type_id = 2; // Runtime
+  string y_type = 3; //quantity_type // DB + UI // Numrical type
+  BrainId y_type_id = 4; // Runtime
+  BrainNumericQuantityType quantity_type = 5; // int, float, double, long // DB + UI
+  oneof min_or_max {
+    BrainNumericQuantity x_min = 6; // DB + UI
+    BrainNumericQuantity x_max = 7; // DB + UI
+  }
+  BrainNumericQuantity x_step = 8; // DB + UI
+  uint32 x_step_count = 9; // DB + UI
+}
+
 /*
 TODO
 Example needed
@@ -366,16 +332,7 @@ message BrainEntityDistributionQuantity {
   map<string, double> value = 1;
 }
 message BrainDistributionQuantitySchema {
-  oneof distribution_quantity_schema {
-    BrainCollectionSchema collection = 1;
-    string entity = 2;
-  }
-}
-message BrainDistributionQuantityConfig {
-  oneof distribution_quantity_config {
-    string entity = 1;
-    string collection = 2;
-  }
+  BrainCollectionSchema collection_schema = 1;
 }
 /*
 TODO
@@ -398,11 +355,9 @@ message BrainEntityBasketQuantity {
   map<string, bool> value = 1;
 }
 message BrainBasketQuantitySchema {
-  BrainCollectionSchema collection = 1;
+  BrainCollectionSchema collection_schema = 1;
 }
-message BrainBasketQuantityConfig {
-  string collection = 1;
-}
+
 /*
 TODO
 Example needed
@@ -425,18 +380,8 @@ message BrainEntityBagQuantity {
   map<string, BrainNumericQuantity> value = 1;
 }
 message BrainBagQuantitySchema {
-  BrainNumericQuantitySchema weight = 1;
-  oneof bag_quantity_schema {
-    string entity = 2;
-    BrainCollectionSchema collection = 3;
-  }
-}
-message BrainBagQuantityConfig {
-  BrainNumericQuantityConfig weight = 1;
-  oneof bag_quantity_config {
-    string entity = 2;
-    string collection = 3;
-  }
+  BrainCollectionSchema collection_schema = 1;
+  BrainNumericQuantityType type = 2; // DB + UI
 }
 /*
 TODO
@@ -460,22 +405,8 @@ message BrainEntitySequenceQuantity {
   // TODO
 }
 message BrainSequenceQuantitySchema {
-  BrainQuantity x_min = 1;
-  BrainQuantity x_max = 2;
-  BrainQuantity x_step = 3;
-  oneof sequence_quantity_schema {
-    string entity = 4;
-    BrainCollectionSchema collection = 5;
-  }
-}
-message BrainSequenceQuantityConfig {
-  BrainQuantity x_min = 1;
-  BrainQuantity x_max = 2;
-  BrainQuantity x_step = 3;
-  oneof sequence_quantity_schema {
-    string entity = 4;
-    string collection = 5;
-  }
+  BrainCollectionSchema collection_schema = 1;
+  uint32 size = 2; // DB + UI - if not defined it can take variable number e.g. words in sentence
 }
 /*
 boundaries -5,10,40 <-> Cold, Warm
@@ -515,18 +446,12 @@ message BrainBinnedQuantity {
   }
 }
 message BrainBinnedQuantitySchema {
-  string source_quantity = 1;      // quantity being binned
-  BrainCollectionSchema collection = 2;
-  repeated double boundary = 3;    // bin boundaries
-  bool minimum_open = 4;
-  bool maximum_open = 5;
-}
-message BrainBinnedQuantityConfig {
-  string source_quantity = 1;      // quantity being binned
-  string collection = 2; //Freezing, Cold, Warm, Hot
-  repeated double boundary = 3;    // bin boundaries
-  bool minimum_open = 4;
-  bool maximum_open = 5;
+  string source_quantity = 1;	// quantity being binned and must be numeric
+  BrainItemCollectionSchema collection_schema = 2;
+  repeated double boundary = 3;		// DB + UI - bin boundaries & order matter here and should be ascending
+  bool minimum_open = 4; // DB + UI
+  bool maximum_open = 5; // DB + UI
+
 }
 /*
 TODO
@@ -547,6 +472,7 @@ message BrainLatLongQuantity {
 message BrainSpatialQuantitySchema {
   BrainHierarchySchema hierarchy = 1;
 }
+
 message BrainHierarchySchema {
   // TODO
 }
@@ -560,7 +486,6 @@ message BrainHierarchyConfig {
 TODO
 Example needed
  */
-
 message BrainTemporalQuantity {
   oneof temporal_is_one_of {
     BrainTemporalInstanceQuantity instance = 1; // which
@@ -569,59 +494,50 @@ message BrainTemporalQuantity {
   }
 }
 message BrainTemporalInstanceQuantity {
-  map<uint32, uint32> value = 1;
-  // key = temporal-instance-type-index
+  map<uint32, uint32> value = 1; // key is => key collection index and value is symbolic quantity
 }
+
 message BrainTemporalDurationQuantity {
   map<uint32, uint32> value = 1;
-  // key = temporal-duration-type-index
 }
+
 message BrainTemporalRangeQuantity {
-  BrainTemporalInstanceQuantity minimum = 1;
-  BrainTemporalInstanceQuantity maximum = 2;
+  map<uint32, uint32> minimum = 1;
+  map<uint32, uint32> maximum = 2;
   bool include_minimum = 3;  //<= vs. <
-  bool include_maximum = 4;  //>= vs. >
+  bool include_maximum = 4;  // >= vs. >
 }
 message BrainTemporalQuantitySchema {
-  oneof temporal_schema_is_one_of {
-    BrainTemporalInstanceQuantitySchema instance = 1; // which
-    BrainTemporalInstanceQuantitySchema duration = 2; // how man
-    BrainTemporalRangeQuantitySchema range = 3;       // from to to
+  oneof schema {
+    BrainTemporalInstanceQuantitySchema instance = 1;
+    BrainTemporalDurationQuantitySchema duration = 2;
+    BrainTemporalRangeQuantitySchema range = 3;
   }
 }
 message BrainTemporalInstanceQuantitySchema {
-  map<string, uint32> selected = 1;
+  string key_collection = 1; // DB + UI
+  repeated string selected = 2; // DB + UI
+  BrainItemMap key_index_map = 3; // Runtime
+  map<string, string> date_time_component_collection = 4; // key is item of selected list  & value is again collection
+  BrainItemMap date_time_component_index_map = 5; // Runtime & all values of all collection in above map
 }
 
 message BrainTemporalDurationQuantitySchema {
-  map<string, uint32> selected = 1;
+  string key_collection = 1; // DB + UI - collection related to time as numeric quantity (years, months, days, hours, minutes and seconds)
+  repeated string selected = 2; // DB + UI
+  BrainItemMap key_index_map = 3; // Runtime
 }
+
 message BrainTemporalRangeQuantitySchema {
-  map<string, uint32> selected = 1;
-  bool include_minimum = 2;  //<= vs. <
-  bool include_maximum = 3;  //>= vs. >
+  string key_collection = 1; // DB + UI
+  repeated string selected = 2; // DB + UI
+  BrainItemMap key_index_map = 3; // Runtime
+  map<string, string> date_time_component_collection = 4; // key is item of selected list  & value is again collection
+  BrainItemMap date_time_component_index_map = 5; // Runtime & all values of all collection in above map
+  bool include_minimum = 6;  //<= vs. <
+  bool include_maximum = 7;  // >= vs. >
 }
-message BrainTemporalQuantityConfig {
-  oneof temporal_config_is_one_of {
-    BrainTemporalInstanceQuantityConfig instance = 1; // which
-    BrainTemporalDurationQuantityConfig duration = 2; // how man
-    BrainTemporalRangeQuantityConfig range = 3;       // from to to
-  }
-}
-message BrainTemporalInstanceQuantityConfig {
-  string reference_dictionary = 1;
-  repeated string selected = 2;
-}
-message BrainTemporalDurationQuantityConfig {
-  string reference_dictionary = 1;
-  repeated string selected = 2;
-}
-message BrainTemporalRangeQuantityConfig {
-  string reference_dictionary = 1;
-  repeated string selected = 2;
-  bool include_minimum = 3; // <= vs. <
-  bool include_maximum = 4; //  >= vs. >
-}
+
 /*
 vertical: “common”
 meta_data {
