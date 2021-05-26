@@ -14,7 +14,7 @@ message BrainItemMap {
 // used in BrainQuantity for symbolic and ordinal
 message BrainToken {
   oneof brain_token {
-    uint32 index = 1;	// from a dictionary
+    uint64 index = 1;	// from a dictionary
     string item = 2;	// from a dictionary
     string entity	= 3; // ID of an entity in a knowledge graph
   }
