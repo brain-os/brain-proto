@@ -23,25 +23,54 @@ message BrainQuantity {
 //  BrainQuantityMetadata meta = 1;
 //  uint32 unit = 2;  // index in a dictionary.
   oneof quantity_is_one_of {
-    // Atomic quantities
-    BrainNumericQuantity numeric = 1;  // int/long/float/double
-    BrainOrdinalQuantity ordinal = 2;    // e.g. small, medium, large
-    BrainSymbolicQuantity symbolic = 3;  // symbol from a dictionary
-
-    // Compound quantities
-    BrainRangeQuantity range = 4;    // (min, max)
-    BrainSeriesQuantity series = 5;  // x_1, x_2, … x_n
-    BrainDistributionQuantity distribution = 6;  // p(s_1), p(s_2), …, p(s_n)
-    BrainBasketQuantity basket = 7;  // {s_1, s_2, …, s_k}
-    BrainBagQuantity bag = 8;    // {(w_1, s_1), (w_2, s_2), …}
-    BrainSequenceQuantity sequence = 9; // (s_1, s_2, …, s_k)
-
-    // Quantized quantities
-    BrainBinnedQuantity binned = 10;  // bin from a set of bins
-    BrainSpatialQuantity spatial = 11; // latlong, village, city, ...
-    BrainTemporalQuantity temporal = 12;  // instance, range, duration
+    BrainAtomicQuantity atomic = 1;
+    BrainCompoundQuantity compound = 2;
+    BrainSpecialQuantity special = 3;
   }
 }
+message BrainAtomicQuantity {
+  oneof brain_atomic_quantity {
+    BrainNumericQuantity numeric = 1;	// int/long/float/double
+    BrainOrdinalQuantity ordinal  = 2;   // e.g. small, medium, large
+    BrainSymbolicQuantity symbolic = 3; 	// symbol from a dictionary
+    BrainBinnedQuantity binned = 4;		// bin from a set of bins
+  }
+}
+message BrainCompoundQuantity {
+  oneof brain_compound_quantity {
+    // Numeric range (e.g. normal range of RBC count)
+    BrainRangeQuantity range = 1;		// (min, max)
+
+    // Set of symbols from a dictionary (e.g. market basket)
+    BrainBasketQuantity basket	 = 2;	// {s_1, s_2, …, s_k}
+
+    // Weighted set of symbols from a dictionary (e.g. term frequency)
+    BrainBagQuantity bag = 3;		// {(w_1, s_1), (w_2, s_2), …}
+
+    // Series of numbers (e.g. time series IoT data)
+    BrainSeriesQuantity series	= 4;	// x_1, x_2, … x_n
+
+    // Sequence of symbols (e.g. gene sequence)
+    BrainSequenceQuantity sequence = 5; // (s_1, s_2, …, s_k)
+
+    // A Distribution over symbols (e.g. hourly download distribution)
+    BrainDistributionQuantity distribution = 6; // p(s_1), p(s_2), …, p(s_n)
+
+    // A Multivariate set of features (e.g. all features in a model)
+    BrainMultivariateQuantity features = 7;
+  }
+}
+message BrainMultivariateQuantity {
+  map<uint32, BrainAtomicQuantity> value = 1;
+}
+
+message BrainSpecialQuantity {
+  oneof brain_special_quantity {
+    BrainSpatialQuantity spatial = 1;
+    BrainTemporalQuantity temporal = 2;
+  }
+}
+
 
 message BrainQuantitySchema {
   BrainId identity = 1;
@@ -187,7 +216,7 @@ message BrainSymbolicQuantityConfig {
 /*
 Quantity.config
 
-quantity {
+quantity { :06AAICR5875M1ZN
     name: “brand”
     type: “symbolic”
     symbolic {
@@ -299,18 +328,21 @@ message BrainDoubleSeriesQuantity {
   repeated double value = 1;
 }
 message BrainSeriesQuantitySchema {
-  BrainQuantitySchema x_type = 1; // TODO - it need to be string
+  BrainQuantitySchema x_type = 1;
   BrainQuantitySchema y_type = 2;
-  BrainNumericQuantity x_min = 3;
-  BrainNumericQuantity x_max = 4;
-  BrainNumericQuantity x_step = 5;
+  BrainNumericQuantityType x_numeric_type = 3;
+  BrainNumericQuantityType y_numeric_type = 4;
+  uint32 x_coordinate_count = 5; // = x_step_count + 1
 }
 message BrainSeriesQuantityConfig {
-  string x_type = 1;
-  string y_type = 2;
-  BrainNumericQuantity x_min = 3;
-  BrainNumericQuantity x_max = 4;
-  BrainNumericQuantity x_step = 5;
+  string x_type = 1;// quantity type
+  string y_type = 2;// quantity type
+  oneof min_or_max {
+    BrainNumericQuantity x_min = 3;
+    BrainNumericQuantity x_max = 4;
+  }
+  BrainNumericQuantity x_step = 5; // size of each step
+  uint32 x_step_count = 6;
 }
 /*
 TODO
