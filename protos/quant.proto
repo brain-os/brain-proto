@@ -371,7 +371,7 @@ message BrainBagQuantity {
   }
 }
 message BrainIndexBagQuantity {
-  map<uint32, BrainNumericQuantity> value = 1;
+  map<uint64, BrainNumericQuantity> value = 1;
 }
 message BrainItemBagQuantity {
   map<string, BrainNumericQuantity> value = 1;
