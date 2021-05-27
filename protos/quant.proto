@@ -323,7 +323,7 @@ message BrainDistributionQuantity {
   }
 }
 message BrainIndexDistributionQuantity {
-  map<uint32, double> value = 1;
+  map<uint64, double> value = 1;
 }
 message BrainItemDistributionQuantity {
   map<string, double> value = 1;
@@ -349,7 +349,7 @@ message BrainItemBasketQuantity {
   map<string, bool> value = 1;
 }
 message BrainIndexBasketQuantity {
-  map<uint32, bool> value = 1;
+  map<uint64, bool> value = 1;
 }
 message BrainEntityBasketQuantity {
   map<string, bool> value = 1;
