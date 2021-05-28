@@ -445,13 +445,19 @@ message BrainBinnedQuantity {
     string bin_item = 2;
   }
 }
-message BrainBinnedQuantitySchema {
-  string source_quantity = 1;	// quantity being binned and must be numeric
-  BrainItemCollectionSchema collection_schema = 2;
-  repeated double boundary = 3;		// DB + UI - bin boundaries & order matter here and should be ascending
-  bool minimum_open = 4; // DB + UI
-  bool maximum_open = 5; // DB + UI
+/*
+BinConfig -> BrainBinnedQuantitySchema
+left side part of minimum range == MINUS_INFINITY
+right side part of maximum range == MAXIMUM_INFINITY
 
+other  min_range < value <= max_range
+
+e.g. freeze (Min to -10), cold (-4 to 10) , warm (10 to 40), hot (40 to Max)
+
+ */
+message BrainBinnedQuantitySchema {
+  BrainNumericQuantityType quantity_type = 1; // used to get type of range (double, int, float, long)
+  map<string, BrainRangeQuantity> range = 2;
 }
 /*
 TODO
