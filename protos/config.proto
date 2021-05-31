@@ -9,6 +9,8 @@ import "quant.proto";
 import "entity.proto";
 import "event.proto";
 import "process.proto";
+import "id.proto";
+import "common.proto";
 
 message BrainDictionarySchema {
   map<string, BrainCollectionSchema> collection = 1;
@@ -21,6 +23,11 @@ message BrainDictionarySchema {
   map<string, BrainQuantityValueSchema> predicate_qualifier = 8;
   map<string, BrainEventSchema> event = 9;
   map<string, BrainProcessSchema> process = 10;
+}
+
+message BrainCollectionConfig {
+  BrainId id = 1;
+  BrainIdList item_list = 2;
 }
 
 

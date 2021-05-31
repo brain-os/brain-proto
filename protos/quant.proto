@@ -452,7 +452,10 @@ right side part of maximum range == MAXIMUM_INFINITY
 
 other  min_range < value <= max_range
 
-e.g. freeze (Min to -10), cold (-4 to 10) , warm (10 to 40), hot (40 to Max)
+  freeze (Min to -10) : value >= Integer.MIN_VALUE && value < -4
+  cold (-4 to 10) : value >= -4 && value < 10
+  warm (10 to 40) : value >= 10 && value < 40
+  hot (40 to Max) : value >= 40 && value <= Integer.MAX_VALUE
 
  */
 message BrainBinnedQuantitySchema {
