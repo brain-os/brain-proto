@@ -10,8 +10,9 @@ import "quant.proto";
 import "id.proto";
 import "entity.proto";
 message BrainEvent {
-  BrainStore key = 1;
-  repeated BrainStore value = 2;
+  string id = 1;
+  BrainStore key = 2;
+  repeated BrainStore value = 3;
 
 }
 message BrainStore {
