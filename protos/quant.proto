@@ -396,17 +396,40 @@ message BrainSequenceQuantity {
   }
 }
 message BrainItemSequenceQuantity {
-  // TODO
+  repeated string item = 1;
 }
 message BrainIndexSequenceQuantity {
-  // TODO
+  repeated uint64 index = 1;
 }
 message BrainEntitySequenceQuantity {
   // TODO
 }
 message BrainSequenceQuantitySchema {
   BrainCollectionSchema collection_schema = 1;
-  uint32 size = 2; // DB + UI - if not defined it can take variable number e.g. words in sentence
+  oneof size_type {
+      uint32 constant_size = 2;
+      ListSizeRange size_range = 3;
+  }
+}
+message ListSizeRange {
+  uint32 min_size = 1; // optional
+  uint32 max_size = 2; // optional
+}
+/*
+ Difference between Sequence and Permutation
+ 1. Sequence can have repeated quantities
+ 2. Permutation items are unique and size is pre defined
+ */
+message BrainPermutationQuantity {
+  oneof sequence_quantity {
+    BrainItemSequenceQuantity item = 1;
+    BrainIndexSequenceQuantity index = 2;
+    BrainEntitySequenceQuantity entity = 3;
+  }
+}
+message BrainPermutationQuantitySchema {
+  BrainCollectionSchema collection_schema = 1;
+  uint32 size = 2;
 }
 /*
 boundaries -5,10,40 <-> Cold, Warm
@@ -461,6 +484,7 @@ other  min_range < value <= max_range
 message BrainBinnedQuantitySchema {
   BrainNumericQuantityType quantity_type = 1; // used to get type of range (double, int, float, long)
   map<string, BrainRangeQuantity> range = 2;
+  BrainCollectionSchema collection_schema = 3;
 }
 /*
 TODO
