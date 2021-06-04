@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "id.proto";
+
+//used in BrainQuantitySchema - to represent units
+message BrainItemMap {
+  map<string, uint64> item2index = 1;
+  map<uint64, string> index2item = 2;
+}
+// used in BrainQuantity for symbolic and ordinal
+message BrainToken {
+  oneof brain_token {
+    uint64 index = 1;	// from a dictionary
+    string item = 2;	// from a dictionary
+    string entity	= 3; // ID of an entity in a knowledge graph
+  }
+}
+
+message BrainItemList {
+  string name = 1;
+  repeated string item = 2;
+}
+
+message BrainIdList {
+  string name = 1; // UI + DB
+  bool is_ordinal = 2; // UI + DB
+  bool is_modulo = 3; // UI + DB
+  repeated BrainId item = 4;
+}
+
+//message BrainTokenSet {
+//  oneof brain_set {
+//    BrainIndexSet index_set = 1;
+//    BrainItemSet item_set = 2;
+//    BrainEntitySet entity_set = 3;
+//  }
+//}
+
+message BrainIndexSet {
+  string item_dictionary = 1;
+  map<uint32, bool> index = 2;  // payload of the set (O(1) access)
+}
+
+message BrainItemSet {
+  string item_dictionary = 1;
+  map<string, bool> item = 2; // payload of the set (O(1) access)
+}
+
+//message BrainEntitySet {
+//  string entity_type = 1;
+//  map<string, bool> entity = 2;  // payload of the set (O(1) access)
+//}
+
+

@@ -1,0 +1,192 @@
+{
+  "vertical": "commons",
+  "meta_data": [
+    {
+      "name": "spatial/types",
+      "list": {
+        "item": [
+          "grid",
+          "geohash8",
+          "geohash7",
+          "geohash6",
+          "locality",
+          "ward",
+          "city",
+          "village",
+          "district",
+          "state",
+          "jio_center",
+          "jio_point",
+          "jio_territory",
+          "building"
+        ]
+      }
+    },
+    {
+      "name": "temporal/instances",
+      "list": {
+        "item": [
+          "minute05",
+          "minute15",
+          "hour",
+          "day_part",
+          "day",
+          "day_of_week",
+          "day_type",
+          "week",
+          "month",
+          "quarter",
+          "year"
+        ]
+      }
+    },
+    {
+      "name": "temporal/durations",
+      "list": {
+        "item": [
+          "milliseconds",
+          "seconds",
+          "minutes",
+          "hours",
+          "days",
+          "weeks",
+          "months",
+          "quarters",
+          "years"
+        ]
+      }
+    }
+  ],
+  "quantity": [
+    {
+      "vertical": "commons",
+      "quantity_type": "/commons/quantity/numeric/age",
+      "numeric": {
+        "unit": "years",
+        "minimum": {
+          "int_value": 0
+        },
+        "maximum": {
+          "int_value": 100
+        }
+      }
+    },
+    {
+      "vertical": "commons",
+      "quantity_type": "/commons/quantity/product_type",
+      "symbolic": {
+        "item": [
+          "grocery",
+          "vegetable",
+          "fruit",
+          "beverage",
+          "bakery"
+        ]
+      }
+    },
+    {
+      "vertical": "commons",
+      "quantity_type": "/commons/quantity/ratings",
+      "ordinal": {
+        "item": [
+          "very_bad",
+          "bad",
+          "average",
+          "good",
+          "excellent"
+        ]
+      }
+    },
+    {
+      "vertical": "commons",
+      "quantity_type": "/commons/quantity/product_pricing",
+      "binned": {
+        "source": "TODO",
+        "name" : ["very_cheap", "cheap", "moderate", "expensive", "very_expensive"],
+        "boundary" : [0, 25, 200, 1000, 2000],
+        "minimum_open" : false,
+        "maximum_open" : true
+      }
+    },
+    {
+      "vertical": "commons",
+      "quantity_type": "/commons/quantity/temporal/instance/date/minute05",
+      "temporal": {
+        "instance": {
+          "selected": [
+            "year",
+            "month",
+            "day",
+            "minute15"
+          ]
+        }
+      }
+    },
+    {
+      "vertical": "commons",
+      "quantity_type": "/commons/quantity/temporal/instance/date/second",
+      "temporal": {
+        "instance": {
+          "selected": [
+            "year",
+            "month",
+            "day",
+            "hour",
+            "second"
+          ]
+        }
+      }
+    },
+    {
+      "vertical": "commons",
+      "quantity_type": "/commons/quantity/temporal/instance/hour",
+      "temporal": {
+        "instance": {
+          "selected": [
+            "hour"
+          ]
+        }
+      }
+    },
+    {
+      "vertical": "commons",
+      "quantity_type": "/commons/quantity/temporal/instance/date/day_part",
+      "temporal": {
+        "instance": {
+          "selected": [
+            "year",
+            "month",
+            "day",
+            "day_part",
+            "second"
+          ]
+        }
+      }
+    },
+    {
+      "vertical": "commons",
+      "quantity_type": "/commons/quantity/temporal/durations/minutes",
+      "temporal": {
+        "duration": {
+          "selected": [
+            "minutes"
+          ]
+        }
+      }
+    },
+    {
+      "vertical": "commons",
+      "quantity_type": "/commons/quantity/temporal/range/hour_minutes",
+      "temporal": {
+        "range": {
+          "selected": [
+            "minutes",
+            "hours"
+          ],
+          "include_minimum": true,
+          "include_maximum": false
+        }
+      }
+    }
+  ]
+}

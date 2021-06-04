@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+
+import "common.proto";
+import "quant.proto";
+import "id.proto";
+import "entity.proto";
+message BrainEvent {
+  string id = 1;
+  BrainStore key = 2;
+  repeated BrainStore value = 3;
+
+}
+message BrainStore {
+  BrainValueSet property = 1;
+  BrainValueSet context = 2;
+  repeated BrainEntitySet entity_set = 3;
+  map<string, BrainValueSet> value = 4; // string key = entity id
+}
+message BrainEntitySet {
+  uint32 entity_index = 1;
+  repeated uint64 id = 2;
+}
+/*
+ 1. contain all properties for event
+ 2. contain all contexts for event
+ 3. contain all attribute, attribute qualifiers and predicate qualifier for entity
+*/
+message BrainValueSet {
+  map<uint32, BrainQuantity> value = 1;
+}
+
+message BrainEventKey {
+  // Key = entity-type-index
+//  map<uint32, BrainEntitySet> entities = 1;
+
+}
+
+message BrainEventValue {
+
+}
+
+message BrainEventSchema {
+  BrainId id = 1;
+  BrainStoreSchema key = 4;
+  map<string, BrainStoreSchema> value = 5; // key is same as key-string index in store schema
+}
+message BrainStoreSchema {
+  BrainId id = 1;
+  map<string, BrainQuantityValueSchema> property = 2;
+  map<string, BrainQuantityValueSchema> context = 3;
+  map<string, BrainEntitySchema> entity = 4;
+}

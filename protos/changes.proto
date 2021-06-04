@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package com.jio.brain;
+
+option java_multiple_files = true;
+
+import "common.proto";
+import "id.proto";
+import "quant.proto";
+
+message BrainMetaMap {
+  map<string, uint32> hid2mid = 1;
+  map<uint32, string> mid2hid = 2;
+}
+message BrainItemMap {
+  map<string, uint64> hid2mid = 1;
+  map<uint64, string> mid2hid = 2;
+}
+message BrainEntityStore {
+  // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+  // Value = A Set of entities of key type
+  // entities[<entity-type>].elements[<entity-id>] = true
+  map<uint32, BrainEntitySet> entities = 1;
+}
+message BrainEntitySet {
+  map<uint64, bool> element = 1;
+}
+message BrainEntityStoreSchema {
+  // Given in the schema config file
+  string vertical = 1;
+  string domain = 2;
+  repeated string entity_type = 3;
+
+  // Generated internally after reading the config file
+  BrainMetaMap entity_map = 4;
+}
+message BrainQuantityStore {
+  // key = machine_id for whatever role it is playing
+  // Note: This is NOT quantity type but the role_type
+  // e.g. context, property,
+  // e.g. attribute, attribute_qualifier,
+  // e.g. predicate, predicate_qualifier
+  map<uint32, com.jio.fabric.BrainQuantity> value = 1;
+}
+message BrainQuantityStoreSchema {
+  // Given in the schema config file
+  string vertical = 1;
+  string domain = 2;
+
+  // key = <role-name>
+  // Value = <quantity-name>
+  map<string, string> quantities = 3;
+
+  // Generated internally after reading the config file
+  map<uint32, com.jio.fabric.BrainQuantitySchema> quantity_index = 4;
+}
+message BrainAttributeStore {
+  // key = mid(/m/<vertical>/<domain>/entity/…
+  //...<entity-type>)
+  map<uint32, BrainEntityAttributeStore> attributes = 1;
+}
+
+message BrainEntityAttributeStore {
+  // key = <entity-id> (attributes of these entities)
+  map<uint64, BrainQuantityStore> entity = 1;
+}
+message BrainAttributeStoreSchema {
+  string vertical = 1;
+  string domain = 2;
+
+  string entity_type = 3;
+  uint32 entity_type_mid = 4;
+
+  string attribute_name = 5;
+  uint32 attribute_mid = 6;
+  string quantity_name = 7;
+
+//    BrainQuatnitySchema TODO - problem in document
+}
+message BrainPredicateStore {
+  // key = mid(/m/<vertical>/<domain>/predicate/…
+//  ...<subject-type>/<predicate-name>/<object-type>)
+  map<uint32, BrainEntityPredicateStore> predicates = 2;
+}
+
+message BrainEntityPredicateStore {
+  // key = <subject-entity-id>
+  map<uint64, BrainEntitySet> subject = 1;
+}
+message BrainEvent {
+  string id = 1;
+  string topic = 2;
+//  oneof brain_event {
+//    BrainTriggerEvent trigger = 1;
+//    BrainLakeEvent lake = 2;  // store
+//    // trigger to ingest a file e.g.
+//    BrainKnuggetEvent knugget = 2;  // output of a input transformation
+//
+//  }
+//  BrainEventKey key = 3;
+//  repeated BrainEventValue value = 4;
+}

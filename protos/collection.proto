@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "common.proto";
+import "id.proto";
+
+message BrainCollectionSchema {
+  BrainId id = 1;
+  oneof list {
+    BrainItemCollectionSchema item_schema = 2;
+    BrainEntityCollectionSchema entity_schema = 3;
+  }
+  BrainItemMap key_index_map = 4; // Runtime
+}
+message BrainItemCollectionSchema {
+  BrainIdList item_list = 1;
+  BrainItemMap key_index_map = 2; // Runtime
+}
+message BrainEntityCollectionSchema {
+  oneof list {
+    string entity = 1; // /common/entity/city
+    BrainConditionalEntitySchema entity_set = 2;
+  }
+  BrainItemMap key_index_map = 3; // Runtime
+}
+message BrainConditionalEntitySchema {
+  string entity_type = 1; // /common/entity/city
+  // Example condition
+  // /common/predicate/city/of_state/state == 'Maharashtra'
+  // /common/attribute/city/population > 5000000 // population is attribute of entity city
+  string condition = 2;
+}
