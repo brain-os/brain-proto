@@ -464,7 +464,7 @@ Range 3 (Hot) - T>=40
 
 message BrainBinnedQuantity {
   oneof binned_quantity {
-    uint32 bin_index = 1;
+    uint64 bin_index = 1;
     string bin_item = 2;
   }
 }
