@@ -481,6 +481,11 @@ other  min_range < value <= max_range
   hot (40 to Max) : value >= 40 && value <= Integer.MAX_VALUE
 
  */
+message BrainBinnedQuantityConfig {
+  string quantity = 1;
+  string collection = 2;
+
+}
 message BrainBinnedQuantitySchema {
   BrainNumericQuantityType quantity_type = 1; // used to get type of range (double, int, float, long)
   map<string, BrainRangeQuantity> range = 2;
