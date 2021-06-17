@@ -1,0 +1,204 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+enum BrainNumberType {
+    BRAIN_TYPE_NUMBER_INT	 = 0;// integer
+    BRAIN_TYPE_NUMBER_LNG	 = 1;// long
+    BRAIN_TYPE_NUMBER_FLT	=  2;// float
+    BRAIN_TYPE_NUMBER_DBL	= 3;// double
+  // TODO: Complex, Rational, Surds, etc. later as needed
+}
+message BrainNumber {
+  oneof number_is_one_of {
+    int32 int = 1;
+    int64 lng = 2;
+    float flt = 3;
+    double dbl = 4;
+  }
+}
+message BrainNumberRange {
+  BrainNumberType type = 1;
+  BrainNumber minimum = 2;
+  BrainNumber maximum = 3;
+  bool include_minimum = 4; // true[x >= minimum], false[x > minimum]
+  bool include_maximum = 5; // true[x <= maximum], false[x < maximum]
+}
+message BrainNumberBasket {
+  oneof number_basket_is_one_of {
+    BrainIntNumberBasket int = 1;
+    BrainLngNumberBasket lng = 2;
+    BrainFltNumberBasket flt = 3;
+    BrainDblNumberBasket dbl = 4;
+  }
+}
+message BrainIntNumberBasket {
+  repeated uint32 element = 1;
+}
+message BrainLngNumberBasket {
+  repeated uint64 element = 1;
+}
+message BrainFltNumberBasket {
+  repeated float element = 1;
+}
+message BrainDblNumberBasket {
+  repeated double element = 1;
+}
+message BrainNumberBag {
+  oneof number_basket_is_one_of {
+    BrainIntNumberBag int = 1;
+    BrainLngNumberBag lng = 2;
+    // Float and Double are not good keys to count
+    // So, BrainFltNumberBag and BrainDblNubmberBag not defined.
+  }
+}
+message BrainIntNumberBag {
+  // key type number, value type number
+  oneof number_basket_is_one_of {
+    BrainIntIntNumberBag int_int = 1;
+    BrainIntLngNumberBag int_lng = 2;
+    BrainIntFltNumberBag int_flt = 3;
+    BrainIntDblNumberBag int_dbl = 4;
+  }
+}
+message BrainIntIntNumberBag {
+  map<uint32, uint32> element = 1;
+}
+message BrainIntLngNumberBag {
+  map<uint32, uint64> element = 1;
+}
+message BrainIntFltNumberBag {
+  map<uint32, float> element = 1;
+}
+message BrainIntDblNumberBag {
+  map<uint32, double> element = 1;
+}
+message BrainLngNumberBag {
+  // key type number, value type number
+  oneof number_lng_bag_is_one_of {
+    BrainLngIntNumberBag lng_int = 1;
+    BrainLngLngNumberBag lng_lng = 2;
+    BrainLngFltNumberBag lng_flt = 3;
+    BrainLngDblNumberBag lng_dbl = 4;
+  }
+}
+message BrainLngIntNumberBag {
+  map<uint64, uint32> element = 1;
+}
+message BrainLngLngNumberBag {
+  map<uint64, uint64> element = 1;
+}
+message BrainLngFltNumberBag {
+  map<uint64, float> element = 1;
+}
+message BrainLngDblNumberBag {
+  map<uint64, double> element = 1;
+}
+message BrainNumberSeries {
+  uint32 length = 1;	// if present, the Series has to be this size.
+  oneof number_Series_is_one_of {
+    BrainIntNumberSeries int = 2;
+    BrainLngNumberSeries lng = 3;
+    BrainFltNumberSeries flt = 4;
+    BrainDblNumberSeries dbl = 5;
+  }
+}
+message BrainIntNumberSeries {
+  repeated uint32 element = 1;
+}
+message BrainLngNumberSeries {
+  repeated uint64 element = 1;
+}
+message BrainFltNumberSeries {
+  repeated float element = 1;
+}
+message BrainDblNumberSeries {
+  repeated double element = 1;
+}
+message BrainNumberSparseSeries {
+  uint32 max_index = 1;
+  oneof number_sparse_series_is_one_of {
+    BrainIntNumberSparseSeries int = 2;
+    BrainLngNumberSparseSeries lng = 3;
+    BrainFltNumberSparseSeries flt = 4;
+    BrainDblNumberSparseSeries dbl = 5;
+  }
+}
+message BrainIntNumberSparseSeries {
+  map<uint32, int32> element = 1;
+}
+message BrainLngNumberSparseSeries {
+  map<uint32, int64> element = 1;
+}
+message BrainFltNumberSparseSeries {
+  map<uint32, float> element = 1;
+}
+message BrainDblNumberSparseSeries {
+  map<uint32, double> element = 1;
+}
+message BrainNumberTable {
+  uint32 num_rows = 1;
+  uint32 num_cols = 2;
+  oneof number_table_is_one_of {
+    BrainIntNumberTable int = 3;
+    BrainLngNumberTable lng = 4;
+    BrainFltNumberTable flt = 5;
+    BrainDblNumberTable dbl = 6;
+  }
+}
+// only one of rows or columns are needed. Other can be deduced.
+message BrainIntNumberTable {
+  repeated BrainIntNumberSeries rows = 1;
+  repeated BrainIntNumberSeries cols = 2;
+}
+message BrainLngNumberTable {
+  repeated BrainLngNumberSeries rows = 1;
+  repeated BrainLngNumberSeries cols = 2;
+}
+message BrainFltNumberTable {
+  repeated BrainFltNumberSeries rows = 1;
+  repeated BrainFltNumberSeries cols = 2;
+}
+message BrainDblNumberTable {
+  repeated BrainDblNumberSeries rows = 1;
+  repeated BrainDblNumberSeries cols = 2;
+}
+// only one of rows or columns are needed. Other can be deduced.
+/*
+get(i,j) {
+   If (!rows(i).hasElement(j)) return 0
+   else return rows(i).element(j)
+}
+
+ */
+message BrainNumberSparseTable {
+  uint32 num_rows = 1;
+  uint32 num_cols = 2;
+  oneof number_sparse_Series_is_one_of {
+    BrainIntNumberSparseTable int = 3;
+    BrainLngNumberSparseTable lng = 4;
+    BrainFltNumberSparseTable flt = 5;
+    BrainDblNumberSparseTable dbl = 6;
+  }
+}
+message BrainIntNumberSparseTable {
+  repeated BrainIntNumberSparseSeries rows = 1;
+  repeated BrainIntNumberSparseSeries cols = 2;
+}
+message BrainLngNumberSparseTable {
+  repeated BrainLngNumberSparseSeries rows = 1;
+  repeated BrainLngNumberSparseSeries cols = 2;
+}
+message BrainFltNumberSparseTable {
+  repeated BrainFltNumberSparseSeries rows = 1;
+  repeated BrainFltNumberSparseSeries cols = 2;
+}
+message BrainDblNumberSparseTable {
+  repeated BrainDblNumberSparseSeries rows = 1;
+  repeated BrainDblNumberSparseSeries cols = 2;
+}
+
+
+

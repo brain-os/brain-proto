@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "type_number.proto";
+
+enum BrainAtomicQuantityType {
+    BRAIN_QUANTITY_ATOMIC_NUMERIC = 0;
+    BRAIN_QUANTITY_ATOMIC_SYMBOLIC = 1;
+    BRAIN_QUANTITY_ATOMIC_ORDINAL = 2;
+    BRAIN_QUANTITY_ATOMIC_BINNED = 3;
+}
+message BrainAtomicQuantitySchema {
+  BrainAtomicQuantityType type = 1;
+  oneof atomic_quantity_schema_is_one_of {
+    BrainNumericAtomicQuantitySchema numeric = 2;
+//    BrainSymbolicQuantitySchema symbolic = 3;
+//    BrainOrdinalQuantitySchema ordinal = 4;
+//    BrainBinnedQuantitySchema binned = 5;
+  }
+}
+message BrainAtomicQuantity {
+  oneof atomic_quantity_is_one_of {
+    BrainNumericAtomicQuantity numeric = 1;
+//    BrainSymbolicQuantity symbolic = 2;
+//    BrainOrdinalQuantity ordinal = 3;
+//    BrainBinnedQuantity binned = 4;
+  }
+}
+message BrainNumericAtomicQuantity {
+  BrainNumber value = 1;
+}
+message BrainNumericAtomicQuantitySchema {
+  BrainNumberType type = 1;
+  BrainNumberRange range = 2;
+}

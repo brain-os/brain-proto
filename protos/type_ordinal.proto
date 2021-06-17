@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+enum BrainOrdinalType {
+    BRAIN_TYPE_ORDINAL_KEY = 0;
+    BRAIN_TYPE_ORDINAL_I32 = 1;
+    BRAIN_TYPE_ORDINAL_I64 = 2;
+    BRAIN_TYPE_ORDINAL_IDX = 3;// 1, 2, ...
+}
+message BrainOrdinal {
+  int32 order = 1;
+  oneof ordinal_is_one_of {
+    string key = 2;
+    uint32 i32 = 3;
+    uint64 i64 = 4;
+    uint32 idx = 5;
+  }
+}
+// e.g. (l, xl, xxl) is a range within the overall range of sizes.
+message BrainOrdinalRange {
+  BrainOrdinalType type = 1;
+  BrainOrdinal minimum = 2;
+  BrainOrdinal maximum = 3;
+  bool include_minimum = 4; // true[x >= minimum], false[x > minimum]
+  bool include_maximum = 5; // true[x <= maximum], false[x < maximum]
+}
+message BrainOrdinalSequence {
+  oneof ordinal_sequence_is_one_of {
+    BrainKeyOrdinalSequence key = 1;
+    BrainI32OrdinalSequence i32 = 2;
+    BrainI64OrdinalSequence i64 = 3;
+    BrainI64OrdinalSequence idx = 4;
+  }
+}
+message BrainKeyOrdinalSequence {
+  repeated string element = 1;
+}
+message BrainI32OrdinalSequence {
+  repeated uint32 element = 1;
+}
+message BrainI64OrdinalSequence {
+  repeated uint64 element = 1;
+}
