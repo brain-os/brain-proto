@@ -3,14 +3,14 @@ syntax = "proto3";
 package com.jio.fabric;
 
 option java_multiple_files = true;
-
-import "collection.proto";
-import "quant.proto";
-import "entity.proto";
-import "event.proto";
-import "process.proto";
-import "id.proto";
-import "common.proto";
+//
+//import "collection.proto";
+//import "quant.proto";
+//import "entity.proto";
+//import "event.proto";
+//import "process.proto";
+//import "id.proto";
+//import "common.proto";
 
 //message BrainDictionarySchema {
 //  map<string, BrainCollectionSchema> collection = 1;

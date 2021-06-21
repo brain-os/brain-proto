@@ -3,10 +3,10 @@ syntax = "proto3";
 package com.jio.brain;
 
 option java_multiple_files = true;
-
-import "common.proto";
-import "id.proto";
-import "quant.proto";
+//
+//import "common.proto";
+//import "id.proto";
+//import "quant.proto";
 
 //message BrainMetaMap {
 //  map<string, uint32> hid2mid = 1;
