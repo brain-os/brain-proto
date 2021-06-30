@@ -1,250 +1,149 @@
 syntax = "proto3";
-
-package com.jio.fabric;
-
-option java_multiple_files = true;
-
-enum BrainSymbolType {
-    BRAIN_TYPE_SYMBOL_KEY = 0;
-    BRAIN_TYPE_SYMBOL_I32 = 1;
-    BRAIN_TYPE_SYMBOL_I64 = 2;
-    BRAIN_TYPE_SYMBOL_IDX	 = 3;// 1, 2, ...
-}
-message BrainSymbol {
-  oneof symbol_is_one_of {
-    string key = 1;
-    uint32 i32 = 2;
-    uint64 i64 = 3;
-    uint32 idx = 4;
-  }
-}
-message BrainSymbolBasket {
-  oneof symbol_basket_is_one_of {
-    BrainKeySymbolBasket key = 1;
-    BrainI32SymbolBasket i32 = 2;
-    BrainI64SymbolBasket i64 = 3;
-    BrainIdxSymbolBasket idx = 4;
-  }
-}
-message BrainKeySymbolBasket {
-  map<string, bool> element = 1;
-}
-message BrainI32SymbolBasket {
-  map<uint32, bool> element = 1;
-}
-message BrainI64SymbolBasket {
-  map<uint64, bool> element = 1;
-}
-message BrainIdxSymbolBasket {
-  map<uint32, bool> element = 1;
-}
-message BrainSymbolBag {
-  oneof symbol_bag_is_one_of {
-    BrainSymbolBagBySymbolType symbol = 1;	// key-first
-    BrainSymbolBagByWeightType weight = 2;	// value-first
-  }
-}
-message BrainSymbolBagBySymbolType {
-  oneof symbol_bag_is_one_of {
-    BrainKeySymbolBag key = 1;
-    BrainI32SymbolBag i32 = 2;
-    BrainI64SymbolBag i64 = 3;
-    BrainIdxSymbolBag idx = 4;
-  }
-}
-message BrainSymbolBagByWeightType {
-  oneof symbol_bag_is_one_of {
-    BrainIntSymbolBag int = 1;
-    BrainLngSymbolBag lng = 2;
-    BrainFltSymbolBag flt = 3;
-    BrainDblSymbolBag dbl = 4;
-  }
-}
-message BrainKeySymbolBag {
-  oneof symbol_key_bag_is_one_of {
-    BrainKeyIntSymbolBag int = 1;
-    BrainKeyLngSymbolBag lng = 2;
-    BrainKeyFltSymbolBag flt = 3;
-    BrainKeyDblSymbolBag dbl = 4;
-  }
-}
-message BrainI32SymbolBag {
-  oneof symbol_i32_bag_is_one_of {
-    BrainI32IntSymbolBag int = 1;
-    BrainI32LngSymbolBag lng = 2;
-    BrainI32FltSymbolBag flt = 3;
-    BrainI32DblSymbolBag dbl = 4;
-  }
-}
-message BrainI64SymbolBag {
-  oneof symbol_i32_bag_is_one_of {
-    BrainI64IntSymbolBag int = 1;
-    BrainI64LngSymbolBag lng = 2;
-    BrainI64FltSymbolBag flt = 3;
-    BrainI64DblSymbolBag dbl = 4;
-  }
-}
-message BrainIdxSymbolBag {
-  oneof symbol_idx_bag_is_one_of {
-    BrainIdxIntSymbolBag int = 1;
-    BrainIdxLngSymbolBag lng = 2;
-    BrainIdxFltSymbolBag flt = 3;
-    BrainIdxDblSymbolBag dbl = 4;
-  }
-}
-message BrainIntSymbolBag {
-  oneof symbol_int_bag_is_one_of {
-    BrainKeyIntSymbolBag key = 1;
-    BrainI32IntSymbolBag i32 = 2;
-    BrainI64IntSymbolBag i64 = 3;
-    BrainIdxIntSymbolBag idx = 4;
-  }
-}
-message BrainLngSymbolBag {
-  oneof symbol_lng_bag_is_one_of {
-    BrainKeyLngSymbolBag key = 1;
-    BrainI32LngSymbolBag i32 = 2;
-    BrainI64LngSymbolBag i64 = 3;
-    BrainIdxLngSymbolBag idx = 4;
-  }
-}
-message BrainFltSymbolBag {
-  oneof symbol_flt_bag_is_one_of {
-    BrainKeyFltSymbolBag key = 1;
-    BrainI32FltSymbolBag i32 = 2;
-    BrainI64FltSymbolBag i64 = 3;
-    BrainIdxFltSymbolBag idx = 4;
-  }
-}
-message BrainDblSymbolBag {
-  oneof symbol_dbl_bag_is_one_of {
-    BrainKeyDblSymbolBag key = 1;
-    BrainI32DblSymbolBag i32 = 2;
-    BrainI64DblSymbolBag i64 = 3;
-    BrainIdxFltSymbolBag idx = 4;
-  }
-}
-message BrainKeyIntSymbolBag {
-  map<string, uint32> element = 1;
-}
-message BrainKeyLngSymbolBag {
-  map<string, uint64> element = 1;
-}
-message BrainKeyFltSymbolBag {
-  map<string, float> element = 1;
-}
-message BrainKeyDblSymbolBag {
-  map<string, double> element = 1;
-}
-message BrainI32IntSymbolBag {
-  map<uint32, int32> element = 1;
-}
-message BrainI32LngSymbolBag {
-  map<uint32, int64> element = 1;
-}
-message BrainI32FltSymbolBag {
-  map<uint32, float> element = 1;
-}
-message BrainI32DblSymbolBag {
-  map<uint32, double> element = 1;
-}
-message BrainI64IntSymbolBag {
-  map<uint64, int32> element = 1;
-}
-message BrainI64LngSymbolBag {
-  map<uint64, int64> element = 1;
-}
-message BrainI64FltSymbolBag {
-  map<uint64, float> element = 1;
-}
-message BrainI64DblSymbolBag {
-  map<uint64, double> element = 1;
-}
-message BrainIdxIntSymbolBag {
-  map<uint32, int32> element = 1;
-}
-message BrainIdxLngSymbolBag {
-  map<uint32, int64> element = 1;
-}
-message BrainIdxFltSymbolBag {
-  map<uint32, float> element = 1;
-}
-message BrainIdxDblSymbolBag {
-  map<uint32, double> element = 1;
-}
-message BrainSymbolSequence {
-  uint32 length = 1;	// if present, sequence has to be this size.
-  oneof symbol_sequence_is_one_of {
-    BrainKeySymbolSequence key = 2;
-    BrainI32SymbolSequence i32 = 3;
-    BrainI64SymbolSequence i64 = 4;
-  }
-}
-message BrainKeySymbolSequence {
-  repeated string element = 1;
-}
-message BrainI32SymbolSequence {
-  repeated uint32 element = 1;
-}
-message BrainI64SymbolSequence {
-  repeated uint64 element = 1;
-}
-message BrainSymbolSparseSequence {
-  uint32 length = 1;	// if present, the sequence has to be this size.
-  oneof symbol_sparse_sequence_is_one_of {
-    BrainKeySymbolSparseSequence key = 2;
-    BrainI32SymbolSparseSequence i32 = 3;
-    BrainI64SymbolSparseSequence i64 = 4;
-  }
-}
-message BrainKeySymbolSparseSequence {
-  map<uint32, string> element = 1;	// key = index, value = value
-}
-message BrainI32SymbolSparseSequence {
-  map<uint32, uint32> element = 1;	// key = index, value = value
-}
-message BrainI64SymbolSparseSequence {
-  map<uint32, uint64> element = 1;	// key = index, value = value
-}
-message BrainSymbolTable {
-  uint32 num_rows = 1;
-  uint32 num_cols = 2;
-  oneof symbol_table_is_one_of {
-    BrainKeySymbolTable key = 3;
-    BrainI32SymbolTable i32 = 4;
-    BrainI64SymbolTable i64 = 5;
-  }
-}
-message BrainKeySymbolTable {
-  repeated BrainKeySymbolSequence rows = 1;
-  repeated BrainKeySymbolSequence cols = 2;
-}
-message BrainI32SymbolTable {
-  repeated BrainI32SymbolSequence rows = 1;
-  repeated BrainI32SymbolSequence cols = 2;
-}
-message BrainI64SymbolTable {
-  repeated BrainI64SymbolSequence rows = 1;
-  repeated BrainI64SymbolSequence cols = 2;
-}
-message BrainSymbolSparseTable {
-  uint32 num_rows = 1;
-  uint32 num_cols = 2;
-  oneof symbol_sparse_table_is_one_of {
-    BrainKeySymbolSparseTable key = 3;
-    BrainI32SymbolSparseTable i32 = 4;
-    BrainI64SymbolSparseTable i64 = 5;
-  }
-}
-message BrainKeySymbolSparseTable {
-  repeated BrainKeySymbolSparseSequence rows = 1;
-  repeated BrainKeySymbolSparseSequence cols = 2;
-}
-message BrainI32SymbolSparseTable {
-  repeated BrainI32SymbolSparseSequence rows = 1;
-  repeated BrainI32SymbolSparseSequence cols = 2;
-}
-message BrainI64SymbolSparseTable {
-  repeated BrainI64SymbolSparseSequence rows = 1;
-  repeated BrainI64SymbolSparseSequence cols = 2;
-}
+//
+//package com.jio.fabric;
+//
+//enum BrainSymbolTypeEnum {
+//    BRAIN_SYMBOL_TYPE_STR = 0;
+//    BRAIN_SYMBOL_TYPE_U32 = 1;
+//    BRAIN_SYMBOL_TYPE_U64 = 2;
+//    BRAIN_SYMBOL_TYPE_IDX	 = 3;// 1, 2, ...
+//}
+//
+//message BrainSymbolType {
+//  oneof symbol_is_one_of {
+//    string str = 1;
+//    uint32 u32 = 2;
+//    uint64 u64 = 3;
+//    uint32 idx = 4;
+//  }
+//}
+//enum BrainSymbolBasketTypeEnum {
+//  BRAIN_SYMBOL_BASKET_TYPE_STR = 0;	// human readable
+//  BRAIN_SYMBOL_BASKET_TYPE_U32 = 1;	// of meta-tokens (uint32)
+//  BRAIN_SYMBOL_BASKET_TYPE_U64 = 2;	// of item-tokens (uint64)
+//  BRAIN_SYMBOL_BASKET_TYPE_IDX = 3;	// indices from 1 to n
+//}
+//
+//message BrainSymbolBasketType {
+//  oneof symbol_basket_is_one_of {
+//    BrainSetStr str = 1;
+//    BrainSetU32 u32 = 2;
+//    BrainSetU64 u64 = 3;
+//    BrainSetIdx idx = 4;
+//  }
+//}
+//
+//enum BrainSymbolBagTypeEnum {
+//  BRAIN_SYMBOL_BAG_TYPE_STR_INT = 0;
+//  BRAIN_SYMBOL_BAG_TYPE_STR_LNG = 1;
+//  BRAIN_SYMBOL_BAG_TYPE_STR_FLT = 2;
+//  BRAIN_SYMBOL_BAG_TYPE_STR_DBL = 3;
+//
+//  BRAIN_SYMBOL_BAG_TYPE_U32_INT = 4;
+//  BRAIN_SYMBOL_BAG_TYPE_U32_LNG = 5;
+//  BRAIN_SYMBOL_BAG_TYPE_U32_FLT = 6;
+//  BRAIN_SYMBOL_BAG_TYPE_U32_DBL = 7;
+//
+//  BRAIN_SYMBOL_BAG_TYPE_U64_INT = 8;
+//  BRAIN_SYMBOL_BAG_TYPE_U64_LNG = 9;
+//  BRAIN_SYMBOL_BAG_TYPE_U64_FLT = 10;
+//  BRAIN_SYMBOL_BAG_TYPE_U64_DBL = 11;
+//
+//  BRAIN_SYMBOL_BAG_TYPE_IDX_INT = 12;
+//  BRAIN_SYMBOL_BAG_TYPE_IDX_LNG = 13;
+//  BRAIN_SYMBOL_BAG_TYPE_IDX_FLT = 14;
+//  BRAIN_SYMBOL_BAG_TYPE_IDX_DBL = 15;
+//}
+//
+//message BrainSymbolBagType {
+//  BrainSymbolBagTypeEnum	type 		= 1;
+//  oneof symbol_bag_is_one_of {
+//    BrainMapStrInt str_int = 1;
+//    BrainMapStrLng str_lng = 2;
+//    BrainMapStrFlt str_flt = 3;
+//    BrainMapStrDbl str_dbl = 4;
+//
+//    BrainMapU32Int u32_int = 5;
+//    BrainMapU32Lng u32_lng = 6;
+//    BrainMapU32Flt u32_flt = 7;
+//    BrainMapU32Dbl u32_dbl = 8;
+//
+//    BrainMapU64Int u64_int = 9;
+//    BrainMapU64Lng u64_lng = 10;
+//    BrainMapU64Flt u64_flt = 11;
+//    BrainMapU64Dbl u64_dbl = 12;
+//
+//    BrainMapIdxInt idx_int = 13;
+//    BrainMapIdxLng idx_lng = 14;
+//    BrainMapIdxFlt idx_flt = 15;
+//    BrainMapIdxDbl idx_dbl = 16;
+//  }
+//}
+//
+//message BrainSymbolSparseSequenceType {
+//  uint32 length = 1;	// if present, the sequence has to be this size.
+//  oneof symbol_sparse_sequence_is_one_of {
+//    BrainSymbolSparseSequenceTypeKey  key = 2;
+//    BrainSymbolSparseSequenceTypeI32  i32 = 3;
+//    BrainSymbolSparseSequenceTypeI64  i64 = 4;
+//    BrainSymbolSparseSequenceTypeIdx  idx = 5;
+//  }
+//}
+//message BrainSymbolSparseSequenceTypeKey {
+//  map<uint32, string> element = 1;	// key = index, value = value
+//}
+//message BrainSymbolSparseSequenceTypeI32 {
+//  map<uint32, uint32> element = 1;	// key = index, value = value
+//}
+//message BrainSymbolSparseSequenceTypeI64 {
+//  map<uint32, uint64> element = 1;	// key = index, value = value
+//}
+//message BrainSymbolSparseSequenceTypeIdx {
+//  map<uint32, uint32> element = 1;	// key = index, value = value
+//}
+//
+//message BrainSymbolTableType {
+//  uint32 num_rows = 1;
+//  uint32 num_cols = 2;
+//  oneof symbol_table_is_one_of {
+//    BrainSymbolTableTypeKey key = 3;
+//    BrainSymbolTableTypeI32 i32 = 4;
+//    BrainSymbolTableTypeI64 i64 = 5;
+//    BrainSymbolTableTypeIdx idx = 6;
+//  }
+//}
+//message BrainSymbolTableTypeKey {
+//  repeated BrainSymbolSequenceTypeKey rows = 1;
+//  repeated BrainSymbolSequenceTypeKey cols = 2;
+//}
+//message BrainSymbolTableTypeI32 {
+//  repeated BrainSymbolSequenceTypeI32 rows = 1;
+//  repeated BrainSymbolSequenceTypeI32  cols = 2;
+//}
+//message BrainSymbolTableTypeI64 {
+//  repeated BrainSymbolSequenceTypeI64 rows = 1;
+//  repeated BrainSymbolSequenceTypeI64 cols = 2;
+//}
+//message BrainSymbolSparseTableType {
+//  uint32 num_rows = 1;
+//  uint32 num_cols = 2;
+//  oneof symbol_sparse_table_is_one_of {
+//    BrainSymbolSparseTableTypeKey key = 3;
+//    BrainSymbolSparseTableTypeI32 i32 = 4;
+//    BrainSymbolSparseTableTypeI64 i64 = 5;
+//  }
+//}
+//message  BrainSymbolSparseTableTypeKey {
+//  repeated BrainSymbolSparseSequenceTypeKey rows = 1;
+//  repeated BrainSymbolSparseSequenceTypeKey cols = 2;
+//}
+//
+//message BrainSymbolSparseTableTypeI32 {
+//  repeated BrainSymbolSparseSequenceTypeI32 rows = 1;
+//  repeated BrainSymbolSparseSequenceTypeI32 cols = 2;
+//}
+//message BrainSymbolSparseTableTypeI64 {
+//  repeated BrainSymbolSparseSequenceTypeI64 rows = 1;
+//  repeated BrainSymbolSparseSequenceTypeI64 cols = 2;
+//}
+//

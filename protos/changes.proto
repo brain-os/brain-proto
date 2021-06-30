@@ -1,8 +1,8 @@
 syntax = "proto3";
-
-package com.jio.brain;
-
-option java_multiple_files = true;
+//
+//package com.jio.brain;
+//
+//option java_multiple_files = true;
 //
 //import "common.proto";
 //import "id.proto";

@@ -47,6 +47,6 @@ BrainQuantity should have long
 Lookup in IndexService and return Key
 
 ... same as above
-String getI32(Schema, BrainQuantity)
-String getI64(Schema, BrainQuantity)
-String getIndex(Schema, BrainQuantity)
+int getI32(Schema, BrainQuantity)
+long getI64(Schema, BrainQuantity)
+int getIndex(Schema, BrainQuantity)

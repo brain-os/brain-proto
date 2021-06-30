@@ -6,29 +6,28 @@ package com.jio.fabric;
 option java_multiple_files = true;
 
 import "type_number.proto";
-import "type_symbol.proto";
-import "type_ordinal.proto";
+
 
 enum BrainAtomicQuantityType {
-    BRAIN_QUANTITY_ATOMIC_NUMERIC = 0;
-    BRAIN_QUANTITY_ATOMIC_SYMBOLIC = 1;
-    BRAIN_QUANTITY_ATOMIC_ORDINAL = 2;
-    BRAIN_QUANTITY_ATOMIC_BINNED = 3;
+    BRAIN__NUMERIC_ATOMIC_QUANTITY_TYPE = 0;
+    BRAIN_SYMBOLIC_ATOMIC_QUANTITY_TYPE= 1;
+    BRAIN_ORDINAL_ATOMIC_QUANTITY_TYPE = 2;
+    BRAIN_BINNED_ATOMIC_QUANTITY_TYPE = 3;
 }
 message BrainAtomicQuantitySchema {
   BrainAtomicQuantityType type = 1;
   oneof atomic_quantity_schema_is_one_of {
     BrainNumericAtomicQuantitySchema numeric = 2;
-    BrainSymbolicAtomicQuantitySchema symbolic = 3;
-    BrainOrdinalAtomicQuantitySchema ordinal = 4;
+ //   BrainSymbolicAtomicQuantitySchema symbolic = 3;
+ //   BrainOrdinalAtomicQuantitySchema ordinal = 4;
 //    BrainBinnedQuantitySchema binned = 5;
   }
 }
 message BrainAtomicQuantity {
   oneof atomic_quantity_is_one_of {
     BrainNumericAtomicQuantity numeric = 1;
-    BrainSymbolicAtomicQuantity symbolic = 2;
-    BrainOrdinalAtomicQuantity ordinal = 3;
+ //   BrainSymbolicAtomicQuantity symbolic = 2;
+  //  BrainOrdinalAtomicQuantity ordinal = 3;
 //    BrainBinnedQuantity binned = 4;
   }
 }
@@ -36,24 +35,24 @@ message BrainNumericAtomicQuantity {
   BrainNumber value = 1;
 }
 message BrainNumericAtomicQuantitySchema {
-  BrainNumberType type = 1;
+  BrainNumberTypeEnum type = 1;
   BrainNumberRange range = 2;
 }
-message BrainSymbolicAtomicQuantity {
-  BrainSymbol value = 1;
-}
-message BrainSymbolicAtomicQuantitySchema {
-  BrainSymbolType type = 1;
-  string collection_name = 2;
-  BrainSymbolBasket basket = 3;
-}
-message BrainOrdinalAtomicQuantity {
-  uint32 order = 1;
-  BrainOrdinal value = 2;		// optional
-}
-message BrainOrdinalAtomicQuantitySchema {
-  BrainOrdinalType type = 1;
-  string collection_name =2;
-  BrainOrdinalSequence basket = 3;
-}
+//message BrainSymbolicAtomicQuantity {
+//  BrainSymbol value = 1;
+//}
+//message BrainSymbolicAtomicQuantitySchema {
+//  BrainSymbolType type = 1;
+//  string collection_name = 2;
+//  BrainSymbolBasket basket = 3;
+//}
+//message BrainOrdinalAtomicQuantity {
+//  uint32 order = 1;
+//  BrainOrdinal value = 2;		// optional
+//}
+//message BrainOrdinalAtomicQuantitySchema {
+//  BrainOrdinalType type = 1;
+//  string collection_name =2;
+//  BrainOrdinalSequence basket = 3;
+//}
 

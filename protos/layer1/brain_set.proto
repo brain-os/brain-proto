@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+enum BrainSetTypeEnum {
+  BRAIN_SET_TYPE_STR = 0;	// string
+  BRAIN_SET_TYPE_U32 = 1;	// string
+  BRAIN_SET_TYPE_U64 = 2;	// string
+  BRAIN_SET_TYPE_NUM = 3;   // numbers
+}
+
+message BrainSetType {
+  BrainSetTypeEnum type = 1;
+  oneof set_is_one_of {
+    BrainSetTypeStr str = 2;
+    BrainSetTypeIdx idx = 3;
+    BrainSetTypeS32 s32 = 4;
+    BrainSetTypeU32 u32 = 5;
+    BrainSetTypeF32 f32 = 6;
+    BrainSetTypeS64 s64 = 7;
+    BrainSetTypeU64 u64 = 8;
+    BrainSetTypeF64 f64 = 9;
+  }
+}
+
+message BrainSetTypeStr {
+  map<string, bool> element = 1;
+}
+
+message BrainSetTypeIdx {
+  map<uint32, bool> element = 1;
+}
+
+message BrainSetTypeS32 {
+  map<sint32, bool> element = 1;
+}
+message BrainSetTypeU32{
+  map<uint32, bool> element = 1;
+}
+
+message BrainSetTypeF32 {
+  // key = floor(x),
+  // value = {round(1e6 * (x - floor(x))}
+  map<uint32, BrainSetTypeU32> element = 1;
+}
+
+message BrainSetTypeS64 {
+  map<sint64, bool> element = 1;
+}
+
+message BrainSetTypeU64 {
+  map<uint64, bool> element = 1;
+}
+
+message BrainSetTypeF64 {
+  // key = floor(x),
+  // value = {round(1e15 * (x - floor(x))}
+  map<int64, BrainSetTypeU64> element = 1;
+}
