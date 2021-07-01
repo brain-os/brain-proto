@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+enum BrainVectorType {
+  BRAIN_VECTOR_TYPE_STR = 0;	// string
+  BRAIN_VECTOR_TYPE_IDX = 1;	// index (uint32 1, 2, 3, …)
+  BRAIN_VECTOR_TYPE_S32 = 2;	// signed integer
+  BRAIN_VECTOR_TYPE_U32 = 3;	// unsigned integer
+  BRAIN_VECTOR_TYPE_F32 = 4;	// float with 32 bit precision
+  BRAIN_VECTOR_TYPE_S64 = 5;	// signed long
+  BRAIN_VECTOR_TYPE_U64 = 6;	// unsigned long
+  BRAIN_VECTOR_TYPE_F64 = 7;	// double with 64 bit precision
+}
+
+message BrainVector {
+  BrainVectorType type = 1;
+  oneof vector_is_one_of {
+    BrainVectorTypeStr str = 2;
+    BrainVectorTypeIdx idx = 3;
+    BrainVectorTypeS32 s32 = 4;
+    BrainVectorTypeU32 u32 = 5;
+    BrainVectorTypeF32 f32 = 6;
+    BrainVectorTypeS64 s64 = 7;
+    BrainVectorTypeU64 u64 = 8;
+    BrainVectorTypeF64 f64 = 9;
+  }
+}
+message BrainVectorTypeStr{
+  repeated string element = 1;
+}
+message BrainVectorTypeIdx {
+  repeated uint32 element = 1;
+}
+message BrainVectorTypeS32 {
+  repeated sint32 element = 1;
+}
+message BrainVectorTypeU32 {
+  repeated uint32 element = 1;
+}
+
+message BrainVectorTypeF32 {
+  repeated float element = 1;
+}
+
+message BrainVectorTypeS64 {
+  repeated double element = 1;
+}
+message BrainVectorTypeU64 {
+  repeated uint64 element = 1;
+}
+
+message BrainVectorTypeF64 {
+  repeated double element = 1;
+}
+
+message BrainSparseVector {
+  BrainVectorType type = 1;
+  oneof vector_is_one_of {
+    BrainSparseVectorTypeStr str = 2;
+    BrainSparseVectorTypeIdx idx = 3;
+    BrainSparseVectorTypeS32 s32 = 4;
+    BrainSparseVectorTypeU32 u32 = 5;
+    BrainSparseVectorTypeF32 f32 = 6;
+    BrainSparseVectorTypeS64 s64 = 7;
+    BrainSparseVectorTypeU64 u64 = 8;
+    BrainSparseVectorTypeF64 f64 = 9;
+  }
+}
+
+message BrainSparseVectorTypeStr {
+  map<uint32, string> element = 1;
+}
+message BrainSparseVectorTypeIdx {
+  map<uint32, uint32> element = 1;
+}
+message BrainSparseVectorTypeS32 {
+  map<uint32, sint32> element = 1;
+}
+message BrainSparseVectorTypeU32 {
+  map<uint32, uint32> element = 1;
+}
+message BrainSparseVectorTypeF32 {
+  map<uint32, float> element = 1;
+}
+message BrainSparseVectorTypeS64 {
+  map<uint32, double> element = 1;
+}
+message BrainSparseVectorTypeU64 {
+  map<uint32, uint64> element = 1;
+}
+message BrainSparseVectorTypeF64 {
+  map<uint32, double> element = 1;
+}

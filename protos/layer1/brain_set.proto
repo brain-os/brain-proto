@@ -4,15 +4,15 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-enum BrainSetTypeEnum {
+enum BrainSetType{
   BRAIN_SET_TYPE_STR = 0;	// string
   BRAIN_SET_TYPE_U32 = 1;	// string
   BRAIN_SET_TYPE_U64 = 2;	// string
   BRAIN_SET_TYPE_NUM = 3;   // numbers
 }
 
-message BrainSetType {
-  BrainSetTypeEnum type = 1;
+message BrainSet {
+  BrainSetType type = 1;
   oneof set_is_one_of {
     BrainSetTypeStr str = 2;
     BrainSetTypeIdx idx = 3;

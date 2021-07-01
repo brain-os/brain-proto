@@ -4,7 +4,7 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "id.proto";
+import "layer1/brain_id.proto";
 
 //used in BrainQuantitySchema - to represent units
 message BrainItemMap {
@@ -12,13 +12,13 @@ message BrainItemMap {
   map<uint64, string> index2item = 2;
 }
 // used in BrainQuantity for symbolic and ordinal
-message BrainToken {
-  oneof brain_token {
-    uint64 index = 1;	// from a dictionary
-    string item = 2;	// from a dictionary
-    string entity	= 3; // ID of an entity in a knowledge graph
-  }
-}
+//message BrainToken {
+//  oneof brain_token {
+//    uint64 index = 1;	// from a dictionary
+//    string item = 2;	// from a dictionary
+//    string entity	= 3; // ID of an entity in a knowledge graph
+//  }
+//}
 
 message BrainItemList {
   string name = 1;

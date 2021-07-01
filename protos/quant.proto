@@ -3,10 +3,10 @@ syntax = "proto3";
 package com.jio.fabric;
 
 option java_multiple_files = true;
-
-import "collection.proto";
-import "common.proto";
-import "id.proto";
+//
+//import "collection.proto";
+//import "common.proto";
+//import "id.proto";
 /*
   Config - UI Friendly way to define/represent object configuration
   Schema - Programming friendly representation of configuration to help read/write actual data into event efficiently

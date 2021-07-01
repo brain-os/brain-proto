@@ -5,7 +5,7 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "type_number.proto";
+import "layer2/brain_number.proto";
 
 
 enum BrainAtomicQuantityType {
@@ -35,7 +35,7 @@ message BrainNumericAtomicQuantity {
   BrainNumber value = 1;
 }
 message BrainNumericAtomicQuantitySchema {
-  BrainNumberTypeEnum type = 1;
+  BrainNumberType type = 1;
   BrainNumberRange range = 2;
 }
 //message BrainSymbolicAtomicQuantity {

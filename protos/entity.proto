@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package com.jio.fabric;
-
-option java_multiple_files = true;
-
-import "common.proto";
-import "quant.proto";
-import "id.proto";
+//package com.jio.fabric;
+//
+//option java_multiple_files = true;
+//
+//import "common.proto";
+//import "quant.proto";
+//import "id.proto";
 //message BrainEntitySchema {
 //  BrainId id = 1;
 //  map<string, BrainAttributeSchema> attribute = 2;
