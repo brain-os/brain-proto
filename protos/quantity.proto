@@ -6,7 +6,7 @@ option java_multiple_files = true;
 
 import "quantity_atomic.proto";
 
-enum BrainQuantityType {
+enum BrainQuantityEnum {
     BRAIN_QUANTITY_ATOMIC = 0;
     BRAIN_QUANTITY_COMPOUND = 1;
     BRAIN_QUANTITY_TEMPORAL = 2;
@@ -56,7 +56,7 @@ enum BrainRangeTemporalQuantityType {
 message BrainQuantitySchema {
   string key = 1;
   uint32 i32 = 2;
-  BrainQuantityType type = 3;
+  BrainQuantityEnum quantity_type = 3;
   oneof quantity_schema_is_one_of {
     BrainAtomicQuantitySchema atomic = 4;
 //    BrainCompoundQuantitySchema compounded = 5;

@@ -5,121 +5,123 @@ option java_multiple_files = true;
 
 import "layer1/brain_vector.proto";
 
-enum BrainMatrixType {
-  BRAIN_MATRIX_TYPE_STR = 0;	// string
-  BRAIN_MATRIX_TYPE_IDX = 1;	// index (uint32 1, 2, 3, …)
-  BRAIN_MATRIX_TYPE_S32 = 2;	// signed integer
-  BRAIN_MATRIX_TYPE_U32 = 3;	// unsigned integer
-  BRAIN_MATRIX_TYPE_F32 = 4;	// float with 32 bit precision
-  BRAIN_MATRIX_TYPE_S64 = 5;	// signed long
-  BRAIN_MATRIX_TYPE_U64 = 6;	// unsigned long
-  BRAIN_MATRIX_TYPE_F64 = 7;	// double with 64 bit precision
+enum BrainMatrixEnum {
+  BRAIN_MATRIX_STR = 0;	// string
+  BRAIN_MATRIX_IDX = 1;	// index (uint32 1, 2, 3, …)
+  BRAIN_MATRIX_S32 = 2;	// signed integer
+  BRAIN_MATRIX_U32 = 3;	// unsigned integer
+  BRAIN_MATRIX_F32 = 4;	// float with 32 bit precision
+  BRAIN_MATRIX_S64 = 5;	// signed long
+  BRAIN_MATRIX_U64 = 6;	// unsigned long
+  BRAIN_MATRIX_F64 = 7;	// double with 64 bit precision
 }
 
+
 message BrainMatrix {
-  BrainMatrixType type = 1;
+  BrainMatrixEnum matrix_type = 1;
   oneof matrix_is_one_of {
-    BrainMatrixTypeStr str = 2;
-    BrainMatrixTypeIdx idx = 3;
-    BrainMatrixTypeS32 s32 = 4;
-    BrainMatrixTypeU32 u32 = 5;
-    BrainMatrixTypeF32 f32 = 6;
-    BrainMatrixTypeS64 s64 = 7;
-    BrainMatrixTypeU64 u64 = 8;
-    BrainMatrixTypeF64 f64 = 9;
+    BrainMatrixStr str = 2;
+    BrainMatrixIdx idx = 3;
+    BrainMatrixS32 s32 = 4;
+    BrainMatrixU32 u32 = 5;
+    BrainMatrixF32 f32 = 6;
+    BrainMatrixS64 s64 = 7;
+    BrainMatrixU64 u64 = 8;
+    BrainMatrixF64 f64 = 9;
   }
 }
 
-message BrainMatrixTypeStr {
-  repeated BrainVectorTypeStr rows = 1;
-  repeated BrainVectorTypeStr cols = 2;
+message BrainMatrixStr {
+  repeated BrainVectorStr rows = 1;
+  repeated BrainVectorStr cols = 2;
 }
 
-message BrainMatrixTypeIdx {
-  repeated BrainVectorTypeIdx rows = 1;
-  repeated BrainVectorTypeIdx cols = 2;
+message BrainMatrixIdx {
+  repeated BrainVectorIdx rows = 1;
+  repeated BrainVectorIdx cols = 2;
 }
 
-message BrainMatrixTypeS32 {
-  repeated BrainVectorTypeS32 rows = 1;
-  repeated BrainVectorTypeS32 cols = 2;
+message BrainMatrixS32 {
+  repeated BrainVectorS32 rows = 1;
+  repeated BrainVectorS32 cols = 2;
 }
 
-message BrainMatrixTypeU32 {
-  repeated BrainVectorTypeU32 rows = 1;
-  repeated BrainVectorTypeU32 cols = 2;
+message BrainMatrixU32 {
+  repeated BrainVectorU32 rows = 1;
+  repeated BrainVectorU32 cols = 2;
+}
+message BrainMatrixF32 {
+  repeated BrainVectorF32 rows = 1;
+  repeated BrainVectorF32 cols = 2;
 }
 
-message BrainMatrixTypeF32 {
-  repeated BrainVectorTypeF32 rows = 1;
-  repeated BrainVectorTypeF32 cols = 2;
+message BrainMatrixS64 {
+  repeated BrainVectorS64 rows = 1;
+  repeated BrainVectorS64 cols = 2;
 }
 
-message BrainMatrixTypeS64 {
-  repeated BrainVectorTypeS64 rows = 1;
-  repeated BrainVectorTypeS64 cols = 2;
+message BrainMatrixU64 {
+  repeated BrainVectorU64 rows = 1;
+  repeated BrainVectorU64 cols = 2;
 }
 
-message BrainMatrixTypeU64 {
-  repeated BrainVectorTypeU64 rows = 1;
-  repeated BrainVectorTypeU64 cols = 2;
-}
-
-message BrainMatrixTypeF64 {
-  repeated BrainVectorTypeF64 rows = 1;
-  repeated BrainVectorTypeF64 cols = 2;
+message BrainMatrixF64 {
+  repeated BrainVectorF64 rows = 1;
+  repeated BrainVectorF64 cols = 2;
 }
 
 message BrainSparseMatrix {
-  BrainMatrixType type = 1;
-  oneof matrix_is_one_of {
-    BrainSparseMatrixTypeStr str = 2;
-    BrainSparseMatrixTypeIdx idx = 3;
-    BrainSparseMatrixTypeS32 s32 = 4;
-    BrainSparseMatrixTypeU32 u32 = 5;
-    BrainSparseMatrixTypeF32 f32 = 6;
-    BrainSparseMatrixTypeS64 s64 = 7;
-    BrainSparseMatrixTypeU64 u64 = 8;
-    BrainSparseMatrixTypeF64 f64 = 9;
+  BrainMatrixEnum sparse_matrix_type = 1;
+  oneof sparse_matrix_is_one_of {
+    BrainSparseMatrixStr str = 2;
+    BrainSparseMatrixIdx idx = 3;
+    BrainSparseMatrixS32 s32 = 4;
+    BrainSparseMatrixU32 u32 = 5;
+    BrainSparseMatrixF32 f32 = 6;
+    BrainSparseMatrixS64 s64 = 7;
+    BrainSparseMatrixU64 u64 = 8;
+    BrainSparseMatrixF64 f64 = 9;
   }
 }
 
-message BrainSparseMatrixTypeStr {
-  repeated BrainSparseVectorTypeStr rows = 1;
-  repeated BrainSparseVectorTypeStr cols = 2;
+message BrainSparseMatrixStr {
+  repeated BrainSparseVectorStr rows = 1;
+  repeated BrainSparseVectorStr cols = 2;
 }
 
-message BrainSparseMatrixTypeIdx {
-  repeated BrainSparseVectorTypeIdx rows = 1;
-  repeated BrainSparseVectorTypeIdx cols = 2;
-}
-message BrainSparseMatrixTypeS32 {
-  repeated BrainSparseVectorTypeS32 rows = 1;
-  repeated BrainSparseVectorTypeS32 cols = 2;
+message BrainSparseMatrixIdx {
+  repeated BrainSparseVectorIdx rows = 1;
+  repeated BrainSparseVectorIdx cols = 2;
 }
 
-message BrainSparseMatrixTypeU32 {
-  repeated BrainSparseVectorTypeU32 rows = 1;
-  repeated BrainSparseVectorTypeU32 cols = 2;
-}
-message BrainSparseMatrixTypeF32 {
-  repeated BrainSparseVectorTypeF32 rows = 1;
-  repeated BrainSparseVectorTypeF32 cols = 2;
+message BrainSparseMatrixS32 {
+  repeated BrainSparseVectorS32 rows = 1;
+  repeated BrainSparseVectorS32 cols = 2;
 }
 
-message BrainSparseMatrixTypeS64 {
-  repeated BrainSparseVectorTypeS64 rows = 1;
-  repeated BrainSparseVectorTypeS64 cols = 2;
+message BrainSparseMatrixU32 {
+  repeated BrainSparseVectorU32 rows = 1;
+  repeated BrainSparseVectorU32 cols = 2;
 }
 
-message BrainSparseMatrixTypeU64 {
-  repeated BrainSparseVectorTypeU64 rows = 1;
-  repeated BrainSparseVectorTypeU64 cols = 2;
+message BrainSparseMatrixF32 {
+  repeated BrainSparseVectorF32 rows = 1;
+  repeated BrainSparseVectorF32 cols = 2;
 }
 
-message BrainSparseMatrixTypeF64 {
-  repeated BrainSparseVectorTypeF64 rows = 1;
-  repeated BrainSparseVectorTypeF64 cols = 2;
+message BrainSparseMatrixS64 {
+  repeated BrainSparseVectorS64 rows = 1;
+  repeated BrainSparseVectorS64 cols = 2;
+}
+
+message BrainSparseMatrixU64 {
+  repeated BrainSparseVectorU64 rows = 1;
+  repeated BrainSparseVectorU64 cols = 2;
+}
+
+message BrainSparseMatrixF64 {
+  repeated BrainSparseVectorF64 rows = 1;
+  repeated BrainSparseVectorF64 cols = 2;
 }
 
 

@@ -5,96 +5,100 @@ package com.jio.fabric;
 option java_multiple_files = true;
 import "layer1/brain_id.proto";
 import "quantity.proto";
-enum BrainTokenType {
-  BRAIN_TOKEN_TYPE_COLLECTION          = 0;
-  BRAIN_TOKEN_TYPE_QUANTITY            = 1;
-  BRAIN_TOKEN_TYPE_UNIT                = 2;
-  BRAIN_TOKEN_TYPE_CONTEXT             = 3;
-  BRAIN_TOKEN_TYPE_PROPERTY            = 4;
-  BRAIN_TOKEN_TYPE_ENTITY              = 5;
-  BRAIN_TOKEN_TYPE_BIZ                 = 6;
-  BRAIN_TOKEN_TYPE_ATTRIBUTE           = 7;
-  BRAIN_TOKEN_TYPE_ATTRIBUTE_QUALIFIER = 8;
-  BRAIN_TOKEN_TYPE_PREDICATE           = 9;
-  BRAIN_TOKEN_TYPE_PREDICATE_QUALIFIER = 10;
-  BRAIN_TOKEN_TYPE_EVENT               = 11;
-  BRAIN_TOKEN_TYPE_PROCESS             = 12;
+
+enum BrainTokenEnum {
+  BRAIN_TOKEN_COLLECTION          		= 0;
+  BRAIN_TOKEN_QUANTITY           		= 1;
+  BRAIN_TOKEN_UNIT               		= 2;
+  BRAIN_TOKEN_CONTEXT            		= 3;
+  BRAIN_TOKEN_PROPERTY            		= 4;
+  BRAIN_TOKEN_ENTITY            		= 5;
+  BRAIN_TOKEN_BIZ              			= 6;
+  BRAIN_TOKEN_ATTRIBUTE                   = 7;
+  BRAIN_TOKEN_ATTRIBUTE_QUALIFIER 		= 8;
+  BRAIN_TOKEN_PREDICATE           		= 9;
+  BRAIN_TOKEN_PREDICATE_QUALIFIER 		= 10;
+  BRAIN_TOKEN_EVENT              		= 11;
+  BRAIN_TOKEN_PROCESS            		= 12;
 }
 
+
 message BrainToken {
-  string vertical 		= 1;
-  string domain 		= 2;
-  BrainTokenType type 	= 3;
- // BrainTokenId	  id 		= 4; //todo is brain id and token id same
-  BrainTokenName name 	= 5;	// structured name
-  string key			= 6;	// String version of the name
+  string vertical = 1;
+  string domain = 2;
+  BrainTokenEnum token_type = 3;
+ // BrainTokenId    id = 4; //todo
+  BrainTokenName name = 5;  // structured name
+  string key = 6;  // String version of the name
   oneof token_is_one_of {
-    BrainTokenTypeCollection collection = 7;
-    BrainTokenTypeQuantity   quantity   = 8;
-  //  BrainTokenTypeUnit 	    unit       = 9; todo
-    BrainTokenTypeContext    context	    = 10;
-  //  BrainTokenTyeProperty    property   = 11;
- //   BrainTokenTyeEntity      entity     = 12;
-    BrainTokenTypeBiz        bizid	    = 13;
-    BrainTokenTypeAttribute  attribute  = 14;
-    BrainTokenTypePredicate 		 predicate			= 15;
-    BrainTokenTypeAttributeQualifier attribute_qualifier	= 16;
-    BrainTokenTypePredicateQualifier predicate_qualifier	= 17;
-    BrainTokenTypeEvent              event			= 18;
-//    BrainTokenTypeProcess            process			= 19;
+    BrainTokenCollection collection = 7;
+    BrainTokenQuantity   quantity = 8;
+//    BrainTokenUnit  unit = 9; todo
+    BrainTokenContext    context = 10;
+ //   BrainTokenProperty   property = 11; todo
+    BrainTokenEntity     entity = 12;
+    BrainTokenBiz        bizid = 13;
+    BrainTokenAttribute  attribute = 14;
+    BrainTokenPredicate     predicate = 15;
+    BrainTokenAttributeQualifier attribute_qualifier = 16;
+    BrainTokenPredicateQualifier predicate_qualifier = 17;
+    BrainTokenEvent              event = 18;
+ //   BrainTokenProcess            process = 19; todo
   }
 }
 
-message BrainTokenTypeCollection {
-//  BrainCollectionType type 	= 1; todo
+message BrainTokenCollection {
+//  BrainCollectionEnum collection_type = 1; //todo
   BrainTokenName name = 2;
 }
 
-message BrainTokenTypeQuantity {
-  BrainQuantityType type 	= 1;
+message BrainTokenQuantity {
+  BrainQuantityEnum quantity_type = 1;
   BrainTokenName name = 2;
 }
 
-message BrainTokenTypeContext {
-//  BrainContextType type = 1; todo
+message BrainTokenContext {
+//  BrainContextEnum context_type = 1; //todo
   BrainTokenName name = 2;
 }
 
-message BrainTokenTypeEntity {
+message BrainTokenEntity {
   BrainTokenName name = 1;
 }
 
-message BrainTokenTypeBiz {
-  BrainTokenTypeEntity entity = 1;
+message BrainTokenBiz {
+  BrainTokenEntity entity = 1;
   BrainTokenName name = 2;
 }
 
 
-message BrainTokenTypeAttribute {
-  BrainTokenTypeEntity entity = 1;
+message BrainTokenAttribute {
+  BrainTokenEntity entity = 1;
   BrainTokenName name = 2;
 }
 
-message BrainTokenTypePredicate {
-  BrainTokenTypeEntity subject = 1;
-  BrainTokenTypeEntity object = 2;
+message BrainTokenPredicate {
+  BrainTokenEntity subject = 1;
+  BrainTokenEntity object = 2;
   BrainTokenName name = 3;
 }
 
-message BrainTokenTypeAttributeQualifier {
-  BrainTokenTypeAttribute attribute = 2;
+message BrainTokenAttributeQualifier {
+  BrainTokenAttribute attribute = 2;
   BrainTokenName name = 3;
 }
 
-message BrainTokenTypePredicateQualifier {
-  BrainTokenTypePredicate predicate = 2;
+message BrainTokenPredicateQualifier {
+  BrainTokenPredicate predicate = 2;
   BrainTokenName name = 3;
 }
 
-message BrainTokenTypeEvent {
-//  BrainEventType type = 1; todo
+message BrainTokenEvent {
+//  BrainEventEnum event_type = 1; //todo
   BrainTokenName name = 2;
 }
+
+
 message BrainTokenName {
   repeated string path = 1;
 }

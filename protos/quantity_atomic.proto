@@ -35,7 +35,7 @@ message BrainNumericAtomicQuantity {
   BrainNumber value = 1;
 }
 message BrainNumericAtomicQuantitySchema {
-  BrainNumberType type = 1;
+  BrainNumberEnum number_type = 1;
   BrainNumberRange range = 2;
 }
 //message BrainSymbolicAtomicQuantity {

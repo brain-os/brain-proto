@@ -8,13 +8,13 @@ import  "layer1/brain_set.proto";
 import  "layer1/brain_vector.proto";
 import  "layer1/brain_matrix.proto";
 
-enum BrainNumberType {
-  BRAIN_NUMBER_TYPE_S32 = 0;	// signed integer 32bit
-  BRAIN_NUMBER_TYPE_U32 = 1;	// unsigned integer 32bit
-  BRAIN_NUMBER_TYPE_F32 = 2;	// signed float 32bit
-  BRAIN_NUMBER_TYPE_S64 = 3;	// signed integer 64bit
-  BRAIN_NUMBER_TYPE_U64 = 4;	// unsigned integer 64bit
-  BRAIN_NUMBER_TYPE_F64 = 5;	// signed double 64bit
+enum BrainNumberEnum {
+  BRAIN_NUMBER_S32 = 0;	// signed integer 32bit
+  BRAIN_NUMBER_U32 = 1;	// unsigned integer 32bit
+  BRAIN_NUMBER_F32 = 2;	// signed float 32bit
+  BRAIN_NUMBER_S64 = 3;	// signed integer 64bit
+  BRAIN_NUMBER_U64 = 4;	// unsigned integer 64bit
+  BRAIN_NUMBER_F64 = 5;	// signed double 64bit
 }
 
 message BrainNumber {
@@ -27,18 +27,18 @@ message BrainNumber {
     double 	f64 	= 6;
   }
 }
-
-enum BrainNumberRangeType{
-  BRAIN_NUMBER_RANGE_TYPE_S32 = 0;	// signed integer 32bit
-  BRAIN_NUMBER_RANGE_TYPE_U32 = 1;	// unsigned integer 32bit
-  BRAIN_NUMBER_RANGE_TYPE_F32 = 2;	// signed float 32bit
-  BRAIN_NUMBER_RANGE_TYPE_S64 = 3;	// signed integer 64bit
-  BRAIN_NUMBER_RANGE_TYPE_U64 = 4;	// unsigned integer 64bit
-  BRAIN_NUMBER_RANGE_TYPE_F64 = 5;	// signed double 64bit
+enum BrainNumberRangeEnum{
+  BRAIN_NUMBER_RANGE_S32 = 0;	// signed integer 32bit
+  BRAIN_NUMBER_RANGE_U32 = 1;	// unsigned integer 32bit
+  BRAIN_NUMBER_RANGE_F32 = 2;	// signed float 32bit
+  BRAIN_NUMBER_RANGE_S64 = 3;	// signed integer 64bit
+  BRAIN_NUMBER_RANGE_U64 = 4;	// unsigned integer 64bit
+  BRAIN_NUMBER_RANGE_F64 = 5;	// signed double 64bit
 }
 
+
 message BrainNumberRange {
-  BrainNumberRangeType type 		= 1;
+  BrainNumberRangeEnum type 		= 1;
   BrainNumber 		 minimum 		= 2;
   BrainNumber 		 maximum 		= 3;
   bool 		      include_minimum = 4;	// true[x >= minimum]
@@ -47,139 +47,142 @@ message BrainNumberRange {
 
 message BrainNumberBasket {
   oneof number_basket_is_one_of {
-    BrainSetTypeS32	s32 = 1;
-    BrainSetTypeU32	u32 = 2;
-    BrainSetTypeF32	f32 = 3;
-    BrainSetTypeS64	s64 = 4;
-    BrainSetTypeU32	u64 = 5;
-    BrainSetTypeF64	f64 = 6;
+    BrainSetS32	s32 = 1;
+    BrainSetU32	u32 = 2;
+    BrainSetF32	f32 = 3;
+    BrainSetS64	s64 = 4;
+    BrainSetU32	u64 = 5;
+    BrainSetF64	f64 = 6;
   }
 }
-enum BrainNumberBagType{
+
+enum BrainNumberBagEnum{
   // key = S32
-  BRAIN_NUMBER_BAG_TYPE_S32_S32 = 0;
-  BRAIN_NUMBER_BAG_TYPE_S32_U32 = 1;
-  BRAIN_NUMBER_BAG_TYPE_S32_F32 = 2;
-  BRAIN_NUMBER_BAG_TYPE_S32_S64 = 3;
-  BRAIN_NUMBER_BAG_TYPE_S32_U64 = 4;
-  BRAIN_NUMBER_BAG_TYPE_S32_F64 = 5;
+  BRAIN_NUMBER_BAG_S32_S32 = 0;
+  BRAIN_NUMBER_BAG_S32_U32 = 1;
+  BRAIN_NUMBER_BAG_S32_F32 = 2;
+  BRAIN_NUMBER_BAG_S32_S64 = 3;
+  BRAIN_NUMBER_BAG_S32_U64 = 4;
+  BRAIN_NUMBER_BAG_S32_F64 = 5;
 
   // key = U32
-  BRAIN_NUMBER_BAG_TYPE_U32_S32 = 6;
-  BRAIN_NUMBER_BAG_TYPE_U32_U32 = 7;
-  BRAIN_NUMBER_BAG_TYPE_U32_F32 = 8;
-  BRAIN_NUMBER_BAG_TYPE_U32_S64 = 9;
-  BRAIN_NUMBER_BAG_TYPE_U32_U64 = 10;
-  BRAIN_NUMBER_BAG_TYPE_U32_F64 = 11;
+  BRAIN_NUMBER_BAG_U32_S32 = 6;
+  BRAIN_NUMBER_BAG_U32_U32 = 7;
+  BRAIN_NUMBER_BAG_U32_F32 = 8;
+  BRAIN_NUMBER_BAG_U32_S64 = 9;
+  BRAIN_NUMBER_BAG_U32_U64 = 10;
+  BRAIN_NUMBER_BAG_U32_F64 = 11;
 
   // key = F32
-  BRAIN_NUMBER_BAG_TYPE_F32_S32 = 12;
-  BRAIN_NUMBER_BAG_TYPE_F32_U32 = 13;
-  BRAIN_NUMBER_BAG_TYPE_F32_F32 = 14;
-  BRAIN_NUMBER_BAG_TYPE_F32_S64 = 15;
-  BRAIN_NUMBER_BAG_TYPE_F32_U64 = 16;
-  BRAIN_NUMBER_BAG_TYPE_F32_F64 = 17;
+  BRAIN_NUMBER_BAG_F32_S32 = 12;
+  BRAIN_NUMBER_BAG_F32_U32 = 13;
+  BRAIN_NUMBER_BAG_F32_F32 = 14;
+  BRAIN_NUMBER_BAG_F32_S64 = 15;
+  BRAIN_NUMBER_BAG_F32_U64 = 16;
+  BRAIN_NUMBER_BAG_F32_F64 = 17;
 
   // key = S64
-  BRAIN_NUMBER_BAG_TYPE_S64_S32 = 18;
-  BRAIN_NUMBER_BAG_TYPE_S64_U32 = 19;
-  BRAIN_NUMBER_BAG_TYPE_S64_F32 = 20;
-  BRAIN_NUMBER_BAG_TYPE_S64_S64 = 21;
-  BRAIN_NUMBER_BAG_TYPE_S64_U64 = 22;
-  BRAIN_NUMBER_BAG_TYPE_S64_F64 = 23;
+  BRAIN_NUMBER_BAG_S64_S32 = 18;
+  BRAIN_NUMBER_BAG_S64_U32 = 19;
+  BRAIN_NUMBER_BAG_S64_F32 = 20;
+  BRAIN_NUMBER_BAG_S64_S64 = 21;
+  BRAIN_NUMBER_BAG_S64_U64 = 22;
+  BRAIN_NUMBER_BAG_S64_F64 = 23;
 
   // key = U64
-  BRAIN_NUMBER_BAG_TYPE_U64_S32 = 24;
-  BRAIN_NUMBER_BAG_TYPE_U64_U32 = 25;
-  BRAIN_NUMBER_BAG_TYPE_U64_F32 = 26;
-  BRAIN_NUMBER_BAG_TYPE_U64_S64 = 27;
-  BRAIN_NUMBER_BAG_TYPE_U64_U64 = 28;
-  BRAIN_NUMBER_BAG_TYPE_U64_F64 = 29;
+  BRAIN_NUMBER_BAG_U64_S32 = 24;
+  BRAIN_NUMBER_BAG_U64_U32 = 25;
+  BRAIN_NUMBER_BAG_U64_F32 = 26;
+  BRAIN_NUMBER_BAG_U64_S64 = 27;
+  BRAIN_NUMBER_BAG_U64_U64 = 28;
+  BRAIN_NUMBER_BAG_U64_F64 = 29;
 
   // key = F64
-  BRAIN_NUMBER_BAG_TYPE_F64_S32 = 30;
-  BRAIN_NUMBER_BAG_TYPE_F64_U32 = 31;
-  BRAIN_NUMBER_BAG_TYPE_F64_F32 = 32;
-  BRAIN_NUMBER_BAG_TYPE_F64_S64 = 33;
-  BRAIN_NUMBER_BAG_TYPE_F64_U64 = 34;
-  BRAIN_NUMBER_BAG_TYPE_F64_F64 = 35;
+  BRAIN_NUMBER_BAG_F64_S32 = 30;
+  BRAIN_NUMBER_BAG_F64_U32 = 31;
+  BRAIN_NUMBER_BAG_F64_F32 = 32;
+  BRAIN_NUMBER_BAG_F64_S64 = 33;
+  BRAIN_NUMBER_BAG_F64_U64 = 34;
+  BRAIN_NUMBER_BAG_F64_F64 = 35;
 }
 
-//to decide about MAP
-/*message BrainNumberBag {
+/*
+message BrainNumberBag {
   oneof number_bag_is_one_of {
     // Key = U32
     BrainMapU32S32 u32_s32 = 1;
-    BrainMapU32U32 u32_u32 = 1;
-    BrainMapU32F32 u32_f32 = 1;
-    BrainMapU32S64 u32_s64 = 1;
-    BrainMapU32U64 u32_u64 = 1;
-    BrainMapU32F64 u32_f64 = 1;
+    BrainMapU32U32 u32_u32 = 2;
+    BrainMapU32F32 u32_f32 = 3;
+    BrainMapU32S64 u32_s64 = 4;
+    BrainMapU32U64 u32_u64 = 5;
+    BrainMapU32F64 u32_f64 = 6;
 
     // Key = S32
-    BrainMapS32S32 s32_s32 = 1;
-    BrainMapS32U32 s32_u32 = 1;
-    BrainMapS32F32 s32_f32 = 1;
-    BrainMapS32S64 s32_s64 = 1;
-    BrainMapS32U64 s32_u64 = 1;
-    BrainMapS32F64 s32_f64 = 1;
+    BrainMapS32S32 s32_s32 = 7;
+    BrainMapS32U32 s32_u32 = 8;
+    BrainMapS32F32 s32_f32 = 9;
+    BrainMapS32S64 s32_s64 = 10;
+    BrainMapS32U64 s32_u64 = 11;
+    BrainMapS32F64 s32_f64 = 12;
 
     // Key = F32
-    BrainMapF32S32 f32_s32 = 1;
-    BrainMapF32U32 f32_u32 = 1;
-    BrainMapF32F32 f32_f32 = 1;
-    BrainMapF32S64 f32_s64 = 1;
-    BrainMapF32U64 f32_u64 = 1;
-    BrainMapF32F64 f32_f64 = 1;
+    BrainMapF32S32 f32_s32 = 13;
+    BrainMapF32U32 f32_u32 = 14;
+    BrainMapF32F32 f32_f32 = 15;
+    BrainMapF32S64 f32_s64 = 16;
+    BrainMapF32U64 f32_u64 = 17;
+    BrainMapF32F64 f32_f64 = 18;
 
     // Key = S64
-    BrainMapS64S32 s64_s32 = 1;
-    BrainMapS64U32 s64_u32 = 1;
-    BrainMapS64F32 s64_f32 = 1;
-    BrainMapS64S64 s64_s64 = 1;
-    BrainMapS64U64 s64_u64 = 1;
-    BrainMapS64F64 s64_f64 = 1;
+    BrainMapS64S32 s64_s32 = 19;
+    BrainMapS64U32 s64_u32 = 20;
+    BrainMapS64F32 s64_f32 = 21;
+    BrainMapS64S64 s64_s64 = 22;
+    BrainMapS64U64 s64_u64 = 23;
+    BrainMapS64F64 s64_f64 = 24;
 
     // Key = U64
-    BrainMapU64S32 u64_s32 = 1;
-    BrainMapU64U32 u64_u32 = 1;
-    BrainMapU64F32 u64_f32 = 1;
-    BrainMapU64S64 u64_s64 = 1;
-    BrainMapU64U64 u64_u64 = 1;
-    BrainMapU64F64 u64_f64 = 1;
+    BrainMapU64S32 u64_s32 = 25;
+    BrainMapU64U32 u64_u32 = 26;
+    BrainMapU64F32 u64_f32 = 27;
+    BrainMapU64S64 u64_s64 = 28;
+    BrainMapU64U64 u64_u64 = 29;
+    BrainMapU64F64 u64_f64 = 30;
 
     // Key = F64
-    BrainMapF64S32 f64_s32 = 1;
-    BrainMapF64U32 f64_u32 = 1;
-    BrainMapF64F32 f64_f32 = 1;
-    BrainMapF64S64 f64_s64 = 1;
-    BrainMapF64U64 f64_u64 = 1;
-    BrainMapF64F64 f64_f64 = 1;
+    BrainMapF64S32 f64_s32 = 31;
+    BrainMapF64U32 f64_u32 = 32;
+    BrainMapF64F32 f64_f32 = 33;
+    BrainMapF64S64 f64_s64 = 34;
+    BrainMapF64U64 f64_u64 = 35;
+    BrainMapF64F64 f64_f64 = 36;
   }
-}*/
+}
+*///todo
+
 message BrainNumberSeries
 {
   uint32 length = 1;	// if present, the Series has to be this size.
   // TODO: consider moving length to schema
-  oneof number_Series_is_one_of {
-    BrainVectorTypeS32 s32 = 5;
-    BrainVectorTypeU32 u32 = 6;
-    BrainVectorTypeF32 f32 = 7;
-    BrainVectorTypeS64 s64 = 8;
-    BrainVectorTypeU64 u64 = 9;
-    BrainVectorTypeF64 f64 = 10;
+  oneof number_series_is_one_of {
+    BrainVectorS32 s32 = 5;
+    BrainVectorU32 u32 = 6;
+    BrainVectorF32 f32 = 7;
+    BrainVectorS64 s64 = 8;
+    BrainVectorU64 u64 = 9;
+    BrainVectorF64 f64 = 10;
   }
 }
 
 message BrainNumberSparseSeries {
   uint32 max_index = 1;
   oneof number_sparse_series_is_one_of {
-    BrainSparseVectorTypeS32 s32 = 2;
-    BrainSparseVectorTypeU32 u32 = 3;
-    BrainSparseVectorTypeF32 f32 = 4;
-    BrainSparseVectorTypeS64 s64 = 5;
-    BrainSparseVectorTypeU64 u64 = 6;
-    BrainSparseVectorTypeF64 f64 = 7;
+    BrainSparseVectorS32 s32 = 2;
+    BrainSparseVectorU32 u32 = 3;
+    BrainSparseVectorF32 f32 = 4;
+    BrainSparseVectorS64 s64 = 5;
+    BrainSparseVectorU64 u64 = 6;
+    BrainSparseVectorF64 f64 = 7;
 
   }
 }
@@ -188,26 +191,25 @@ message BrainNumberTable{
   uint32 num_rows = 1;
   uint32 num_cols = 2;
   oneof number_table_is_one_of {
-    BrainMatrixTypeS32 s32 = 3;
-    BrainMatrixTypeU32 u32 = 4;
-    BrainMatrixTypeF32 f32 = 5;
-    BrainMatrixTypeS64 s64 = 6;
-    BrainMatrixTypeU64 u64 = 7;
-    BrainMatrixTypeF64 f64 = 8;
+    BrainMatrixS32 s32 = 3;
+    BrainMatrixU32 u32 = 4;
+    BrainMatrixF32 f32 = 5;
+    BrainMatrixS64 s64 = 6;
+    BrainMatrixU64 u64 = 7;
+    BrainMatrixF64 f64 = 8;
   }
 }
-
 
 message BrainNumberSparseTable {
   uint32 num_rows = 1;
   uint32 num_cols = 2;
-  oneof number_sparse_Series_is_one_of {
-    BrainSparseMatrixTypeS32 s32 = 3;
-    BrainSparseMatrixTypeU32 u32 = 4;
-    BrainSparseMatrixTypeF32 f32 = 5;
-    BrainSparseMatrixTypeS64 s64 = 6;
-    BrainSparseMatrixTypeU64 u64 = 7;
-    BrainSparseMatrixTypeF64 f64 = 8;
+  oneof number_sparse_table_is_one_of {
+    BrainSparseMatrixS32 s32 = 3;
+    BrainSparseMatrixU32 u32 = 4;
+    BrainSparseMatrixF32 f32 = 5;
+    BrainSparseMatrixS64 s64 = 6;
+    BrainSparseMatrixU64 u64 = 7;
+    BrainSparseMatrixF64 f64 = 8;
   }
 }
 
