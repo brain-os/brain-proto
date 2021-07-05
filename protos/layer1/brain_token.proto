@@ -3,8 +3,8 @@ syntax = "proto3";
 package com.jio.fabric;
 
 option java_multiple_files = true;
-import "layer1/brain_id.proto";
-import "quantity.proto";
+
+import "common.proto";
 
 enum BrainTokenEnum {
   BRAIN_TOKEN_COLLECTION          		= 0;

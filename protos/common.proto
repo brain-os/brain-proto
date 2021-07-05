@@ -31,7 +31,12 @@ message BrainIdList {
   bool is_modulo = 3; // UI + DB
   repeated BrainId item = 4;
 }
-
+enum BrainQuantityEnum {
+  BRAIN_QUANTITY_ATOMIC = 0;
+  BRAIN_QUANTITY_COMPOUND = 1;
+  BRAIN_QUANTITY_TEMPORAL = 2;
+  BRAIN_QUANTITY_SPATIAL = 3;
+}
 //message BrainTokenSet {
 //  oneof brain_set {
 //    BrainIndexSet index_set = 1;

@@ -1,0 +1,48 @@
+
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+import "layer3/brain_quantity_compound_range.proto";
+enum BrainQuantityCompoundEnum {
+  BRAIN_QUANTITY_COMPOUND_RANGE 		= 0;
+  BRAIN_QUANTITY_COMPOUND_BASKET		= 1;
+  BRAIN_QUANTITY_COMPOUND_BAG			= 2;
+  BRAIN_QUANTITY_COMPOUND_DISTRIBUTION	= 3;
+  BRAIN_QUANTITY_COMPOUND_SERIES		= 4;
+  BRAIN_QUANTITY_COMPOUND_SEQUENCE		= 5;
+  BRAIN_QUANTITY_COMPOUND_PERMUTATION		= 6;
+  BRAIN_QUANTITY_COMPOUND_MULTIVARIATE	= 7;
+}
+
+
+message BrainQuantityCompound {
+  BrainQuantityCompoundEnum			type 			= 1;
+  oneof quantity_compound_is_one_of {
+    BrainQuantityCompoundRange			range 		= 2;
+//    BrainQuantityComppoundBasket 		basket 		= 3; todo
+//    BrainQuantityCompoundBag 			bag 			= 4;
+//    BrainQuantityCompoundDistribution 	distribution 	= 5;
+//    BrainQuantityCompoundSeries 		series 		= 6;
+//    BrainQuantityCompoundSequence 		sequence 		= 7;
+//    BrainQuantityCompoundPermutation 	permutation 	= 8;
+//    BrainQuantityComboundMultivariate 	multivariate 	= 9;
+  }
+}
+
+message BrainQuantitySchemaCompound {
+  BrainQuantityCompoundEnum				type 			= 1;
+  oneof quantity_schema_compound_is_one_of {
+    BrainQuantitySchemaCompoundRange			range 		= 2;
+//    BrainQuantitySchemaCompoundBasket 		basket 		= 3; todo
+//    BrainQuantitySchemaCompoundBag 			bag 			= 4;
+//    BrainQuantitySchemaCompoundDistribution 	distribution 	= 5;
+//    BrainQuantitySchemaCompoundSeries 		series 		= 6;
+//    BrainQuantitySchemaCompoundSequence 		sequence 		= 7;
+//    BrainQuantitySchemaCompoundPermutation 	permutation 	= 8;
+//    BrainQuantitySchemaComboundMultivariate 	multivariate 	= 9;
+  }
+}
+
+

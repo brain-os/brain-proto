@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+import "layer1/brain_token.proto";
+import "common.proto";
+import "layer3/brain_quantity_atomic.proto";
+import "layer3/brain_quantity_compound.proto";
+//enum BrainCompoundQuantityEnum {
+//    BRAIN_QUANTITY_COMPOUND_BASKET = 0;
+//    BRAIN_QUANTITY_COMPOUND_DISTRIBUTION = 1;
+//    BRAIN_QUANTITY_COMPOUND_BAG = 2;
+//    BRAIN_QUANTITY_COMPOUND_SERIES = 3;
+//    BRAIN_QUANTITY_COMPOUND_SEQUENCE = 4;
+//    BRAIN_QUANTITY_COMPOUND_PERMUTATION = 5;
+//    BRAIN_QUANTITY_COMPOUND_MULTIVARIATE = 6;
+//}
+//enum BrainTemporalQuantityEnum {
+//    BRAIN_QUANTITY_TEMPORAL_INSTANCE = 0;
+//    BRAIN_QUANTITY_TEMPORAL_DURATION = 1;
+//    BRAIN_QUANTITY_TEMPORAL_RANGE = 2;
+//    BRAIN_QUANTITY_TEMPORAL_CONTEXT = 3;
+//}
+//enum BrainInstanceTemporalQuantityType {
+//    BRAIN_QUANTITY_TEMPORAL_INSTANCE_YEAR = 0;
+//    BRAIN_QUANTITY_TEMPORAL_INSTANCE_MONTH = 1;
+//    BRAIN_QUANTITY_TEMPORAL_INSTANCE_WEEK = 2;
+//    BRAIN_QUANTITY_TEMPORAL_INSTANCE_DATE = 3;
+//  // TODO
+//}
+//enum BrainDurationTemporalQuantityType {
+//    BRAIN_QUANTITY_TEMPORAL_DURATION_YEARS = 0;	// number of years
+//    BRAIN_QUANTITY_TEMPORAL_DURATION_MONTHS	= 1;// number of months
+//    BRAIN_QUANTITY_TEMPORAL_DURATION_WEEKS = 2;	// number of weeks
+//    BRAIN_QUANTITY_TEMPORAL_DURATION_DAYS	= 3;// number of days
+//    BRAIN_QUANTITY_TEMPORAL_DURATION_HOURS	= 4;// number of hours
+//    BRAIN_QUANTITY_TEMPORAL_DURATION_MINUTES	= 5;// number of minutes
+//    BRAIN_QUANTITY_TEMPORAL_DURATION_SECONDS	= 6;// number of seconds
+//}
+//enum BrainRangeTemporalQuantityType {
+//    BRAIN_QUANTITY_TEMPORAL_RANGE_YEAR = 0;		// from year to year
+//    BRAIN_QUANTITY_TEMPORAL_RANGE_MONTH = 1;		// from month to month
+//    BRAIN_QUANTITY_TEMPORAL_RANGE_WEEK = 2;		// from week to week
+//    BRAIN_QUANTITY_TEMPORAL_RANGE_DAY	= 3;	// from day to day
+//    BRAIN_QUANTITY_TEMPORAL_RANGE_HOUR = 4;		// from hour to hour
+//    BRAIN_QUANTITY_TEMPORAL_RANGE_MINUTE = 5;	// from minute to minute
+//    BRAIN_QUANTITY_TEMPORAL_RANGE_SECOND= 6;	// from second to second
+//}
+message BrainQuantitySchema {
+  BrainToken 					token 	= 1;	//Brain > Type > Token>
+  BrainQuantityEnum 				quantity_type 		= 2;
+  oneof quantity_schema_is_one_of {
+    BrainQuantitySchemaAtomic		atomic 	= 5;
+    BrainQuantitySchemaCompound 	compounded	= 6;
+ //   BrainQuantitySchemaTemporal 	temporal 	= 7;
+ //   BrainQuantitySchemaSpatial		spatial 	= 8;
+  }
+}
+
+message BrainQuantity {
+  oneof quantity_is_one_of {
+    BrainQuantityAtomic 		atomic 		= 1;
+    BrainQuantityCompound 	compounded 	= 2;
+  //  BrainQuantityTemporal 	temporal 		= 3;
+  //  BrainQuantitySpatial 		spatial 		= 4;
+  }
+}
+
+
