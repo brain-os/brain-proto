@@ -5,38 +5,38 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 import "layer2/brain_number.proto";
-enum BrainQuantityCompoundRangeEnum {
+enum BrainRangeCompoundQuantityType {
   BRAIN_QUANTITY_COMPOUND_RANGE_NUMERIC = 0;
   BRAIN_QUANTITY_COMPOUND_RANGE_ORDINAL = 1;
   BRAIN_QUANTITY_COMPOUND_RANGE_BINNED  = 2;
 }
 
-message BrainQuantitySchemaCompoundRange {
-  BrainQuantityCompoundRangeEnum 			type 		= 1;
-  oneof quantity_schema_compound_range_is_one_of {
-    BrainQuantitySchemaCompoundRangeNumeric 	numeric 	= 2;
+message BrainRangeCompoundQuantitySchema {
+  BrainRangeCompoundQuantityType  range_type 		= 1;
+  oneof range_schema_is_one_of {
+    BrainNumericRangeCompoundQuantitySchema numeric 	= 2;
  //   BrainQuantitySchemaCompoundRangeOrdinal 	ordinal 	= 3;
 //    BrainQuantitySchemaCompoundRangeBinned 	binned 	= 4;
   }
 }
 
-message BrainQuantityCompoundRange {
-  BrainQuantityCompoundRangeEnum		type 		= 1;
+message BrainRangeCompoundQuantity {
+  BrainRangeCompoundQuantityType		type 		= 1;
   bool 							open_left 	= 2;
   bool 							open_right = 3;
   oneof quantity_compound_range_is_one_of {
-    BrainQuantityCompoundRangeNumeric 	numeric 	= 4;
+    BrainNumericRangeCompoundQuantity	numeric 	= 4;
   //  BrainQuantityCompoundRangeOrdinal 	ordinal 	= 5;
   //  BrainQuantityCompoundRangeBinned 	binned 	= 6;
   }
 }
 // Min/Max of range values cannot exceed the min/max here.
-message BrainQuantitySchemaCompoundRangeNumeric {
-  BrainNumberEnum 	type 		= 1;
+message BrainNumericRangeCompoundQuantitySchema {
+  BrainNumberType	type 		= 1;
   BrainNumberRange 	value 	= 2;//ignore type inside
 }
 
-message BrainQuantityCompoundRangeNumeric {
+message BrainNumericRangeCompoundQuantity {
   BrainNumberRange value = 1;
 }
 

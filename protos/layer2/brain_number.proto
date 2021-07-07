@@ -8,7 +8,7 @@ import  "layer1/brain_set.proto";
 import  "layer1/brain_vector.proto";
 import  "layer1/brain_matrix.proto";
 
-enum BrainNumberEnum {
+enum BrainNumberType {
   BRAIN_NUMBER_S32 = 0;	// signed integer 32bit
   BRAIN_NUMBER_U32 = 1;	// unsigned integer 32bit
   BRAIN_NUMBER_F32 = 2;	// signed float 32bit
@@ -27,18 +27,11 @@ message BrainNumber {
     double 	f64 	= 6;
   }
 }
-enum BrainNumberRangeEnum{
-  BRAIN_NUMBER_RANGE_S32 = 0;	// signed integer 32bit
-  BRAIN_NUMBER_RANGE_U32 = 1;	// unsigned integer 32bit
-  BRAIN_NUMBER_RANGE_F32 = 2;	// signed float 32bit
-  BRAIN_NUMBER_RANGE_S64 = 3;	// signed integer 64bit
-  BRAIN_NUMBER_RANGE_U64 = 4;	// unsigned integer 64bit
-  BRAIN_NUMBER_RANGE_F64 = 5;	// signed double 64bit
-}
+
 
 
 message BrainNumberRange {
-  BrainNumberRangeEnum type 		= 1;
+  BrainNumberType type 		= 1;
   BrainNumber 		 minimum 		= 2;
   BrainNumber 		 maximum 		= 3;
   bool 		      include_minimum = 4;	// true[x >= minimum]
@@ -47,16 +40,16 @@ message BrainNumberRange {
 
 message BrainNumberBasket {
   oneof number_basket_is_one_of {
-    BrainSetS32	s32 = 1;
-    BrainSetU32	u32 = 2;
-    BrainSetF32	f32 = 3;
-    BrainSetS64	s64 = 4;
-    BrainSetU32	u64 = 5;
-    BrainSetF64	f64 = 6;
+    BrainS32Set	s32 = 1;
+    BrainU32Set	u32 = 2;
+    BrainF32Set	f32 = 3;
+    BrainS64Set	s64 = 4;
+    BrainU32Set	u64 = 5;
+    BrainF64Set	f64 = 6;
   }
 }
 
-enum BrainNumberBagEnum{
+enum BrainNumberBagType{
   // key = S32
   BRAIN_NUMBER_BAG_S32_S32 = 0;
   BRAIN_NUMBER_BAG_S32_U32 = 1;
@@ -165,24 +158,24 @@ message BrainNumberSeries
   uint32 length = 1;	// if present, the Series has to be this size.
   // TODO: consider moving length to schema
   oneof number_series_is_one_of {
-    BrainVectorS32 s32 = 5;
-    BrainVectorU32 u32 = 6;
-    BrainVectorF32 f32 = 7;
-    BrainVectorS64 s64 = 8;
-    BrainVectorU64 u64 = 9;
-    BrainVectorF64 f64 = 10;
+    BrainS32Vector s32 = 5;
+    BrainU32Vector u32 = 6;
+    BrainF32Vector f32 = 7;
+    BrainS64Vector s64 = 8;
+    BrainU64Vector u64 = 9;
+    BrainF64Vector f64 = 10;
   }
 }
 
 message BrainNumberSparseSeries {
   uint32 max_index = 1;
   oneof number_sparse_series_is_one_of {
-    BrainSparseVectorS32 s32 = 2;
-    BrainSparseVectorU32 u32 = 3;
-    BrainSparseVectorF32 f32 = 4;
-    BrainSparseVectorS64 s64 = 5;
-    BrainSparseVectorU64 u64 = 6;
-    BrainSparseVectorF64 f64 = 7;
+    BrainS32SparseVector s32 = 2;
+    BrainU32SparseVector u32 = 3;
+    BrainF32SparseVector f32 = 4;
+    BrainS64SparseVector s64 = 5;
+    BrainU64SparseVector u64 = 6;
+    BrainF64SparseVector f64 = 7;
 
   }
 }
@@ -191,12 +184,12 @@ message BrainNumberTable{
   uint32 num_rows = 1;
   uint32 num_cols = 2;
   oneof number_table_is_one_of {
-    BrainMatrixS32 s32 = 3;
-    BrainMatrixU32 u32 = 4;
-    BrainMatrixF32 f32 = 5;
-    BrainMatrixS64 s64 = 6;
-    BrainMatrixU64 u64 = 7;
-    BrainMatrixF64 f64 = 8;
+    BrainS32Matrix s32 = 3;
+    BrainU32Matrix u32 = 4;
+    BrainF32Matrix f32 = 5;
+    BrainS64Matrix s64 = 6;
+    BrainU64Matrix u64 = 7;
+    BrainF64Matrix f64 = 8;
   }
 }
 
@@ -204,12 +197,12 @@ message BrainNumberSparseTable {
   uint32 num_rows = 1;
   uint32 num_cols = 2;
   oneof number_sparse_table_is_one_of {
-    BrainSparseMatrixS32 s32 = 3;
-    BrainSparseMatrixU32 u32 = 4;
-    BrainSparseMatrixF32 f32 = 5;
-    BrainSparseMatrixS64 s64 = 6;
-    BrainSparseMatrixU64 u64 = 7;
-    BrainSparseMatrixF64 f64 = 8;
+    BrainS32SparseMatrix s32 = 3;
+    BrainU32SparseMatrix u32 = 4;
+    BrainF32SparseMatrix f32 = 5;
+    BrainS64SparseMatrix s64 = 6;
+    BrainU64SparseMatrix u64 = 7;
+    BrainF64SparseMatrix f64 = 8;
   }
 }
 

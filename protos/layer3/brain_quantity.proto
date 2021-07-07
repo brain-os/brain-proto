@@ -47,23 +47,25 @@ import "layer3/brain_quantity_compound.proto";
 //    BRAIN_QUANTITY_TEMPORAL_RANGE_MINUTE = 5;	// from minute to minute
 //    BRAIN_QUANTITY_TEMPORAL_RANGE_SECOND= 6;	// from second to second
 //}
+
+
 message BrainQuantitySchema {
-  BrainToken 					token 	= 1;	//Brain > Type > Token>
-  BrainQuantityEnum 				quantity_type 		= 2;
+  BrainToken 					token 	= 1;
+  BrainQuantityType 				quantity_type 		= 2;
   oneof quantity_schema_is_one_of {
-    BrainQuantitySchemaAtomic		atomic 	= 5;
-    BrainQuantitySchemaCompound 	compounded	= 6;
- //   BrainQuantitySchemaTemporal 	temporal 	= 7;
- //   BrainQuantitySchemaSpatial		spatial 	= 8;
+    BrainAtomicQuantitySchema		atomic 	= 5;
+    BrainCompoundQuantitySchema	compounded	= 6;
+ //   BrainTemporalQuantitySchema	temporal 	= 7;
+ //   BrainSpatialQuantitySchema		spatial 	= 8;
   }
 }
 
 message BrainQuantity {
   oneof quantity_is_one_of {
-    BrainQuantityAtomic 		atomic 		= 1;
-    BrainQuantityCompound 	compounded 	= 2;
-  //  BrainQuantityTemporal 	temporal 		= 3;
-  //  BrainQuantitySpatial 		spatial 		= 4;
+    BrainAtomicQuantity 		atomic 		= 1;
+    BrainCompoundQuantity 	compounded 	= 2;
+//    BrainTemporalQuantity 	temporal 		= 3;
+ //   BrainSpatialQuantity 		spatial 		= 4;
   }
 }
 

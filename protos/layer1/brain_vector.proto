@@ -3,106 +3,106 @@ syntax = "proto3";
 package com.jio.fabric;
 
 option java_multiple_files = true;
-
-enum BrainVectorEnum {
-  BRAIN_VECTOR_STR = 0;	// string
-  BRAIN_VECTOR_IDX = 1;	// index (uint32 1, 2, 3, …)
-  BRAIN_VECTOR_S32 = 2;	// signed integer
-  BRAIN_VECTOR_U32 = 3;	// unsigned integer
-  BRAIN_VECTOR_F32 = 4;	// float with 32 bit precision
-  BRAIN_VECTOR_S64 = 5;	// signed long
-  BRAIN_VECTOR_U64 = 6;	// unsigned long
-  BRAIN_VECTOR_F64 = 7;	// double with 64 bit precision
+enum BrainVectorType {
+  BRAIN_STR_VECTOR = 0;	// string
+  BRAIN_IDX_VECTOR = 1;	// index (uint32 1, 2, 3, …)
+  BRAIN_S32_VECTOR = 2;	// signed integer
+  BRAIN_U32_VECTOR = 3;	// unsigned integer
+  BRAIN_F32_VECTOR = 4;	// float with 32 bit precision
+  BRAIN_S64_VECTOR = 5;	// signed long
+  BRAIN_U64_VECTOR = 6;	// unsigned long
+  BRAIN_F64_VECTOR = 7;	// double with 64 bit precision
 }
 
-
 message BrainVector {
-  BrainVectorEnum vector_type = 1;
+  BrainVectorType vector_type = 1;
   oneof vector_is_one_of {
-    BrainVectorStr str = 2;
-    BrainVectorIdx idx = 3;
-    BrainVectorS32 s32 = 4;
-    BrainVectorU32 u32 = 5;
-    BrainVectorF32 f32 = 6;
-    BrainVectorS64 s64 = 7;
-    BrainVectorU64 u64 = 8;
-    BrainVectorF64 f64 = 9;
+    BrainStrVector str = 2;
+    BrainIdxVector idx = 3;
+    BrainS32Vector s32 = 4;
+    BrainU32Vector u32 = 5;
+    BrainF32Vector f32 = 6;
+    BrainS64Vector s64 = 7;
+    BrainU64Vector u64 = 8;
+    BrainF64Vector f64 = 9;
   }
 }
 
-message BrainVectorStr{
+message BrainStrVector{
   repeated string element = 1;
 }
 
-message BrainVectorIdx {
+message BrainIdxVector {
   repeated uint32 element = 1;
 }
 
-message BrainVectorS32 {
+message BrainS32Vector {
   repeated sint32 element = 1;
 }
 
-message BrainVectorU32 {
+message BrainU32Vector {
   repeated uint32 element = 1;
 }
 
-message BrainVectorF32 {
+message BrainF32Vector {
   repeated float element = 1;
 }
 
-message BrainVectorS64 {
+message BrainS64Vector {
   repeated sint64 element = 1;
 }
 
-message BrainVectorU64 {
+message BrainU64Vector {
   repeated uint64 element = 1;
 }
 
-message BrainVectorF64 {
+message BrainF64Vector {
   repeated double element = 1;
 }
 
 message BrainSparseVector {
-  BrainVectorEnum sparse_vector_type = 1;
+  BrainVectorType sparse_vector_type = 1;
   oneof sparse_vector_is_one_of {
-    BrainSparseVectorStr str = 2;
-    BrainSparseVectorIdx idx = 3;
-    BrainSparseVectorS32 s32 = 4;
-    BrainSparseVectorU32 u32 = 5;
-    BrainSparseVectorF32 f32 = 6;
-    BrainSparseVectorS64 s64 = 7;
-    BrainSparseVectorU64 u64 = 8;
-    BrainSparseVectorF64 f64 = 9;
+    BrainStrSparseVector str = 2;
+    BrainIdxSparseVector idx = 3;
+    BrainS32SparseVector s32 = 4;
+    BrainU32SparseVector u32 = 5;
+    BrainF32SparseVector f32 = 6;
+    BrainS64SparseVector s64 = 7;
+    BrainU64SparseVector u64 = 8;
+    BrainF64SparseVector f64 = 9;
   }
 }
-message BrainSparseVectorStr {
+
+
+message BrainStrSparseVector {
   map<uint32, string> element = 1;
 }
 
-message BrainSparseVectorIdx {
+message BrainIdxSparseVector {
   map<uint32, uint32> element = 1;
 }
 
-message BrainSparseVectorS32 {
+message BrainS32SparseVector {
   map<uint32, sint32> element = 1;
 }
 
-message BrainSparseVectorU32 {
+message BrainU32SparseVector {
   map<uint32, uint32> element = 1;
 }
 
-message BrainSparseVectorF32 {
+message BrainF32SparseVector {
   map<uint32, float> element = 1;
 }
 
-message BrainSparseVectorS64 {
+message BrainS64SparseVector {
   map<uint32, sint64> element = 1;
 }
 
-message BrainSparseVectorU64 {
+message BrainU64SparseVector {
   map<uint32, uint64> element = 1;
 }
 
-message BrainSparseVectorF64 {
+message BrainF64SparseVector {
   map<uint32, double> element = 1;
 }

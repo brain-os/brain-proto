@@ -7,36 +7,36 @@ option java_multiple_files = true;
 
 import "layer2/brain_number.proto";
 
-enum BrainQuantityAtomicEnum {
-    BRAIN_QUANTITY_ATOMIC_NUMERIC  = 0;
-    BRAIN_QUANTITY_ATOMIC_SYMBOLIC = 1;
-    BRAIN_QUANTITY_ATOMIC_ORDINAL  = 2;
-    BRAIN_QUANTITY_ATOMIC_BINNED   = 3;
+enum BrainAtomicQuantityType {
+    BRAIN_NUMERIC_ATOMIC_QUANTITY  = 0;
+    BRAIN_SYMBOLIC_ATOMIC_QUANTITY = 1;
+    BRAIN_ORDINAL_ATOMIC_QUANTITY = 2;
+    BRAIN_BINNED_ATOMIC_QUANTITY   = 3;
 }
 
-message BrainQuantitySchemaAtomic {
-  BrainQuantityAtomicEnum		     atomic_type = 1;
-  oneof quantity_schema_atomic_is_one_of {
-    BrainQuantitySchemaAtomicNumeric 	numeric 	= 2;
+message BrainAtomicQuantitySchema {
+  BrainAtomicQuantityType    atomic_type = 1;
+  oneof atomic_quantity_schema_is_one_of {
+    BrainNumericAtomicQuantitySchema 	numeric 	= 2;
  //  BrainQuantitySchemaAtomicSymbolic 	symbolic 	= 3; todo
 //    BrainQuantitySchemaAtomicOrdinal 	ordinal 	= 4; todo
   //  BrainQuantitySchemaAtomicBinned 		binned 	= 5; todo
   }
 }
 
-message BrainQuantityAtomic {
-  oneof quantity_atomic_is_one_of {
-    BrainQuantityAtomicNumeric 	numeric 	= 1;
+message BrainAtomicQuantity {
+  oneof atomic_quantity_is_one_of {
+    BrainNumericAtomicQuantity 	numeric 	= 1;
   //  BrainQuantityAtomicSymbolic 	symbolic 	= 2; todo
   //  BrainQuantityAtomicOrdinal 	ordinal 	= 3; todo
   //  BrainQuantityAtomicBinned 		binned 	= 4;  todo
   }
 }
-message BrainQuantityAtomicNumeric {
+message BrainNumericAtomicQuantity {
   BrainNumber value = 1;
 }
-message BrainQuantitySchemaAtomicNumeric {
-  BrainNumberEnum	  numeric_type		   = 1;
+message BrainNumericAtomicQuantitySchema {
+  BrainNumberType	  numeric_type		   = 1;
   BrainNumberRange 	range 	           = 2;
 }
 

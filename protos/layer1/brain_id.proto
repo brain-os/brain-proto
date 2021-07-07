@@ -4,16 +4,15 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-enum BrainIdEnum {
-  BRAIN_ID_STR = 0;	// string
-  BRAIN_ID_U32 = 1;	// string
-  BRAIN_ID_U64 = 3;	// string
+enum BrainIdType {
+  BRAIN_STR_ID = 0;	// string
+  BRAIN_U32_ID = 1;	// string
+  BRAIN_U64_ID = 2;	// string
 }
-
 
 message BrainId {
   string str = 1;
-  oneof id_types {
+  oneof id_is_one_of {
     uint32 u32 = 2;
     uint64 u64 = 3;
   }

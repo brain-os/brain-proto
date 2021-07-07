@@ -4,59 +4,58 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-enum BrainSetEnum {
-  BRAIN_SET_STR = 0;	// string
-  BRAIN_SET_U32 = 1;	// string
-  BRAIN_SET_U64 = 2;	// string
-  BRAIN_SET_NUM = 3;   // numbers
+enum BrainSetType {
+  BRAIN_STR_SET = 0;	// string
+  BRAIN_U32_SET = 1;	// string
+  BRAIN_U64_SET = 2;	// string
+  BRAIN_NUM_SET = 3;   // numbers
 }
 
 message BrainSet {
-  BrainSetEnum set_type = 1;
+  BrainSetType set_type = 1;
   oneof set_is_one_of {
-    BrainSetStr str = 2;
-    BrainSetIdx idx = 3;
-    BrainSetS32 s32 = 4;
-    BrainSetU32 u32 = 5;
-    BrainSetF32 f32 = 6;
-    BrainSetS64 s64 = 7;
-    BrainSetU64 u64 = 8;
-    BrainSetF64 f64 = 9;
+    BrainStrSet str = 2;
+    BrainIdxSet idx = 3;
+    BrainS32Set s32 = 4;
+    BrainU32Set u32 = 5;
+    BrainF32Set f32 = 6;
+    BrainS64Set s64 = 7;
+    BrainU64Set u64 = 8;
+    BrainF64Set f64 = 9;
   }
 }
 
-message BrainSetStr {
+message BrainStrSet {
   map<string, bool> element = 1;
 }
 
-message BrainSetIdx {
+message BrainIdxSet {
   map<uint32, bool> element = 1;
 }
 
-message BrainSetS32 {
+message BrainS32Set {
   map<sint32, bool> element = 1;
 }
 
-message BrainSetU32{
+message BrainU32Set{
   map<uint32, bool> element = 1;
 }
 
-message BrainSetF32 {
+message BrainF32Set {
   // key = floor(x),
   // value = {round(1e6 * (x - floor(x))}
-  map<uint32, BrainSetU32> element = 1;
+  map<uint32, BrainU32Set> element = 1;
 }
-
-message BrainSetS64 {
+message BrainS64Set {
   map<sint64, bool> element = 1;
 }
 
-message BrainSetU64 {
+message BrainU64Set {
   map<uint64, bool> element = 1;
 }
 
-message BrainSetF64 {
+message BrainF64Set {
   // key = floor(x),
   // value = {round(1e15 * (x - floor(x))}
-  map<uint64, BrainSetU64> element = 1;
+  map<uint64, BrainU64Set> element = 1;
 }
