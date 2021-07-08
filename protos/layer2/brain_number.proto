@@ -9,12 +9,12 @@ import  "layer1/brain_vector.proto";
 import  "layer1/brain_matrix.proto";
 
 enum BrainNumberType {
-  BRAIN_NUMBER_S32 = 0;	// signed integer 32bit
-  BRAIN_NUMBER_U32 = 1;	// unsigned integer 32bit
-  BRAIN_NUMBER_F32 = 2;	// signed float 32bit
-  BRAIN_NUMBER_S64 = 3;	// signed integer 64bit
-  BRAIN_NUMBER_U64 = 4;	// unsigned integer 64bit
-  BRAIN_NUMBER_F64 = 5;	// signed double 64bit
+  BRAIN_S32_NUMBER = 0;	// signed integer 32bit
+  BRAIN_U32_NUMBER = 1;	// unsigned integer 32bit
+  BRAIN_F32_NUMBER = 2;	// signed float 32bit
+  BRAIN_S64_NUMBER = 3;	// signed integer 64bit
+  BRAIN_U64_NUMBER = 4;	// unsigned integer 64bit
+  BRAIN_F64_NUMBER = 5;	// signed double 64bit
 }
 
 message BrainNumber {

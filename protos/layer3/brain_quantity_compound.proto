@@ -6,14 +6,14 @@ package com.jio.fabric;
 option java_multiple_files = true;
 import "layer3/brain_quantity_compound_range.proto";
 enum BrainCompoundQuantityType {
-  BRAIN_QUANTITY_COMPOUND_RANGE 		= 0;
-  BRAIN_QUANTITY_COMPOUND_BASKET		= 1;
-  BRAIN_QUANTITY_COMPOUND_BAG			= 2;
-  BRAIN_QUANTITY_COMPOUND_DISTRIBUTION	= 3;
-  BRAIN_QUANTITY_COMPOUND_SERIES		= 4;
-  BRAIN_QUANTITY_COMPOUND_SEQUENCE		= 5;
-  BRAIN_QUANTITY_COMPOUND_PERMUTATION		= 6;
-  BRAIN_QUANTITY_COMPOUND_MULTIVARIATE	= 7;
+  BRAIN_RANGE_COMPOUND_QUANTITY		= 0;
+  BRAIN_BASKET_COMPOUND_QUANTITY		= 1;
+  BRAIN_BAG_COMPOUND_QUANTITY			= 2;
+  BRAIN_DISTRIBUTION_COMPOUND_QUANTITY	= 3;
+  BRAIN_SERIES_COMPOUND_QUANTITY		= 4;
+  BRAIN_SEQUENCE_COMPOUND_QUANTITY		= 5;
+  BRAIN_PERMUTATION_COMPOUND_QUANTITY		= 6;
+  BRAIN_MULTIVARIATE_COMPOUND_QUANTITY	= 7;
 }
 
 
@@ -22,13 +22,13 @@ message BrainCompoundQuantity {
   BrainCompoundQuantityType		type 			= 1;
   oneof quantity_compound_is_one_of {
     BrainRangeCompoundQuantity			range 		= 2;
-//    BrainQuantityComppoundBasket 		basket 		= 3; todo
+//    BrainBasketCompoundQuantity		basket 		= 3; todo
 //    BrainQuantityCompoundBag 			bag 			= 4;
 //    BrainQuantityCompoundDistribution 	distribution 	= 5;
 //    BrainQuantityCompoundSeries 		series 		= 6;
 //    BrainQuantityCompoundSequence 		sequence 		= 7;
 //    BrainQuantityCompoundPermutation 	permutation 	= 8;
-//    BrainQuantityComboundMultivariate 	multivariate 	= 9;
+//    BrainQuantityCompoundMultivariate 	multivariate 	= 9;
   }
 }
 

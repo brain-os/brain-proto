@@ -6,9 +6,9 @@ package com.jio.fabric;
 option java_multiple_files = true;
 import "layer2/brain_number.proto";
 enum BrainRangeCompoundQuantityType {
-  BRAIN_QUANTITY_COMPOUND_RANGE_NUMERIC = 0;
-  BRAIN_QUANTITY_COMPOUND_RANGE_ORDINAL = 1;
-  BRAIN_QUANTITY_COMPOUND_RANGE_BINNED  = 2;
+  BRAIN_NUMERIC_RANGE_COMPOUND_QUANTITY= 0;
+  BRAIN_ORDINAL_RANGE_COMPOUND_QUANTITY= 1;
+  BRAIN_BINNED_RANGE_COMPOUND_QUANTITY  = 2;
 }
 
 message BrainRangeCompoundQuantitySchema {
@@ -24,7 +24,7 @@ message BrainRangeCompoundQuantity {
   BrainRangeCompoundQuantityType		type 		= 1;
   bool 							open_left 	= 2;
   bool 							open_right = 3;
-  oneof quantity_compound_range_is_one_of {
+  oneof range_compound_quantity_is_one_of {
     BrainNumericRangeCompoundQuantity	numeric 	= 4;
   //  BrainQuantityCompoundRangeOrdinal 	ordinal 	= 5;
   //  BrainQuantityCompoundRangeBinned 	binned 	= 6;
