@@ -4,48 +4,38 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import  "layer1/brain_set.proto";
-import  "layer1/brain_vector.proto";
-import  "layer1/brain_matrix.proto";
-
-enum BrainNumberType {
-  BRAIN_S32_NUMBER = 0;	// signed integer 32bit
-  BRAIN_U32_NUMBER = 1;	// unsigned integer 32bit
-  BRAIN_F32_NUMBER = 2;	// signed float 32bit
-  BRAIN_S64_NUMBER = 3;	// signed integer 64bit
-  BRAIN_U64_NUMBER = 4;	// unsigned integer 64bit
-  BRAIN_F64_NUMBER = 5;	// signed double 64bit
-}
+import  "layer1/base.proto";
+import  "layer1/set.proto";
+import  "layer1/vector.proto";
+import  "layer1/matrix.proto";
 
 message BrainNumber {
   oneof number_is_one_of {
-    sint32 	s32 	= 1;
-    uint32 	u32 	= 2;
-    float 	f32 	= 3;
-    sint64 	s64 	= 4;
-    uint64 	u64 	= 5;
-    double 	f64 	= 6;
+    sint32 s32 = 1;
+    uint32 u32 = 2;
+    float f32 = 3;
+    sint64 s64 = 4;
+    uint64 u64 = 5;
+    double f64 = 6;
   }
 }
 
-
-
 message BrainNumberRange {
-  BrainNumberType type 		= 1;
-  BrainNumber 		 minimum 		= 2;
-  BrainNumber 		 maximum 		= 3;
-  bool 		      include_minimum = 4;	// true[x >= minimum]
-  bool 		      include_maximum = 5; // true[x <= maximum]
+  BrainNumberType type = 1;
+  BrainNumber minimum = 2;
+  BrainNumber maximum = 3;
+  bool include_minimum = 4;  // true[x >= minimum]
+  bool include_maximum = 5; // true[x <= maximum]
 }
 
 message BrainNumberBasket {
   oneof number_basket_is_one_of {
-    BrainS32Set	s32 = 1;
-    BrainU32Set	u32 = 2;
-    BrainF32Set	f32 = 3;
-    BrainS64Set	s64 = 4;
-    BrainU32Set	u64 = 5;
-    BrainF64Set	f64 = 6;
+    BrainS32Set s32 = 1;
+    BrainU32Set u32 = 2;
+    BrainF32Set f32 = 3;
+    BrainS64Set s64 = 4;
+    BrainU32Set u64 = 5;
+    BrainF64Set f64 = 6;
   }
 }
 
@@ -155,7 +145,7 @@ message BrainNumberBag {
 
 message BrainNumberSeries
 {
-  uint32 length = 1;	// if present, the Series has to be this size.
+  uint32 length = 1;  // if present, the Series has to be this size.
   // TODO: consider moving length to schema
   oneof number_series_is_one_of {
     BrainS32Vector s32 = 5;

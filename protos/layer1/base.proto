@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+enum BrainElementType {
+    BRAIN_ELEMENT_NUMBER_S32 = 0;
+    BRAIN_ELEMENT_NUMBER_U32 = 1;
+    BRAIN_ELEMENT_NUMBER_F32 = 2;
+    BRAIN_ELEMENT_NUMBER_S64 = 3;
+    BRAIN_ELEMENT_NUMBER_U64 = 4;
+    BRAIN_ELEMENT_NUMBER_F64 = 5;
+
+    BRAIN_ELEMENT_SYMBOL_STR = 6;
+    BRAIN_ELEMENT_SYMBOL_U32 = 7;
+    BRAIN_ELEMENT_SYMBOL_U64 = 8;
+    BRAIN_ELEMENT_SYMBOL_IDX = 9;
+
+//    BRAIN_ELEMENT_QUANTITY //TODO
+}
+
+enum BrainQuantityType {
+    BRAIN_ATOMIC_QUANTITY   = 0;
+    BRAIN_COMPOUND_QUANTITY	= 1;
+    BRAIN_TEMPORAL_QUANTITY	= 2;
+    BRAIN_SPATIAL_QUANTITY	= 3;
+}
+enum BrainNumberType {
+    BRAIN_S32_NUMBER = 0;	// signed integer 32bit
+    BRAIN_U32_NUMBER = 1;	// unsigned integer 32bit
+    BRAIN_F32_NUMBER = 2;	// signed float 32bit
+    BRAIN_S64_NUMBER = 3;	// signed integer 64bit
+    BRAIN_U64_NUMBER = 4;	// unsigned integer 64bit
+    BRAIN_F64_NUMBER = 5;	// signed double 64bit
+}
+enum BrainTokenType {
+    BRAIN_COLLECTION_TOKEN = 0;
+    BRAIN_QUANTITY_TOKEN = 1;
+    BRAIN_UNIT_TOKEN = 2;
+    BRAIN_CONTEXT_TOKEN = 3;
+    BRAIN_PROPERTY_TOKEN = 4;
+    BRAIN_ENTITY_TOKEN = 5;
+    BRAIN_BIZ_TOKEN = 6;
+    BRAIN_ATTRIBUTE_TOKEN = 7;
+    BRAIN_ATTRIBUTE_QUALIFIER_TOKEN = 8;
+    BRAIN_PREDICATE_TOKEN = 9;
+    BRAIN_PREDICATE_QUALIFIER_TOKEN = 10;
+    BRAIN_EVENT_TOKEN = 11;
+    BRAIN_PROCESS_TOKEN = 12;
+}

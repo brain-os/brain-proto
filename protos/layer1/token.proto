@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "layer1/base.proto";
+
+message BrainTokenName {
+  repeated string path = 1;
+}
+message BrainToken {
+  string vertical = 1;
+  string domain = 2;
+  BrainTokenType type = 3;
+  uint32 id32 = 4;
+  string key = 5;
+  oneof token_is_one_of {
+    BrainTokenName  name = 6;
+    BrainQuantityToken quantity = 7;
+    BrainEntityToken entity = 12;
+    BrainBizToken biz_id = 13;
+    BrainAttributeToken attribute = 14;
+    BrainPredicateToken predicate = 15;
+    BrainAttributeQualifierToken attribute_qualifier = 16;
+    BrainPredicateQualifierToken predicate_qualifier = 17;
+    BrainEventToken event = 18;
+    BrainProcessToken process	= 19;
+  }
+}
+
+
+message BrainCollectionToken {
+ // BrainCollectionType type 	= 1; todo
+  BrainTokenName name = 2;
+}
+
+message BrainQuantityToken {
+  BrainQuantityType type = 1;
+  BrainTokenName name = 2;
+}
+
+message BrainContextToken {
+//  BrainContextType type = 1; todo
+  BrainTokenName name = 2;
+}
+
+message BrainEntityToken {
+  BrainTokenName name = 1;
+}
+
+message BrainBizToken {
+  BrainEntityToken entity = 1;
+  BrainTokenName name = 2;
+}
+
+message BrainAttributeToken {
+  BrainEntityToken entity = 1;
+  BrainTokenName name = 2;
+}
+
+message BrainPredicateToken {
+  BrainEntityToken subject = 1;
+  BrainEntityToken object = 2;
+  BrainTokenName name = 3;
+}
+message BrainAttributeQualifierToken {
+  BrainAttributeToken attribute = 2;
+  BrainTokenName name = 3;
+}
+
+message BrainPredicateQualifierToken {
+  BrainPredicateToken predicate = 2;
+  BrainTokenName name = 3;
+}
+
+message BrainEventToken {
+//  BrainEventType type = 1; todo
+  BrainTokenName name = 2;
+}
+
+message BrainProcessToken {
+  BrainTokenName name = 2;
+}
+

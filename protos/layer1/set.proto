@@ -4,24 +4,16 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-enum BrainSetType {
-  BRAIN_STR_SET = 0;	// string
-  BRAIN_U32_SET = 1;	// string
-  BRAIN_U64_SET = 2;	// string
-  BRAIN_NUM_SET = 3;   // numbers
-}
-
 message BrainSet {
-  BrainSetType set_type = 1;
   oneof set_is_one_of {
-    BrainStrSet str = 2;
-    BrainIdxSet idx = 3;
-    BrainS32Set s32 = 4;
-    BrainU32Set u32 = 5;
-    BrainF32Set f32 = 6;
-    BrainS64Set s64 = 7;
-    BrainU64Set u64 = 8;
-    BrainF64Set f64 = 9;
+    BrainStrSet str = 1;
+    BrainIdxSet idx = 2;
+    BrainS32Set s32 = 3;
+    BrainU32Set u32 = 4;
+    BrainF32Set f32 = 5;
+    BrainS64Set s64 = 6;
+    BrainU64Set u64 = 7;
+    BrainF64Set f64 = 8;
   }
 }
 

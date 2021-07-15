@@ -3,30 +3,18 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "layer1/brain_vector.proto";
-
-enum BrainMatrixType {
-  BRAIN_STR_MATRIX = 0;	// string
-  BRAIN_IDX_MATRIX = 1;	// index (uint32 1, 2, 3, …)
-  BRAIN_S32_MATRIX = 2;	// signed integer
-  BRAIN_U32_MATRIX = 3;	// unsigned integer
-  BRAIN_F32_MATRIX = 4;	// float with 32 bit precision
-  BRAIN_S64_MATRIX = 5;	// signed long
-  BRAIN_U64_MATRIX = 6;	// unsigned long
-  BRAIN_F64_MATRIX = 7;	// double with 64 bit precision
-}
+import "layer1/vector.proto";
 
 message BrainMatrix {
-    BrainMatrixType matrix_type = 1;
     oneof matrix_is_one_of {
-      BrainStrMatrix str = 2;
-      BrainIdxMatrix idx = 3;
-      BrainS32Matrix s32 = 4;
-      BrainU32Matrix u32 = 5;
-      BrainF32Matrix f32 = 6;
-      BrainS64Matrix s64 = 7;
-      BrainU64Matrix u64 = 8;
-      BrainF64Matrix f64 = 9;
+      BrainStrMatrix str = 1;
+      BrainIdxMatrix idx = 2;
+      BrainS32Matrix s32 = 3;
+      BrainU32Matrix u32 = 4;
+      BrainF32Matrix f32 = 5;
+      BrainS64Matrix s64 = 6;
+      BrainU64Matrix u64 = 7;
+      BrainF64Matrix f64 = 8;
     }
 }
 
@@ -71,16 +59,15 @@ message BrainF64Matrix {
 }
 
 message BrainSparseMatrix {
-  BrainMatrixType sparse_matrix_type = 1;
   oneof sparse_matrix_is_one_of {
-    BrainStrSparseMatrix str = 2;
-    BrainIdxSparseMatrix idx = 3;
-    BrainS32SparseMatrix s32 = 4;
-    BrainU32SparseMatrix u32 = 5;
-    BrainF32SparseMatrix f32 = 6;
-    BrainS64SparseMatrix s64 = 7;
-    BrainU64SparseMatrix u64 = 8;
-    BrainF64SparseMatrix f64 = 9;
+    BrainStrSparseMatrix str = 1;
+    BrainIdxSparseMatrix idx = 2;
+    BrainS32SparseMatrix s32 = 3;
+    BrainU32SparseMatrix u32 = 4;
+    BrainF32SparseMatrix f32 = 5;
+    BrainS64SparseMatrix s64 = 6;
+    BrainU64SparseMatrix u64 = 7;
+    BrainF64SparseMatrix f64 = 8;
   }
 }
 

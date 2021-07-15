@@ -4,7 +4,7 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "layer1/brain_id.proto";
+import "layer1/id.proto";
 
 //used in BrainQuantitySchema - to represent units
 message BrainItemMap {
@@ -32,12 +32,12 @@ message BrainIdList {
   repeated BrainId item = 4;
 }
 
-enum BrainQuantityType {
-  BRAIN_ATOMIC_QUANTITY   = 0;
-  BRAIN_COMPOUND_QUANTITY	= 1;
-  BRAIN_TEMPORAL_QUANTITY	= 2;
-  BRAIN_SPATIAL_QUANTITY	= 3;
-}
+//enum BrainQuantityType {
+//  BRAIN_ATOMIC_QUANTITY   = 0;
+//  BRAIN_COMPOUND_QUANTITY	= 1;
+//  BRAIN_TEMPORAL_QUANTITY	= 2;
+//  BRAIN_SPATIAL_QUANTITY	= 3;
+//}
 
 //message BrainTokenSet {
 //  oneof brain_set {

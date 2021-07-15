@@ -3,10 +3,12 @@ syntax = "proto3";
 package com.jio.fabric;
 
 option java_multiple_files = true;
-import "layer1/brain_token.proto";
-import "common.proto";
+
+import "layer1/token.proto";
+import "layer1/base.proto";
 import "layer3/brain_quantity_atomic.proto";
 import "layer3/brain_quantity_compound.proto";
+
 //enum BrainCompoundQuantityEnum {
 //    BRAIN_QUANTITY_COMPOUND_BASKET = 0;
 //    BRAIN_QUANTITY_COMPOUND_DISTRIBUTION = 1;
