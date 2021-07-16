@@ -19,7 +19,6 @@ enum BrainElementType {
 
 //    BRAIN_ELEMENT_QUANTITY //TODO
 }
-
 enum BrainQuantityType {
     BRAIN_ATOMIC_QUANTITY   = 0;
     BRAIN_COMPOUND_QUANTITY	= 1;
@@ -33,6 +32,11 @@ enum BrainNumberType {
     BRAIN_S64_NUMBER = 3;	// signed integer 64bit
     BRAIN_U64_NUMBER = 4;	// unsigned integer 64bit
     BRAIN_F64_NUMBER = 5;	// signed double 64bit
+}
+enum BrainCollectionType {
+    BRAIN_TOKEN_COLLECTION_SYMBOLIC = 0;
+    BRAIN_TOKEN_COLLECTION_ORDINAL = 1;
+    BRAIN_TOKEN_COLLECTION_ENTITY = 2;  // subset e.g. “tier-1-cities”
 }
 enum BrainTokenType {
     BRAIN_COLLECTION_TOKEN = 0;

@@ -6,8 +6,10 @@ option java_multiple_files = true;
 
 import "layer1/token.proto";
 import "layer1/base.proto";
-import "layer3/brain_quantity_atomic.proto";
-import "layer3/brain_quantity_compound.proto";
+import "layer3/quantity_atomic.proto";
+import "layer3/quantity_compound.proto";
+import "layer3/quantity_temporal.proto";
+import "layer3/quantity_spatial.proto";
 
 //enum BrainCompoundQuantityEnum {
 //    BRAIN_QUANTITY_COMPOUND_BASKET = 0;
@@ -52,22 +54,22 @@ import "layer3/brain_quantity_compound.proto";
 
 
 message BrainQuantitySchema {
-  BrainToken 					token 	= 1;
-  BrainQuantityType 				quantity_type 		= 2;
+  BrainToken token = 1;
+  BrainQuantityType quantity_type = 2;
   oneof quantity_schema_is_one_of {
-    BrainAtomicQuantitySchema		atomic 	= 5;
-    BrainCompoundQuantitySchema	compounded	= 6;
- //   BrainTemporalQuantitySchema	temporal 	= 7;
- //   BrainSpatialQuantitySchema		spatial 	= 8;
+    BrainAtomicQuantitySchema	atomic = 5;
+    BrainCompoundQuantitySchema	compounded = 6;
+    BrainTemporalQuantitySchema	temporal = 7;
+    BrainSpatialQuantitySchema spatial = 8;
   }
 }
 
 message BrainQuantity {
   oneof quantity_is_one_of {
-    BrainAtomicQuantity 		atomic 		= 1;
-    BrainCompoundQuantity 	compounded 	= 2;
-//    BrainTemporalQuantity 	temporal 		= 3;
- //   BrainSpatialQuantity 		spatial 		= 4;
+    BrainAtomicQuantity atomic = 1;
+    BrainCompoundQuantity compounded = 2;
+    BrainTemporalQuantity temporal = 3;
+    BrainSpatialQuantity spatial = 4;
   }
 }
 
