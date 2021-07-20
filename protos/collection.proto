@@ -5,7 +5,7 @@ package com.jio.fabric;
 option java_multiple_files = true;
 
 import "common.proto";
-import "layer1/id.proto";
+import "layer0/id.proto";
 
 message BrainCollectionSchema {
   BrainId id = 1;

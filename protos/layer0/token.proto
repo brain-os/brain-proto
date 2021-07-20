@@ -4,7 +4,7 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "layer1/base.proto";
+import "layer0/base.proto";
 
 message BrainTokenName {
   repeated string path = 1;
@@ -29,11 +29,18 @@ message BrainToken {
   }
 }
 
-
 message BrainCollectionToken {
- // BrainCollectionType type 	= 1; todo
+  BrainCollectionType type 	= 1;
   BrainTokenName name = 2;
 }
+
+//enum BrainQuantityTokenType {
+//    BRAIN_TOKEN_QUANTITY_ATOMIC_NUMERIC = 0;
+//    BRAIN_TOKEN_QUANTITY_ATOMIC_SYMBOLIC = 1;
+//
+//    BRAIN_TOKEN_COLLECTION_ORDINAL = 2;
+//    BRAIN_TOKEN_COLLECTION_ENTITY = 3; // subset e.g. “tier-1-cities”
+//}
 
 message BrainQuantityToken {
   BrainQuantityType type = 1;

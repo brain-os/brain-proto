@@ -5,8 +5,8 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import  "layer1/base.proto";
-import "layer3/brain_quantity_compound_range.proto";
+import  "layer0/base.proto";
+import "layer3/quantity_compound_range.proto";
 
 enum BrainCompoundQuantityType {
   BRAIN_RANGE_COMPOUND_QUANTITY		= 0;
