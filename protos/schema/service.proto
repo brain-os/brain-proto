@@ -1,0 +1,17 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.fabric.grpc;
+import "schema/schema_dictionary.proto";
+
+message EntityId {
+  uint32 entity_type_id = 1;
+}
+
+/*
+message HelloResponse {
+  string greeting = 1;
+}*/
+
+service EntitySchemaService {
+  rpc getSchemaForEntity(EntityId) returns (com.jio.fabric.EntitySchema);
+}

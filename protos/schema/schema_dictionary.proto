@@ -1,0 +1,103 @@
+syntax = "proto3";
+package com.jio.fabric;
+option java_multiple_files = true;
+import "layer2/brain_symbol.proto";
+
+message BrainSchemaDictionary {
+  map<uint32, CollectionSchema> collection = 1;
+  map<uint32, QuantitySchema> quantity = 2;
+  map<uint32, EntitySchema> entity = 3;  // 10 out 1 k
+  map<uint32, AttributeSchema> attribute = 4;
+  map<uint32, AttributeQualifierSchema> attribute_qualifier = 5;
+  map<uint32, PredicateSchema> predicate = 6;
+  map<uint32, PredicateQualifierSchema> predicate_qualifier = 7;
+  map<uint32, EventSchema> event = 8;  // 2  input
+  map<uint32, ProcessSchema>  process = 9;  // 100 processes
+}
+
+// filter -> process -> schema
+// KG ->
+message CollectionSchema {
+  string  collection_name = 1;
+  BrainTypeCollection    collection_type = 2;
+  oneof collection {
+    BrainCollectionSymbolic  symbolic = 3;
+    BrainCollectionOrdinal  ordinal = 4;
+  }
+}
+
+enum BrainTypeCollection {
+    BRAIN_TYPE_COLLECTION_SYMBOLIC = 0;	// A collection of unordered symbols
+    BRAIN_TYPE_COLLECTION_ORDINAL = 1;	// A collection of ordered symbols
+}
+
+message BrainCollectionSymbolic {
+  BrainTypeSymbol  element_type = 1;
+  BrainSymbolBasket  collection = 2;
+}
+
+message BrainCollectionOrdinal {
+  BrainTypeSymbol  element_type = 1;
+  BrainSymbolSequence  collection = 2;
+}
+
+
+message QuantitySchema{
+/*  BrainToken          token = 1;
+  BrainTypeQuantity        type = 2;
+  oneof quantity_schema_is_oneof {
+    BrainSchemaQuantityAtomic    atomic = 5;
+    BrainSchemaQuantityCompound  compounded = 6;
+    BrainSchemaQuantityTemporal  temporal = 7;
+    BrainSchemaQuantitySpatial    spatial = 8;
+  }*/
+}
+
+message EntitySchema {
+  uint32 type = 1;
+  repeated uint32 biz_type = 2;
+  // key = ID(/v/d/attribute/entity_type/attribute_name)
+  map<uint32, BrainEntityAttributeSchema> attribute = 3;
+  // key = ID(/v/d/predicate/subject_type/predicate_name/object_type)
+  map<uint32, BrainEntityPredicateSchema> predicate = 4;
+}
+
+message BrainEntityAttributeSchema {
+  uint32 quantity_type = 1;
+  BrainKnowledgeQualifierSchema qualifiers = 2;
+}
+
+message BrainEntityPredicateSchema {
+  uint32 object_type_id = 1;
+  BrainKnowledgeQualifierSchema qualifiers = 2;
+}
+message BrainKnowledgeQualifierSchema {
+  // key = ID(/v/d/<type>_qualifier/*)
+  map<uint32, QuantitySchema> qualifier = 2;
+}
+
+
+message EventSchema {
+
+}
+
+message AttributeSchema {
+
+}
+
+message AttributeQualifierSchema {
+
+}
+
+message PredicateSchema {
+
+}
+
+message PredicateQualifierSchema {
+
+}
+
+message ProcessSchema {
+
+}
+
