@@ -1,7 +1,8 @@
 syntax = "proto3";
 package com.jio.fabric;
 option java_multiple_files = true;
-import "layer2/brain_symbol.proto";
+import "layer0/base.proto";
+import "layer2/symbol.proto";
 
 message BrainSchemaDictionary {
   map<uint32, CollectionSchema> collection = 1;
@@ -32,12 +33,12 @@ enum BrainTypeCollection {
 }
 
 message BrainCollectionSymbolic {
-  BrainTypeSymbol  element_type = 1;
+  BrainSymbolType  element_type = 1;
   BrainSymbolBasket  collection = 2;
 }
 
 message BrainCollectionOrdinal {
-  BrainTypeSymbol  element_type = 1;
+  BrainOrdinalType  element_type = 1;
   BrainSymbolSequence  collection = 2;
 }
 
