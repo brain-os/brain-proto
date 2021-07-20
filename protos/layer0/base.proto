@@ -33,6 +33,12 @@ enum BrainNumberType {
     BRAIN_U64_NUMBER = 4;	// unsigned integer 64bit
     BRAIN_F64_NUMBER = 5;	// signed double 64bit
 }
+enum BrainOrdinalType {
+    BRAIN_TYPE_ORDINAL_KEY = 0;
+    BRAIN_TYPE_ORDINAL_I32 = 1;
+    BRAIN_TYPE_ORDINAL_I64 = 2;
+}
+
 enum BrainCollectionType {
     BRAIN_TOKEN_COLLECTION_SYMBOLIC = 0;
     BRAIN_TOKEN_COLLECTION_ORDINAL = 1;

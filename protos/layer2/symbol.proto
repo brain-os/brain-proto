@@ -4,6 +4,8 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
+import  "layer1/vector.proto";
+
 message BrainSymbol {
   oneof symbol_is_one_of {
     string str = 2;
@@ -18,4 +20,120 @@ message BrainOrdinal {
     string str = 2;
     uint64 u64 = 4;  // not to be interpreted as integer but id
   }
+}
+message BrainSymbolBasket {
+  oneof symbol_basket_is_one_of {
+    BrainKeySymbolBasket key = 1;
+    BrainI32SymbolBasket i32 = 2;
+    BrainI64SymbolBasket i64 = 3;
+  }
+}
+message BrainKeySymbolBasket {
+  map<string, bool> element = 1;
+}
+message BrainI32SymbolBasket {
+  map<uint32, bool> element = 1;
+}
+message BrainI64SymbolBasket {
+  map<uint64, bool> element = 1;
+}
+
+message BrainSymbolBag {
+  oneof symbol_bag_is_one_of {
+    BrainKeySymbolBag key = 1;
+    BrainI32SymbolBag i32 = 2;
+    BrainI64SymbolBag i64 = 3;
+  }
+}
+message BrainKeySymbolBag {
+  oneof symbol_key_bag_is_one_of {
+    BrainKeyIntSymbolBag int_bag = 1;
+    BrainKeyLngSymbolBag lng_bag = 2;
+    BrainKeyFltSymbolBag flt_bag = 3;
+    BrainKeyDblSymbolBag dbl_bag = 4;
+  }
+}
+message BrainKeyIntSymbolBag {
+  map<string, int32> element = 1;
+}
+message BrainKeyLngSymbolBag {
+  map<string, int64> element = 1;
+}
+message BrainKeyFltSymbolBag {
+  map<string, float> element = 1;
+}
+message BrainKeyDblSymbolBag {
+  map<string, double> element = 1;
+}
+message BrainI32SymbolBag {
+  oneof symbol_i32_bag_is_one_of {
+    BrainI32IntSymbolBag int_bag = 1;
+    BrainI32LngSymbolBag lng_bag = 2;
+    BrainI32FltSymbolBag flt_bag = 3;
+    BrainI32DblSymbolBag dbl_bag = 4;
+  }
+}
+message BrainI32IntSymbolBag {
+  map<uint32, int32> element = 1;
+}
+message BrainI32LngSymbolBag {
+  map<uint32, int64> element = 1;
+}
+message BrainI32FltSymbolBag {
+  map<uint32, float> element = 1;
+}
+message BrainI32DblSymbolBag {
+  map<uint32, double> element = 1;
+}
+message BrainI64SymbolBag {
+  oneof symbol_i64_bag_is_one_of {
+    BrainI64IntSymbolBag int_bag = 1;
+    BrainI64LngSymbolBag lng_bag = 2;
+    BrainI64FltSymbolBag flt_bag = 3;
+    BrainI64DblSymbolBag dbl_bag = 4;
+  }
+}
+message BrainI64IntSymbolBag {
+  map<uint64, int32> element = 1;
+}
+message BrainI64LngSymbolBag {
+  map<uint64, int64> element = 1;
+}
+message BrainI64FltSymbolBag {
+  map<uint64, float> element = 1;
+}
+message BrainI64DblSymbolBag {
+  map<uint64, double> element = 1;
+}
+
+message BrainSymbolSequence {
+  uint32 length = 1;	// if present, sequence has to be this size.
+  oneof symbol_sequence_is_one_of {
+    BrainStrVector symbol_key = 2;
+    BrainIdxVector symbol_idx = 3;
+    BrainU64Vector symbol_i64 = 4;
+  }
+}
+
+message BrainSymbolSparseSequence {
+  uint32 length = 1;	// if present, the sequence has to be this size.
+  oneof symbol_sparse_sequence_is_one_of {
+    BrainStrSparseVector key = 2;
+    BrainIdxSparseVector i32 = 3;
+    BrainU64SparseVector i64 = 4;
+  }
+}
+
+message BrainSymbolTable {
+  uint32 num_rows = 1;
+  uint32 num_cols = 2;
+  repeated BrainSymbolSequence rows = 3;
+  repeated BrainSymbolSequence cols = 4;
+}
+
+message BrainSymbolSparseTable {
+  uint32 max_row_index = 1;
+  uint32 max_col_index = 2;
+  repeated BrainSymbolSparseSequence rows = 3;
+  repeated BrainSymbolSparseSequence cols = 4;
 }
