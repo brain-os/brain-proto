@@ -4,7 +4,7 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "layer1/symbol.proto";
+import "layer2/symbol.proto";
 
 enum BrainOrdinalType {
     BRAIN_TYPE_ORDINAL_KEY = 0;

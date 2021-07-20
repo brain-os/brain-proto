@@ -4,7 +4,7 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "layer1/base.proto";
+import "layer0/base.proto";
 
 message BrainTokenName {
   repeated string path = 1;

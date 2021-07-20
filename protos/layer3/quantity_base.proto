@@ -4,8 +4,8 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "layer1/token.proto";
-import "layer1/base.proto";
+import "layer0/base.proto";
+import "layer0/token.proto";
 import "layer3/quantity_atomic.proto";
 import "layer3/quantity_compound.proto";
 import "layer3/quantity_temporal.proto";

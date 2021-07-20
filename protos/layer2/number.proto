@@ -4,7 +4,7 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import  "layer1/base.proto";
+import  "layer0/base.proto";
 import  "layer1/set.proto";
 import  "layer1/vector.proto";
 import  "layer1/matrix.proto";

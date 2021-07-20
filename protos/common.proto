@@ -4,7 +4,7 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "layer1/id.proto";
+import "layer0/id.proto";
 
 //used in BrainQuantitySchema - to represent units
 message BrainItemMap {

@@ -5,8 +5,8 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import  "layer1/base.proto";
-import "layer2/brain_number.proto";
+import  "layer0/base.proto";
+import "layer2/number.proto";
 
 enum BrainAtomicQuantityType {
     BRAIN_NUMERIC_ATOMIC_QUANTITY  = 0;
