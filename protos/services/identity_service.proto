@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "layer0/token.proto";
+
+message IdentityRequest {
+  string vertical = 1;
+  string domain = 2;
+  uint32 meta_type_id = 3; // entity type
+  string unique_key = 4;
+  BrainTokenType type = 5;
+}
+message IdentityResponse {
+  BrainId brain_id = 0;
+}
+/*
+Request :
+{
+  "vertical" : "hr",
+  "domain" : "payroll",
+  "meta_type_id" : "58294", // represent "employee" type in "hr" vertical and "payroll" domain
+  "unique_key" : "EMP0003",
+  "type" : "BRAIN_ENTITY_TOKEN"
+}
+// *** For better performance entity type should be in redis cache ***
+Response :
+{
+  "id" : {
+    "key" : "/hr/payroll/entity_id/EMP0003/89012", // generated from employee
+    "u64" : 89012
+  }
+}
+ */
