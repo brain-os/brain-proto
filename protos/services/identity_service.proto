@@ -4,7 +4,8 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import "layer0/token.proto";
+import "layer0/id.proto";
+import "layer0/base.proto";
 
 message IdentityRequest {
   string vertical = 1;
@@ -14,7 +15,7 @@ message IdentityRequest {
   BrainTokenType type = 5;
 }
 message IdentityResponse {
-  BrainId brain_id = 0;
+  BrainId brain_id = 1;
 }
 /*
 Request :
