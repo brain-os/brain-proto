@@ -11,6 +11,24 @@ import "layer3/quantity_compound.proto";
 import "layer3/quantity_temporal.proto";
 import "layer3/quantity_spatial.proto";
 
+message BrainQuantity {
+  oneof quantity_is_one_of {
+    BrainAtomicQuantity atomic = 1;
+    BrainCompoundQuantity compounded = 2;
+    BrainTemporalQuantity temporal = 3;
+    BrainSpatialQuantity spatial = 4;
+  }
+}
+message BrainQuantitySchema {
+  BrainToken token = 1;
+  BrainQuantityType quantity_type = 2;
+  oneof quantity_schema_is_one_of {
+    BrainAtomicQuantitySchema	atomic = 5;
+    BrainCompoundQuantitySchema	compounded = 6;
+    BrainTemporalQuantitySchema	temporal = 7;
+    BrainSpatialQuantitySchema spatial = 8;
+  }
+}
 //enum BrainCompoundQuantityEnum {
 //    BRAIN_QUANTITY_COMPOUND_BASKET = 0;
 //    BRAIN_QUANTITY_COMPOUND_DISTRIBUTION = 1;
@@ -53,24 +71,6 @@ import "layer3/quantity_spatial.proto";
 //}
 
 
-message BrainQuantitySchema {
-  BrainToken token = 1;
-  BrainQuantityType quantity_type = 2;
-  oneof quantity_schema_is_one_of {
-    BrainAtomicQuantitySchema	atomic = 5;
-    BrainCompoundQuantitySchema	compounded = 6;
-    BrainTemporalQuantitySchema	temporal = 7;
-    BrainSpatialQuantitySchema spatial = 8;
-  }
-}
 
-message BrainQuantity {
-  oneof quantity_is_one_of {
-    BrainAtomicQuantity atomic = 1;
-    BrainCompoundQuantity compounded = 2;
-    BrainTemporalQuantity temporal = 3;
-    BrainSpatialQuantity spatial = 4;
-  }
-}
 
 

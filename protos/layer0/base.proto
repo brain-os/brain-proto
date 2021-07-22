@@ -33,23 +33,28 @@ enum BrainNumberType {
     BRAIN_U64_NUMBER = 4;	// unsigned integer 64bit
     BRAIN_F64_NUMBER = 5;	// signed double 64bit
 }
-enum BrainSymbolType {
-    BRAIN_TYPE_SYMBOL_KEY = 0;
-    BRAIN_TYPE_SYMBOL_I32 = 1;
-    BRAIN_TYPE_SYMBOL_I64 = 2;
-    BRAIN_TYPE_SYMBOL_Idx = 3;
-}
-
-enum BrainOrdinalType {
-    BRAIN_TYPE_ORDINAL_KEY = 0;
-    BRAIN_TYPE_ORDINAL_I32 = 1;
-    BRAIN_TYPE_ORDINAL_I64 = 2;
-}
+//enum BrainSymbolType {
+//    BRAIN_TYPE_SYMBOL_STR = 0;
+//   // BRAIN_TYPE_SYMBOL_I32 = 1;
+//    BRAIN_TYPE_SYMBOL_I64 = 2;
+//    BRAIN_TYPE_SYMBOL_IDX = 3;
+//}
+//
+//enum BrainOrdinalType {
+//    BRAIN_TYPE_ORDINAL_STR = 0;
+//    BRAIN_TYPE_ORDINAL_IDX = 1;
+//    //BRAIN_TYPE_ORDINAL_I64 = 2;
+//}
 
 enum BrainCollectionType {
     BRAIN_TOKEN_COLLECTION_SYMBOLIC = 0;
     BRAIN_TOKEN_COLLECTION_ORDINAL = 1;
     BRAIN_TOKEN_COLLECTION_ENTITY = 2;  // subset e.g. “tier-1-cities”
+}
+enum BrainCollectionItemType {
+    BRAIN_COLLECTION_STR = 0;
+    BRAIN_COLLECTION_IDX = 1;
+    BRAIN_COLLECTION_I64 = 2;
 }
 enum BrainTokenType {
     BRAIN_COLLECTION_TOKEN = 0;

@@ -7,12 +7,12 @@ option java_multiple_files = true;
 import "layer0/base.proto";
 import "layer2/symbol.proto";
 
-//enum BrainOrdinalType {
-//    BRAIN_TYPE_ORDINAL_KEY = 0;
-//    BRAIN_TYPE_ORDINAL_I32 = 1;
-//    BRAIN_TYPE_ORDINAL_I64 = 2;
-//    BRAIN_TYPE_ORDINAL_IDX = 3;// 1, 2, ...
-//}
+enum BrainOrdinalType {
+    BRAIN_TYPE_ORDINAL_KEY = 0;
+    BRAIN_TYPE_ORDINAL_I32 = 1;
+    BRAIN_TYPE_ORDINAL_I64 = 2;
+    BRAIN_TYPE_ORDINAL_IDX = 3;// 1, 2, ...
+}
 //message BrainOrdinal {
 //  int32 order = 1;
 //  oneof ordinal_is_one_of {

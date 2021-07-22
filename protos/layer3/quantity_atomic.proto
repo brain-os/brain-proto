@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 
 package com.jio.fabric;
@@ -9,36 +8,36 @@ import  "layer0/base.proto";
 import "layer2/number.proto";
 
 enum BrainAtomicQuantityType {
-    BRAIN_NUMERIC_ATOMIC_QUANTITY  = 0;
-    BRAIN_SYMBOLIC_ATOMIC_QUANTITY = 1;
-    BRAIN_ORDINAL_ATOMIC_QUANTITY = 2;
-    BRAIN_BINNED_ATOMIC_QUANTITY   = 3;
+  BRAIN_NUMERIC_ATOMIC_QUANTITY = 0;
+  BRAIN_SYMBOLIC_ATOMIC_QUANTITY = 1;
+  BRAIN_ORDINAL_ATOMIC_QUANTITY = 2;
+  BRAIN_BINNED_ATOMIC_QUANTITY = 3;
 }
 
 message BrainAtomicQuantitySchema {
   BrainAtomicQuantityType    atomic_type = 1;
   oneof atomic_quantity_schema_is_one_of {
-    BrainNumericAtomicQuantitySchema 	numeric 	= 2;
- //  BrainQuantitySchemaAtomicSymbolic 	symbolic 	= 3; todo
-//    BrainQuantitySchemaAtomicOrdinal 	ordinal 	= 4; todo
-  //  BrainQuantitySchemaAtomicBinned 		binned 	= 5; todo
+    BrainNumericAtomicQuantitySchema  numeric = 2;
+    //  BrainQuantitySchemaAtomicSymbolic 	symbolic 	= 3; todo
+    //    BrainQuantitySchemaAtomicOrdinal 	ordinal 	= 4; todo
+    //  BrainQuantitySchemaAtomicBinned 		binned 	= 5; todo
   }
 }
 
 message BrainAtomicQuantity {
   oneof atomic_quantity_is_one_of {
-    BrainNumericAtomicQuantity 	numeric 	= 1;
-  //  BrainQuantityAtomicSymbolic 	symbolic 	= 2; todo
-  //  BrainQuantityAtomicOrdinal 	ordinal 	= 3; todo
-  //  BrainQuantityAtomicBinned 		binned 	= 4;  todo
+    BrainNumericAtomicQuantity  numeric = 1;
+    //  BrainQuantityAtomicSymbolic 	symbolic 	= 2; todo
+    //  BrainQuantityAtomicOrdinal 	ordinal 	= 3; todo
+    //  BrainQuantityAtomicBinned 		binned 	= 4;  todo
   }
 }
 message BrainNumericAtomicQuantity {
   BrainNumber value = 1;
 }
 message BrainNumericAtomicQuantitySchema {
-  BrainNumberType	  numeric_type		   = 1;
-  BrainNumberRange 	range 	           = 2;
+  BrainNumberType    numeric_type = 1;
+  BrainNumberRange  range = 2;
 }
 
 //message BrainSymbolicAtomicQuantity {
