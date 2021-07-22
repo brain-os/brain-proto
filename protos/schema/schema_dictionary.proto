@@ -55,12 +55,14 @@ message QuantitySchema{
 }
 
 message EntitySchema {
-  uint32 type = 1;
-  repeated uint32 biz_type = 2;
+  string vertical = 1;
+  string domain = 2;
+  uint32 type = 3;
+  repeated uint32 biz_type = 4;
   // key = ID(/v/d/attribute/entity_type/attribute_name)
-  map<uint32, BrainEntityAttributeSchema> attribute = 3;
+  map<uint32, BrainEntityAttributeSchema> attribute = 5;
   // key = ID(/v/d/predicate/subject_type/predicate_name/object_type)
-  map<uint32, BrainEntityPredicateSchema> predicate = 4;
+  map<uint32, BrainEntityPredicateSchema> predicate = 6;
 }
 
 message BrainEntityAttributeSchema {

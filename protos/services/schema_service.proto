@@ -11,8 +11,3 @@ message EntityId {
 service EntitySchemaService {
   rpc getSchemaForEntity(EntityId) returns (com.jio.fabric.EntitySchema);
 }
-
-
-service EntityIdService {
-  rpc getBrainIdForEntity(IdentityRequest) returns (IdentityResponse);
-}
