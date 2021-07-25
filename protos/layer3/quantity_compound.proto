@@ -38,7 +38,7 @@ message BrainCompoundQuantity {
 message BrainCompoundQuantitySchema {
   BrainCompoundQuantityType				type 			= 1;
   oneof quantity_schema_compound_is_one_of {
-    BrainRangeCompoundQuantitySchema			range 		= 2;
+    BrainRangeQuantitySchema			range 		= 2;
 //    BrainQuantitySchemaCompoundBasket 		basket 		= 3; todo
 //    BrainQuantitySchemaCompoundBag 			bag 			= 4;
 //    BrainQuantitySchemaCompoundDistribution 	distribution 	= 5;
