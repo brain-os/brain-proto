@@ -12,9 +12,10 @@ option java_multiple_files = true;
 //}
 
 message BrainId {
+  string key = 1;
   oneof id_is_one_of {
-    uint32 u32 = 1;
-    uint64 u64 = 2;
+    uint32 u32 = 2;
+    uint64 u64 = 3;
   }
 }
 
