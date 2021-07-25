@@ -6,6 +6,8 @@ option java_multiple_files = true;
 
 import "layer0/base.proto";
 
+// <root> / Brain Identity / Brain Token
+
 message BrainTokenName {
   repeated string path = 1;
 }
@@ -13,12 +15,15 @@ message BrainToken {
   string vertical = 1;
   string domain = 2;
   BrainTokenType type = 3;
-  uint32 id32 = 4;
-  string key = 5;
+  string key = 4;
+  uint32 id32 = 5;
   oneof token_is_one_of {
-    BrainTokenName  name = 6;
+    BrainCollectionToken  name = 6;
     BrainQuantityToken quantity = 7;
-    BrainEntityToken entity = 12;
+    BrainUnitToken unit = 8;
+    BrainContextToken context = 9;
+    BrainPropertyToken property = 10;
+    BrainEntityToken entity = 11;
     BrainBizToken biz_id = 13;
     BrainAttributeToken attribute = 14;
     BrainPredicateToken predicate = 15;
@@ -47,11 +52,17 @@ message BrainQuantityToken {
   BrainTokenName name = 2;
 }
 
+message BrainUnitToken {
+  BrainTokenName name = 2;
+}
 message BrainContextToken {
 //  BrainContextType type = 1; todo
   BrainTokenName name = 2;
 }
-
+message BrainPropertyToken {
+  //  BrainContextType type = 1; todo
+  BrainTokenName name = 2;
+}
 message BrainEntityToken {
   BrainTokenName name = 1;
 }

@@ -13,15 +13,15 @@ enum BrainOrdinalType {
     BRAIN_TYPE_ORDINAL_I64 = 2;
     BRAIN_TYPE_ORDINAL_IDX = 3;// 1, 2, ...
 }
-//message BrainOrdinal {
-//  int32 order = 1;
-//  oneof ordinal_is_one_of {
-//    string key = 2;
-//    uint32 i32 = 3;
-//    uint64 i64 = 4;
-//    uint32 idx = 5;
-//  }
-//}
+message BrainOrdinal {
+  int32 order = 1;
+  oneof ordinal_is_one_of {
+    string key = 2;
+    uint32 i32 = 3;
+    uint64 i64 = 4;
+    uint32 idx = 5;
+  }
+}
 // e.g. (l, xl, xxl) is a range within the overall range of sizes.
 message BrainOrdinalRange {
   BrainOrdinalType type = 1;
