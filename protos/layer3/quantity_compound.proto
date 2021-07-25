@@ -1,52 +1,63 @@
-
 syntax = "proto3";
 
 package com.jio.fabric;
 
 option java_multiple_files = true;
 
-import  "layer0/base.proto";
+import "layer0/base.proto";
+import "layer1/collection.proto";
+import "layer1/set.proto";
+import "layer2/symbol.proto";
 import "layer3/quantity_compound_range.proto";
 
 enum BrainCompoundQuantityType {
-  BRAIN_RANGE_COMPOUND_QUANTITY		= 0;
-  BRAIN_BASKET_COMPOUND_QUANTITY		= 1;
-  BRAIN_BAG_COMPOUND_QUANTITY			= 2;
-  BRAIN_DISTRIBUTION_COMPOUND_QUANTITY	= 3;
-  BRAIN_SERIES_COMPOUND_QUANTITY		= 4;
-  BRAIN_SEQUENCE_COMPOUND_QUANTITY		= 5;
-  BRAIN_PERMUTATION_COMPOUND_QUANTITY		= 6;
-  BRAIN_MULTIVARIATE_COMPOUND_QUANTITY	= 7;
+  BRAIN_RANGE_COMPOUND_QUANTITY = 0;
+  BRAIN_BASKET_COMPOUND_QUANTITY = 1;
+  BRAIN_BAG_COMPOUND_QUANTITY = 2;
+  BRAIN_DISTRIBUTION_COMPOUND_QUANTITY = 3;
+  BRAIN_SERIES_COMPOUND_QUANTITY = 4;
+  BRAIN_SEQUENCE_COMPOUND_QUANTITY = 5;
+  BRAIN_PERMUTATION_COMPOUND_QUANTITY = 6;
+  BRAIN_MULTIVARIATE_COMPOUND_QUANTITY = 7;
 }
 
-
-
 message BrainCompoundQuantity {
-  BrainCompoundQuantityType		type 			= 1;
+  BrainCompoundQuantityType type = 1;
   oneof quantity_compound_is_one_of {
-    BrainRangeCompoundQuantity			range 		= 2;
-//    BrainBasketCompoundQuantity		basket 		= 3; todo
-//    BrainQuantityCompoundBag 			bag 			= 4;
-//    BrainQuantityCompoundDistribution 	distribution 	= 5;
-//    BrainQuantityCompoundSeries 		series 		= 6;
-//    BrainQuantityCompoundSequence 		sequence 		= 7;
-//    BrainQuantityCompoundPermutation 	permutation 	= 8;
-//    BrainQuantityCompoundMultivariate 	multivariate 	= 9;
+    BrainRangeQuantity range = 2;
+    BrainBasketQuantity	basket = 3;
+    //    BrainQuantityCompoundBag 			bag 			= 4;
+    //    BrainQuantityCompoundDistribution 	distribution 	= 5;
+    //    BrainQuantityCompoundSeries 		series 		= 6;
+    //    BrainQuantityCompoundSequence 		sequence 		= 7;
+    //    BrainQuantityCompoundPermutation 	permutation 	= 8;
+    //    BrainQuantityCompoundMultivariate 	multivariate 	= 9;
   }
 }
 
 message BrainCompoundQuantitySchema {
-  BrainCompoundQuantityType				type 			= 1;
+  BrainCompoundQuantityType type = 1;
   oneof quantity_schema_compound_is_one_of {
-    BrainRangeQuantitySchema			range 		= 2;
-//    BrainQuantitySchemaCompoundBasket 		basket 		= 3; todo
-//    BrainQuantitySchemaCompoundBag 			bag 			= 4;
-//    BrainQuantitySchemaCompoundDistribution 	distribution 	= 5;
-//    BrainQuantitySchemaCompoundSeries 		series 		= 6;
-//    BrainQuantitySchemaCompoundSequence 		sequence 		= 7;
-//    BrainQuantitySchemaCompoundPermutation 	permutation 	= 8;
-//    BrainQuantitySchemaComboundMultivariate 	multivariate 	= 9;
+    BrainRangeQuantitySchema range = 2;
+    BrainBasketQuantitySchema basket = 3;
+    //    BrainQuantitySchemaCompoundBag 			bag 			= 4;
+    //    BrainQuantitySchemaCompoundDistribution 	distribution 	= 5;
+    //    BrainQuantitySchemaCompoundSeries 		series 		= 6;
+    //    BrainQuantitySchemaCompoundSequence 		sequence 		= 7;
+    //    BrainQuantitySchemaCompoundPermutation 	permutation 	= 8;
+    //    BrainQuantitySchemaComboundMultivariate 	multivariate 	= 9;
   }
+}
+
+message BrainBasketQuantity {
+  oneof basket_is_one_of {
+    BrainStrSet str_item = 1;
+    BrainU64Set u64_item = 2;
+  }
+}
+message BrainBasketQuantitySchema {
+  BrainSymbolType type = 1;
+  BrainItemCollection item = 2;
 }
 
 

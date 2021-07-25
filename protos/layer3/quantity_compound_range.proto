@@ -19,7 +19,7 @@ message BrainIndexRange {
   uint32 maximum_index = 2;
 }
 
-message BrainRangeCompoundQuantity {
+message BrainRangeQuantity {
   bool open_left = 1;
   bool open_right = 2;
   oneof range_quantity_is_one_of {

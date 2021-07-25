@@ -12,30 +12,23 @@ message BrainCollectionSchema {
   uint32 collection_id = 1;
   BrainCollectionType type = 2;
   oneof collection_is_one_of {
-    BrainItemCollectionSchema item_schema = 3;
-    BrainEntityCollectionSchema entity_schema = 4;
+    BrainItemCollection item = 3;
+    BrainOrderedItemCollection sequence = 4;
   }
 }
-message BrainItemCollectionSchema {
-  oneof item_collection_is_one_of {
-    SymbolCollectionSchema symbol = 1;
-    SequenceCollectionSchema ordinal = 2;
+message BrainItemCollection {
+  oneof item_is_one_of {
+    BrainSymbolCollection symbol = 1;
+    BrainEntityCollection entity = 2;
   }
 }
-message SymbolCollectionSchema {
+message BrainSymbolCollection {
   oneof set_is_one_of {
     BrainStrSet str_item = 1;
     BrainU64Set u64_item = 2;
   }
 }
-message SequenceCollectionSchema {
-  bool modulo = 1;
-  oneof sequence_is_one_of {
-    BrainStrVector str_item = 2;
-    BrainU64Vector u64_item = 3;
-  }
-}
-message BrainEntityCollectionSchema {
+message BrainEntityCollection {
   uint32 entity_type = 1;// Example condition
   // /common/predicate/city/of_state/state == 'Maharashtra'
   // /common/attribute/city/population > 5000000 // population is attribute of entity city
@@ -48,3 +41,11 @@ message BrainEntityCollectionSchema {
 //  // /common/attribute/city/population > 5000000 // population is attribute of entity city
 //  string condition = 2;
 //}
+
+message BrainOrderedItemCollection {
+  bool modulo = 1;
+  oneof sequence_is_one_of {
+    BrainStrVector str_item = 2;
+    BrainU64Vector u64_item = 3;
+  }
+}

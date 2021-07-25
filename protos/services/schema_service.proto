@@ -2,7 +2,6 @@ syntax = "proto3";
 option java_multiple_files = true;
 package com.jio.fabric.grpc;
 import "schema/schema_dictionary.proto";
-import "services/identity_service.proto";
 
 message EntityId {
   uint32 entity_type_id = 1;

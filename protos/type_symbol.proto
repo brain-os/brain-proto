@@ -9,14 +9,14 @@ package com.jio.fabric;
 //    BRAIN_SYMBOL_TYPE_IDX	 = 3;// 1, 2, ...
 //}
 //
-message BrainSymbolType {
-  oneof symbol_is_one_of {
-    string str = 1;
-    uint32 u32 = 2;
-    uint64 u64 = 3;
-    uint32 idx = 4;
-  }
-}
+//message BrainSymbolType {
+//  oneof symbol_is_one_of {
+//    string str = 1;
+//    uint32 u32 = 2;
+//    uint64 u64 = 3;
+//    uint32 idx = 4;
+//  }
+//}
 //enum BrainSymbolBasketTypeEnum {
 //  BRAIN_SYMBOL_BASKET_TYPE_STR = 0;	// human readable
 //  BRAIN_SYMBOL_BASKET_TYPE_U32 = 1;	// of meta-tokens (uint32)
