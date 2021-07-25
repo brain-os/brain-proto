@@ -5,11 +5,12 @@ package com.jio.fabric;
 option java_multiple_files = true;
 
 import "layer0/base.proto";
+import "layer0/token.proto";
 import "layer1/set.proto";
 import "layer1/vector.proto";
 
 message BrainCollectionSchema {
-  uint32 collection_id = 1;
+  BrainToken token = 1;
   BrainCollectionType type = 2;
   oneof collection_is_one_of {
     BrainItemCollection item = 3;
