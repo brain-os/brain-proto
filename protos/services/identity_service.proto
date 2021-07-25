@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.jio.fabric;
+package com.jio.fabric.grpc;
 
 option java_multiple_files = true;
 
@@ -8,15 +8,21 @@ import "layer0/id.proto";
 import "layer0/base.proto";
 
 message IdentityRequest {
-  string vertical = 1;
-  string domain = 2;
-  uint32 meta_type_id = 3; // entity type
-  string unique_key = 4;
-  BrainTokenType type = 5;
+  oneof id_type {
+    uint32 collection_type_id = 1;
+    uint32 entity_type_id = 2;
+
+  }
+  repeated string unique_key = 3;
 }
 message IdentityResponse {
-  BrainId brain_id = 1;
+  repeated BrainId brain_id = 1;
 }
+
+service EntityIdService {
+  rpc getBrainIdForEntity(IdentityRequest) returns (IdentityResponse);
+}
+
 /*
 Request :
 {
@@ -30,7 +36,7 @@ Request :
 Response :
 {
   "id" : {
-    "key" : "/hr/payroll/entity_id/EMP0003/89012", // generated from employee
+    "key" : "/hr/payroll/entity_id/customer/EMP0003", // generated from employee
     "u64" : 89012
   }
 }
