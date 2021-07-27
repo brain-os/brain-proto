@@ -1,20 +1,20 @@
 syntax = "proto3";
 
-package com.jio.fabric;
-
-option java_multiple_files = true;
-
+//package com.jio.fabric;
+//
+//option java_multiple_files = true;
+//
 
 //import "common.proto";
 //import "quant.proto";
 //import "id.proto";
 //import "entity.proto";
-message BrainEvent {
-  string id = 1;
-//  BrainStore key = 2;
-//  repeated BrainStore value = 3;
-
-}
+//message BrainEvent {
+//  string id = 1;
+////  BrainStore key = 2;
+////  repeated BrainStore value = 3;
+//
+//}
 //message BrainStore {
 //  BrainValueSet property = 1;
 //  BrainValueSet context = 2;
