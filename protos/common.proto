@@ -52,10 +52,10 @@ message BrainIndexSet {
   map<uint32, bool> index = 2;  // payload of the set (O(1) access)
 }
 
-message BrainItemSet {
-  string item_dictionary = 1;
-  map<string, bool> item = 2; // payload of the set (O(1) access)
-}
+//message BrainItemSet {
+//  string item_dictionary = 1;
+//  map<string, bool> item = 2; // payload of the set (O(1) access)
+//}
 
 //message BrainEntitySet {
 //  string entity_type = 1;

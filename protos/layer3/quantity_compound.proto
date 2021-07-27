@@ -57,7 +57,7 @@ message BrainBasketQuantity {
 }
 message BrainBasketQuantitySchema {
   BrainSymbolType type = 1;
-  BrainItemCollection item = 2;
+  BrainItemSet item = 2;
 }
 
 

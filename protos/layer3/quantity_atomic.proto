@@ -48,13 +48,13 @@ message BrainSymbolicQuantity {
 }
 message BrainSymbolicQuantitySchema {
   BrainSymbolType type = 1;
-  BrainItemCollection collection = 2;
+  BrainItemSet set = 2;
 }
 message BrainOrdinalQuantity {
   uint32 sequence_index = 1;
 }
 message BrainOrdinalQuantitySchema {
-  BrainOrderedItemCollection sequence = 1;
+  BrainItemSequence sequence = 1;
 }
 message BrainBinnedQuantity {
   uint32 bin_index = 1;
@@ -70,7 +70,7 @@ message BrainBinnedQuantitySchema {
   BrainNumericQuantitySchema source = 2;
   bool open_minimum = 3;  // true[x >= minimum]
   bool open_maximum = 4; // true[x <= maximum]
-  BrainOrderedItemCollection bin_names = 5;
+  BrainItemSequence bin_names = 5;
   oneof bin_is_one_of {
     // equal-sized-bins
     EqualSizeBinnedSchema size = 6;

@@ -6,6 +6,7 @@ option java_multiple_files = true;
 
 import "layer0/base.proto";
 import "layer0/token.proto";
+import "layer1/collection.proto";
 import "layer1/set.proto";
 import "layer3/quantity.proto";
 
@@ -94,7 +95,4 @@ message BrainQualifiedEntitiesSet {
 message BrainQualifiedEntities {
   BrainEntitySet entities = 1;
   map<uint32, BrainQuantity> qualifier = 2;
-}
-message BrainEntitySet {
-
 }

@@ -13,27 +13,30 @@ message BrainCollectionSchema {
   BrainToken token = 1;
   BrainCollectionType type = 2;
   oneof collection_is_one_of {
-    BrainItemCollection item = 3;
-    BrainOrderedItemCollection sequence = 4;
+    BrainItemSet item = 3;
+    BrainItemSequence sequence = 4;
   }
 }
-message BrainItemCollection {
+message BrainItemSet {
   oneof item_is_one_of {
-    BrainSymbolCollection symbol = 1;
-    BrainEntityCollection entity = 2;
+    BrainSymbolSet symbol = 1;
+    BrainEntitySet entity = 2;
   }
 }
-message BrainSymbolCollection {
+message BrainSymbolSet {
   oneof set_is_one_of {
     BrainStrSet str_item = 1;
     BrainU64Set u64_item = 2;
   }
 }
-message BrainEntityCollection {
+message BrainEntitySet {
   uint32 entity_type = 1;// Example condition
-  // /common/predicate/city/of_state/state == 'Maharashtra'
-  // /common/attribute/city/population > 5000000 // population is attribute of entity city
-  string condition = 2;
+  oneof entity_is_one_of {
+    // /common/predicate/city/of_state/state == 'Maharashtra'
+    // /common/attribute/city/population > 5000000 // population is attribute of entity city
+    string entity_condition = 2;
+    BrainU64Set entity = 3;
+  }
 }
 //message BrainConditionalEntitySchema {
 //  string entity_type = 1; // /common/entity/city
@@ -43,7 +46,7 @@ message BrainEntityCollection {
 //  string condition = 2;
 //}
 
-message BrainOrderedItemCollection {
+message BrainItemSequence {
   bool modulo = 1;
   oneof sequence_is_one_of {
     BrainStrVector str_item = 2;
