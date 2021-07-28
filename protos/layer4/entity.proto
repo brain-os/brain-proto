@@ -10,27 +10,100 @@ import "layer1/collection.proto";
 import "layer1/set.proto";
 import "layer3/quantity.proto";
 
+message BrainEntity {
+  // Event - need to present apart from ingestion
+  // else need to be enriched from biz id below
+  // Knowledge graph - Always present
+  uint64 id = 1;
+  // Event - Not required
+  // Knowledge graph - Always present
+  uint32 type = 2;
+
+  // key = ID(/v/d/bizid/<entity_type>/<biz_id_type>)
+  // e.g. ID(/common/customer/bizid/person/adhaar)
+
+  // Event - Not needed beyond ingestion
+  // Knowledge graph - Can have multiple values present
+  map<uint32, string> biz_id = 3;
+
+  // key = ID(/common/language/Hin_NI)
+  // Event - not required
+  // Knowledge graph - Can have multiple values present
+  map<uint32, BrainEntityName> name = 4;
+
+  // key = ID(/v/d/entity_type/attribute_name)
+  // Event - Only few attributes will be present. Might need enrichment for other attributes from knowledge graph
+  // Knowledge graph - Contain value of all attributes
+  map<uint32, BrainEntityAttribute> attribute = 5;
+
+  // key = ID(/v/d/subject_type/predicate_name/object_type)
+  map<uint32, BrainEntityPredicate> predicate = 6;
+}
+message BrainEntityName {
+  string canonical = 1;
+  BrainStrSet aliases = 2;
+}
+message BrainEntityAttribute {
+  oneof entity_attribute_is {
+    // e.g. /v/d/attribute-qualifier/city/population
+    BrainQuantity absolute = 1;
+    // Multiple Values
+    // e.g. /v/d/attribute-qualifier/city/population/2011
+    // e.g. /v/d/attribute-qualifier/city/population/2012
+    // e.g. /v/d/attribute-qualifier/city/population/2013
+    BrainQualifiedQuantitySet qualified = 2;
+  }
+}
+message BrainQualifiedQuantitySet {
+  repeated BrainQualifiedQuantity quantity = 1;
+}
+// Attribute -
+message BrainQualifiedQuantity {
+  // population in 2011
+  BrainQuantity value = 1;
+  // key can be
+  // 1. attribute qualifier e.g. key = uint32 equivalent of /v/d/attribute-qualifier/city/population/2011 & value = 2011, 2012 equivalent of BrainQuantity
+  // 2. predicate qualifier e.g. /v/d/predicate-qualifier/person/mayer-of/city/2011 & value = 2011, 2012 equivalent of BrainQuantity
+  map<BrainToken, BrainQuantity> qualifier = 2;
+}
+message BrainEntityPredicate {
+  oneof predicate_is_one_of {
+    BrainEntitySet objects = 1;
+    BrainQualifiedEntitiesSet qualified = 2;
+  }
+}
+message BrainQualifiedEntitiesSet {
+  repeated BrainQualifiedEntities objects = 1;
+}
+message BrainQualifiedEntities {
+  BrainEntitySet entities = 1;
+  map<BrainToken, BrainQuantity> qualifier = 2;
+}
+
 message EntitySchema {
   BrainToken token = 1;
+  BrainToken primary_biz_id = 2;
   repeated BrainToken biz_type = 4;
   // key = ID(/v/d/attribute/entity_type/attribute_name)
-  map<uint32, BrainEntityAttributeSchema> attribute = 5;
+  map<BrainToken, BrainEntityAttributeSchema> attribute = 5;
   // key = ID(/v/d/predicate/subject_type/predicate_name/object_type)
-  map<uint32, BrainEntityPredicateSchema> predicate = 6;
+  map<BrainToken, BrainEntityPredicateSchema> predicate = 6;
 }
 
 message BrainEntityAttributeSchema {
-  uint32 quantity_type = 1;
-  BrainKnowledgeQualifierSchema qualifiers = 2;
+  BrainToken quantity_type = 1;
+  BrainToken unit = 2; // todo ??
+  BrainKnowledgeQualifierSchema qualifiers = 3;
 }
 
 message BrainEntityPredicateSchema {
-  uint32 object_type_id = 1;
-  BrainKnowledgeQualifierSchema qualifiers = 2;
+  BrainToken object_type_id = 1;
+  BrainToken unit = 2; // todo ??
+  BrainKnowledgeQualifierSchema qualifiers = 3;
 }
 message BrainKnowledgeQualifierSchema {
   // key = ID(/v/d/<type>_qualifier/*)
-  map<uint32, BrainQuantitySchema> qualifier = 2;
+  map<BrainToken, BrainQuantitySchema> qualifier = 2;
 }
 
 message AttributeSchema {
@@ -47,52 +120,4 @@ message PredicateSchema {
 
 message PredicateQualifierSchema {
 
-}
-
-message BrainEntity {
-  uint64 id = 1;
-  uint32 type = 2;
-
-  // key = ID(/v/d/bizid/<entity_type>/<biz_id_type>)
-  // e.g. ID(/common/customer/bizid/person/adhaar)
-  map<uint32, string> biz_id = 3;
-
-  // key = ID(/common/language/Hin_NI)
-  map<uint32, BrainEntityName> name = 4;
-
-  // key = ID(/v/d/entity_type/attribute_name)
-  map<uint32, BrainEntityAttribute> attribute = 5;
-
-  // key = ID(/v/d/subject_type/predicate_name/object_type)
-  map<uint32, BrainEntityPredicate> predicate = 6;
-}
-message BrainEntityName {
-  string canonical = 1;
-  BrainStrSet aliases = 2;
-}
-message BrainEntityAttribute {
-  oneof entity_attribute_is {
-    BrainQuantity absolute = 1;
-    BrainQualifiedQuantitySet qualified = 2;
-  }
-}
-message BrainQualifiedQuantitySet {
-  repeated BrainQualifiedQuantity quantity = 1;
-}
-message BrainQualifiedQuantity {
-  BrainQuantity value = 1;
-  map<uint32, BrainQuantity> qualifier = 2;
-}
-message BrainEntityPredicate {
-  oneof predicate_is_one_of {
-    BrainEntitySet objects = 1;
-    BrainQualifiedEntitiesSet qualified = 2;
-  }
-}
-message BrainQualifiedEntitiesSet {
-  repeated BrainQualifiedEntities objects = 1;
-}
-message BrainQualifiedEntities {
-  BrainEntitySet entities = 1;
-  map<uint32, BrainQuantity> qualifier = 2;
 }
