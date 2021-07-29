@@ -34,9 +34,9 @@ enum BrainNumberType {
     BRAIN_F64_NUMBER = 5;	// signed double 64bit
 }
 enum BrainSymbolType {
-    BRAIN_TYPE_SYMBOL_STR = 0;
+    BRAIN_STR_SYMBOL = 0;
    // BRAIN_TYPE_SYMBOL_I32 = 1;
-    BRAIN_TYPE_SYMBOL_I64 = 2;
+    BRAIN_I64_SYMBOL = 2;
 //    BRAIN_TYPE_SYMBOL_IDX = 3;
 }
 //

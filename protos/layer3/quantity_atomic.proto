@@ -48,13 +48,13 @@ message BrainSymbolicQuantity {
 }
 message BrainSymbolicQuantitySchema {
   BrainSymbolType type = 1;
-  BrainItemSet set = 2;
+  BrainCollectionSchema collection_schema = 2;
 }
 message BrainOrdinalQuantity {
   uint32 sequence_index = 1;
 }
 message BrainOrdinalQuantitySchema {
-  BrainItemSequence sequence = 1;
+  BrainCollectionSchema sequence = 1;
 }
 message BrainBinnedQuantity {
   uint32 bin_index = 1;

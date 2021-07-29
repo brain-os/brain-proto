@@ -64,7 +64,7 @@ message BrainQualifiedQuantity {
   // key can be
   // 1. attribute qualifier e.g. key = uint32 equivalent of /v/d/attribute-qualifier/city/population/2011 & value = 2011, 2012 equivalent of BrainQuantity
   // 2. predicate qualifier e.g. /v/d/predicate-qualifier/person/mayer-of/city/2011 & value = 2011, 2012 equivalent of BrainQuantity
-  map<BrainToken, BrainQuantity> qualifier = 2;
+  map<string, BrainQuantity> qualifier = 2;
 }
 message BrainEntityPredicate {
   oneof predicate_is_one_of {
@@ -77,7 +77,7 @@ message BrainQualifiedEntitiesSet {
 }
 message BrainQualifiedEntities {
   BrainEntitySet entities = 1;
-  map<BrainToken, BrainQuantity> qualifier = 2;
+  map<string, BrainQuantity> qualifier = 2;
 }
 
 message EntitySchema {
@@ -85,9 +85,15 @@ message EntitySchema {
   BrainToken primary_biz_id = 2;
   repeated BrainToken biz_type = 4;
   // key = ID(/v/d/attribute/entity_type/attribute_name)
-  map<BrainToken, BrainEntityAttributeSchema> attribute = 5;
+  map<string, BrainEntityAttributeSchema> attribute = 5;
   // key = ID(/v/d/predicate/subject_type/predicate_name/object_type)
-  map<BrainToken, BrainEntityPredicateSchema> predicate = 6;
+  map<string, BrainEntityPredicateSchema> predicate = 6;
+}
+
+message BrainQuantitySet {
+  BrainToken token = 1;
+  BrainToken unit = 2;
+  BrainQuantitySchema quantity_schema = 3;
 }
 
 message BrainEntityAttributeSchema {
@@ -103,7 +109,7 @@ message BrainEntityPredicateSchema {
 }
 message BrainKnowledgeQualifierSchema {
   // key = ID(/v/d/<type>_qualifier/*)
-  map<BrainToken, BrainQuantitySchema> qualifier = 2;
+  map<string, BrainQuantitySchema> qualifier = 2;
 }
 
 message AttributeSchema {

@@ -13,8 +13,8 @@ message BrainCollectionSchema {
   BrainToken token = 1;
   BrainCollectionType type = 2;
   oneof collection_is_one_of {
-    BrainItemSet item = 3;
-    BrainItemSequence sequence = 4;
+    BrainItemSet item_set = 3;
+    BrainItemSequence item_sequence = 4;
   }
 }
 message BrainItemSet {
@@ -30,13 +30,28 @@ message BrainSymbolSet {
   }
 }
 message BrainEntitySet {
+  // /common/predicate/city/of_state/state == 'Maharashtra'
+  // /common/attribute/city/population > 5000000 // population is attribute of entity city
+  BrainEntityCondition entity_condition = 2;
+  BrainU64Set entity = 3;
+}
+// either
+// 1. enumeration of all entities
+// 2. attribute condition
+// 3. predicate condition
+message BrainEntityCondition {
   uint32 entity_type = 1;// Example condition
-  oneof entity_is_one_of {
-    // /common/predicate/city/of_state/state == 'Maharashtra'
-    // /common/attribute/city/population > 5000000 // population is attribute of entity city
-    string entity_condition = 2;
-    BrainU64Set entity = 3;
+  oneof condition_is_one_of {
+    BrainAttributeCondition attribute_condition = 2;
+    BrainPredicateCondition predicate_condition = 3;
   }
+  // todo filters
+}
+message BrainAttributeCondition {
+
+}
+message BrainPredicateCondition {
+
 }
 //message BrainConditionalEntitySchema {
 //  string entity_type = 1; // /common/entity/city
