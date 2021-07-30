@@ -26,6 +26,8 @@ message BrainCompoundQuantity {
   oneof quantity_compound_is_one_of {
     BrainRangeQuantity range = 2;
     BrainBasketQuantity	basket = 3;
+    BrainSequenceQuantity sequence = 4;
+    BrainBagQuantity bag = 5;
     //    BrainQuantityCompoundBag 			bag 			= 4;
     //    BrainQuantityCompoundDistribution 	distribution 	= 5;
     //    BrainQuantityCompoundSeries 		series 		= 6;
@@ -40,6 +42,8 @@ message BrainCompoundQuantitySchema {
   oneof quantity_schema_compound_is_one_of {
     BrainRangeQuantitySchema range = 2;
     BrainBasketQuantitySchema basket = 3;
+    BrainSequenceQuantitySchema sequence = 4;
+    BrainBagQuantitySchema bag = 5;
     //    BrainQuantitySchemaCompoundBag 			bag 			= 4;
     //    BrainQuantitySchemaCompoundDistribution 	distribution 	= 5;
     //    BrainQuantitySchemaCompoundSeries 		series 		= 6;
@@ -50,14 +54,34 @@ message BrainCompoundQuantitySchema {
 }
 
 message BrainBasketQuantity {
-  oneof basket_is_one_of {
-    BrainStrSet str_item = 1;
-    BrainU64Set u64_item = 2;
-  }
+  // Can contain only BrainStrSet or BrainU64Set depending upon value of BrainSymbolType
+  // BrainIdxSet is invalid
+  BrainSymbolBasket basket = 1;
 }
 message BrainBasketQuantitySchema {
+  // Can only have BRAIN_STR_SYMBOL Or BRAIN_I64_SYMBOL but BRAIN_TYPE_SYMBOL_IDX is invalid
   BrainSymbolType type = 1;
-  BrainItemSet item = 2;
+  // BrainCollectionType == BRAIN_SYMBOL_COLLECTION
+  // BrainCollectionType > ItemSet > BrainSymbolSet > BrainStrSet or BrainU64Set depending on above BrainSymbolType
+  BrainCollectionSchema symbol_collection = 2;
 }
 
-
+message BrainSequenceQuantity {
+  // Can contain only BrainStrVector or BrainU64Vector depending upon value of BrainSymbolType
+  // BrainIdxVector is invalid
+  BrainSymbolSequence sequence = 1;
+}
+message BrainSequenceQuantitySchema {
+  // Can only have BRAIN_STR_SYMBOL Or BRAIN_I64_SYMBOL but BRAIN_TYPE_SYMBOL_IDX is invalid
+  BrainSymbolType type = 1;
+  // BrainCollectionType == BRAIN_SYMBOL_COLLECTION
+  // BrainCollectionType > ItemSet > BrainSymbolSet > BrainStrSet or BrainU64Set depending on above BrainSymbolType
+  BrainCollectionSchema sequence = 2; // use BrainItemSequence
+}
+message BrainBagQuantity {
+    BrainSymbolBag bag = 1;
+}
+message BrainBagQuantitySchema {
+  BrainSymbolType type = 1;
+  BrainCollectionSchema basket = 2; // use BrainItemSet
+}

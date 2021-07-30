@@ -44,20 +44,30 @@ message BrainNumericQuantitySchema {
 }
 
 message BrainSymbolicQuantity {
+  // Can contain only str or u64 depending upon value of BrainSymbolType
   BrainSymbol value = 1;
 }
 message BrainSymbolicQuantitySchema {
+  // Can only have BRAIN_STR_SYMBOL Or BRAIN_I64_SYMBOL but BRAIN_TYPE_SYMBOL_IDX is invalid
   BrainSymbolType type = 1;
-  BrainCollectionSchema collection_schema = 2;
+  // BrainCollectionType == BRAIN_SYMBOL_COLLECTION
+  // BrainCollectionType > ItemSet > BrainSymbolSet > BrainStrSet or BrainU64Set depending on above BrainSymbolType
+  BrainCollectionSchema symbol_collection = 2;
 }
 message BrainOrdinalQuantity {
-  uint32 sequence_index = 1;
+  // Can contain only str or u32 depending upon value of BrainSymbolType
+  BrainSymbol value = 1;
 }
 message BrainOrdinalQuantitySchema {
-  BrainCollectionSchema sequence = 1;
+  // Can only have BRAIN_STR_SYMBOL Or BRAIN_TYPE_SYMBOL_IDX but BRAIN_I64_SYMBOL is invalid
+  BrainSymbolType type = 1;
+  // BrainCollectionType == BRAIN_ORDINAL_COLLECTION
+  // BrainCollectionType > BrainItemSequence > BrainStrVector or BrainU64Vector depending on above BrainSymbolType
+  BrainCollectionSchema sequence = 2;
 }
 message BrainBinnedQuantity {
-  uint32 bin_index = 1;
+  // Can contain only str or u32 depending upon value of BrainSymbolType
+  BrainSymbol value = 1;
 }
 enum BinType {
   BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_SIZE = 0; // equal-sized-bins
@@ -66,18 +76,21 @@ enum BinType {
 }
 
 message BrainBinnedQuantitySchema {
-  BinType type = 1;
-  BrainNumericQuantitySchema source = 2;
-  bool open_minimum = 3;  // true[x >= minimum]
-  bool open_maximum = 4; // true[x <= maximum]
-  BrainItemSequence bin_names = 5;
+  BrainSymbolType type = 1;
+  BinType bin_type = 2;
+  BrainNumericQuantitySchema source_numeric_quantity = 3;
+  bool open_minimum = 4;  // true[x >= minimum]
+  bool open_maximum = 5; // true[x <= maximum]
+  // BrainCollectionType == BRAIN_ORDINAL_COLLECTION
+  // BrainCollectionType > BrainItemSequence > BrainStrVector
+  BrainCollectionSchema bin_names = 6;
   oneof bin_is_one_of {
     // equal-sized-bins
-    EqualSizeBinnedSchema size = 6;
+    EqualSizeBinnedSchema size = 7;
     // equal-frequency-bins
-    EqualFrequencyBinnedSchema frequency = 7;
+    EqualFrequencyBinnedSchema frequency = 8;
     // user-defined-bins
-    UserDefinedBinnedSchema user = 8;
+    UserDefinedBinnedSchema user = 9;
   }
 }
 message EqualSizeBinnedSchema {
