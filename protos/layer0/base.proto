@@ -37,7 +37,7 @@ enum BrainSymbolType {
     BRAIN_STR_SYMBOL = 0;
    // BRAIN_TYPE_SYMBOL_I32 = 1;
     BRAIN_I64_SYMBOL = 2;
-    BRAIN_TYPE_SYMBOL_IDX = 3; // represent sequence
+    BRAIN_IDX_SYMBOL = 3; // represent sequence
 }
 //
 //enum BrainOrdinalType {
