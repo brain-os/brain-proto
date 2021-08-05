@@ -8,5 +8,5 @@ message EntityId {
 }
 
 service EntitySchemaService {
-  rpc getSchemaForEntity(EntityId) returns (com.jio.fabric.EntitySchema);
+  rpc getSchemaForEntity(EntityId) returns (com.jio.fabric.BrainEntitySchema);
 }

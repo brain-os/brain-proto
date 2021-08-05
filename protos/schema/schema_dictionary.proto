@@ -3,7 +3,6 @@ package com.jio.fabric;
 option java_multiple_files = true;
 
 import "layer1/collection.proto";
-import "layer2/symbol.proto";
 import "layer3/quantity.proto";
 import "layer4/entity.proto";
 import "layer4/event.proto";
@@ -13,11 +12,11 @@ import "layer4/process.proto";
 message BrainSchemaDictionary {
   map<uint32, BrainCollectionSchema> collection = 1;
   map<uint32, BrainQuantitySchema> quantity = 2;
-  map<uint32, EntitySchema> entity = 3;  // 10 out 1 k
-  map<uint32, AttributeSchema> attribute = 4;
-  map<uint32, AttributeQualifierSchema> attribute_qualifier = 5;
-  map<uint32, PredicateSchema> predicate = 6;
-  map<uint32, PredicateQualifierSchema> predicate_qualifier = 7;
+  map<uint32, BrainEntitySchema> entity = 3;  // 10 out 1 k
+  map<uint32, BrainAttributeSchema> attribute = 4;
+  map<uint32, BrainAttributeQualifierSchema> attribute_qualifier = 5;
+  map<uint32, BrainPredicateSchema> predicate = 6;
+  map<uint32, BrainPredicateQualifierSchema> predicate_qualifier = 7;
   map<uint32, EventSchema> event = 8;  // 2  input
   map<uint32, ProcessSchema>  process = 9;  // 100 processes
 }

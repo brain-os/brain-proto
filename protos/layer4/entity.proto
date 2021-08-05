@@ -9,10 +9,95 @@ import "layer0/token.proto";
 import "layer1/collection.proto";
 import "layer1/set.proto";
 import "layer3/quantity.proto";
+/*
+Example Attribute - Finance
 
+Stock - Entity (Reliance)
+  Max Monthly Price - Attribute (2010)
+  Min Monthly Price - Attribute (2090)
+  Stock Price - Attribute (2076)
+    Date - Attribute Qualifier (3 Aug)
+    Volume - Attribute Qualifier (126380)
+  Stock Price - Attribute (2072)
+    Date - Attribute Qualifier (4 Aug)
+    Volume - Attribute Qualifier (36276330)
+  Stock Price - Attribute (2065)
+    Date - Attribute Qualifier (5 Aug)
+    Volume - Attribute Qualifier (34727640)
+
+Example Attribute - Geography
+
+City - Entity (Delhi)
+  Area - Attribute (1484)
+  Population - Attribute (2m)
+    Year - Attribute Qualifier (2021)
+    m/f ratio - Attribute Qualifier (0.52)
+  Population - Attribute (1.9m)
+    Year - Attribute Qualifier (2020)
+    m/f ratio - Attribute Qualifier (0.51)
+  Population - Attribute (1.7m)
+    Year - Attribute Qualifier (2019)
+    m/f ratio - Attribute Qualifier (0.5)
+
+Example Predicate - Politics (Single Entity)
+State - Entity
+  Has CM - (Predicate)
+    Person - Entity - (Object)
+
+State - Entity (Delhi)
+  Has CM - Predicate
+    Arvind Kejriwal - Entity - (Object)
+      from - Attribute Qualifier (2014)
+      Term - Attribute Qualifier (7th)
+
+Example Predicate - Library (Multiple Entity)
+Author - Entity
+  Is Author Of - (Predicate)
+    Book - Entity - (Object)
+
+Author - Entity (Rowling, J.K.)
+  Is Author Of - Predicate
+    Harry Potter and the Deathly Hallows - Entity - (Object)
+      Volume Sales - Attribute Qualifier (4,475,152)
+    Harry Potter and the Philosopher's Stone - Entity - (Object)
+      Volume Sales - Attribute Qualifier (4,200,654)
+   Harry Potter and the Order of the Phoenix - Entity - (Object)
+      Volume Sales - Attribute Qualifier (4,179,479)
+
+Example Predicate - Project Management ( Multiple Entities with qualifiers)
+
+Project - Entity
+  Has Developer - (Predicate)
+    Person - Entity - (Object)
+
+Project - Entity (Fabric)
+  Has Developer - Predicate
+    Rajan, Mona - Entity - (Object)
+      Start Date - 20 Sep
+      Bill Rate - 25
+    Priti, Parminder, Mayank, Pankaj, Neeru
+      Start Date - 20 Oct
+      Bill Rate - 20
+
+Example Predicate - Linked In
+
+Person - Entity
+  Employed At - (Predicate)
+    Company - Entity - (Object)
+
+Person - Entity (Rajan)
+  Employed At - Predicate
+    Statusneo - Entity - (Object)
+      Start Date - 20 April 2020
+      End Date - None
+      Designation - Principal Architect
+    Sapient - Entity - (Object)
+      Start Date - 27 Oct 2006
+      End Date - 27 April 2016
+      Designation - Director
+ */
 message BrainEntity {
-  // Event - need to present apart from ingestion
-  // else need to be enriched from biz id below
+  // Event - need to present apart from ingestion else need to be enriched from biz id below
   // Knowledge graph - Always present
   uint64 id = 1;
   // Event - Not required
@@ -26,104 +111,106 @@ message BrainEntity {
   // Knowledge graph - Can have multiple values present
   map<uint32, string> biz_id = 3;
 
-  // key = ID(/common/language/Hin_NI)
+  // key => ID(/common/language/Hin_NI)
   // Event - not required
   // Knowledge graph - Can have multiple values present
   map<uint32, BrainEntityName> name = 4;
 
-  // key = ID(/v/d/entity_type/attribute_name)
   // Event - Only few attributes will be present. Might need enrichment for other attributes from knowledge graph
   // Knowledge graph - Contain value of all attributes
-  map<uint32, BrainEntityAttribute> attribute = 5;
+  BrainAttributeSet attribute = 5;
 
-  // key = ID(/v/d/subject_type/predicate_name/object_type)
-  map<uint32, BrainEntityPredicate> predicate = 6;
+  BrainPredicateSet predicate = 6;
 }
 message BrainEntityName {
   string canonical = 1;
   BrainStrSet aliases = 2;
 }
-message BrainEntityAttribute {
-  oneof entity_attribute_is {
-    // e.g. /v/d/attribute-qualifier/city/population
-    BrainQuantity absolute = 1;
-    // Multiple Values
-    // e.g. /v/d/attribute-qualifier/city/population/2011
-    // e.g. /v/d/attribute-qualifier/city/population/2012
-    // e.g. /v/d/attribute-qualifier/city/population/2013
-    BrainQualifiedQuantitySet qualified = 2;
+message BrainAttributeSet {
+  uint32 entity_type_id = 1;  // populated only if needed
+  uint64 entity_id = 2;       // populated only if needed
+  // key = ID(/v/d/entity_type/attribute_name)
+  map<uint32, BrainAttribute> attributes = 3;
+}
+message BrainPredicateSet {
+  // key = ID(/v/d/subject_type/predicate_name/object_type)
+  map<uint32, BrainPredicate> attributes = 3;
+}
+message BrainAttribute {
+  oneof attribute_is_one_of {
+    BrainQuantity absolute = 2;
+    BrainQualifiedAttributeSet qualified = 3;
   }
 }
-message BrainQualifiedQuantitySet {
-  repeated BrainQualifiedQuantity quantity = 1;
+message BrainQualifiedAttributeSet {
+  repeated BrainQualifiedAttribute attribute = 1; // time series data of closing stock price
 }
-// Attribute -
-message BrainQualifiedQuantity {
-  // population in 2011
-  BrainQuantity value = 1;
-  // key can be
-  // 1. attribute qualifier e.g. key = uint32 equivalent of /v/d/attribute-qualifier/city/population/2011 & value = 2011, 2012 equivalent of BrainQuantity
-  // 2. predicate qualifier e.g. /v/d/predicate-qualifier/person/mayer-of/city/2011 & value = 2011, 2012 equivalent of BrainQuantity
-  map<string, BrainQuantity> qualifier = 2;
+message BrainQualifiedAttribute {
+  BrainQuantity value = 4;// time series data of closing stock price for particular day
+  BrainAttributeQualifierSet qualifiers = 5;// date, volume traded, open price etc.
 }
-message BrainEntityPredicate {
+message BrainAttributeQualifierSet {
+  map<uint32, BrainQuantity> qualifier = 1;// date, volume traded, open price etc.
+}
+message BrainPredicate {
   oneof predicate_is_one_of {
-    BrainEntitySet objects = 1;
-    BrainQualifiedEntitiesSet qualified = 2;
+    BrainEntitySet objects = 1; // players in team
+    BrainQualifiedPredicateSet qualified = 2;
   }
 }
-message BrainQualifiedEntitiesSet {
-  repeated BrainQualifiedEntities objects = 1;
+message BrainQualifiedPredicateSet {
+  repeated BrainQualifiedPredicate predicate = 1; // member of parliament in each ear
 }
-message BrainQualifiedEntities {
-  BrainEntitySet entities = 1;
-  map<string, BrainQuantity> qualifier = 2;
+message BrainQualifiedPredicate {
+  BrainEntitySet objects = 1; // Member of parliaments
+  BrainPredicateQualifierSet qualifier = 2;
+}
+message BrainPredicateQualifierSet {
+  // key = BrainId(/v/d/predicate_qualifier/*)
+  map<uint32, BrainQuantity> qualifier = 1; // which year, which session (Current is 17th)
 }
 
-message EntitySchema {
+message BrainEntitySchema {
   BrainToken token = 1;
   BrainToken primary_biz_id = 2;
   repeated BrainToken biz_type = 4;
+  BrainAttributeSetSchema attribute = 5;
+  BrainPredicateSetSchema predicate = 6;
+}
+
+message BrainAttributeSetSchema {
   // key = ID(/v/d/attribute/entity_type/attribute_name)
-  map<string, BrainEntityAttributeSchema> attribute = 5;
+  map<string, BrainAttributeSchema> attribute = 5;
+}
+message BrainPredicateSetSchema {
   // key = ID(/v/d/predicate/subject_type/predicate_name/object_type)
-  map<string, BrainEntityPredicateSchema> predicate = 6;
+  map<string, BrainPredicateSchema> predicate = 5;
 }
-
-message BrainQuantitySet {
-  BrainToken token = 1;
+message BrainAttributeSchema {
+  BrainAttributeToken attribute_token = 1; // contain information about brain entity
   BrainToken unit = 2;
-  BrainQuantitySchema quantity_schema = 3;
+  oneof attribute_is_one_of {
+    BrainQuantitySchema absolute = 3;
+    BrainQualifiedAttributeSchema qualifiers = 4;
+  }
+}
+message BrainQualifiedAttributeSchema {
+  BrainQuantitySchema value = 1;
+  map<string, BrainAttributeQualifierSchema> qualifiers = 2;
+}
+message BrainAttributeQualifierSchema {
+  BrainAttributeQualifierToken token = 1; // contain information about brain entity and attribute
+  BrainQuantitySchema quantity = 2;
+  BrainToken unit = 3;
 }
 
-message BrainEntityAttributeSchema {
-  BrainToken quantity_type = 1;
-  BrainToken unit = 2; // todo ??
-  BrainKnowledgeQualifierSchema qualifiers = 3;
+message BrainPredicateSchema {
+  BrainPredicateToken predicate_token = 1;
+  BrainEntityToken object = 2;
+  map<string, BrainPredicateQualifierSchema> qualifiers = 3;
 }
-
-message BrainEntityPredicateSchema {
-  BrainToken object_type_id = 1;
-  BrainToken unit = 2; // todo ??
-  BrainKnowledgeQualifierSchema qualifiers = 3;
-}
-message BrainKnowledgeQualifierSchema {
-  // key = ID(/v/d/<type>_qualifier/*)
-  map<string, BrainQuantitySchema> qualifier = 2;
-}
-
-message AttributeSchema {
-
-}
-
-message AttributeQualifierSchema {
-
-}
-
-message PredicateSchema {
-
-}
-
-message PredicateQualifierSchema {
-
+message BrainPredicateQualifierSchema {
+  BrainPredicateQualifierToken token = 1; // contain information about brain entity and predicate
+  BrainQuantitySchema quantity = 2;
+  BrainToken unit = 3;
 }
