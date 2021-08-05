@@ -13,5 +13,5 @@ message EntitySchemaRequest {
 //}
 
 service EntitySchemaService {
-  rpc getSchemaForEntity(EntitySchemaRequest) returns (com.jio.fabric.EntitySchema);
+  rpc getSchemaForEntity(EntitySchemaRequest) returns (com.jio.fabric.BrainEntitySchema);
 }

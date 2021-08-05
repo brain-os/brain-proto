@@ -4,9 +4,10 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
-message EventSchema {
+message BrainEvent {
 
 }
-message BrainEvent {
+
+message BrainEventSchema {
 
 }

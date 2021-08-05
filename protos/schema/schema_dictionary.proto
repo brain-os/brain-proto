@@ -17,7 +17,7 @@ message BrainSchemaDictionary {
   map<uint32, BrainAttributeQualifierSchema> attribute_qualifier = 5;
   map<uint32, BrainPredicateSchema> predicate = 6;
   map<uint32, BrainPredicateQualifierSchema> predicate_qualifier = 7;
-  map<uint32, EventSchema> event = 8;  // 2  input
+  map<uint32, BrainEventSchema> event = 8;  // 2  input
   map<uint32, ProcessSchema>  process = 9;  // 100 processes
 }
 
