@@ -65,6 +65,6 @@ message BrainItemSequence {
   bool modulo = 1;
   oneof sequence_is_one_of {
     BrainStrVector str_item = 2;
-    BrainU64Vector u64_item = 3;
+    BrainIdxVector idx_item = 3;
   }
 }
