@@ -22,7 +22,6 @@ enum BrainCompoundQuantityType {
 }
 
 message BrainCompoundQuantity {
-  BrainCompoundQuantityType type = 1;
   oneof quantity_compound_is_one_of {
     BrainRangeQuantity range = 2;
     BrainBasketQuantity	basket = 3;
