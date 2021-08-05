@@ -3,10 +3,15 @@ option java_multiple_files = true;
 package com.jio.fabric.grpc;
 import "layer4/entity.proto";
 
-message EntityId {
-  uint32 entity_type_id = 1;
+message EntitySchemaRequest {
+  string vertical = 1;
+  string domain = 2;
+  string name = 3;
 }
+//message EntitySchemaResponse {
+//  EntitySchema brain_id = 1;
+//}
 
 service EntitySchemaService {
-  rpc getSchemaForEntity(EntityId) returns (com.jio.fabric.BrainEntitySchema);
+  rpc getSchemaForEntity(EntitySchemaRequest) returns (com.jio.fabric.EntitySchema);
 }
