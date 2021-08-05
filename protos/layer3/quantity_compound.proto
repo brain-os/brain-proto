@@ -23,10 +23,10 @@ enum BrainCompoundQuantityType {
 
 message BrainCompoundQuantity {
   oneof quantity_compound_is_one_of {
-    BrainRangeQuantity range = 2;
-    BrainBasketQuantity	basket = 3;
-    BrainSequenceQuantity sequence = 4;
-    BrainBagQuantity bag = 5;
+    BrainRangeQuantity range = 1;
+    BrainBasketQuantity	basket = 2;
+    BrainSequenceQuantity sequence = 3;
+    BrainBagQuantity bag = 4;
     //    BrainQuantityCompoundBag 			bag 			= 4;
     //    BrainQuantityCompoundDistribution 	distribution 	= 5;
     //    BrainQuantityCompoundSeries 		series 		= 6;
