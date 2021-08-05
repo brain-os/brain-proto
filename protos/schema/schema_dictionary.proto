@@ -6,7 +6,7 @@ import "layer1/collection.proto";
 import "layer3/quantity.proto";
 import "layer4/entity.proto";
 import "layer4/event.proto";
-import "layer4/process.proto";
+import "layer5/process.proto";
 
 
 message BrainSchemaDictionary {
