@@ -81,6 +81,7 @@ message BrainBagQuantity {
     BrainSymbolBag bag = 1;
 }
 message BrainBagQuantitySchema {
-  BrainSymbolType type = 1;
-  BrainCollectionSchema basket = 2; // use BrainItemSet
+  BrainNumberType numeric_type = 1;
+  BrainSymbolType type = 2;
+  BrainCollectionSchema basket = 3; // use BrainItemSet
 }
