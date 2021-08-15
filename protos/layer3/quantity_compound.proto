@@ -7,8 +7,11 @@ option java_multiple_files = true;
 import "layer0/base.proto";
 import "layer1/collection.proto";
 import "layer1/set.proto";
+import "layer1/vector.proto";
 import "layer2/symbol.proto";
+import "layer3/quantity_atomic.proto";
 import "layer3/quantity_compound_range.proto";
+import "layer3/quantity_temporal.proto";
 
 enum BrainCompoundQuantityType {
   BRAIN_RANGE_COMPOUND_QUANTITY = 0;
@@ -24,14 +27,12 @@ enum BrainCompoundQuantityType {
 message BrainCompoundQuantity {
   oneof quantity_compound_is_one_of {
     BrainRangeQuantity range = 1;
-    BrainBasketQuantity	basket = 2;
-    BrainSequenceQuantity sequence = 3;
-    BrainBagQuantity bag = 4;
-    //    BrainQuantityCompoundBag 			bag 			= 4;
-    //    BrainQuantityCompoundDistribution 	distribution 	= 5;
-    //    BrainQuantityCompoundSeries 		series 		= 6;
-    //    BrainQuantityCompoundSequence 		sequence 		= 7;
-    //    BrainQuantityCompoundPermutation 	permutation 	= 8;
+    BrainBasketQuantity  basket = 2;
+    BrainSequenceQuantity sequence = 3; // Sequence of symbols (e.g. gene sequence)
+    BrainBagQuantity bag = 4; // Weighted set of symbols from a dictionary (e.g. term frequency)
+    BrainDistributionQuantity distribution = 5; // A Distribution over symbols (e.g. hourly download distribution)
+    BrainSeriesQuantity series = 6; // time series data from IoT sensor
+    BrainMultivariateQuantity multivariate = 7;
     //    BrainQuantityCompoundMultivariate 	multivariate 	= 9;
   }
 }
@@ -43,8 +44,9 @@ message BrainCompoundQuantitySchema {
     BrainBasketQuantitySchema basket = 3;
     BrainSequenceQuantitySchema sequence = 4;
     BrainBagQuantitySchema bag = 5;
-    //    BrainQuantitySchemaCompoundBag 			bag 			= 4;
-    //    BrainQuantitySchemaCompoundDistribution 	distribution 	= 5;
+    BrainDistributionQuantitySchema distribution = 6;
+    BrainSeriesQuantitySchema series = 7;
+    BrainMultivariateQuantitySchema multivariate = 8;
     //    BrainQuantitySchemaCompoundSeries 		series 		= 6;
     //    BrainQuantitySchemaCompoundSequence 		sequence 		= 7;
     //    BrainQuantitySchemaCompoundPermutation 	permutation 	= 8;
@@ -78,9 +80,63 @@ message BrainSequenceQuantitySchema {
   BrainCollectionSchema sequence = 2; // use BrainItemSequence
 }
 message BrainBagQuantity {
-    BrainSymbolBag bag = 1;
+  BrainSymbolBag bag = 1;
 }
 message BrainBagQuantitySchema {
-  BrainSymbolType type = 1;
-  BrainCollectionSchema basket = 2; // use BrainItemSet
+  /*
+    Can have all type of collection - symbol, entity or ordered
+   */
+  BrainSymbolType type = 1;// TODO change to element type
+  BrainNumberType numeric_type = 2;
+  BrainCollectionSchema basket = 3;// TODO change to collection
 }
+message BrainDistributionQuantity {
+  oneof distribution_is_one_of {
+    BrainKeyDblSymbolBag key_dbl_bag = 1;
+    BrainIdxDblSymbolBag i32_dbl_bag = 2;
+    BrainI64DblSymbolBag i64_dbl_bag = 3;
+  }
+}
+message BrainDistributionQuantitySchema {
+  /*
+    Can have all type of collection - symbol, entity or ordered
+   */
+  BrainSymbolType type = 1; // key type in bag
+  BrainCollectionSchema collection = 2; // keys from collection
+}
+message BrainSeriesQuantity {
+  BrainVector value = 1;
+}
+message BrainSeriesQuantitySchema {
+  BrainNumericQuantitySchema y_type = 1; // numeric quantity
+  BrainHorizontalAxesSchema x_type = 2; // can be numeric or temporal quantity
+  BrainHorizontalAxesStepSize step_size = 3;
+  BrainHorizontalAxesPoint start_point = 4;
+  uint32 step_count = 5;
+}
+message BrainHorizontalAxesSchema {
+  oneof x_type_is_one_of {
+    BrainNumericQuantitySchema numeric = 1;
+    BrainTemporalInstanceQuantitySchema temporal = 2;
+  }
+}
+message BrainHorizontalAxesStepSize {
+  oneof x_type_is_one_of {
+    BrainNumericQuantity numeric = 1;
+    BrainTemporalInstanceQuantity temporal = 2;
+  }
+}
+message BrainHorizontalAxesPoint {
+  oneof x_type_is_one_of {
+    BrainNumericQuantity numeric = 1;
+    BrainTemporalInstanceQuantity temporal = 2;
+  }
+}
+// A Multivariate set of features (e.g. all features in a model)
+message BrainMultivariateQuantity {
+  map<uint32, BrainAtomicQuantity> value = 1;
+}
+message BrainMultivariateQuantitySchema {
+  map<uint32, BrainAtomicQuantitySchema> value = 1;
+}
+
