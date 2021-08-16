@@ -9,22 +9,62 @@ import "layer1/collection.proto";
 import "layer3/quantity.proto";
 import "layer4/entity.proto";
 
+/*
+{
+  "id" : 12345, // 12345 (generated) from schema <=> /telecom/network/event/lsr - will same for all LSR events
+  "value" : {
+    "entity_store" : [
+      {
+        "key" : 23456, // 23456 (generated) customer entity type id <=> /telecom/network/entity/subscriber  - will same for all customer entities
+        "value" : [123456789] // uint64 id for specific subscriber or biz_id e.g. imsi
+      },
+      {
+        "key" : 34567, // 23456 (generated) cell tower entity id <=> /telecom/network/entity/cell_tower  - will same for all cell towers entities
+        "value" : [234567, 234568, 234569] // uint64 id for specific cell towers or biz_id e.g. ecgi
+      }
+    ]
+  },
+  "property_store" : [
+    {
+      "key" : 45372, // /telecom/network/property/lsr/start_time
+      "value" : 45456 // actual value of time stamp
+    }
+  ]
+}
+ */
 message BrainEvent {
-  uint32 id = 1; //
+  uint32 id = 1; // entity type <-> lsr event
   BrainEventKey key = 2;
   BrainEventValue value = 3;
 }
 message BrainEventKey {
   BrainEntityStore entity_store = 1;    // customer, cell-id
   BrainQuantityStore context_store = 2;  // tie-stamp, lat-long
+  BrainBizIdStore biz_id_store = 3;
+  BrainEntityValueStore attribute_store = 4;
+  BrainEntityValueStore attribute_qualifier_store = 5;
+  BrainEntityValueStore predicate_store = 6;
+  BrainEntityValueStore predicate_qualifier_store = 7;
 }
 message BrainEventValue {
   BrainEntityStore entity_store = 1;
   BrainQuantityStore property_store = 2;
-  BrainEntityValueStore attribute_store = 3;
-  BrainEntityValueStore attribute_qualifier_store = 4;
-  BrainEntityValueStore predicate_store = 5;
-  BrainEntityValueStore predicate_qualifier_store = 6;
+  BrainBizIdStore biz_id_store = 3;
+  BrainEntityValueStore attribute_store = 4;
+  BrainEntityValueStore attribute_qualifier_store = 5;
+  BrainEntityValueStore predicate_store = 6;
+  BrainEntityValueStore predicate_qualifier_store = 7;
+}
+message BrainBizId {
+  uint32 type_id = 1;
+  string value = 2;
+}
+
+message BrainBizIdSet {
+  repeated BrainBizId biz_id = 1;
+}
+message BrainBizIdStore {
+  map<uint64, BrainBizIdSet> value = 2;
 }
 message BrainEntityStore {
   // key = BrainId32(/v/d/entity/<entity>)
