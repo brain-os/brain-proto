@@ -11,11 +11,11 @@ import "layer5/filter_config.proto";
 import "layer5/pivot_config.proto";
 import "layer5/reduce_config.proto";
 
-message ProcessSchema {
-  string input_queue = 1;
-  string input_event_config = 2; // event key in dictionary
-  map<string, string> output_event_config = 3; // key = output_topic, value = event key in dictionary
-//  BrainDictionary dictionary = 4; //TODO
+message ProcessConfig {
+  string process_key = 1;
+  string input_queue = 2;
+  string input_event_config = 3; // event key in dictionary
+  map<string, string> output_event_config = 4; // key = output_topic, value = event key in dictionary
   oneof config {
     EnrichConfig enrich_config = 5;
     FilterConfig filter_config = 6;
