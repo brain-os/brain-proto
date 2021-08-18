@@ -8,6 +8,7 @@ import "layer0/token.proto";
 import "layer1/collection.proto";
 import "layer3/quantity.proto";
 import "layer4/entity.proto";
+import "layer4/tracing.proto";
 
 /*
 {
@@ -33,9 +34,10 @@ import "layer4/entity.proto";
 }
  */
 message BrainEvent {
-  uint32 id = 1; // entity type <-> lsr event
+  uint32 type = 1; // entity type <-> lsr event
   BrainEventKey key = 2;
   BrainEventValue value = 3;
+  repeated BrainEventTrace trace = 4;
 }
 message BrainEventKey {
   BrainEntityStore entity_store = 1;    // customer, cell-id

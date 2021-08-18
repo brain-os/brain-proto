@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+message BrainEventTrace {
+  uint64 in_time = 1; // epoch time
+  uint64 out_time = 2; // epoch time
+  uint32 process_id = 3;
+  uint32 input_topic = 4;
+  uint32 output_topic = 5;
+}
