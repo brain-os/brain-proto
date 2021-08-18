@@ -40,16 +40,14 @@ message BrainEvent {
 message BrainEventKey {
   BrainEntityStore entity_store = 1;    // customer, cell-id
   BrainQuantityStore context_store = 2;  // tie-stamp, lat-long
-  BrainBizIdStore biz_id_store = 3;
-  BrainAttributeStore attribute_store = 4;
-  BrainEntityPredicateStore predicate_store = 5;
+  BrainAttributeStore attribute_store = 3;
+  BrainEntityPredicateStore predicate_store = 4;
 }
 message BrainEventValue {
   BrainEntityStore entity_store = 1;
   BrainQuantityStore property_store = 2;
-  BrainBizIdStore id_store = 3;
-  BrainAttributeStore attribute_store = 4;
-  BrainEntityPredicateStore predicate_store = 5;
+  BrainAttributeStore attribute_store = 3;
+  BrainEntityPredicateStore predicate_store = 4;
 }
 message BrainEntityStore {
   // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
@@ -64,18 +62,6 @@ message BrainQuantityStore {
   // e.g. attribute, attribute_qualifier,
   // e.g. predicate, predicate_qualifier
   map<uint32, BrainQuantity> value = 2;
-}
-
-message BrainBizIdStore {
-  // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
-  map<uint32, BrainEntityBizIdStore> id = 1;
-}
-message BrainEntityBizIdStore {
-  repeated BrainEntityBizId biz_id = 1;
-}
-message BrainEntityBizId {
-  // Key = mid(/m/<vertical>/<domain>/<entity>/biz_id/<biz_id_name>) e.g. PAN, Aadhaar
-  map<uint32, string> id = 1;
 }
 
 message BrainAttributeStore {
