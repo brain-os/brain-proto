@@ -41,43 +41,60 @@ message BrainEventKey {
   BrainEntityStore entity_store = 1;    // customer, cell-id
   BrainQuantityStore context_store = 2;  // tie-stamp, lat-long
   BrainBizIdStore biz_id_store = 3;
-  BrainEntityValueStore attribute_store = 4;
-  BrainEntityValueStore attribute_qualifier_store = 5;
-  BrainEntityValueStore predicate_store = 6;
-  BrainEntityValueStore predicate_qualifier_store = 7;
+  BrainAttributeStore attribute_store = 4;
+  BrainEntityPredicateStore predicate_store = 5;
 }
 message BrainEventValue {
   BrainEntityStore entity_store = 1;
   BrainQuantityStore property_store = 2;
-  BrainBizIdStore biz_id_store = 3;
-  BrainEntityValueStore attribute_store = 4;
-  BrainEntityValueStore attribute_qualifier_store = 5;
-  BrainEntityValueStore predicate_store = 6;
-  BrainEntityValueStore predicate_qualifier_store = 7;
-}
-message BrainBizId {
-  uint32 type_id = 1;
-  string value = 2;
-}
-
-message BrainBizIdSet {
-  repeated BrainBizId biz_id = 1;
-}
-message BrainBizIdStore {
-  map<uint64, BrainBizIdSet> value = 2;
+  BrainBizIdStore id_store = 3;
+  BrainAttributeStore attribute_store = 4;
+  BrainEntityPredicateStore predicate_store = 5;
 }
 message BrainEntityStore {
-  // key = BrainId32(/v/d/entity/<entity>)
-  map<uint32, BrainEntitySet> entity_type = 1;
+  // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+  // Value = A Set of entities of key type
+  // entities[<entity-type>].elements[<entity-id>] = true
+  map<uint32, BrainEntitySet> entities = 1;
 }
 message BrainQuantityStore {
-  // key = property, context, attribute, predicate, qualifier
+  // key = machine_id for whatever role it is playing
+  // Note: This is NOT quantity type but the role_type
+  // e.g. context, property,
+  // e.g. attribute, attribute_qualifier,
+  // e.g. predicate, predicate_qualifier
   map<uint32, BrainQuantity> value = 2;
 }
-message BrainEntityValueStore {
-  // key = entity id
-  map<uint64, BrainQuantityStore> value = 2;
+
+message BrainBizIdStore {
+  // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+  map<uint32, BrainEntityBizIdStore> id = 1;
 }
+message BrainEntityBizIdStore {
+  repeated BrainEntityBizId biz_id = 1;
+}
+message BrainEntityBizId {
+  // Key = mid(/m/<vertical>/<domain>/<entity>/biz_id/<biz_id_name>) e.g. PAN, Aadhaar
+  map<uint32, string> id = 1;
+}
+
+message BrainAttributeStore {
+  // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+  map<uint32, BrainEntityAttributeStore> attributes = 1;
+}
+message BrainEntityAttributeStore {
+  // key = <entity-id> (attributes of these entities)
+  map<uint64, BrainAttributeSet> entity = 1;
+}
+message BrainPredicateStore {
+  // key = mid(/m/<vertical>/<domain>/predicate/<subject-type>/<predicate-name>/<object-type>)
+  map<uint32, BrainEntityPredicateStore> predicate = 2;
+}
+message BrainEntityPredicateStore {
+  // key = entity id
+  map<uint64, BrainPredicateSet> predicate = 2;
+}
+
 message BrainEventSchema {
   BrainToken token = 1;
   BrainEventKeySchema key = 2;
@@ -85,18 +102,15 @@ message BrainEventSchema {
 }
 message BrainEventKeySchema {
   BrainEntityStoreSchema entity = 1;
-  BrainContextStoreSchema context = 2;
+  // key = mid(/m/<vertical>/<domain>/<event>/<context>)
+  map<string, BrainQuantitySchema> context = 2;
 }
 message BrainEventValueSchema {
   BrainEntityStoreSchema entity = 1;
+  // key = mid(/m/<vertical>/<domain>/<event>/<property>)
   map<string, BrainQuantitySchema> property = 2;
 }
 message BrainEntityStoreSchema {
+  // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
   map<string, BrainEntitySchema> entity = 1;
-}
-message BrainContextStoreSchema {
-  map<string, BrainQuantitySchema> context = 1;
-}
-message BrainPropertyStoreSchema {
-  map<string, BrainQuantitySchema> property = 1;
 }
