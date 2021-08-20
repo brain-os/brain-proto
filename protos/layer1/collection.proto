@@ -20,7 +20,7 @@ message BrainCollectionSchema {
     case 1 : BrainStrVector, it can be only BRAIN_STR_SYMBOL
     case 2 : BrainIdxVector, it can be only BRAIN_IDX_SYMBOL
    */
-  BrainSymbolType element_type = 3;
+ // BrainSymbolType element_type = 3;
   oneof collection_is_one_of {
     BrainItemSet item_set = 4;
     BrainItemSequence item_sequence = 5;
