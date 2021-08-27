@@ -26,12 +26,13 @@ enum BrainQuantityType {
     BRAIN_SPATIAL_QUANTITY	= 3;
 }
 enum BrainNumberType {
-    BRAIN_S32_NUMBER = 0;	// signed integer 32bit
-    BRAIN_U32_NUMBER = 1;	// unsigned integer 32bit
-    BRAIN_F32_NUMBER = 2;	// signed float 32bit
-    BRAIN_S64_NUMBER = 3;	// signed integer 64bit
-    BRAIN_U64_NUMBER = 4;	// unsigned integer 64bit
-    BRAIN_F64_NUMBER = 5;	// signed double 64bit
+    UNKNOWN = 0;
+    BRAIN_S32_NUMBER = 1;	// signed integer 32bit
+    BRAIN_U32_NUMBER = 2;	// unsigned integer 32bit
+    BRAIN_F32_NUMBER = 3;	// signed float 32bit
+    BRAIN_S64_NUMBER = 4;	// signed integer 64bit
+    BRAIN_U64_NUMBER = 5;	// unsigned integer 64bit
+    BRAIN_F64_NUMBER = 6;	// signed double 64bit
 }
 enum BrainSymbolType {
     BRAIN_STR_SYMBOL = 0;

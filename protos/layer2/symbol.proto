@@ -59,11 +59,11 @@ message BrainKeyDblSymbolBag {
   map<string, double> key_values = 1;
 }
 message BrainIdxSymbolBag {
-  oneof symbol_i32_bag_is_one_of {
-    BrainIdxIntSymbolBag i32_int_bag = 1;
-    BrainIdxLngSymbolBag i32_lng_bag = 2;
-    BrainIdxFltSymbolBag i32_flt_bag = 3;
-    BrainIdxDblSymbolBag i32_dbl_bag = 4;
+  oneof symbol_idx_bag_is_one_of {
+    BrainIdxIntSymbolBag idx_int_bag = 1;
+    BrainIdxLngSymbolBag idx_lng_bag = 2;
+    BrainIdxFltSymbolBag idx_flt_bag = 3;
+    BrainIdxDblSymbolBag idx_dbl_bag = 4;
   }
 }
 message BrainIdxIntSymbolBag {
