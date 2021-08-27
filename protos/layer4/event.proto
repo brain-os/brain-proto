@@ -91,13 +91,27 @@ message BrainEventSchema {
 message BrainEventKeySchema {
   BrainEntityStoreSchema entity = 1;
   // key = mid(/m/<vertical>/<domain>/<event>/<context>)
-  map<string, BrainQuantitySchema> context = 2;
+  repeated BrainEventContextSchema context = 2;
 }
+
+message BrainEventContextSchema {
+  BrainToken token = 1;
+  BrainQuantitySchema quantity = 2;
+  // BrainToken unit = 3;
+}
+
 message BrainEventValueSchema {
   BrainEntityStoreSchema entity = 1;
   // key = mid(/m/<vertical>/<domain>/<event>/<property>)
-  map<string, BrainQuantitySchema> property = 2;
+  repeated BrainEventPropertySchema property = 2;
 }
+
+message BrainEventPropertySchema {
+  BrainToken token = 1;
+  BrainQuantitySchema quantity = 2;
+  BrainToken unit = 3;
+}
+
 message BrainEntityStoreSchema {
   // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
   map<string, BrainEntitySchema> entity = 1;
