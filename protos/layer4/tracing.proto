@@ -8,6 +8,7 @@ message BrainEventTrace {
   uint64 in_time = 1; // epoch time
   uint64 out_time = 2; // epoch time
   uint32 process_id = 3;
-  string input_topic = 4;
-  string output_topic = 5;
+  uint32 event_type = 4;
+  string input_topic = 5;
+  string output_topic = 6;
 }
