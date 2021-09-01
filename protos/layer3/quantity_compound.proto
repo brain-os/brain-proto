@@ -88,7 +88,7 @@ message BrainBagQuantitySchema {
    */
   BrainSymbolType type = 1;// TODO change to element type
   BrainNumberType numeric_type = 2;
-  BrainCollectionSchema basket = 3;// TODO change to collection
+  BrainCollectionSchema collection = 3;// TODO change to collection
 }
 message BrainDistributionQuantity {
   oneof distribution_is_one_of {
