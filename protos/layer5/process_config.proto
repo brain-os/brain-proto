@@ -24,5 +24,4 @@ message ProcessConfig {
     IngestConfig ingest_config = 9;
     QuantizationConfig quantization_config = 10;
   }
-
 }

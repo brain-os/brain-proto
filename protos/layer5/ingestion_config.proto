@@ -7,9 +7,9 @@ option java_multiple_files = true;
 message IngestConfig {
   string output_topic = 1;
   oneof data_transport {
-      KafkaTransport kafka_transport = 2;
-      CsvFileTransport csv_transport = 3;
-      JsonFileTransport json_transport = 4;
+    KafkaTransport kafka_transport = 2;
+    CsvFileTransport csv_transport = 3;
+    JsonFileTransport json_transport = 4;
   }
 }
 
@@ -29,14 +29,45 @@ message JsonFileTransport {
 }
 
 message FieldMapping {
-  string mapping_name = 1;
-  oneof input_field_config {
-    uint32 input_field_index = 2;
-    string input_field_name = 3;
-  }
+  int32 column_index = 1;
+  ColumnType column_type = 2;
+  string columnUnit = 3;
   DataType input_data_type = 4;
-  string output_field_name = 5;
-  DataType output_data_type = 6;
+
+  oneof element {
+    EntityBizId entity = 5;
+    EntityAttribute entity_attribute = 6;
+    EntityAttributeQualifier entity_attribute_qualifier = 7;
+    Property property = 8;
+  }
+
+  message EntityBizId {
+    string entity = 1;
+    string bizId = 2;
+  }
+
+  message EntityAttribute {
+    string entity = 1;
+    uint32 entityColumn = 2;
+    string attribute = 3;
+  }
+  message EntityAttributeQualifier {
+    string entity = 1;
+    uint32 entityColumn = 2;
+    string attribute = 3;
+    uint32 attributeColumn = 4;
+    string qualifier = 5;
+  }
+  message Property {
+    string name = 1;
+  }
+}
+
+enum ColumnType {
+  entity_bizId = 0;
+  entity_attribute = 1;
+  entity_attribute_qualifier = 2;
+  property = 3;
 }
 
 enum DataType {
