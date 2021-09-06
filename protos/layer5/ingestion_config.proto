@@ -31,7 +31,7 @@ message JsonFileTransport {
 message FieldMapping {
   int32 column_index = 1;
   ColumnType column_type = 2;
-  string columnUnit = 3;
+  string column_unit = 3;
   DataType input_data_type = 4;
 
   oneof element {
