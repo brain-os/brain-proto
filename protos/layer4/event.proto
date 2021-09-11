@@ -52,7 +52,7 @@ message BrainEventMetadata {
 
 message BrainIngestionEvent {
   oneof source {
-    string folder = 1;        // csv, excel
+    string file_path = 1;        // csv, excel
     string json = 2;          // kafka ??
   }
 }

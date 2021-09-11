@@ -4,85 +4,64 @@ package com.jio.fabric;
 
 option java_multiple_files = true;
 
+import "layer0/token.proto";
+
 message IngestConfig {
   string output_topic = 1;
+  repeated FieldMapping mappings = 2;
   oneof data_transport {
-    KafkaTransport kafka_transport = 2;
-    CsvFileTransport csv_transport = 3;
-    JsonFileTransport json_transport = 4;
+    KafkaTransport kafka_transport = 3;
+    CsvFileTransport csv_transport = 4;
+    JsonFileTransport json_transport = 5;
   }
 }
 
 message KafkaTransport {
   string input_topic = 1;
-  repeated FieldMapping mappings = 2;
 }
 
 message CsvFileTransport {
   string folder_to_watch = 1;
-  repeated FieldMapping mappings = 2;
 }
 
 message JsonFileTransport {
   string folder_to_watch = 1;
-  repeated FieldMapping mappings = 2;
 }
 
 message FieldMapping {
-  int32 column_index = 1;
-  ColumnType column_type = 2;
-  string column_unit = 3;
-  DataType input_data_type = 4;
-
-  oneof element {
-    EntityBizId entity = 5;
-    EntityAttribute entity_attribute = 6;
-    EntityAttributeQualifier entity_attribute_qualifier = 7;
-    Property property = 8;
-  }
-
-  message EntityBizId {
-    string entity = 1;
-    string bizId = 2;
-  }
-
-  message EntityAttribute {
-    string entity = 1;
-    uint32 entityColumn = 2;
-    string attribute = 3;
-  }
-  message EntityAttributeQualifier {
-    string entity = 1;
-    uint32 entityColumn = 2;
-    string attribute = 3;
-    uint32 attributeColumn = 4;
-    string qualifier = 5;
-  }
-  message Property {
-    string name = 1;
+  int32 field_index = 1; // column index in case of csv or excel
+  string field_name = 2; // key name in case of kafka
+  string column_unit = 3; // unit of this column
+  FieldDataType input_data_type = 4; // data type of input - will always be string in case of csv
+  oneof field_identity_is_one_of {
+    string brain_key = 5;
+    BrainToken token = 6;
   }
 }
 
 enum ColumnType {
-  entity_bizId = 0;
-  entity_attribute = 1;
-  entity_attribute_qualifier = 2;
-  property = 3;
+  COLUMN_TYPE_UNKNOWN = 0;
+  COLUMN_TYPE_ENTITY_BIZ_ID = 1;
+  COLUMN_TYPE_ENTITY_ATTRIBUTE = 2;
+  COLUMN_TYPE_ENTITY_ATTRIBUTE_QUALIFIER = 3;
+  COLUMN_TYPE_ENTITY_PREDICATE_QUALIFIER = 4;
+  COLUMN_TYPE_PROPERTY = 5;
 }
 
-enum DataType {
-  STRING = 0;
-  BOOL = 1;
-  IN32 = 2;
-  IN64 = 3;
-  UIN32 = 4;
-  UIN64 = 5;
-  SIN32 = 6;
-  SIN64 = 7;
-  FIXED32 = 8;
-  FIXED64 = 9;
-  SFIXED32 = 10;
-  SFIXED64 = 11;
-  DOUBLE = 12;
-  FLOAT = 13;
+enum FieldDataType {
+  FILED_DATA_TYPE_UNKNOWN = 0;
+  FILED_DATA_TYPE_STRING = 1;
+  FILED_DATA_TYPE_BOOL = 2;
+  FILED_DATA_TYPE_IN32 = 3;
+  FILED_DATA_TYPE_IN64 = 4;
+  FILED_DATA_TYPE_UIN32 = 5;
+  FILED_DATA_TYPE_UIN64 = 6;
+  FILED_DATA_TYPE_SIN32 = 7;
+  FILED_DATA_TYPE_SIN64 = 8;
+  FILED_DATA_TYPE_FIXED32 = 9;
+  FILED_DATA_TYPE_FIXED64 = 10;
+  FILED_DATA_TYPE_SFIXED32 = 11;
+  FILED_DATA_TYPE_SFIXED64 = 12;
+  FILED_DATA_TYPE_DOUBLE = 13;
+  FILED_DATA_TYPE_FLOAT = 14;
 }

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+message LsrEvent {
+  string name = 1;
+}

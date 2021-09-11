@@ -6,7 +6,7 @@ option java_multiple_files = true;
 
 message BrainStatus {
   bool is_ok = 1;
-  repeated BrainStatusInstance instance = 2;
+  repeated BrainStatusInstance brain_status_instance = 2;
 }
 
 message BrainStatusInstance {
@@ -22,5 +22,9 @@ enum BrainStatusCode {
   OUT_OF_RANGE = 4;
   WRONG_QUANTITY_TYPE = 5;
   INVALID_ENTITY_TYPE = 6;
+  INGESTION_FILE_DOES_NOT_EXIST = 7;
+  CSV_FILE_FORMAT_ISSUE = 8;
+  GENERIC_ERROR = 1000;
+  GENERIC_FILE_ERROR = 1001;
   // define more types as we discover
 }
