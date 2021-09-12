@@ -5,6 +5,7 @@ package com.jio.fabric;
 option java_multiple_files = true;
 
 import "layer0/base.proto";
+import "google/protobuf/timestamp.proto";
 
 message BrainTemporalQuantity {
   oneof temporal_is_one_of {
@@ -12,6 +13,7 @@ message BrainTemporalQuantity {
     BrainTemporalRangeQuantity range = 2;
     BrainTemporalDurationQuantity duration = 3;
     BrainTemporalContextQuantity context = 4;
+    google.protobuf.Timestamp timestamp = 5;
   }
 }
 message BrainTemporalInstanceQuantity {
@@ -73,6 +75,7 @@ message BrainTemporalQuantitySchema {
     BrainTemporalRangeQuantitySchema range = 2;
     BrainTemporalDurationQuantitySchema duration = 3;
     BrainTemporalContextQuantitySchema context = 4;
+    BrainTimestampSchema timestamp = 5;
   }
 }
 message BrainTemporalInstanceQuantitySchema {
@@ -90,4 +93,7 @@ message BrainTemporalDurationQuantitySchema {
 message BrainTemporalContextQuantitySchema {
   BrainTemporalContextType context_type = 1;
   BrainTemporalLevel level = 2; // derive from BrainTemporalType
+}
+message BrainTimestampSchema {
+  string format = 1;
 }

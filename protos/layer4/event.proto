@@ -128,7 +128,7 @@ message BrainEventSchema {
   }
 }
 message BrainIngestionEventSchema {
-
+  string name = 1;
 }
 
 message BrainEventKeySchema {

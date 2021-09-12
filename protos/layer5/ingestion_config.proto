@@ -7,12 +7,11 @@ option java_multiple_files = true;
 import "layer0/token.proto";
 
 message IngestConfig {
-  string output_topic = 1;
-  repeated FieldMapping mappings = 2;
+  repeated FieldMapping mappings = 1;
   oneof data_transport {
-    KafkaTransport kafka_transport = 3;
-    CsvFileTransport csv_transport = 4;
-    JsonFileTransport json_transport = 5;
+    KafkaTransport kafka_transport = 2;
+    CsvFileTransport csv_transport = 3;
+    JsonFileTransport json_transport = 4;
   }
 }
 
@@ -34,9 +33,10 @@ message FieldMapping {
   string field_name = 3; // key name in case of kafka
   string column_unit = 4; // unit of this column
   FieldDataType input_data_type = 5; // data type of input - will always be string in case of csv
+  string format = 6; // date format or number format in case of date or number
   oneof field_identity_is_one_of {
-    string brain_key = 6;
-    BrainToken token = 7;
+    string brain_key = 7;
+    BrainToken token = 8;
   }
 }
 
