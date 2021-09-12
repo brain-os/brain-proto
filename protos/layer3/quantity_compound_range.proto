@@ -9,9 +9,10 @@ import "layer2/number.proto";
 import "layer3/quantity_atomic.proto";
 
 enum BrainRangeQuantityType {
-  BRAIN_NUMERIC_RANGE_QUANTITY = 0;
-  BRAIN_ORDINAL_RANGE_QUANTITY = 1;
-  BRAIN_BINNED_RANGE_QUANTITY = 2;
+  BRAIN_UNKNOWN_RANGE_QUANTITY = 0;
+  BRAIN_NUMERIC_RANGE_QUANTITY = 1;
+  BRAIN_ORDINAL_RANGE_QUANTITY = 2;
+  BRAIN_BINNED_RANGE_QUANTITY = 3;
 }
 
 message BrainIndexRange {

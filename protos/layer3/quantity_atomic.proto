@@ -11,10 +11,11 @@ import "layer2/number.proto";
 import "layer2/symbol.proto";
 
 enum BrainAtomicQuantityType {
-  BRAIN_NUMERIC_ATOMIC_QUANTITY = 0;
-  BRAIN_SYMBOLIC_ATOMIC_QUANTITY = 1;
-  BRAIN_ORDINAL_ATOMIC_QUANTITY = 2;
-  BRAIN_BINNED_ATOMIC_QUANTITY = 3;
+  BRAIN_UNKNOWN_ATOMIC_QUANTITY = 0;
+  BRAIN_NUMERIC_ATOMIC_QUANTITY = 1;
+  BRAIN_SYMBOLIC_ATOMIC_QUANTITY = 2;
+  BRAIN_ORDINAL_ATOMIC_QUANTITY = 3;
+  BRAIN_BINNED_ATOMIC_QUANTITY = 4;
 }
 
 message BrainAtomicQuantitySchema {
@@ -70,9 +71,10 @@ message BrainBinnedQuantity {
   BrainSymbol value = 1;
 }
 enum BinType {
-  BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_SIZE = 0; // equal-sized-bins
-  BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_FREQ = 1; // equal-frequency-bins
-  BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_USER = 2;  // user-defined-bin-boundaries
+  BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_UNKNOWN = 0;
+  BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_SIZE = 1; // equal-sized-bins
+  BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_FREQ = 2; // equal-frequency-bins
+  BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_USER = 3;  // user-defined-bin-boundaries
 }
 
 message BrainBinnedQuantitySchema {
