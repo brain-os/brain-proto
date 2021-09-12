@@ -120,34 +120,47 @@ message BrainEntityPredicateStore {
 
 message BrainEventSchema {
   BrainToken token = 1;
-  BrainEventKeySchema key = 2;
-  BrainEventValueSchema value = 3;
+  oneof event_schema {
+    BrainIngestionEventSchema ingestion_event = 2;
+    BrainEventValueSchema value_event = 3;
+    BrainEventKeyValueSchema key_value_event = 4;
+    BrainEventKeyMultiValueSchema key_multi_value_event = 5;
+  }
 }
+message BrainIngestionEventSchema {
+
+}
+
 message BrainEventKeySchema {
   BrainEntityStoreSchema entity = 1;
   // key = mid(/m/<vertical>/<domain>/<event>/<context>)
-  repeated BrainEventContextSchema context = 2;
+  map<string, BrainEventContextSchema> context = 2;
 }
-
+message BrainEventValueSchema {
+  BrainEntityStoreSchema entity = 1;
+  // key = mid(/m/<vertical>/<domain>/<event>/<property>)
+  map<string, BrainEventPropertySchema> property = 2;
+}
+message BrainEventKeyValueSchema {
+    BrainEventKeySchema key = 1;
+    BrainEventValueSchema value = 2;
+}
+message BrainEventKeyMultiValueSchema {
+  BrainEventKeySchema key = 1;
+  repeated BrainEventValueSchema value = 2;
+}
+message BrainEntityStoreSchema {
+  // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+  map<string, BrainEntitySchema> entity = 1;
+}
 message BrainEventContextSchema {
   BrainToken token = 1;
   BrainQuantitySchema quantity = 2;
   // BrainToken unit = 3;
 }
-
-message BrainEventValueSchema {
-  BrainEntityStoreSchema entity = 1;
-  // key = mid(/m/<vertical>/<domain>/<event>/<property>)
-  repeated BrainEventPropertySchema property = 2;
-}
-
 message BrainEventPropertySchema {
   BrainToken token = 1;
   BrainQuantitySchema quantity = 2;
   BrainToken unit = 3;
 }
 
-message BrainEntityStoreSchema {
-  // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
-  map<string, BrainEntitySchema> entity = 1;
-}

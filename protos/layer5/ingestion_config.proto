@@ -29,13 +29,14 @@ message JsonFileTransport {
 }
 
 message FieldMapping {
-  int32 field_index = 1; // column index in case of csv or excel
-  string field_name = 2; // key name in case of kafka
-  string column_unit = 3; // unit of this column
-  FieldDataType input_data_type = 4; // data type of input - will always be string in case of csv
+  uint32 field_index = 1; // column index in case of csv or excel
+  uint32 id_link_index = 2; // for two same entity types, id link for attribute/predicate in other columns
+  string field_name = 3; // key name in case of kafka
+  string column_unit = 4; // unit of this column
+  FieldDataType input_data_type = 5; // data type of input - will always be string in case of csv
   oneof field_identity_is_one_of {
-    string brain_key = 5;
-    BrainToken token = 6;
+    string brain_key = 6;
+    BrainToken token = 7;
   }
 }
 
