@@ -21,7 +21,7 @@ message ProcessConfig {
     FilterConfig filter_config = 6;
     PivotConfig pivot_config = 7;
     ReduceConfig reduce_config = 8;
-    IngestConfig ingest_config = 9;
+    IngestionConfig ingestion_config = 9;
     QuantizationConfig quantization_config = 10;
   }
 }

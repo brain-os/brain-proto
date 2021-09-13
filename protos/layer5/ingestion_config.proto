@@ -6,7 +6,7 @@ option java_multiple_files = true;
 
 import "layer0/token.proto";
 
-message IngestConfig {
+message IngestionConfig {
   repeated FieldMapping mappings = 1;
   oneof data_transport {
     KafkaTransport kafka_transport = 2;
