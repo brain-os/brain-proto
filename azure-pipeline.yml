@@ -12,9 +12,8 @@ name: $(Build.DefinitionName)_$(SourceBranchName)_$(Build.BuildId)_$(Date:yyyyMM
 pool:
   name: JioBuildAgent
   demands: maven
-
 jobs:
-  - template: java/java-maven-ci.yml@pipeline-templates
+  - template: /java/java-maven-ci.yml@pipeline-templates
     parameters:
       # RUN-CI: ${{ variables.RUN-CI }}
       run_ci: 'true'
