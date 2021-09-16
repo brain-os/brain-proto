@@ -9,7 +9,8 @@ trigger:
   - master
 
 name: $(Build.DefinitionName)_$(SourceBranchName)_$(Build.BuildId)_$(Date:yyyyMMdd)$(Rev:.r)
-
+pool:
+    name: 'JioBuildAgent'
 
 jobs:
   - template: java/java-maven-ci.yml@pipeline-templates
