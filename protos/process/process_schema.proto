@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "base/token.proto";
+import "event/event.proto";
+import "process/ingestion_config.proto";
+import "process/quantization_config.proto";
+import "process/enrich_config.proto";
+import "process/filter_config.proto";
+import "process/pivot_config.proto";
+import "process/reduce_config.proto";
+
+message ProcessSchema {
+  BrainToken token = 1;
+  string input_queue = 2;
+  BrainEventSchema input_event_schema = 3;
+  map<string, BrainEventSchema> output_event_schema = 4; // key = output_topic, value = event key in dictionary
+  oneof config {
+    EnrichConfig enrich_config = 5;
+    FilterConfig filter_config = 6;
+    PivotConfig pivot_config = 7;
+    ReduceConfig reduce_config = 8;
+    IngestionConfig ingestion_config = 9;
+    QuantizationConfig quantization_config = 10;
+  }
+
+}

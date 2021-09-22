@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "base/token.proto";
+import "data-types/collection.proto";
+import "quantity/quantity.proto";
+import "entity/entity.proto";
+import "event/tracing.proto";
+
+/*
+{
+  "id" : 12345, // 12345 (generated) from schema <=> /telecom/network/event/lsr - will same for all LSR events
+  "value" : {
+    "entity_store" : [
+      {
+        "key" : 23456, // 23456 (generated) customer entity type id <=> /telecom/network/entity/subscriber  - will same for all customer entities
+        "value" : [123456789] // uint64 id for specific subscriber or biz_id e.g. imsi
+      },
+      {
+        "key" : 34567, // 23456 (generated) cell tower entity id <=> /telecom/network/entity/cell_tower  - will same for all cell towers entities
+        "value" : [234567, 234568, 234569] // uint64 id for specific cell towers or biz_id e.g. ecgi
+      }
+    ]
+  },
+  "property_store" : [
+    {
+      "key" : 45372, // /telecom/network/property/lsr/start_time
+      "value" : 45456 // actual value of time stamp
+    }
+  ]
+}
+ */
+
+message BrainEvent {
+  uint32 id = 1;
+  uint32 type = 2;
+  BrainEventMetadata meta_data = 3;
+  oneof event {
+    BrainIngestionEvent ingestion_event = 4;
+    BrainEventValue value_event = 5;
+    BrainEventKeyValue key_value_event = 6;
+    BrainEventKeyMultiValue key_multi_value_event = 7;
+  }
+}
+
+message BrainEventMetadata {
+  repeated BrainEventTrace trace = 1;
+}
+
+message BrainIngestionEvent {
+  oneof source {
+    string file_path = 1;        // csv, excel
+    string json = 2;          // kafka ??
+  }
+}
+
+message BrainEventKeyValue {
+  BrainEventKey key = 1;
+  BrainEventValue value = 2;
+}
+
+message BrainEventKeyMultiValue {
+  BrainEventKey key = 1;
+  repeated BrainEventValue values = 2;
+}
+
+/*message BrainEvent {
+  uint32 type = 1; // entity type <-> lsr event
+  BrainEventKey key = 2;
+  BrainEventValue value = 3;
+  repeated BrainEventTrace trace = 4;
+}*/
+
+message BrainEventKey {
+  BrainEntityStore entity_store = 1;    // customer, cell-id
+  BrainQuantityStore context_store = 2;  // tie-stamp, lat-long
+  BrainAttributeStore attribute_store = 3;
+  BrainEntityPredicateStore predicate_store = 4;
+}
+message BrainEventValue {
+  BrainEntityStore entity_store = 1;
+  BrainQuantityStore property_store = 2;
+  BrainAttributeStore attribute_store = 3;
+  BrainEntityPredicateStore predicate_store = 4;
+}
+message BrainEntityStore {
+  // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+  // Value = A Set of entities of key type
+  // entities[<entity-type>].elements[<entity-id>] = true
+  map<uint32, BrainEntitySet> entities = 1;
+}
+message BrainQuantityStore {
+  // key = machine_id for whatever role it is playing
+  // Note: This is NOT quantity type but the role_type
+  // e.g. context, property,
+  // e.g. attribute, attribute_qualifier,
+  // e.g. predicate, predicate_qualifier
+  map<uint32, BrainQuantity> value = 2;
+}
+
+message BrainAttributeStore {
+  // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+  map<uint32, BrainEntityAttributeStore> attributes = 1;
+}
+message BrainEntityAttributeStore {
+  // key = <entity-id> (attributes of these entities)
+  map<uint64, BrainAttributeSet> attribute_set = 1;
+}
+message BrainPredicateStore {
+  // key = mid(/m/<vertical>/<domain>/predicate/<subject-type>/<predicate-name>/<object-type>)
+  map<uint32, BrainEntityPredicateStore> predicate = 2;
+}
+message BrainEntityPredicateStore {
+  // key = entity id
+  map<uint64, BrainPredicateSet> predicate = 2;
+}
+
+message BrainEventSchema {
+  BrainToken token = 1;
+  oneof event_schema {
+    BrainIngestionEventSchema ingestion_event = 2;
+    BrainEventValueSchema value_event = 3;
+    BrainEventKeyValueSchema key_value_event = 4;
+    BrainEventKeyMultiValueSchema key_multi_value_event = 5;
+  }
+}
+message BrainIngestionEventSchema {
+  string name = 1;
+}
+
+message BrainEventKeySchema {
+  BrainEntityStoreSchema entity = 1;
+  // key = mid(/m/<vertical>/<domain>/<event>/<context>)
+  map<string, BrainEventContextSchema> context = 2;
+}
+message BrainEventValueSchema {
+  BrainEntityStoreSchema entity = 1;
+  // key = mid(/m/<vertical>/<domain>/<event>/<property>)
+  map<string, BrainEventPropertySchema> property = 2;
+}
+message BrainEventKeyValueSchema {
+    BrainEventKeySchema key = 1;
+    BrainEventValueSchema value = 2;
+}
+message BrainEventKeyMultiValueSchema {
+  BrainEventKeySchema key = 1;
+  repeated BrainEventValueSchema value = 2;
+}
+message BrainEntityStoreSchema {
+  // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+  map<string, BrainEntitySchema> entity = 1;
+}
+message BrainEventContextSchema {
+  BrainToken token = 1;
+  BrainQuantitySchema quantity = 2;
+  // BrainToken unit = 3;
+}
+message BrainEventPropertySchema {
+  BrainToken token = 1;
+  BrainQuantitySchema quantity = 2;
+  BrainToken unit = 3;
+}
+

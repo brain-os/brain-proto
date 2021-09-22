@@ -2,7 +2,7 @@ syntax = "proto3";
 package com.jio.fabric;
 option java_multiple_files = true;
 
-import "layer0/token.proto";
+import "base/token.proto";
 
 message BrainMetaIdLookup {
   map<uint32, string> index_to_key = 1;

@@ -4,7 +4,7 @@ package com.jio.fabric.grpc;
 
 option java_multiple_files = true;
 
-import "layer0/id.proto";
+import "base/id.proto";
 
 message IdentityRequest {
   oneof id_type {

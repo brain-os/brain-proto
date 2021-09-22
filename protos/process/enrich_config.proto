@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+message EnrichConfig {
+  string input_topic = 1;
+  string output_topic = 2;
+//  EnrichAttributesConfig attributes = 3;
+//  EnrichPredicatesConfig predicates = 4;
+}
+
+//message EnrichAttributesConfig {
+//  map<string, BrainItemList> type = 1;
+//}
+//
+//message EnrichPredicatesConfig {
+//  map<string, BrainItemList> type = 1;
+//}

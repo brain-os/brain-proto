@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package com.jio.fabric;
+
+option java_multiple_files = true;
+
+import "base/enums.proto";
+import "data-types/collection.proto";
+import "data-types/vector.proto";
+import "data-types/number.proto";
+import "data-types/symbol.proto";
+
+enum BrainAtomicQuantityType {
+  BRAIN_UNKNOWN_ATOMIC_QUANTITY = 0;
+  BRAIN_NUMERIC_ATOMIC_QUANTITY = 1;
+  BRAIN_SYMBOLIC_ATOMIC_QUANTITY = 2;
+  BRAIN_ORDINAL_ATOMIC_QUANTITY = 3;
+  BRAIN_BINNED_ATOMIC_QUANTITY = 4;
+}
+
+message BrainAtomicQuantitySchema {
+  BrainAtomicQuantityType atomic_type = 1;
+  oneof quantity_schema_is_one_of {
+    BrainNumericQuantitySchema numeric_schema = 2;
+    BrainSymbolicQuantitySchema symbolic_schema = 3;
+    BrainOrdinalQuantitySchema ordinal_schema = 4;
+    BrainBinnedQuantitySchema binned_schema = 5;
+  }
+}
+
+message BrainAtomicQuantity {
+  oneof quantity_is_one_of {
+    BrainNumericQuantity numeric = 1;
+    BrainSymbolicQuantity symbolic = 2;
+    BrainOrdinalQuantity ordinal = 3;
+    BrainBinnedQuantity binned = 4;
+  }
+}
+message BrainNumericQuantity {
+  BrainNumber value = 1;
+}
+message BrainNumericQuantitySchema {
+  BrainNumberType numeric_type = 1;
+  BrainNumberRange range = 2;
+}
+
+message BrainSymbolicQuantity {
+  // Can contain only str or u64 depending upon value of BrainSymbolType
+  BrainSymbol value = 1;
+}
+message BrainSymbolicQuantitySchema {
+  // Can only have BRAIN_STR_SYMBOL Or BRAIN_I64_SYMBOL but BRAIN_TYPE_SYMBOL_IDX is invalid
+  BrainSymbolType type = 1;
+  // BrainCollectionType == BRAIN_SYMBOL_COLLECTION
+  // BrainCollectionType > ItemSet > BrainSymbolSet > BrainStrSet or BrainU64Set depending on above BrainSymbolType
+  BrainCollectionSchema symbol_collection = 2;
+}
+message BrainOrdinalQuantity {
+  // Can contain only str or u32 depending upon value of BrainSymbolType
+  BrainSymbol value = 1;
+}
+message BrainOrdinalQuantitySchema {
+  // Can only have BRAIN_STR_SYMBOL Or BRAIN_TYPE_SYMBOL_IDX but BRAIN_I64_SYMBOL is invalid
+  BrainSymbolType type = 1;
+  // BrainCollectionType == BRAIN_ORDINAL_COLLECTION
+  // BrainCollectionType > BrainItemSequence > BrainStrVector or BrainU64Vector depending on above BrainSymbolType
+  BrainCollectionSchema sequence = 2;
+}
+message BrainBinnedQuantity {
+  // Can contain only str or u32 depending upon value of BrainSymbolType
+  BrainSymbol value = 1;
+}
+enum BinType {
+  BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_UNKNOWN = 0;
+  BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_SIZE = 1; // equal-sized-bins
+  BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_FREQ = 2; // equal-frequency-bins
+  BRAIN_TYPE_QUANTITY_ATOMIC_BINNED_USER = 3;  // user-defined-bin-boundaries
+}
+
+message BrainBinnedQuantitySchema {
+  BrainSymbolType type = 1;
+  BinType bin_type = 2;
+  BrainNumericQuantitySchema source_numeric_quantity = 3;
+  bool open_minimum = 4;  // true[x >= minimum]
+  bool open_maximum = 5; // true[x <= maximum]
+  // BrainCollectionType == BRAIN_ORDINAL_COLLECTION
+  // BrainCollectionType > BrainItemSequence > BrainStrVector
+  BrainCollectionSchema bin_names = 6;
+  oneof bin_is_one_of {
+    // equal-sized-bins
+    EqualSizeBinnedSchema size = 7;
+    // equal-frequency-bins
+    EqualFrequencyBinnedSchema frequency = 8;
+    // user-defined-bins
+    UserDefinedBinnedSchema user = 9;
+  }
+}
+message EqualSizeBinnedSchema {
+  BrainF64Vector boundaries = 1;
+}
+message EqualFrequencyBinnedSchema {
+  // After computing bin boundaries from a dataset
+  BrainVector data = 1; // todo
+  BrainF64Vector boundaries = 2;
+}
+message UserDefinedBinnedSchema {
+  BrainF64Vector boundaries = 1;
+}
