@@ -1,0 +1,20 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.req_res;
+
+option java_package = "com.jio.brain.proto.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "google/protobuf/struct.proto";
+import "jio/brain/proto/base/status.proto";
+
+message AddCollectionTypeRequest {
+	string vertical = 1;
+	string collection_name = 2;
+	bool is_predicate = 3; //boolean variable indicating collection type (True - predicate, False - document)
+	google.protobuf.Struct schema = 4; //Struct represents a structured data value, consisting of fields which map to dynamically typed values
+}
+
+message AddCollectionTypeResponse {
+	BrainStatus status = 1; //status indicates whether the required collection has been created
+}
