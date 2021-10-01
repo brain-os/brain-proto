@@ -1,14 +1,15 @@
 syntax = "proto3";
 
-package com.jio.fabric;
+package jio.brain.proto.entity;
 
+option java_package = "com.jio.brain.proto.entity";
 option java_multiple_files = true;
 
 //import "base/enums.proto";
-import "base/token.proto";
-import "data-types/collection.proto";
-import "data-types/set.proto";
-import "quantity/quantity.proto";
+import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/data_types/collection.proto";
+import "jio/brain/proto/data_types/set.proto";
+import "jio/brain/proto/quantity/quantity.proto";
 /*
 Example Attribute - Finance
 

@@ -5,6 +5,7 @@ package jio.brain.proto.base;
 option java_package = "com.jio.brain.proto.base";
 option java_multiple_files = true;
 
+import "jio/brain/proto/base/enums.proto";
 // <root> / Brain Identity / Brain Token
 
 message BrainTokenName {
@@ -29,12 +30,12 @@ message BrainToken {
     BrainAttributeQualifierToken attribute_qualifier = 16;
     BrainPredicateQualifierToken predicate_qualifier = 17;
     BrainEventToken event = 18;
-    BrainProcessToken process	= 19;
+    BrainProcessToken process = 19;
   }
 }
 
 message BrainCollectionToken {
-  BrainCollectionType type 	= 1;
+  BrainCollectionType type = 1;
   BrainTokenName name = 2;
 }
 
@@ -55,7 +56,7 @@ message BrainUnitToken {
   BrainTokenName name = 2;
 }
 message BrainContextToken {
-//  BrainContextType type = 1; todo
+  //  BrainContextType type = 1; todo
   BrainTokenName name = 2;
 }
 message BrainPropertyToken {
@@ -92,7 +93,7 @@ message BrainPredicateQualifierToken {
 }
 
 message BrainEventToken {
-//  BrainEventType type = 1; todo
+  //  BrainEventType type = 1; todo
   BrainTokenName name = 2;
 }
 

@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package com.jio.fabric;
-
+package jio.brain.proto.data_types;
+option java_package = "com.jio.brain.proto.data.types";
 option java_multiple_files = true;
 
-import  "base/enums.proto";
-import  "data-types/set.proto";
-import  "data-types/vector.proto";
-import  "data-types/matrix.proto";
+import  "jio/brain/proto/base/enums.proto";
+import  "jio/brain/proto/data_types/set.proto";
+import  "jio/brain/proto/data_types/vector.proto";
+import  "jio/brain/proto/data_types/matrix.proto";
 
 message BrainNumber {
   oneof number_is_one_of {
@@ -21,7 +21,7 @@ message BrainNumber {
 }
 
 message BrainNumberRange {
-  BrainNumberType type = 1; // TODO can be moved to schema
+  jio.brain.proto.base.BrainNumberType type = 1; // TODO can be moved to schema
   BrainNumber minimum = 2;
   BrainNumber maximum = 3;
   bool include_minimum = 4;  // true[x >= minimum]

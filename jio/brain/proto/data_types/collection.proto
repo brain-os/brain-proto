@@ -1,17 +1,19 @@
 syntax = "proto3";
 
-package com.jio.fabric;
+package jio.brain.proto.data_types;
 
+option java_package = "com.jio.brain.proto.data.types";
 option java_multiple_files = true;
 
-import "base/enums.proto";
-import "base/token.proto";
-import "data-types/set.proto";
-import "data-types/vector.proto";
+import "jio/brain/proto/base/enums.proto";
+import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/data_types/set.proto";
+import "jio/brain/proto/data_types/vector.proto";
+
 
 message BrainCollectionSchema {
-  BrainToken token = 1;
-  BrainCollectionType collection_type = 2;
+  jio.brain.proto.base.BrainToken token = 1;
+  jio.brain.proto.base.BrainCollectionType collection_type = 2;
   /*
   A) For item_set
     case 1 : BrainSymbolSet, it can be BRAIN_STR_SYMBOL or BRAIN_I64_SYMBOL
