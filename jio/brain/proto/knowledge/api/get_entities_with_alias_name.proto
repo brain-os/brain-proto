@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/get_entities_with_alias_name.proto";
+
+service GetEntitiesWithAliasNameService {
+    rpc serve(knowledge.req_res.GetEntitiesWithAliasNameRequest) returns (knowledge.req_res.GetEntitiesWithAliasNameResponse) {}
+}

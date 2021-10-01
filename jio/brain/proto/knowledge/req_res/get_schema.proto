@@ -1,0 +1,18 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+import "google/protobuf/struct.proto";
+
+message GetSchemaRequest {
+	string collection_name = 1;
+}
+
+message GetSchemaResponse {
+	knowledge.generic.Status status = 1;
+	google.protobuf.Struct schema = 2;
+}

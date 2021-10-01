@@ -1,0 +1,20 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+import "protos/knowledge/generic/language.proto";
+
+message GetEntitiesWithNoCanonicalNameRequest {
+	string entity_type = 1; //entity_type is collection_name
+	knowledge.generic.Language language_proto = 2;
+}
+
+message GetEntitiesWithNoCanonicalNameResponse {
+	repeated string entity_ids = 1;
+	knowledge.generic.Status status = 2;
+	//status signifies whether there exist entities with no canonical name or if error in DB has occured
+}

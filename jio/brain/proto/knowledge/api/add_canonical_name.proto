@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/add_canonical_name.proto";
+
+service AddCanonicalNameService {
+    rpc serve(knowledge.req_res.AddCanonicalNameRequest) returns (knowledge.req_res.AddCanonicalNameResponse) {}
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+
+message GetDestinationEntitiesRequest {
+	string from_node = 1;      
+	string predicate_name = 2;
+}
+
+message GetDestinationEntitiesResponse {
+	repeated string to_node = 1;
+}

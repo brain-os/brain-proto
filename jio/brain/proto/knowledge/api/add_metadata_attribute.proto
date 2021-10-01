@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/add_metadata_attribute.proto";
+
+service AddMetadataAttributeService {
+    rpc serve(knowledge.req_res.AddMetadataAttributeRequest) returns (knowledge.req_res.AddMetadataAttributeResponse) {}
+}

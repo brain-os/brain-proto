@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/add_metadata_entity_predicate.proto";
+
+service AddMetadataEntityPredicateService {
+    rpc serve(knowledge.req_res.AddMetadataEntityPredicateRequest) returns (knowledge.req_res.AddMetadataEntityPredicateResponse) {}
+}

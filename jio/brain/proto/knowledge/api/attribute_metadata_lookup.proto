@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/attribute_metadata_lookup.proto";
+
+service AttributeMetadataLookupService {
+    rpc serve(knowledge.req_res.AttributeMetadataLookupRequest) returns (knowledge.req_res.AttributeMetadataLookupResponse) {}
+}

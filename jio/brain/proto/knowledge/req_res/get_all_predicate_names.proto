@@ -1,0 +1,21 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+
+message GetAllPredicateNamesRequest {
+    int32 min_depth = 1;
+    int32 max_depth = 2;
+	string from_node = 3;      
+	string to_node = 4;
+    string graph_name = 5;
+}
+
+message GetAllPredicateNamesResponse {
+	repeated string predicate_name = 1;
+    knowledge.generic.Status status = 2;
+}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+import "protos/knowledge/generic/status.proto";
+import "protos/knowledge/generic/language.proto";
+
+message GetEntitiesWithAliasNameRequest {
+	string entity_type = 1; //entity_type is collection_name
+	knowledge.generic.Language language_proto = 2;
+	string alias = 3;
+}
+
+message GetEntitiesWithAliasNameResponse {
+	repeated string entity_ids = 1;
+	knowledge.generic.Status status = 2; 
+	//status signifies if entities are returned or if DB error has occured
+	
+}

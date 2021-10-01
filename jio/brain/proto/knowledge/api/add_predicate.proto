@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/add_predicate.proto";
+
+service AddPredicateService {
+    rpc serve(knowledge.req_res.AddPredicateRequest) returns (knowledge.req_res.AddPredicateResponse) {}
+}

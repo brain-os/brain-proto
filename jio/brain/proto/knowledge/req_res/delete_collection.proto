@@ -1,0 +1,17 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+
+message DeleteCollectionRequest {
+	string vertical = 1;
+	string collection_name = 2;
+}
+
+message DeleteCollectionResponse {
+	knowledge.generic.Status status = 1;
+}

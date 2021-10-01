@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/get_all_biz_id_types_of_entity_id.proto";
+
+service GetAllBizIdTypesOfEntityIdService {
+    rpc serve(knowledge.req_res.GetAllBizIdTypesOfEntityIdRequest) returns (knowledge.req_res.GetAllBizIdTypesOfEntityIdResponse) {}
+}

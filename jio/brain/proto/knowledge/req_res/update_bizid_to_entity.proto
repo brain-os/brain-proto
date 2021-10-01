@@ -1,0 +1,21 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+import "protos/knowledge/generic/biz_id.proto";
+
+message UpdateBizidToEntityRequest {
+	string entity_id = 1;
+	knowledge.generic.BizId old_biz_id = 2;
+	knowledge.generic.BizId new_biz_id = 3;
+
+}
+
+message UpdateBizidToEntityResponse {
+	knowledge.generic.Status status = 1;
+	//status signifies whether biz ID has been updated or DB error has occured
+}

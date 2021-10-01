@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/has_biz_id.proto";
+
+service HasBizIdService {
+    rpc serve(knowledge.req_res.HasBizIdRequest) returns (knowledge.req_res.HasBizIdResponse) {}
+}

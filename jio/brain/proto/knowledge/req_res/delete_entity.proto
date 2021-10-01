@@ -1,0 +1,17 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+
+message DeleteEntityRequest {
+	string entity_id = 1;
+}
+
+message DeleteEntityResponse {
+	knowledge.generic.Status status = 1;
+	//status signifies if entity has been deleted or if DB error has occured
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+import "protos/knowledge/generic/status.proto";
+import "protos/knowledge/generic/biz_id.proto";
+
+message GetBizidOfEntityidRequest {
+	string entity_id = 1;
+	string biz_type = 2;
+}
+
+message GetBizidOfEntityidResponse {
+	repeated knowledge.generic.BizId biz_ids = 1;
+	knowledge.generic.Status status = 2;
+}

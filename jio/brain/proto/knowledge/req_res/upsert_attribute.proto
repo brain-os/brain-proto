@@ -1,0 +1,18 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+import "protos/knowledge/generic/attribute.proto";
+
+message UpsertAttributeRequest {
+	string entity_id = 1;
+	knowledge.generic.Attribute attribute = 2;
+}
+
+message UpsertAttributeResponse {
+	knowledge.generic.Status status = 1;
+}

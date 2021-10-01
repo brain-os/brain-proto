@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/get_all_entity_ids_using_canonical.proto";
+
+service GetAllEntityIdsUsingCanonicalService {
+    rpc serve(knowledge.req_res.GetAllEntityIdsUsingCanonicalRequest) returns (knowledge.req_res.GetAllEntityIdsUsingCanonicalResponse) {}
+}

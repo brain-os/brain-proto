@@ -1,0 +1,20 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+
+message AddMetadataAttributeRequest {
+	string vertical = 1;
+	string entity_type = 2;
+	string attribute_name = 3;
+	string quantity_type = 4;
+	string attribute_type = 5;
+}
+
+message AddMetadataAttributeResponse {
+	knowledge.generic.Status status = 1;
+}

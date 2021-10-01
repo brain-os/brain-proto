@@ -1,0 +1,19 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+import "google/protobuf/struct.proto";
+import "protos/knowledge/generic/status.proto";
+
+message MetadataLookupRequest {
+	string entity_type = 1;
+}
+
+//vertical
+
+message MetadataLookupResponse {
+	google.protobuf.Struct metadata = 1;
+	knowledge.generic.Status status = 2;
+}

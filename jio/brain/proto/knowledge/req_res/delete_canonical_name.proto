@@ -1,0 +1,18 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+import "protos/knowledge/generic/entity_name.proto";
+import "protos/knowledge/generic/status.proto";
+
+message DeleteCanonicalNameRequest {
+	string entity_id = 1;
+	knowledge.generic.EntityName entity_name = 2;
+}
+
+message DeleteCanonicalNameResponse {
+	knowledge.generic.Status status = 1;
+	//status signifies if the canonical name of entity has been deleted or if DB error has occured
+}

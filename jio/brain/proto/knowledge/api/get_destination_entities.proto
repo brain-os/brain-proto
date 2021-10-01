@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/get_destination_entities.proto";
+
+service GetDestinationEntitiesService {
+    rpc serve(knowledge.req_res.GetDestinationEntitiesRequest) returns (knowledge.req_res.GetDestinationEntitiesResponse) {}
+}

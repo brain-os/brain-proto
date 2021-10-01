@@ -1,0 +1,20 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+import "google/protobuf/struct.proto";
+
+message AddAttributeTypeRequest {
+	string collection_type = 1;
+	string attribute_name = 2;
+	google.protobuf.Struct attribute_schema = 3;
+	bool attribute_required = 4;
+}
+
+message AddAttributeTypeResponse {
+	knowledge.generic.Status status = 1;
+}

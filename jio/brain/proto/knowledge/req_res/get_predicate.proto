@@ -1,0 +1,21 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+import "protos/knowledge/generic/predicate.proto";
+
+message GetPredicateRequest {
+	string vertical = 1;
+	string collection_name = 2;
+	string from_id = 3;
+	string to_id = 4;
+}
+
+message GetPredicateResponse {
+	knowledge.generic.Predicate predicate = 1;
+	knowledge.generic.Status status = 2;
+}

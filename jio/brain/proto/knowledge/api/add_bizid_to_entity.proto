@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/add_bizid_to_entity.proto";
+
+service AddBizidToEntityService {
+    rpc serve(knowledge.req_res.AddBizidToEntityRequest) returns (knowledge.req_res.AddBizidToEntityResponse) {}
+}

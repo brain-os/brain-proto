@@ -1,0 +1,26 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+import "protos/knowledge/generic/quantity.proto";
+import "protos/knowledge/generic/comparision.proto";
+//import "protos/knowledge/generic/attribute.proto";
+
+
+message GetAttributeRequest {
+	string collection_id = 1;
+	string attribute_name = 2; //optimization change: repeated string attribute
+	knowledge.generic.Filter filter = 3;
+	string bizid_type = 4;
+}
+
+message GetAttributeResponse {
+	knowledge.generic.Quantity attribute_value = 1;
+	string attribute_type = 2;
+	string value_type = 3;
+	knowledge.generic.Status status = 4;
+}

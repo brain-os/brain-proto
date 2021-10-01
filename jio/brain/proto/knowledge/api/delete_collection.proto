@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/delete_collection.proto";
+
+service DeleteCollectionService {
+    rpc serve(knowledge.req_res.DeleteCollectionRequest) returns (knowledge.req_res.DeleteCollectionResponse) {}
+}

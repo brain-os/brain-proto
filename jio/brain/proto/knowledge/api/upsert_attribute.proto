@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/upsert_attribute.proto";
+
+service UpsertAttributeService {
+    rpc serve(knowledge.req_res.UpsertAttributeRequest) returns (knowledge.req_res.UpsertAttributeResponse) {}
+}

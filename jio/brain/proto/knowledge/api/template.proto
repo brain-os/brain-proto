@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/template.proto";
+
+service TemplateService {
+    rpc serve(knowledge.req_res.TemplateRequest) returns (knowledge.req_res.TemplateResponse) {}
+}

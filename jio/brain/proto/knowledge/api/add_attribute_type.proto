@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/add_attribute_type.proto";
+
+service AddAttributeTypeService {
+    rpc serve(knowledge.req_res.AddAttributeTypeRequest) returns (knowledge.req_res.AddAttributeTypeResponse) {}
+}

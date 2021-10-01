@@ -1,0 +1,17 @@
+syntax = "proto3";
+package knowledge.req_res;
+
+option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_multiple_files = true;
+
+
+import "protos/knowledge/generic/status.proto";
+
+message HasEntityRequest {
+	string entity_id = 1;
+}
+
+message HasEntityResponse {
+	bool is_present = 1;
+	knowledge.generic.Status status = 2;
+}

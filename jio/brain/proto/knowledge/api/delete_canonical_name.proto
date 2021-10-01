@@ -1,0 +1,11 @@
+syntax = "proto3";
+package knowledge.api;
+
+option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_multiple_files = true;
+
+import "protos/knowledge/req_res/delete_canonical_name.proto";
+
+service DeleteCanonicalNameService {
+    rpc serve(knowledge.req_res.DeleteCanonicalNameRequest) returns (knowledge.req_res.DeleteCanonicalNameResponse) {}
+}
