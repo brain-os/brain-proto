@@ -6,7 +6,7 @@ option java_multiple_files = true;
 
 
 import "google/protobuf/struct.proto";
-import "brain/proto/base/status.proto";
+import "jio/brain/proto/base/status.proto";
 
 message AddCollectionTypeRequest {
   string vertical = 1;
