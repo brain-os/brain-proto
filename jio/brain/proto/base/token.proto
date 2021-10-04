@@ -6,7 +6,7 @@ option java_package = "com.jio.brain.proto.base";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/enums.proto";
-// <root> / Brain Identity / Brain Token 
+// <root> / Brain Identity / Brain Token
 
 message BrainTokenName {
   repeated string path = 1;

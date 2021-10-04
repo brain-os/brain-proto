@@ -1,18 +1,17 @@
 syntax = "proto3";
 
-package com.jio.fabric;
+package jio.brain.proto.quantity;
 
+option java_package = "com.jio.brain.proto.quantity";
 option java_multiple_files = true;
 
-import "base/enums.proto";
-import "data-types/collection.proto";
-//import "data-types/set.proto";
-import "data-types/vector.proto";
-import "data-types/symbol.proto";
-import "quantity/quantity_atomic.proto";
-import "quantity/quantity_compound_range.proto";
-//import "quantity/quantity_spatial.proto";
-import "quantity/quantity_temporal.proto";
+import "jio/brain/proto/base/enums.proto";
+import "jio/brain/proto/types/collection.proto";
+import "jio/brain/proto/types/vector.proto";
+import "jio/brain/proto/types/symbol.proto";
+import "jio/brain/proto/quantity/quantity_atomic.proto";
+import "jio/brain/proto/quantity/quantity_compound_range.proto";
+import "jio/brain/proto/quantity/quantity_temporal.proto";
 
 enum BrainCompoundQuantityType {
   BRAIN_UNKNOWN_COMPOUND_QUANTITY = 0;
@@ -59,55 +58,55 @@ message BrainCompoundQuantitySchema {
 message BrainBasketQuantity {
   // Can contain only BrainStrSet or BrainU64Set depending upon value of BrainSymbolType
   // BrainIdxSet is invalid
-  BrainSymbolBasket basket = 1;
+  jio.brain.proto.types.BrainSymbolBasket basket = 1;
 }
 message BrainBasketQuantitySchema {
   // Can only have BRAIN_STR_SYMBOL Or BRAIN_I64_SYMBOL but BRAIN_TYPE_SYMBOL_IDX is invalid
-  BrainSymbolType type = 1;
+  jio.brain.proto.base.BrainSymbolType type = 1;
   // BrainCollectionType == BRAIN_SYMBOL_COLLECTION
   // BrainCollectionType > ItemSet > BrainSymbolSet > BrainStrSet or BrainU64Set depending on above BrainSymbolType
-  BrainCollectionSchema symbol_collection = 2;
+  jio.brain.proto.types.BrainCollectionSchema symbol_collection = 2;
 }
 
 message BrainSequenceQuantity {
   // Can contain only BrainStrVector or BrainU64Vector depending upon value of BrainSymbolType
   // BrainIdxVector is invalid
-  BrainSymbolSequence sequence = 1;
+  jio.brain.proto.types.BrainSymbolSequence sequence = 1;
 }
 message BrainSequenceQuantitySchema {
   // Can only have BRAIN_STR_SYMBOL Or BRAIN_I64_SYMBOL but BRAIN_TYPE_SYMBOL_IDX is invalid
-  BrainSymbolType type = 1;
+  jio.brain.proto.base.BrainSymbolType type = 1;
   // BrainCollectionType == BRAIN_SYMBOL_COLLECTION
   // BrainCollectionType > ItemSet > BrainSymbolSet > BrainStrSet or BrainU64Set depending on above BrainSymbolType
-  BrainCollectionSchema sequence = 2; // use BrainItemSequence
+  jio.brain.proto.types.BrainCollectionSchema sequence = 2; // use BrainItemSequence
 }
 message BrainBagQuantity {
-  BrainSymbolBag bag = 1;
+  jio.brain.proto.types.BrainSymbolBag bag = 1;
 }
 message BrainBagQuantitySchema {
   /*
     Can have all type of collection - symbol, entity or ordered
    */
-  BrainSymbolType type = 1;// TODO change to element type
-  BrainNumberType numeric_type = 2;
-  BrainCollectionSchema collection = 3;// TODO change to collection
+  jio.brain.proto.base.BrainSymbolType type = 1;// TODO change to element type
+  jio.brain.proto.base.BrainNumberType numeric_type = 2;
+  jio.brain.proto.types.BrainCollectionSchema collection = 3;// TODO change to collection
 }
 message BrainDistributionQuantity {
   oneof distribution_is_one_of {
-    BrainKeyDblSymbolBag key_dbl_bag = 1;
-    BrainIdxDblSymbolBag i32_dbl_bag = 2;
-    BrainI64DblSymbolBag i64_dbl_bag = 3;
+    jio.brain.proto.types.BrainKeyDblSymbolBag key_dbl_bag = 1;
+    jio.brain.proto.types.BrainIdxDblSymbolBag i32_dbl_bag = 2;
+    jio.brain.proto.types.BrainI64DblSymbolBag i64_dbl_bag = 3;
   }
 }
 message BrainDistributionQuantitySchema {
   /*
     Can have all type of collection - symbol, entity or ordered
    */
-  BrainSymbolType type = 1; // key type in bag
-  BrainCollectionSchema collection = 2; // keys from collection
+  jio.brain.proto.base.BrainSymbolType type = 1; // key type in bag
+  jio.brain.proto.types.BrainCollectionSchema collection = 2; // keys from collection
 }
 message BrainSeriesQuantity {
-  BrainVector value = 1;
+  jio.brain.proto.types.BrainVector value = 1;
 }
 message BrainSeriesQuantitySchema {
   BrainNumericQuantitySchema y_type = 1; // numeric quantity

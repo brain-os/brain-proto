@@ -1,10 +1,11 @@
 syntax = "proto3";
 
-package com.jio.fabric;
+package jio.brain.proto.quantity;
 
+option java_package = "com.jio.brain.proto.quantity";
 option java_multiple_files = true;
 
-import "base/enums.proto";
+import "jio/brain/proto/base/enums.proto";
 import "google/protobuf/timestamp.proto";
 
 message BrainTemporalQuantity {
@@ -79,19 +80,19 @@ message BrainTemporalQuantitySchema {
   }
 }
 message BrainTemporalInstanceQuantitySchema {
-  BrainTemporalType temporal_type = 1;
+  jio.brain.proto.base.BrainTemporalType temporal_type = 1;
   BrainTemporalLevel level = 2; // derive from BrainTemporalType
 }
 message BrainTemporalRangeQuantitySchema {
-  BrainTemporalType temporal_type = 1;
+  jio.brain.proto.base.BrainTemporalType temporal_type = 1;
   BrainTemporalLevel level = 2; // derive from BrainTemporalType
 }
 message BrainTemporalDurationQuantitySchema {
-  BrainTemporalType temporal_type = 1;
+  jio.brain.proto.base.BrainTemporalType temporal_type = 1;
   BrainTemporalLevel level = 2; // derive from BrainTemporalType
 }
 message BrainTemporalContextQuantitySchema {
-  BrainTemporalContextType context_type = 1;
+  jio.brain.proto.base.BrainTemporalContextType context_type = 1;
   BrainTemporalLevel level = 2; // derive from BrainTemporalType
 }
 message BrainTimestampSchema {

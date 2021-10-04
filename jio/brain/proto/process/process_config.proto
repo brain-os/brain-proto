@@ -1,15 +1,16 @@
 syntax = "proto3";
 
-package com.jio.fabric;
+package jio.brain.proto.process;
 
+option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
-import "process/ingestion_config.proto";
-import "process/quantization_config.proto";
-import "process/enrich_config.proto";
-import "process/filter_config.proto";
-import "process/pivot_config.proto";
-import "process/reduce_config.proto";
+import "jio/brain/proto/process/ingestion_config.proto";
+import "jio/brain/proto/process/quantization_config.proto";
+import "jio/brain/proto/process/enrich_config.proto";
+import "jio/brain/proto/process/filter_config.proto";
+import "jio/brain/proto/process/pivot_config.proto";
+import "jio/brain/proto/process/reduce_config.proto";
 
 message ProcessConfig {
   string process_key = 1;

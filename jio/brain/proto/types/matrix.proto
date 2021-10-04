@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package jio.brain.proto.data_types;
+package jio.brain.proto.types;
 
-option java_package = "com.jio.brain.proto.data.types";
+option java_package = "com.jio.brain.proto.types";
 option java_multiple_files = true;
 
-import "jio/brain/proto/data_types/vector.proto";
+import "jio/brain/proto/types/vector.proto";
 
 message BrainMatrix {
     oneof matrix_is_one_of {

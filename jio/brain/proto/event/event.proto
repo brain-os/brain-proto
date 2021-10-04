@@ -1,14 +1,15 @@
 syntax = "proto3";
 
-package com.jio.fabric;
+package jio.brain.proto.event;
 
+option java_package = "com.jio.brain.proto.event";
 option java_multiple_files = true;
 
-import "base/token.proto";
-import "data-types/collection.proto";
-import "quantity/quantity.proto";
-import "entity/entity.proto";
-import "event/tracing.proto";
+import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/types/collection.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/event/tracing.proto";
 
 /*
 {
@@ -90,7 +91,7 @@ message BrainEntityStore {
   // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
   // Value = A Set of entities of key type
   // entities[<entity-type>].elements[<entity-id>] = true
-  map<uint32, BrainEntitySet> entities = 1;
+  map<uint32, jio.brain.proto.types.BrainEntitySet> entities = 1;
 }
 message BrainQuantityStore {
   // key = machine_id for whatever role it is playing
@@ -98,7 +99,7 @@ message BrainQuantityStore {
   // e.g. context, property,
   // e.g. attribute, attribute_qualifier,
   // e.g. predicate, predicate_qualifier
-  map<uint32, BrainQuantity> value = 2;
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 2;
 }
 
 message BrainAttributeStore {
@@ -107,7 +108,7 @@ message BrainAttributeStore {
 }
 message BrainEntityAttributeStore {
   // key = <entity-id> (attributes of these entities)
-  map<uint64, BrainAttributeSet> attribute_set = 1;
+  map<uint64, jio.brain.proto.entity.BrainAttributeSet> attribute_set = 1;
 }
 message BrainPredicateStore {
   // key = mid(/m/<vertical>/<domain>/predicate/<subject-type>/<predicate-name>/<object-type>)
@@ -115,11 +116,11 @@ message BrainPredicateStore {
 }
 message BrainEntityPredicateStore {
   // key = entity id
-  map<uint64, BrainPredicateSet> predicate = 2;
+  map<uint64, jio.brain.proto.entity.BrainPredicateSet> predicate = 2;
 }
 
 message BrainEventSchema {
-  BrainToken token = 1;
+  jio.brain.proto.base.BrainToken token = 1;
   oneof event_schema {
     BrainIngestionEventSchema ingestion_event = 2;
     BrainEventValueSchema value_event = 3;
@@ -151,16 +152,16 @@ message BrainEventKeyMultiValueSchema {
 }
 message BrainEntityStoreSchema {
   // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
-  map<string, BrainEntitySchema> entity = 1;
+  map<string, jio.brain.proto.entity.BrainEntitySchema> entity = 1;
 }
 message BrainEventContextSchema {
-  BrainToken token = 1;
-  BrainQuantitySchema quantity = 2;
+  jio.brain.proto.base.BrainToken token = 1;
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
   // BrainToken unit = 3;
 }
 message BrainEventPropertySchema {
-  BrainToken token = 1;
-  BrainQuantitySchema quantity = 2;
-  BrainToken unit = 3;
+  jio.brain.proto.base.BrainToken token = 1;
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
+  jio.brain.proto.base.BrainToken unit = 3;
 }
 

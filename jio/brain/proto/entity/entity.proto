@@ -7,8 +7,8 @@ option java_multiple_files = true;
 
 //import "base/enums.proto";
 import "jio/brain/proto/base/token.proto";
-import "jio/brain/proto/data_types/collection.proto";
-import "jio/brain/proto/data_types/set.proto";
+import "jio/brain/proto/types/collection.proto";
+import "jio/brain/proto/types/set.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 /*
 Example Attribute - Finance
@@ -125,7 +125,7 @@ message BrainEntity {
 }
 message BrainEntityName {
   string canonical = 1;
-  BrainStrSet aliases = 2;
+  jio.brain.proto.types.BrainStrSet aliases = 2;
 }
 message BrainAttributeSet {
   uint32 entity_type_id = 1;  // populated only if needed
@@ -139,7 +139,7 @@ message BrainPredicateSet {
 }
 message BrainAttribute {
   oneof attribute_is_one_of {
-    BrainQuantity absolute = 2;
+    jio.brain.proto.quantity.BrainQuantity absolute = 2;
     BrainQualifiedAttributeSet qualified = 3;
   }
 }
@@ -147,15 +147,15 @@ message BrainQualifiedAttributeSet {
   repeated BrainQualifiedAttribute attribute = 1; // time series data of closing stock price
 }
 message BrainQualifiedAttribute {
-  BrainQuantity value = 4;// time series data of closing stock price for particular day
+  jio.brain.proto.quantity.BrainQuantity value = 4;// time series data of closing stock price for particular day
   BrainAttributeQualifierSet qualifiers = 5;// date, volume traded, open price etc.
 }
 message BrainAttributeQualifierSet {
-  map<uint32, BrainQuantity> qualifier = 1;// date, volume traded, open price etc.
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> qualifier = 1;// date, volume traded, open price etc.
 }
 message BrainPredicate {
   oneof predicate_is_one_of {
-    BrainEntitySet objects = 1; // players in team
+    jio.brain.proto.types.BrainEntitySet objects = 1; // players in team
     BrainQualifiedPredicateSet qualified = 2;
   }
 }
@@ -163,18 +163,18 @@ message BrainQualifiedPredicateSet {
   repeated BrainQualifiedPredicate predicate = 1; // member of parliament in each ear
 }
 message BrainQualifiedPredicate {
-  BrainEntitySet objects = 1; // Member of parliaments
+  jio.brain.proto.types.BrainEntitySet objects = 1; // Member of parliaments
   BrainPredicateQualifierSet qualifier = 2;
 }
 message BrainPredicateQualifierSet {
   // key = BrainId(/v/d/predicate_qualifier/*)
-  map<uint32, BrainQuantity> qualifier = 1; // which year, which session (Current is 17th)
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> qualifier = 1; // which year, which session (Current is 17th)
 }
 
 message BrainEntitySchema {
-  BrainToken token = 1;
-  BrainToken primary_biz_id = 2;
-  repeated BrainToken biz_type = 4;
+  jio.brain.proto.base.BrainToken token = 1;
+  jio.brain.proto.base.BrainToken primary_biz_id = 2;
+  repeated jio.brain.proto.base.BrainToken biz_type = 4;
   BrainAttributeSetSchema attribute = 5;
   BrainPredicateSetSchema predicate = 6;
 }
@@ -188,30 +188,30 @@ message BrainPredicateSetSchema {
   map<string, BrainPredicateSchema> predicate = 5;
 }
 message BrainAttributeSchema {
-  BrainToken attribute_token = 1; // contain information about brain entity
-  BrainToken unit = 2;
+  jio.brain.proto.base.BrainToken attribute_token = 1; // contain information about brain entity
+  jio.brain.proto.base.BrainToken unit = 2;
   oneof attribute_is_one_of {
-    BrainQuantitySchema absolute = 3;
+    jio.brain.proto.quantity.BrainQuantitySchema absolute = 3;
     BrainQualifiedAttributeSchema qualifiers = 4;
   }
 }
 message BrainQualifiedAttributeSchema {
-  BrainQuantitySchema value = 1;
+  jio.brain.proto.quantity.BrainQuantitySchema value = 1;
   map<string, BrainAttributeQualifierSchema> qualifiers = 2;
 }
 message BrainAttributeQualifierSchema {
-  BrainToken token = 1; // contain information about brain entity and attribute
-  BrainQuantitySchema quantity = 2;
-  BrainToken unit = 3;
+  jio.brain.proto.base.BrainToken token = 1; // contain information about brain entity and attribute
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
+  jio.brain.proto.base.BrainToken unit = 3;
 }
 
 message BrainPredicateSchema {
-  BrainToken predicate = 1;
-  BrainToken object = 2;
+  jio.brain.proto.base.BrainToken predicate = 1;
+  jio.brain.proto.base.BrainToken object = 2;
   map<string, BrainPredicateQualifierSchema> qualifiers = 3;
 }
 message BrainPredicateQualifierSchema {
-  BrainToken token = 1; // contain information about brain entity and predicate
-  BrainQuantitySchema quantity = 2;
-  BrainToken unit = 3;
+  jio.brain.proto.base.BrainToken token = 1; // contain information about brain entity and predicate
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
+  jio.brain.proto.base.BrainToken unit = 3;
 }

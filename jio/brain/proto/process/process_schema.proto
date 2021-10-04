@@ -1,23 +1,24 @@
 syntax = "proto3";
 
-package com.jio.fabric;
+package jio.brain.proto.process;
 
+option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
-import "base/token.proto";
-import "event/event.proto";
-import "process/ingestion_config.proto";
-import "process/quantization_config.proto";
-import "process/enrich_config.proto";
-import "process/filter_config.proto";
-import "process/pivot_config.proto";
-import "process/reduce_config.proto";
+import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/event/event.proto";
+import "jio/brain/proto/process/ingestion_config.proto";
+import "jio/brain/proto/process/quantization_config.proto";
+import "jio/brain/proto/process/enrich_config.proto";
+import "jio/brain/proto/process/filter_config.proto";
+import "jio/brain/proto/process/pivot_config.proto";
+import "jio/brain/proto/process/reduce_config.proto";
 
 message ProcessSchema {
-  BrainToken token = 1;
+  jio.brain.proto.base.BrainToken token = 1;
   string input_queue = 2;
-  BrainEventSchema input_event_schema = 3;
-  map<string, BrainEventSchema> output_event_schema = 4; // key = output_topic, value = event key in dictionary
+  jio.brain.proto.event.BrainEventSchema input_event_schema = 3;
+  map<string, jio.brain.proto.event.BrainEventSchema> output_event_schema = 4; // key = output_topic, value = event key in dictionary
   oneof config {
     EnrichConfig enrich_config = 5;
     FilterConfig filter_config = 6;

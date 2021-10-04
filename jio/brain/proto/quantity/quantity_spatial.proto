@@ -1,7 +1,8 @@
 syntax = "proto3";
 
-package com.jio.fabric;
+package jio.brain.proto.quantity;
 
+option java_package = "com.jio.brain.proto.quantity";
 option java_multiple_files = true;
 
 message BrainSpatialQuantity {

@@ -1,26 +1,26 @@
 syntax = "proto3";
-
-package com.jio.fabric.grpc;
-
-option java_multiple_files = true;
-
-import "base/id.proto";
-
-message IdentityRequest {
-  oneof id_type {
-    uint32 collection_type_id = 1;
-    uint32 entity_type_id = 2;
-
-  }
-  repeated string unique_key = 3;
-}
-message IdentityResponse {
-  repeated BrainId brain_id = 1;
-}
-
-service EntityIdService {
-  rpc getBrainIdForEntity(IdentityRequest) returns (IdentityResponse);
-}
+//
+//package jio.brain.proto.services.grpc;
+//
+//option java_multiple_files = true;
+//
+//import "jio/brain/proto/base/id.proto";
+//
+//message IdentityRequest {
+//  oneof id_type {
+//    uint32 collection_type_id = 1;
+//    uint32 entity_type_id = 2;
+//
+//  }
+//  repeated string unique_key = 3;
+//}
+//message IdentityResponse {
+//  repeated BrainId brain_id = 1;
+//}
+//
+//service EntityIdService {
+//  rpc getBrainIdForEntity(IdentityRequest) returns (IdentityResponse);
+//}
 
 /*
 Request :

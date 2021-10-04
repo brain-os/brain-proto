@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package com.jio.fabric;
+package jio.brain.proto.quantity;
 
+option java_package = "com.jio.brain.proto.quantity";
 option java_multiple_files = true;
 
-import  "base/enums.proto";
-import "data-types/number.proto";
-import "quantity/quantity_atomic.proto";
+import "jio/brain/proto/types/number.proto";
+import "jio/brain/proto/quantity/quantity_atomic.proto";
 
 enum BrainRangeQuantityType {
   BRAIN_UNKNOWN_RANGE_QUANTITY = 0;
@@ -40,13 +40,13 @@ message BrainRangeQuantitySchema {
 }
 
 message BrainNumericRangeQuantity {
-  BrainNumberRange value = 1;
+  jio.brain.proto.types.BrainNumberRange value = 1;
 }
 
 // Min/Max of range values cannot exceed the min/max here.
 message BrainNumericRangeQuantitySchema {
   BrainNumericQuantitySchema source_quantity = 1;
-  BrainNumberRange value = 2;//ignore type inside
+  jio.brain.proto.types.BrainNumberRange value = 2;//ignore type inside
 }
 message BrainOrdinalRangeQuantity {
   BrainIndexRange value = 1;
