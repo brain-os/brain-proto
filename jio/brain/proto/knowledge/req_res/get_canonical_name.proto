@@ -1,21 +1,21 @@
 syntax = "proto3";
-package knowledge.req_res;
+package jio.brain.proto.knowledge.req_res;
 
-option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_package = "com.jio.brain.proto.knowledge.req_res";
 option java_multiple_files = true;
 
 
-import "protos/knowledge/generic/status.proto";
-import "protos/knowledge/generic/language.proto";
+import "jio/brain/proto/knowledge/generic/status.proto";
+import "jio/brain/proto/knowledge/generic/language.proto";
 
 message GetCanonicalNameRequest {
 	string entity_id = 1;
-	knowledge.generic.Language language_proto = 2;
+	jio.brain.proto.knowledge.generic.Language language_proto = 2;
 	//language_proto includes script and language
 }
 
 message GetCanonicalNameResponse {
 	repeated string canonical_name = 1;
-	knowledge.generic.Status status = 2;
+	jio.brain.proto.knowledge.generic.Status status = 2;
 	
 }

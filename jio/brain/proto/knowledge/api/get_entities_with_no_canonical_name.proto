@@ -1,11 +1,11 @@
 syntax = "proto3";
-package knowledge.api;
+package jio.brain.proto.knowledge.api;
 
-option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_package = "com.jio.brain.proto.knowledge.api";
 option java_multiple_files = true;
 
-import "protos/knowledge/req_res/get_entities_with_no_canonical_name.proto";
+import "jio/brain/proto/knowledge/req_res/get_entities_with_no_canonical_name.proto";
 
 service GetEntitiesWithNoCanonicalNameService {
-    rpc serve(knowledge.req_res.GetEntitiesWithNoCanonicalNameRequest) returns (knowledge.req_res.GetEntitiesWithNoCanonicalNameResponse) {}
+    rpc serve(jio.brain.proto.knowledge.req_res.GetEntitiesWithNoCanonicalNameRequest) returns (jio.brain.proto.knowledge.req_res.GetEntitiesWithNoCanonicalNameResponse) {}
 }

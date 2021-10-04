@@ -1,21 +1,21 @@
 syntax = "proto3";
-package knowledge.req_res;
+package jio.brain.proto.knowledge.req_res;
 
-option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_package = "com.jio.brain.proto.knowledge.req_res";
 option java_multiple_files = true;
 
 
-import "protos/knowledge/generic/status.proto";
-import "protos/knowledge/generic/predicate.proto";
+import "jio/brain/proto/knowledge/generic/status.proto";
+import "jio/brain/proto/knowledge/generic/predicate.proto";
 
 message AddPredicateRequest {
-	knowledge.generic.Predicate predicate = 1; //predicate consists of predicate_name and attributes
+	jio.brain.proto.knowledge.generic.Predicate predicate = 1; //predicate consists of predicate_name and attributes
 	string from_entity_id = 2;
 	string to_entity_id = 3;
 }
 
 message AddPredicateResponse {
 	string predicate_id = 1;
-	knowledge.generic.Status status = 2;
+	jio.brain.proto.knowledge.generic.Status status = 2;
 	//status signifies whether predicate has been added or some DB error has occured
 }

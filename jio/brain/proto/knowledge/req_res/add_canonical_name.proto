@@ -1,18 +1,18 @@
 syntax = "proto3";
-package knowledge.req_res;
+package jio.brain.proto.knowledge.req_res;
 
-option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_package = "com.jio.brain.proto.knowledge.req_res";
 option java_multiple_files = true;
 
-import "protos/knowledge/generic/entity_name.proto";
-import "protos/knowledge/generic/status.proto";
+import "jio/brain/proto/knowledge/generic/entity_name.proto";
+import "jio/brain/proto/knowledge/generic/status.proto";
 
 message AddCanonicalNameRequest {
 	string entity_id = 1;
-	knowledge.generic.EntityName entity_name = 2;
+	jio.brain.proto.knowledge.generic.EntityName entity_name = 2;
 }
 
 message AddCanonicalNameResponse {
-	knowledge.generic.Status status = 1;
+	jio.brain.proto.knowledge.generic.Status status = 1;
 	//status signifies if canonical name has been added or DB error has occured
 }

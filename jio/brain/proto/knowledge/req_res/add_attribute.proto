@@ -1,24 +1,24 @@
 syntax = "proto3";
-package knowledge.req_res;
+package jio.brain.proto.knowledge.req_res;
 
-option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_package = "com.jio.brain.proto.knowledge.req_res";
 option java_multiple_files = true;
 
 
-import "protos/knowledge/generic/status.proto";
-import "protos/knowledge/generic/attribute.proto";
-import "protos/knowledge/generic/language.proto";
+import "jio/brain/proto/knowledge/generic/status.proto";
+import "jio/brain/proto/knowledge/generic/attribute.proto";
+import "jio/brain/proto/knowledge/generic/language.proto";
 
 //entity type is the collection_name
 message AddAttributeRequest {
 	string entity_id = 1;
-	knowledge.generic.Attribute attribute = 2;
+	jio.brain.proto.knowledge.generic.Attribute attribute = 2;
 	string bizid_type = 3;
-	knowledge.generic.Language language_proto = 4;
+	jio.brain.proto.knowledge.generic.Language language_proto = 4;
 	//language_proto includes script and language
 }
 
 message AddAttributeResponse {
-	knowledge.generic.Status status = 1;
+	jio.brain.proto.knowledge.generic.Status status = 1;
 	//Status signifies whether the attribute has been added or some DB error has occured
 }

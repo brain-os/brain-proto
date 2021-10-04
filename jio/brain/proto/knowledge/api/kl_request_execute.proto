@@ -1,11 +1,11 @@
 syntax = "proto3";
-package knowledge.api;
+package jio.brain.proto.knowledge.api;
 
-option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_package = "com.jio.brain.proto.knowledge.api";
 option java_multiple_files = true;
 
-import "protos/knowledge/req_res/kl_request_execute.proto";
+import "jio/brain/proto/knowledge/req_res/kl_request_execute.proto";
 
 service KlRequestExecuteService {
-    rpc serve(knowledge.req_res.KlRequestExecuteRequest) returns (knowledge.req_res.KlRequestExecuteResponse) {}
+    rpc serve(jio.brain.proto.knowledge.req_res.KlRequestExecuteRequest) returns (jio.brain.proto.knowledge.req_res.KlRequestExecuteResponse) {}
 }

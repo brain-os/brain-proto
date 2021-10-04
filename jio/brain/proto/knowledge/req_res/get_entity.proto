@@ -1,21 +1,21 @@
 syntax = "proto3";
-package knowledge.req_res;
+package jio.brain.proto.knowledge.req_res;
 
-option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_package = "com.jio.brain.proto.knowledge.req_res";
 option java_multiple_files = true;
 
 
-import "protos/knowledge/generic/biz_id.proto";
-import "protos/knowledge/generic/entity_name.proto";
-import "protos/knowledge/generic/attribute.proto";
-import "protos/knowledge/generic/status.proto";
-import "protos/knowledge/generic/entity.proto";
+import "jio/brain/proto/knowledge/generic/biz_id.proto";
+import "jio/brain/proto/knowledge/generic/entity_name.proto";
+import "jio/brain/proto/knowledge/generic/attribute.proto";
+import "jio/brain/proto/knowledge/generic/status.proto";
+import "jio/brain/proto/knowledge/generic/entity.proto";
 
 message GetEntityRequest {
 	string entity_id = 1;
 }
 
 message GetEntityResponse {
-	knowledge.generic.Entity entity = 1;
-	knowledge.generic.Status status = 2;
+	jio.brain.proto.knowledge.generic.Entity entity = 1;
+	jio.brain.proto.knowledge.generic.Status status = 2;
 }

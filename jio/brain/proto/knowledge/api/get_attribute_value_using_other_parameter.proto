@@ -1,11 +1,11 @@
 syntax = "proto3";
-package knowledge.api;
+package jio.brain.proto.knowledge.api;
 
-option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_package = "com.jio.brain.proto.knowledge.api";
 option java_multiple_files = true;
 
-import "protos/knowledge/req_res/get_attribute_value_using_other_parameter.proto";
+import "jio/brain/proto/knowledge/req_res/get_attribute_value_using_other_parameter.proto";
 
 service GetAttributeValueUsingOtherParameterService {
-    rpc serve(knowledge.req_res.GetAttributeValueUsingOtherParameterRequest) returns (knowledge.req_res.GetAttributeValueUsingOtherParameterResponse) {}
+    rpc serve(jio.brain.proto.knowledge.req_res.GetAttributeValueUsingOtherParameterRequest) returns (jio.brain.proto.knowledge.req_res.GetAttributeValueUsingOtherParameterResponse) {}
 }

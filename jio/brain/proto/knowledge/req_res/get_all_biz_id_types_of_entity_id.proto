@@ -1,11 +1,11 @@
 syntax = "proto3";
-package knowledge.req_res;
+package jio.brain.proto.knowledge.req_res;
 
-option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_package = "com.jio.brain.proto.knowledge.req_res";
 option java_multiple_files = true;
 
 
-import "protos/knowledge/generic/status.proto";
+import "jio/brain/proto/knowledge/generic/status.proto";
 
 message GetAllBizIdTypesOfEntityIdRequest {
 	string entity_id = 1;
@@ -13,6 +13,6 @@ message GetAllBizIdTypesOfEntityIdRequest {
 
 message GetAllBizIdTypesOfEntityIdResponse {
 	repeated string biz_id_type  = 1;
-	knowledge.generic.Status status = 2;
+	jio.brain.proto.knowledge.generic.Status status = 2;
 	//status signifies whether biz id types of entity have been retrieved or if error in DB has occured
 }

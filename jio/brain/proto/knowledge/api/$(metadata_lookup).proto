@@ -1,11 +1,11 @@
 syntax = "proto3";
-package knowledge.api;
-
-option java_package = "com.jio.fabric.protos.knowledge.api";
-option java_multiple_files = true;
-
-import "protos/knowledge/req_res/$(metadata_lookup).proto";
-
-service $(metadataLookup)Service {
-    rpc serve(knowledge.req_res.$(metadataLookup)Request) returns (knowledge.req_res.$(metadataLookup)Response) {}
-}
+//package jio.brain.proto.knowledge.api;
+//
+//option java_package = "com.jio.brain.proto.knowledge.api";
+//option java_multiple_files = true;
+//
+//import "jio/brain/proto/knowledge/req_res/$(metadata_lookup).proto";
+//
+//service $(metadataLookup)Service {
+//    rpc serve(jio.brain.proto.knowledge.req_res.$(metadataLookup)Request) returns (jio.brain.proto.knowledge.req_res.$(metadataLookup)Response) {}
+//}

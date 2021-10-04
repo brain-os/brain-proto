@@ -1,11 +1,11 @@
 syntax = "proto3";
-package knowledge.api;
+package jio.brain.proto.knowledge.api;
 
-option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_package = "com.jio.brain.proto.knowledge.api";
 option java_multiple_files = true;
 
-import "protos/knowledge/req_res/delete_attribute.proto";
+import "jio/brain/proto/knowledge/req_res/delete_attribute.proto";
 
 service DeleteAttributeService {
-    rpc serve(knowledge.req_res.DeleteAttributeRequest) returns (knowledge.req_res.DeleteAttributeResponse) {}
+    rpc serve(jio.brain.proto.knowledge.req_res.DeleteAttributeRequest) returns (jio.brain.proto.knowledge.req_res.DeleteAttributeResponse) {}
 }

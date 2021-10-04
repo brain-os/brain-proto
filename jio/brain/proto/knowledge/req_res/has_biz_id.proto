@@ -1,11 +1,11 @@
 syntax = "proto3";
-package knowledge.req_res;
+package jio.brain.proto.knowledge.req_res;
 
-option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_package = "com.jio.brain.proto.knowledge.req_res";
 option java_multiple_files = true;
 
 
-import "protos/knowledge/generic/status.proto";
+import "jio/brain/proto/knowledge/generic/status.proto";
 
 message HasBizIdRequest {
 	string entity_id = 1;
@@ -14,6 +14,6 @@ message HasBizIdRequest {
 
 message HasBizIdResponse {
 	bool is_present = 1;
-	knowledge.generic.Status status = 2;
+	jio.brain.proto.knowledge.generic.Status status = 2;
 	//status signifies if entity has the given biz id or if DB error has occured
 }

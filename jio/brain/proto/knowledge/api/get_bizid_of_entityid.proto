@@ -1,11 +1,11 @@
 syntax = "proto3";
-package knowledge.api;
+package jio.brain.proto.knowledge.api;
 
-option java_package = "com.jio.fabric.protos.knowledge.api";
+option java_package = "com.jio.brain.proto.knowledge.api";
 option java_multiple_files = true;
 
-import "protos/knowledge/req_res/get_bizid_of_entityid.proto";
+import "jio/brain/proto/knowledge/req_res/get_bizid_of_entityid.proto";
 
 service GetBizidOfEntityidService {
-    rpc serve(knowledge.req_res.GetBizidOfEntityidRequest) returns (knowledge.req_res.GetBizidOfEntityidResponse) {}
+    rpc serve(jio.brain.proto.knowledge.req_res.GetBizidOfEntityidRequest) returns (jio.brain.proto.knowledge.req_res.GetBizidOfEntityidResponse) {}
 }

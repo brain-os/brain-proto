@@ -1,11 +1,11 @@
 syntax = "proto3";
-package knowledge.req_res;
+package jio.brain.proto.knowledge.req_res;
 
-option java_package = "com.jio.fabric.protos.knowledge.req_res";
+option java_package = "com.jio.brain.proto.knowledge.req_res";
 option java_multiple_files = true;
 
 
-import "protos/knowledge/generic/status.proto";
+import "jio/brain/proto/knowledge/generic/status.proto";
 
 message GetAllCanonicalsUsingEntityTypeRequest {
 	string vertical = 1;
@@ -14,5 +14,5 @@ message GetAllCanonicalsUsingEntityTypeRequest {
 
 message GetAllCanonicalsUsingEntityTypeResponse {
 	repeated string canonical  = 1;
-	knowledge.generic.Status status = 2;
+	jio.brain.proto.knowledge.generic.Status status = 2;
 }
