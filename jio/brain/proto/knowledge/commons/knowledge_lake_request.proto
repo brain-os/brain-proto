@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.commons;
+
+option java_package = "com.jio.brain.proto.knowledge.commons";
+option java_multiple_files = true;
+
+//import "commons/identity_set.proto";
+
+message KlAttributeQuery {
+  map<string, AttributeEnrichMeta> attributes_enrich_map = 1;
+}
+
+message AttributeEnrichMeta {
+  repeated string attribute_names = 1;
+  repeated string ids = 2;
+}
+
+//message KlRequest {
+//  KlAttributeQuerySet attributes = 1;
+//  KlPredicateQuerySet predicates = 2;
+//}
+//
+//message KlAttributeQuerySet {
+//  repeated KlAttributeQuery query = 1;
+//}
+//
+//message KlAttributeQuery {
+//  string entity_type = 1;
+//  string attribute_name = 2;
+//  IdSet entities = 3;
+//}
+//
+//message KlPredicateQuerySet {
+//  repeated KlPredicateQuery query = 1;
+//}
+//
+//message KlPredicateQuery {
+//  string subject_type = 1;
+//  string predicate_name = 2;
+//  IdSet subjects = 3;
+//  IdSet attributes =4;
+//}

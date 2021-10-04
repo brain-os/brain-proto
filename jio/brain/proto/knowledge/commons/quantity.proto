@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.commons;
+
+option java_package = "com.jio.brain.proto.knowledge.commons";
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+
+message Quantity {
+  oneof quantity_is_one_of {
+    QtyNumeric numeric = 1;  // e.g. count, temperature, volume, area, etc.
+    QtySymbolic symbolic = 2;// e.g. color, texture, fit, style, genre, etc.
+    QtyOrdinal ordinal = 3;// e.g. order, size buckets, rating buckets, KPI buckets
+    QtySpatial spatial = 4;// e.g. LatLong, IPAddress, locality, building, city, district, state.
+    QtyTemporal temporal = 5;// e.g. date, time, date-range, time-range, duration, season.
+    QtyMonetary monetary = 6;// e.g. currency + amount
+    QtyDemographic demographic = 7;  // e.g. age-bucket, gender, income-bucket, etc.
+  }
+}
+
+message QtyNumeric {
+  string type = 1; // e.g. /qt/count, /qt/temperature, /qt/area, /qt/data, /qt/ram, /qt/frequency
+  string unit = 2; // e.g. /qu/temperature/celcius, /qu/area/sq_m, /qu/ram/gb, …
+  oneof value_is_one_of {
+    float float_value = 3;      // when floating and low precision is enough
+    double double_value = 4; // only when high precision is required
+    uint64 uint64_value = 5;  // when only positive values are there
+    uint32 uint32_value = 6; // when only positive values are there
+    sint64 sint64_value = 7;// when positive and negative both are possible
+    sint32 sint32_value = 8;// when positive and negative both are possible
+  }
+}
+
+message QtySymbolic {
+  string type = 1; // e.g. /qt/count, /qt/temperature, /qt/area, /qt/data, /qt/ram, /qt/frequency
+  string unit = 2; // e.g. /qu/temperature/celcius, /qu/area/sq_m, /qu/ram/gb, …
+  string value = 3;
+}
+
+message QtyOrdinal {
+  string type = 1; // e.g. /qt/count, /qt/temperature, /qt/area, /qt/data, /qt/ram, /qt/frequency
+  string unit = 2; // e.g. /qu/temperature/celcius, /qu/area/sq_m, /qu/ram/gb, …
+  string value = 3;
+}
+
+message QtyMonetary {
+  double value = 1;
+}
+
+message QtyDemographic {
+
+}
+
+message QtySpatial {
+  LatLong latlong = 1;
+  Grid grid = 2;
+  string continent = 3; // 7-continents of the world
+  string country = 4; // all the countries in the world
+  string region = 5;// within a country (country is needed) [e.g. north, north-east, etc.]
+  string state = 6;// country is needed
+  string district = 7;// country and state are needed
+  string city = 8;// country and state are needed
+  string village = 9;// country, state, district are needed
+  string locality = 10;// country, state, city are needed
+  string building = 11;// building-id
+}
+
+message LatLong {
+  float latitude = 1;
+  float longitude = 2;
+}
+
+message Grid {
+  string type = 1;    // e.g. jio, geohash5)
+  string value = 2;
+}
+
+message QtyTemporal {
+  oneof qty_temporal_is_one_of {
+    QtyDate date = 1;
+    QtyTime time = 2;
+    QtyDateTime date_time = 3;
+    QtyDateRange date_range = 4;
+    QtyTimeRange time_range = 5;
+    QtyDuration duration = 6;
+    QtyTimestamp timestamp = 7;
+  }
+}
+
+message QtyTimestamp {
+  google.protobuf.Timestamp protobufTimestamp = 1;
+}
+
+message QtyDate {
+  uint32 year = 1;
+  uint32 month = 2;
+  uint32 week = 3;
+  uint32 day = 4;
+  uint32 dow = 5;
+}
+
+message QtyTime {
+  uint32 hour = 1;
+  uint32 minute = 2;
+  uint32 second = 3;
+  uint32 millisecond = 4;
+}
+
+message QtyDateTime {
+  QtyDate date = 1;
+  QtyTime time = 2;
+}
+
+message QtyDateRange {
+  QtyDate start_date = 1;
+  bool include_start = 2;
+  QtyDate end_date = 3;
+  bool include_end = 4;
+}
+
+message QtyTimeRange {
+  QtyTime start_time = 1;
+  bool include_start = 2;
+  QtyTime end_time = 3;
+  bool include_end = 4;
+}
+
+message QtyDuration {
+  uint32 seconds = 1;
+  uint32 minutes = 2;
+  uint32 hours = 3;
+  uint32 days = 4;
+  uint32 weeks = 5;
+  uint32 quarters = 6;
+  uint32 years = 7;
+}
