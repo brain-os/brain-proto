@@ -6,7 +6,6 @@ option java_package = "com.jio.brain.proto.knowledge.api";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/status.proto";
-import "jio/brain/proto/entity/entity.proto";
 
 service DeleteCollectionService {
     rpc serve(DeleteCollectionRequest) returns (DeleteCollectionResponse) {}
