@@ -1,11 +1,21 @@
 syntax = "proto3";
+
 package jio.brain.proto.knowledge.api;
 
 option java_package = "com.jio.brain.proto.knowledge.api";
 option java_multiple_files = true;
 
-import "jio/brain/proto/knowledge/req_res/delete_entity.proto";
+import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/base/status.proto";
 
 service DeleteEntityService {
-    rpc serve(jio.brain.proto.knowledge.req_res.DeleteEntityRequest) returns (jio.brain.proto.knowledge.req_res.DeleteEntityResponse) {}
+  rpc serve(DeleteEntityRequest) returns (DeleteEntityResponse) {}
+}
+
+message DeleteEntityRequest {
+  string entity_id = 1;
+}
+
+message DeleteEntityResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
 }

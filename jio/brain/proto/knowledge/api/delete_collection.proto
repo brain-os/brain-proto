@@ -1,11 +1,22 @@
 syntax = "proto3";
+
 package jio.brain.proto.knowledge.api;
 
 option java_package = "com.jio.brain.proto.knowledge.api";
 option java_multiple_files = true;
 
-import "jio/brain/proto/knowledge/req_res/delete_collection.proto";
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/entity/entity.proto";
 
 service DeleteCollectionService {
-    rpc serve(jio.brain.proto.knowledge.req_res.DeleteCollectionRequest) returns (jio.brain.proto.knowledge.req_res.DeleteCollectionResponse) {}
+    rpc serve(DeleteCollectionRequest) returns (DeleteCollectionResponse) {}
+}
+
+message DeleteCollectionRequest {
+    string vertical = 1;
+    string collection_name = 2;
+}
+
+message DeleteCollectionResponse {
+    jio.brain.proto.base.BrainStatus status = 1;
 }

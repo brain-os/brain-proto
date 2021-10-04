@@ -1,11 +1,22 @@
 syntax = "proto3";
+
 package jio.brain.proto.knowledge.api;
 
 option java_package = "com.jio.brain.proto.knowledge.api";
 option java_multiple_files = true;
 
-import "jio/brain/proto/knowledge/req_res/delete_bizid.proto";
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/entity/entity.proto";
 
-service DeleteBizidService {
-    rpc serve(jio.brain.proto.knowledge.req_res.DeleteBizidRequest) returns (jio.brain.proto.knowledge.req_res.DeleteBizidResponse) {}
+service DeleteBizIdService {
+    rpc serve(DeleteBizIdRequest) returns (DeleteBizIdResponse) {}
+}
+
+message DeleteBizIdRequest {
+    string entity_id = 1;
+    map<uint32, string> biz_id = 2;
+}
+
+message DeleteBizIdResponse {
+    jio.brain.proto.base.BrainStatus status = 1;
 }
