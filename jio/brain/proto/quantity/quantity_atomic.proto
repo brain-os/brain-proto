@@ -17,6 +17,7 @@ enum BrainAtomicQuantityType {
   BRAIN_SYMBOLIC_ATOMIC_QUANTITY = 2;
   BRAIN_ORDINAL_ATOMIC_QUANTITY = 3;
   BRAIN_BINNED_ATOMIC_QUANTITY = 4;
+  BRAIN_BINARY_ATOMIC_QUANTITY = 5;
 }
 
 message BrainAtomicQuantitySchema {
@@ -26,6 +27,7 @@ message BrainAtomicQuantitySchema {
     BrainSymbolicQuantitySchema symbolic_schema = 3;
     BrainOrdinalQuantitySchema ordinal_schema = 4;
     BrainBinnedQuantitySchema binned_schema = 5;
+    BrainBinaryQuantitySchema binary_schema = 6;
   }
 }
 
@@ -35,6 +37,7 @@ message BrainAtomicQuantity {
     BrainSymbolicQuantity symbolic = 2;
     BrainOrdinalQuantity ordinal = 3;
     BrainBinnedQuantity binned = 4;
+    BrainBinaryQuantity binary = 5;
   }
 }
 message BrainNumericQuantity {
@@ -106,4 +109,15 @@ message EqualFrequencyBinnedSchema {
 }
 message UserDefinedBinnedSchema {
   jio.brain.proto.types.BrainF64Vector boundaries = 1;
+}
+
+enum BrainBinaryQuantitySchema {
+  YES_NO = 0;
+  TRUE_FALSE = 1;
+  ON_OFF = 2;
+  ACTIVE_INACTIVE = 3;
+}
+
+message BrainBinaryQuantity {
+  bool value = 1;
 }

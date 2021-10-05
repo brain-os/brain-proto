@@ -5,6 +5,7 @@ package jio.brain.proto.event;
 option java_package = "com.jio.brain.proto.event";
 option java_multiple_files = true;
 
+import "google/protobuf/any.proto";
 import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/types/collection.proto";
 import "jio/brain/proto/quantity/quantity.proto";
@@ -53,8 +54,10 @@ message BrainEventMetadata {
 
 message BrainIngestionEvent {
   oneof source {
-    string file_path = 1;        // csv, excel
-    string json = 2;          // kafka ??
+    string csv_file_path = 1;
+    string excel_file_path = 2;
+    string json_file_path = 3;
+    google.protobuf.Any message = 4; // event on kafka
   }
 }
 
