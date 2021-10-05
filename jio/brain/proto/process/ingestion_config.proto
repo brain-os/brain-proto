@@ -49,6 +49,8 @@ message AttributeField {
   string entity_meta_key = 1;
   uint32 entity_field_index = 2;
   string attribute_meta_key = 3;
+  bool is_latitude = 4;
+  bool is_longitude = 5;
 }
 message AttributeQualifierField {
   string entity_meta_key = 1;
@@ -59,6 +61,8 @@ message AttributeQualifierField {
 }
 message PropertyFiled {
   string property_meta_key = 1;
+  bool is_latitude = 4;
+  bool is_longitude = 5;
 }
 enum FieldType {
   FIELD_TYPE_UNKNOWN = 0;

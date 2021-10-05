@@ -146,8 +146,10 @@ message BrainDurationTimeSchema {
 }
 
 message BrainTemporalContextQuantitySchema {
-  jio.brain.proto.base.BrainDateContextType date = 1;
-  jio.brain.proto.base.BrainTimeContextType time = 2;
+  oneof context_type_is_one_of {
+    jio.brain.proto.base.BrainDateContextType date = 1;
+    jio.brain.proto.base.BrainTimeContextType time = 2;
+  }
 }
 
 message BrainTimestampSchema {

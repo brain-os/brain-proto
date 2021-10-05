@@ -29,7 +29,7 @@ message BrainSpatialHierarchyQuantity {
 message BrainSpatialQuantitySchema {
   oneof location_schema_is_one_of {
     bool lat_long = 1;
-    BrainSpatialGeohashQuantitySchema precision = 2;
+    BrainSpatialGeohashQuantitySchema geohash = 2;
     BrainSpatialHierarchyLevel location_hierarchy_level = 3;
   }
 }
