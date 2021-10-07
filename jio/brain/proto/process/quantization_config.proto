@@ -5,11 +5,8 @@ package jio.brain.proto.process;
 option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
-import "jio/brain/proto/quantity/quantity_atomic.proto";
-import "jio/brain/proto/quantity/quantity_temporal.proto";
-
 message QuantizationConfig {
-  string input_topic = 1;
+  string output_schema = 1;
   string output_topic = 2;
   repeated QuantizationConfigInstance quantization_config = 3;
 }
@@ -18,25 +15,25 @@ message QuantizationConfigInstance {
   InputPropertyType type = 1;
   string lhsProperty = 2;
   string rhsProperty = 3;
-  oneof output_type {
-    TemporalProperty temporal = 4;
-    string binQuantity = 5;
-    SpatialProperty spatial = 6;
-  }
+//  oneof output_type {
+//    TemporalProperty temporal = 4;
+//    string binQuantity = 5;
+//    SpatialProperty spatial = 6;
+//  }
 }
 enum InputPropertyType {
   Temporal = 0;
   Spatial = 1;
   Binned = 2;
 }
-message TemporalProperty {
-  //TemporalDateContextType dateContextType;
-  //TemporalTimeContextType timeContextType;
-}
-
-message SpatialProperty {
-
-}
+//message TemporalProperty {
+//  //TemporalDateContextType dateContextType;
+//  //TemporalTimeContextType timeContextType;
+//}
+//
+//message SpatialProperty {
+//
+//}
 //message QuantizationSource {
 //  oneof quantization_field {
 //    string input_quantity_name = 1;

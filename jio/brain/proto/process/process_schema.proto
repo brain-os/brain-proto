@@ -13,10 +13,11 @@ import "jio/brain/proto/process/enrich_config.proto";
 import "jio/brain/proto/process/filter_config.proto";
 import "jio/brain/proto/process/pivot_config.proto";
 import "jio/brain/proto/process/reduce_config.proto";
+import "jio/brain/proto/process/compute_config.proto";
 
 message ProcessSchema {
   jio.brain.proto.base.BrainToken token = 1;
-  string input_queue = 2;
+  string input_topic = 2;
   jio.brain.proto.event.BrainEventSchema input_event_schema = 3;
   map<string, jio.brain.proto.event.BrainEventSchema> output_event_schema = 4; // key = output_topic, value = event key in dictionary
   oneof config {
@@ -26,6 +27,7 @@ message ProcessSchema {
     ReduceConfig reduce_config = 8;
     IngestionConfig ingestion_config = 9;
     QuantizationConfig quantization_config = 10;
+    ComputeConfig compute_config = 11;
   }
 
 }
