@@ -1,0 +1,220 @@
+syntax = "proto3";
+
+package jio.brain.proto.entity;
+
+option java_package = "com.jio.brain.proto.entity";
+option java_multiple_files = true;
+
+//import "base/enums.proto";
+import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/types/collection.proto";
+import "jio/brain/proto/types/set.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+/*
+Example Attribute - Finance
+
+Stock - Entity (Reliance)
+  Max Monthly Price - Attribute (2010)
+  Min Monthly Price - Attribute (2090)
+  Stock Price - Attribute (2076)
+    Date - Attribute Qualifier (3 Aug)
+    Volume - Attribute Qualifier (126380)
+  Stock Price - Attribute (2072)
+    Date - Attribute Qualifier (4 Aug)
+    Volume - Attribute Qualifier (36276330)
+  Stock Price - Attribute (2065)
+    Date - Attribute Qualifier (5 Aug)
+    Volume - Attribute Qualifier (34727640)
+
+Example Attribute - Geography
+
+City - Entity (Delhi)
+  Area - Attribute (1484)
+  Population - Attribute (2m)
+    Year - Attribute Qualifier (2021)
+    m/f ratio - Attribute Qualifier (0.52)
+  Population - Attribute (1.9m)
+    Year - Attribute Qualifier (2020)
+    m/f ratio - Attribute Qualifier (0.51)
+  Population - Attribute (1.7m)
+    Year - Attribute Qualifier (2019)
+    m/f ratio - Attribute Qualifier (0.5)
+
+Example Predicate - Politics (Single Entity)
+State - Entity
+  Has CM - (Predicate)
+    Person - Entity - (Object)
+
+State - Entity (Delhi)
+  Has CM - Predicate
+    Arvind Kejriwal - Entity - (Object)
+      from - Attribute Qualifier (2014)
+      Term - Attribute Qualifier (7th)
+
+Example Predicate - Library (Multiple Entity)
+Author - Entity
+  Is Author Of - (Predicate)
+    Book - Entity - (Object)
+
+Author - Entity (Rowling, J.K.)
+  Is Author Of - Predicate
+    Harry Potter and the Deathly Hallows - Entity - (Object)
+      Volume Sales - Attribute Qualifier (4,475,152)
+    Harry Potter and the Philosopher's Stone - Entity - (Object)
+      Volume Sales - Attribute Qualifier (4,200,654)
+   Harry Potter and the Order of the Phoenix - Entity - (Object)
+      Volume Sales - Attribute Qualifier (4,179,479)
+
+Example Predicate - Project Management ( Multiple Entities with qualifiers)
+
+Project - Entity
+  Has Developer - (Predicate)
+    Person - Entity - (Object)
+
+Project - Entity (Fabric)
+  Has Developer - Predicate
+    Rajan, Mona - Entity - (Object)
+      Start Date - 20 Sep
+      Bill Rate - 25
+    Priti, Parminder, Mayank, Pankaj, Neeru
+      Start Date - 20 Oct
+      Bill Rate - 20
+
+Example Predicate - Linked In
+
+Person - Entity
+  Employed At - (Predicate)
+    Company - Entity - (Object)
+
+Person - Entity (Rajan)
+  Employed At - Predicate
+    Statusneo - Entity - (Object)
+      Start Date - 20 April 2020
+      End Date - None
+      Designation - Principal Architect
+    Sapient - Entity - (Object)
+      Start Date - 27 Oct 2006
+      End Date - 27 April 2016
+      Designation - Director
+ */
+message BrainEntity {
+  // Event - need to present apart from ingestion else need to be enriched from biz id below
+  // Knowledge graph - Always present
+  uint64 id = 1;
+  // Event - Not required
+  // Knowledge graph - Always present
+  uint32 type = 2;
+
+  // key = ID(/v/d/bizid/<entity_type>/<biz_id_type>)
+  // e.g. ID(/common/customer/bizid/person/adhaar)
+
+  // Event - Not needed beyond ingestion
+  // Knowledge graph - Can have multiple values present
+  map<uint32, string> biz_id = 3;
+
+  // key => ID(/common/language/Hin_NI)
+  // Event - not required
+  // Knowledge graph - Can have multiple values present
+  map<uint32, BrainEntityName> name = 4;
+
+  // Event - Only few attributes will be present. Might need enrichment for other attributes from knowledge graph
+  // Knowledge graph - Contain value of all attributes
+  BrainAttributeSet attribute = 5;
+
+  BrainPredicateSet predicate = 6;
+}
+message BrainEntityName {
+  string canonical = 1;
+  jio.brain.proto.types.BrainStrSet aliases = 2;
+}
+message BrainAttributeSet {
+  uint32 entity_type_id = 1;  // populated only if needed
+  uint64 entity_id = 2;       // populated only if needed
+  // key = ID(/v/d/entity_type/attribute_name)
+  map<uint32, BrainAttribute> attributes = 3;
+}
+message BrainPredicateSet {
+  // key = ID(/v/d/subject_type/predicate_name/object_type)
+  map<uint32, BrainPredicate> attributes = 3;
+}
+message BrainAttribute {
+  bool is_knowledge_attribute = 1;
+  jio.brain.proto.quantity.BrainQuantity absolute = 2;
+  BrainAttributeQualifierSet qualifiers = 3;
+//  oneof attribute_is_one_of {
+//    jio.brain.proto.quantity.BrainQuantity absolute = 2;
+//    BrainQualifiedAttributeSet qualified = 3;
+//  }
+}
+//message BrainQualifiedAttributeSet {
+//  repeated BrainQualifiedAttribute attribute = 1; // time series data of closing stock price
+//}
+//message BrainQualifiedAttribute {
+//  jio.brain.proto.quantity.BrainQuantity value = 4;// time series data of closing stock price for particular day
+//  BrainAttributeQualifierSet qualifiers = 5;// date, volume traded, open price etc.
+//}
+message BrainAttributeQualifierSet {
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> qualifier = 1;// date, volume traded, open price etc.
+}
+message BrainPredicate {
+  oneof predicate_is_one_of {
+    jio.brain.proto.types.BrainEntitySet objects = 1; // players in team
+    BrainQualifiedPredicateSet qualified = 2;
+  }
+}
+message BrainQualifiedPredicateSet {
+  repeated BrainQualifiedPredicate predicate = 1; // member of parliament in each ear
+}
+message BrainQualifiedPredicate {
+  jio.brain.proto.types.BrainEntitySet objects = 1; // Member of parliaments
+  BrainPredicateQualifierSet qualifier = 2;
+}
+message BrainPredicateQualifierSet {
+  // key = BrainId(/v/d/predicate_qualifier/*)
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> qualifier = 1; // which year, which session (Current is 17th)
+}
+
+message BrainEntitySchema {
+  jio.brain.proto.base.BrainToken token = 1;
+  jio.brain.proto.base.BrainToken primary_biz_id = 2;
+  repeated jio.brain.proto.base.BrainToken biz_type = 4;
+  BrainAttributeSetSchema attribute = 5;
+  BrainPredicateSetSchema predicate = 6;
+}
+
+message BrainAttributeSetSchema {
+  // key = ID(/v/d/attribute/entity_type/attribute_name)
+  map<string, BrainAttributeSchema> attribute = 5;
+}
+message BrainPredicateSetSchema {
+  // key = ID(/v/d/predicate/subject_type/predicate_name/object_type)
+  map<string, BrainPredicateSchema> predicate = 5;
+}
+message BrainAttributeSchema {
+  jio.brain.proto.base.BrainToken attribute_token = 1; // contain information about brain entity
+  jio.brain.proto.base.BrainToken unit = 2;
+  oneof attribute_is_one_of {
+    jio.brain.proto.quantity.BrainQuantitySchema absolute = 3;
+    BrainQualifiedAttributeSchema qualifiers = 4;
+  }
+}
+message BrainQualifiedAttributeSchema {
+  jio.brain.proto.quantity.BrainQuantitySchema value = 1;
+  map<string, BrainAttributeQualifierSchema> qualifiers = 2;
+}
+message BrainAttributeQualifierSchema {
+  jio.brain.proto.base.BrainToken token = 1; // contain information about brain entity and attribute
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
+  jio.brain.proto.base.BrainToken unit = 3;
+}
+
+message BrainPredicateSchema {
+  jio.brain.proto.base.BrainToken predicate = 1;
+  jio.brain.proto.base.BrainToken object = 2;
+  map<string, BrainPredicateQualifierSchema> qualifiers = 3;
+}
+message BrainPredicateQualifierSchema {
+  jio.brain.proto.base.BrainToken token = 1; // contain information about brain entity and predicate
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
+  jio.brain.proto.base.BrainToken unit = 3;
+}

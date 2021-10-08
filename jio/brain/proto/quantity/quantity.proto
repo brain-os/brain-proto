@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package jio.brain.proto.quantity;
+
+option java_package = "com.jio.brain.proto.quantity";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/enums.proto";
+import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/quantity/quantity_atomic.proto";
+import "jio/brain/proto/quantity/quantity_compound.proto";
+import "jio/brain/proto/quantity/quantity_spatial.proto";
+import "jio/brain/proto/quantity/quantity_temporal.proto";
+
+message BrainQuantity {
+  oneof quantity_is_one_of {
+    BrainAtomicQuantity atomic = 1;
+    BrainCompoundQuantity compounded = 2;
+    BrainTemporalQuantity temporal = 3;
+    BrainSpatialQuantity spatial = 4;
+  }
+}
+message BrainQuantitySchema {
+  jio.brain.proto.base.BrainToken token = 1;
+  repeated jio.brain.proto.base.BrainToken unit = 2;
+  jio.brain.proto.base.BrainQuantityType quantity_type = 3;
+  oneof quantity_schema_is_one_of {
+    BrainAtomicQuantitySchema	atomic = 4;
+    BrainCompoundQuantitySchema	compounded = 5;
+    BrainTemporalQuantitySchema	temporal = 6;
+    BrainSpatialQuantitySchema spatial = 7;
+  }
+}
+
+
+
+
+

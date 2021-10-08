@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/knowledge/base/language.proto";
+
+service AddAttributeService {
+  rpc serve(AddAttributeRequest) returns (AddAttributeResponse) {}
+}
+
+//entity type is the collection_name
+message AddAttributeRequest {
+  string entity_id = 1;
+  jio.brain.proto.entity.BrainAttribute attribute = 2;
+  string biz_id_type = 3;
+  jio.brain.proto.knowledge.base.Language language_proto = 4;
+  //language_proto includes script and language
+}
+
+message AddAttributeResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+}

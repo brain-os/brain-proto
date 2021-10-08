@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+package jio.brain.proto.types;
+
+option java_package = "com.jio.brain.proto.types";
+option java_multiple_files = true;
+
+import "jio/brain/proto/types/vector.proto";
+
+message BrainMatrix {
+    oneof matrix_is_one_of {
+      BrainStrMatrix str = 1;
+      BrainIdxMatrix idx = 2;
+      BrainS32Matrix s32 = 3;
+      BrainU32Matrix u32 = 4;
+      BrainF32Matrix f32 = 5;
+      BrainS64Matrix s64 = 6;
+      BrainU64Matrix u64 = 7;
+      BrainF64Matrix f64 = 8;
+    }
+}
+
+message BrainStrMatrix {
+  repeated BrainStrVector rows = 1;
+  repeated BrainStrVector cols = 2;
+}
+
+message BrainIdxMatrix {
+  repeated BrainIdxVector rows = 1;
+  repeated BrainIdxVector cols = 2;
+}
+
+message BrainS32Matrix {
+  repeated BrainS32Vector rows = 1;
+  repeated BrainS32Vector cols = 2;
+}
+
+message BrainU32Matrix {
+  repeated BrainU32Vector rows = 1;
+  repeated BrainU32Vector cols = 2;
+}
+
+message BrainF32Matrix {
+  repeated BrainF32Vector rows = 1;
+  repeated BrainF32Vector cols = 2;
+}
+
+message BrainS64Matrix {
+  repeated BrainS64Vector rows = 1;
+  repeated BrainS64Vector cols = 2;
+}
+
+message BrainU64Matrix {
+  repeated BrainU64Vector rows = 1;
+  repeated BrainU64Vector cols = 2;
+}
+
+message BrainF64Matrix {
+  repeated BrainF64Vector rows = 1;
+  repeated BrainF64Vector cols = 2;
+}
+
+message BrainSparseMatrix {
+  oneof sparse_matrix_is_one_of {
+    BrainStrSparseMatrix str = 1;
+    BrainIdxSparseMatrix idx = 2;
+    BrainS32SparseMatrix s32 = 3;
+    BrainU32SparseMatrix u32 = 4;
+    BrainF32SparseMatrix f32 = 5;
+    BrainS64SparseMatrix s64 = 6;
+    BrainU64SparseMatrix u64 = 7;
+    BrainF64SparseMatrix f64 = 8;
+  }
+}
+
+message BrainStrSparseMatrix {
+  repeated BrainStrSparseVector rows = 1;
+  repeated BrainStrSparseVector cols = 2;
+}
+
+message BrainIdxSparseMatrix {
+  repeated BrainIdxSparseVector rows = 1;
+  repeated BrainIdxSparseVector cols = 2;
+}
+
+message BrainS32SparseMatrix {
+  repeated BrainS32SparseVector rows = 1;
+  repeated BrainS32SparseVector cols = 2;
+}
+
+message BrainU32SparseMatrix {
+  repeated BrainU32SparseVector rows = 1;
+  repeated BrainU32SparseVector cols = 2;
+}
+
+message BrainF32SparseMatrix {
+  repeated BrainF32SparseVector rows = 1;
+  repeated BrainF32SparseVector cols = 2;
+}
+
+message BrainS64SparseMatrix {
+  repeated BrainS64SparseVector rows = 1;
+  repeated BrainS64SparseVector cols = 2;
+}
+
+message BrainU64SparseMatrix {
+  repeated BrainU64SparseVector rows = 1;
+  repeated BrainU64SparseVector cols = 2;
+}
+
+message BrainF64SparseMatrix {
+  repeated BrainF64SparseVector rows = 1;
+  repeated BrainF64SparseVector cols = 2;
+}
+
+
+

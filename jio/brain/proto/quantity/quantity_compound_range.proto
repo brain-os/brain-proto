@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package jio.brain.proto.quantity;
+
+option java_package = "com.jio.brain.proto.quantity";
+option java_multiple_files = true;
+
+import "jio/brain/proto/types/number.proto";
+import "jio/brain/proto/quantity/quantity_atomic.proto";
+
+enum BrainRangeQuantityType {
+  BRAIN_UNKNOWN_RANGE_QUANTITY = 0;
+  BRAIN_NUMERIC_RANGE_QUANTITY = 1;
+  BRAIN_ORDINAL_RANGE_QUANTITY = 2;
+  BRAIN_BINNED_RANGE_QUANTITY = 3;
+}
+
+message BrainIndexRange {
+  uint32 minimum_index = 1;
+  uint32 maximum_index = 2;
+}
+
+message BrainRangeQuantity {
+  bool open_left = 1;
+  bool open_right = 2;
+  oneof range_quantity_is_one_of {
+    BrainNumericRangeQuantity numeric = 3;
+    BrainOrdinalRangeQuantity ordinal = 4;
+    BrainBinnedRangeQuantity binned = 5;
+  }
+}
+
+message BrainRangeQuantitySchema {
+  BrainRangeQuantityType range_type = 1;
+  oneof range_schema_is_one_of {
+    BrainNumericRangeQuantitySchema numeric = 2;
+    BrainOrdinalRangeQuantitySchema ordinal = 3;
+    BrainBinnedRangeQuantitySchema binned = 4;
+  }
+}
+
+message BrainNumericRangeQuantity {
+  jio.brain.proto.types.BrainNumberRange value = 1;
+}
+
+// Min/Max of range values cannot exceed the min/max here.
+message BrainNumericRangeQuantitySchema {
+  BrainNumericQuantitySchema source_quantity = 1;
+  jio.brain.proto.types.BrainNumberRange value = 2;//ignore type inside
+}
+message BrainOrdinalRangeQuantity {
+  BrainIndexRange value = 1;
+}
+
+message BrainBinnedRangeQuantity {
+  BrainIndexRange value = 1;
+}
+
+message BrainOrdinalRangeQuantitySchema {
+  BrainOrdinalQuantitySchema source_quantity = 1;	// schema
+}
+
+message BrainBinnedRangeQuantitySchema {
+  BrainBinnedQuantitySchema source_quantity = 2;
+}
