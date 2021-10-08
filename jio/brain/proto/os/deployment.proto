@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package jio.brain.proto.os;
+
+option java_package = "com.jio.brain.proto.os";
+option java_multiple_files = true;
+
+message DeploymentRequest{
+  string instance_id = 1;
+  repeated Process process = 2;
+}
+
+message Process {
+  int64  id = 1;
+  string key_token = 2;
+  string name = 3;
+  string input_topic = 4;
+  repeated string output_topic = 5;
+  ProcessType type = 6;
+}
+
+enum ProcessType {
+  ingestion = 0;
+  enrich = 1;
+  quantization = 2;
+  filter = 3;
+  pivot = 4;
+  joiner = 5;
+  reduce = 6;
+}
