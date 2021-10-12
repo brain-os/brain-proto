@@ -33,11 +33,12 @@ message FieldMapping {
   FieldInputDataType input_data_type = 4; // data type of input - will always be string in case of csv
   string format = 5; // date format or number format in case of date or number
   FieldType field_type = 6;
+  bool optional = 7;
   oneof element {
-    BizIdField entity_biz_id = 7;
-    AttributeField entity_attribute = 8;
-    AttributeQualifierField entity_attribute_qualifier = 9;
-    PropertyFiled property = 10;
+    BizIdField entity_biz_id = 8;
+    AttributeField entity_attribute = 9;
+    AttributeQualifierField entity_attribute_qualifier = 10;
+    PropertyFiled property = 11;
   }
 }
 message BizIdField {
