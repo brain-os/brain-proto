@@ -40,7 +40,7 @@ message FieldMapping {
     BizIdField entity_biz_id = 8;
     AttributeField entity_attribute = 9;
     AttributeQualifierField entity_attribute_qualifier = 10;
-    PropertyFiled property = 11;
+    PropertyField property = 11;
   }
 }
 message BizIdField {
@@ -62,7 +62,7 @@ message AttributeQualifierField {
   uint32 attribute_field_index = 4;
   string qualifier_meta_key = 5;
 }
-message PropertyFiled {
+message PropertyField {
   string property_meta_key = 1;
   bool is_latitude = 4;
   bool is_longitude = 5;
