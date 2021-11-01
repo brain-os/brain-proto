@@ -42,9 +42,9 @@ message BrainEvent {
   BrainEventMetadata meta_data = 3;
   oneof event {
     BrainIngestionEvent ingestion_event = 4;
-    BrainEventValue value_event = 5;
+  //  BrainEventValue value_event = 5;
     BrainEventKeyValue key_value_event = 6;
-    BrainEventKeyMultiValue key_multi_value_event = 7;
+  //  BrainEventKeyMultiValue key_multi_value_event = 7;
   }
 }
 
@@ -62,7 +62,7 @@ message BrainIngestionEvent {
 }
 
 message BrainEventKeyValue {
-  BrainEventKey key = 1;
+  optional BrainEventKey key = 1;
   BrainEventValue value = 2;
 }
 

@@ -26,3 +26,7 @@ out/
 hs_err_pid*
 all-protos.iml
 *.iml
+.DS_Store
+.classpath
+.project
+.settings
