@@ -25,6 +25,7 @@ message BrainSpatialHierarchyQuantity {
   uint64 village = 6;
   uint64 locality = 7;
   uint64 building = 8;
+  uint64 zipcode = 9;
 }
 message BrainSpatialQuantitySchema {
   oneof location_schema_is_one_of {
@@ -45,4 +46,6 @@ message BrainSpatialHierarchyLevel {
   bool village = 6;   // true
   bool locality = 7;
   bool building = 8;  // true
+  bool zipcode = 9;
+
 }
