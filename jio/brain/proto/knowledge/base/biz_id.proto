@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.base;
+
+option java_package = "com.jio.brain.proto.knowledge.base";
+option java_multiple_files = true;
+
+message BizId {
+  string type = 1; // /bizid/common_person/pancard
+  string value = 2;
+}
