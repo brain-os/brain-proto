@@ -59,8 +59,3 @@ enum KnowledgeGraphStatusCode {
     }
 }
  */
-
-API - request
-
-      - brain_status
-      -
