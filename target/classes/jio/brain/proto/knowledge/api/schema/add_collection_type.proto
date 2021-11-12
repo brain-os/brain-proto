@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.schema;
+
+option java_package = "com.jio.brain.proto.knowledge.api.schema";
+option java_multiple_files = true;
+
+import "google/protobuf/struct.proto";
+import "jio/brain/proto/base/status.proto";
+
+service AddCollectionTypeService {
+  rpc serve(AddCollectionTypeRequest) returns (AddCollectionTypeResponse) {}
+}
+
+message AddCollectionTypeRequest {
+  string vertical = 1; // telecom, media, retail, hydrocarbon, agriculture etc...
+  string collection_name = 2; // /entity/telecom_cell, /entity/retail_product, /predicate/bought/retail_customer/retail_product
+  bool is_predicate = 3; //boolean variable indicating collection type (True - predicate, False - document)
+  google.protobuf.Struct schema = 4; //Struct represents a structured data value, consisting of fields which map to dynamically typed values
+}
+
+message AddCollectionTypeResponse {
+  jio.brain.proto.base.BrainStatus status = 1; //status indicates whether the required collection has been created
+}

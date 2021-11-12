@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package jio.brain.proto.types;
+option java_package = "com.jio.brain.proto.types";
+option java_multiple_files = true;
+
+import  "jio/brain/proto/base/enums.proto";
+import  "jio/brain/proto/types/set.proto";
+import  "jio/brain/proto/types/vector.proto";
+import  "jio/brain/proto/types/matrix.proto";
+
+message BrainNumber {
+  oneof number_is_one_of {
+    sint32 s32 = 1;
+    uint32 u32 = 2;
+    float f32 = 3;
+    sint64 s64 = 4;
+    uint64 u64 = 5;
+    double f64 = 6;
+  }
+}
+
+message BrainNumberRange {
+  jio.brain.proto.base.BrainNumberType type = 1; // TODO can be moved to schema
+  BrainNumber minimum = 2;
+  BrainNumber maximum = 3;
+  bool include_minimum = 4;  // true[x >= minimum]
+  bool include_maximum = 5; // true[x <= maximum]
+}
+
+message BrainNumberBasket {
+  oneof number_basket_is_one_of {
+    BrainS32Set s32 = 1;
+    BrainU32Set u32 = 2;
+    BrainF32Set f32 = 3;
+    BrainS64Set s64 = 4;
+    BrainU32Set u64 = 5;
+    BrainF64Set f64 = 6;
+  }
+}
+
+message BrainNumberSeries
+{
+  uint32 length = 1;  // if present, the Series has to be this size.
+  // TODO: consider moving length to schema
+  oneof number_series_is_one_of {
+    BrainS32Vector s32 = 5;
+    BrainU32Vector u32 = 6;
+    BrainF32Vector f32 = 7;
+    BrainS64Vector s64 = 8;
+    BrainU64Vector u64 = 9;
+    BrainF64Vector f64 = 10;
+  }
+}
+
+message BrainNumberSparseSeries {
+  uint32 max_index = 1; // TODO: consider moving max_index to schema
+  oneof number_sparse_series_is_one_of {
+    BrainS32SparseVector s32 = 2;
+    BrainU32SparseVector u32 = 3;
+    BrainF32SparseVector f32 = 4;
+    BrainS64SparseVector s64 = 5;
+    BrainU64SparseVector u64 = 6;
+    BrainF64SparseVector f64 = 7;
+
+  }
+}
+
+message BrainNumberTable{
+  uint32 num_rows = 1;
+  uint32 num_cols = 2;
+  oneof number_table_is_one_of {
+    BrainS32Matrix s32 = 3;
+    BrainU32Matrix u32 = 4;
+    BrainF32Matrix f32 = 5;
+    BrainS64Matrix s64 = 6;
+    BrainU64Matrix u64 = 7;
+    BrainF64Matrix f64 = 8;
+  }
+}
+
+message BrainNumberSparseTable {
+  uint32 num_rows = 1;
+  uint32 num_cols = 2;
+  oneof number_sparse_table_is_one_of {
+    BrainS32SparseMatrix s32 = 3;
+    BrainU32SparseMatrix u32 = 4;
+    BrainF32SparseMatrix f32 = 5;
+    BrainS64SparseMatrix s64 = 6;
+    BrainU64SparseMatrix u64 = 7;
+    BrainF64SparseMatrix f64 = 8;
+  }
+}
+
+

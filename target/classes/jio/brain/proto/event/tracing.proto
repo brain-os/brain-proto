@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package jio.brain.proto.event;
+
+option java_package = "com.jio.brain.proto.event";
+option java_multiple_files = true;
+
+message BrainEventTrace {
+  TraceType trace_type = 1;
+  oneof trace_is_one_of {
+    InTrace in_trace = 2;
+    OutTrace out_trace = 3;
+  }
+}
+
+enum TraceType {
+  TRACE_TYPE_UNKNOWN = 0;
+  TRACE_TYPE_IN = 1;
+  TRACE_TYPE_OUT = 2;
+}
+
+message InTrace {
+  uint64 in_time = 1;
+  uint32 process_id = 2;
+  uint32 event_type = 3;
+  string input_topic = 4;
+}
+
+message OutTrace {
+  uint64 out_time = 1; // epoch time
+  uint32 process_id = 2;
+  uint32 event_type = 3;
+  string output_topic = 4;
+}

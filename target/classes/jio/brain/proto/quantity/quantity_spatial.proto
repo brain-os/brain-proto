@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package jio.brain.proto.quantity;
+
+option java_package = "com.jio.brain.proto.quantity";
+option java_multiple_files = true;
+
+message BrainSpatialQuantity {
+  oneof location_is_one_of {
+    BrainSpatialLatLongQuantity lat_long = 1;
+    string geohash = 2;
+    BrainSpatialHierarchyQuantity location_hierarchy = 3;
+  }
+}
+message BrainSpatialLatLongQuantity {
+  double latitude = 1;
+  double longitude = 2;
+}
+message BrainSpatialHierarchyQuantity {
+  uint64 continent = 1;
+  uint64 country = 2;
+  uint64 state = 3;
+  uint64 district = 4;
+  uint64 city = 5;
+  uint64 village = 6;
+  uint64 locality = 7;
+  uint64 building = 8;
+  uint64 zipcode = 9;
+}
+message BrainSpatialQuantitySchema {
+  oneof location_schema_is_one_of {
+    bool lat_long = 1;
+    BrainSpatialGeohashQuantitySchema geohash = 2;
+    BrainSpatialHierarchyLevel location_hierarchy_level = 3;
+  }
+}
+message BrainSpatialGeohashQuantitySchema {
+  uint32 precision = 1;
+}
+message BrainSpatialHierarchyLevel {
+  bool continent = 1;
+  bool country = 2;
+  bool state = 3;   // true
+  bool district = 4;
+  bool city = 5;
+  bool village = 6;   // true
+  bool locality = 7;
+  bool building = 8;  // true
+  bool zipcode = 9;
+
+}

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package jio.brain.proto.identity.api;
+
+option java_package = "com.jio.brain.proto.identity.api";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/id.proto";
+
+message IdentityRequest {
+  oneof id_type {
+    uint32 collection_type_id = 1;
+    uint32 entity_type_id = 2;
+
+  }
+  repeated string unique_key = 3;
+}
+message IdentityResponse {
+  repeated jio.brain.proto.base.BrainId brain_id = 1;
+}
+
+service EntityIdService {
+  rpc getBrainIdForEntity(IdentityRequest) returns (IdentityResponse);
+}
+
+/*
+Request :
+{
+  "vertical" : "hr",
+  "domain" : "payroll",
+  "meta_type_id" : "58294", // represent "employee" type in "hr" vertical and "payroll" domain
+  "unique_key" : "EMP0003",
+  "type" : "BRAIN_ENTITY_TOKEN"
+}
+// *** For better performance entity type should be in redis cache ***
+Response :
+{
+  "id" : {
+    "key" : "/hr/payroll/entity_id/customer/EMP0003", // generated from employee
+    "u64" : 89012
+  }
+}
+ */

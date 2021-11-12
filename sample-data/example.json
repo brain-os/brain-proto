@@ -1,0 +1,151 @@
+{
+  "event" : [{
+    "/retail/event/pos" : {
+      "entity_descriptor" : "/retail/event/pos",
+      "vertical" : "retail",
+      "key_schema" : {},
+      "value_schema" : {
+        "entity" : [
+          "/common/entity/customer",
+          "/retail/entity/product",
+          "/retail/entity/coupon"
+        ],
+        "predicate" : [
+          "/retail/predicate/product/apply/coupon",
+          "/retail/predicate/customer/favourite/product"
+        ],
+        "property" : {
+          "/retail/property/pos/transaction_time": "/common/quantity/date",
+          "/retail/property/pos/invoice_total": "/common/quantity/monetary",
+          "/retail/property/pos/source_lat_long": "/common/quantity/lat_long"
+        },
+        "context" : {
+          "/retail/context/pos/shopping_hours": "/common/quantity/time_of_day",
+          "/retail/context/pos/days_of_week": "/common/quantity/day_of_week",
+          "/retail/context/pos/store_location": "/common/quantity/location_type"
+        }
+      }
+    }
+  }],
+  "entity" : {
+    "/common/entity/customer" : {
+      "entity_key" : "/common/entity/customer",
+      "attribute" : [
+        "/common/attribute/customer/age",
+        "/common/attribute/customer/customer_type",
+        "/common/attribute/customer/gender"
+      ],
+      "predicate" : []
+    },
+    "/retail/entity/product" : {
+      "entity_key" : "/retail/entity/product",
+      "attribute" : [
+        "/retail/attribute/product/product_type",
+        "retail/attribute/product/mrp"
+      ],
+      "predicate" : [
+        "/retail/predicate/product/apply/coupon",
+        "/retail/predicate/customer/favourite/product"
+      ]
+    },
+    "/retail/entity/coupon" : {
+      "entity_key" : "/retail/entity/coupon",
+      "attribute" : [
+        "/retail/attribute/coupon/coupon_type",
+        "/retail/attribute/coupon/validity_date",
+        "/retail/attribute/coupon/discount"
+      ],
+      "predicate" : []
+    }
+  },
+  "attribute" : {
+    "/common/attribute/customer/age": {
+      "attribute_key": "/common/attribute/customer/age",
+      "entity_key" : "/common/entity/customer",
+      "attribute_name" : "age",
+      "quantity_type": "/common/quantity/age_in_years",
+      "qualifier": {}
+    },
+    "/common/attribute/customer/customer_type": {
+      "attribute_key": "/common/attribute/customer/customer_type",
+      "entity_key" : "/common/entity/customer",
+      "attribute_name" : "customer_type",
+      "quantity_type": "retail/quantity/customer_type",
+      "qualifier": {
+        "/retail/qualifier/customer/customer_type/assigned_date": "/common/quantity/date",
+        "/retail/qualifier/customer/customer_type/minimum_monthly_purchase": "/common/quantity/monetary"
+      }
+    },
+    "/common/attribute/customer/gender": {
+      "attribute_key": "/common/attribute/customer/gender",
+      "entity_key" : "/common/entity/customer",
+      "attribute_name" : "gender",
+      "quantity_type": "/common/quantity/gender",
+      "qualifier": {}
+    },
+    "/retail/attribute/product/product_type": {
+      "attribute_key": "/retail/attribute/product/product_type",
+      "entity_key" : "/retail/entity/product",
+      "attribute_name" : "product_type",
+      "quantity_type": "/retail/quantity/product_type",
+      "qualifier": {
+        "retail/qualifier/product/product_type/is_perishable": "/common/quantity/boolean"
+      }
+    },
+    "retail/attribute/product/mrp": {
+      "attribute_descriptor": "/retail/attribute/product/mrp",
+      "entity_key" : "/retail/entity/product",
+      "attribute_name" : "mrp",
+      "quantity_type": "/common/quantity/monetary",
+      "qualifier": {
+        "retail/qualifier/product/mrp/applied_date": "/common/quantity/date",
+        "retail/qualifier/product/mrp/percent_increase": "/common/quantity/percent"
+      }
+    },
+    "/retail/attribute/coupon/coupon_type": {
+      "attribute_descriptor": "/retail/attribute/coupon/coupon_type",
+      "entity_key" : "/retail/entity/coupon",
+      "attribute_name" : "coupon_type",
+      "quantity_type": "/retail/quantity/coupon_type",
+      "qualifier": {}
+    },
+    "/retail/attribute/coupon/validity_date": {
+      "attribute_descriptor": "/retail/attribute/coupon/validity_date",
+      "entity_key" : "/retail/entity/coupon",
+      "attribute_name" : "validity_date",
+      "quantity_type": "/common/quantity/date",
+      "qualifier": {}
+    },
+    "/retail/attribute/coupon/discount": {
+      "attribute_descriptor": "/retail/attribute/coupon/discount",
+      "entity_key" : "/retail/entity/coupon",
+      "attribute_name" : "discount",
+      "quantity_type": "/common/quantity/percent",
+      "qualifier": {}
+    }
+  },
+  "predicates" : {
+    "/retail/predicate/product/apply/coupon": {
+      "predicate_key": "/retail/predicate/product/apply/coupon",
+      "subject_type": "/retail/entity/product",
+      "object_type": "/retail/entity/coupon",
+      "predicate_name": "apply",
+      "qualifier": {
+        "/retail/qualifier/predicate/product/apply/coupon/discount_behaviour": "/retail/quantity/discount_behaviour",
+        "/retail/qualifier/predicate/product/apply/coupon/start_date": "common/quantity/date",
+        "/retail/qualifier/predicate/product/apply/coupon/end_date": "common/quantity/date",
+        "/retail/qualifier/predicate/product/apply/coupon/max_items": "common/quantity/count"
+      }
+    },
+    "/retail/predicate/customer/favourite/product": {
+      "predicate_key": "/retail/predicate/customer/favourite/product",
+      "subject_type": "/common/entity/customer",
+      "object_type": "/retail/entity/product",
+      "predicate_name": "favourite",
+      "qualifier": {
+        "/retail/qualifier/predicate/customer/favourite/product/is_favourite": "/common/quantity/boolean",
+        "/retail/qualifier/predicate/customer/favourite/product/items_purchased": "common/quantity/count"
+      }
+    }
+  }
+}

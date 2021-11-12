@@ -1,0 +1,260 @@
+{
+  "input_queue": "/retail/topic/invoice",
+  "input_event_config": "/retail/event/invoice",
+  "output_event_config": {
+    "/retail/topic/invoice/quantized": "/retail/event/invoice"
+  },
+  "dictionary" : {
+    "quantity_dictionary" : {
+      "vertical": "commons",
+      "meta_data": [
+        {
+          "name": "spatial/types",
+          "list": {
+            "item": [
+              "grid",
+              "geohash8",
+              "geohash7",
+              "geohash6",
+              "locality",
+              "ward",
+              "city",
+              "village",
+              "district",
+              "state",
+              "jio_center",
+              "jio_point",
+              "jio_territory",
+              "building"
+            ]
+          }
+        },
+        {
+          "name": "temporal/instances",
+          "list": {
+            "item": [
+              "minute05",
+              "minute15",
+              "hour",
+              "day_part",
+              "day",
+              "day_of_week",
+              "day_type",
+              "week",
+              "month",
+              "quarter",
+              "year"
+            ]
+          }
+        },
+        {
+          "name": "temporal/durations",
+          "list": {
+            "item": [
+              "milliseconds",
+              "seconds",
+              "minutes",
+              "hours",
+              "days",
+              "weeks",
+              "months",
+              "quarters",
+              "years"
+            ]
+          }
+        }
+      ],
+      "quantity": [
+        {
+          "vertical": "commons",
+          "quantity_type": "/commons/quantity/numeric/age",
+          "numeric": {
+            "unit": "years",
+            "minimum": {
+              "int_value": 0
+            },
+            "maximum": {
+              "int_value": 100
+            }
+          }
+        },
+        {
+          "vertical": "commons",
+          "quantity_type": "/commons/quantity/product_type",
+          "symbolic": {
+            "item": [
+              "grocery",
+              "vegetable",
+              "fruit",
+              "beverage",
+              "bakery"
+            ]
+          }
+        },
+        {
+          "vertical": "commons",
+          "quantity_type": "/commons/quantity/ratings",
+          "ordinal": {
+            "item": [
+              "very_bad",
+              "bad",
+              "average",
+              "good",
+              "excellent"
+            ]
+          }
+        },
+        {
+          "vertical": "commons",
+          "quantity_type": "/commons/quantity/product_pricing",
+          "binned": {
+            "source": "TODO",
+            "name" : ["very_cheap", "cheap", "moderate", "expensive", "very_expensive"],
+            "boundary" : [0, 25, 200, 1000, 2000],
+            "minimum_open" : false,
+            "maximum_open" : true
+          }
+        },
+        {
+          "vertical": "commons",
+          "quantity_type": "/commons/quantity/temporal/instance/date/minute05",
+          "temporal": {
+            "instance": {
+              "selected": [
+                "year",
+                "month",
+                "day",
+                "minute15"
+              ]
+            }
+          }
+        },
+        {
+          "vertical": "commons",
+          "quantity_type": "/commons/quantity/temporal/instance/date/second",
+          "temporal": {
+            "instance": {
+              "selected": [
+                "year",
+                "month",
+                "day",
+                "hour",
+                "second"
+              ]
+            }
+          }
+        },
+        {
+          "vertical": "commons",
+          "quantity_type": "/commons/quantity/temporal/instance/hour",
+          "temporal": {
+            "instance": {
+              "selected": [
+                "hour"
+              ]
+            }
+          }
+        },
+        {
+          "vertical": "commons",
+          "quantity_type": "/commons/quantity/temporal/instance/date/day_part",
+          "temporal": {
+            "instance": {
+              "selected": [
+                "year",
+                "month",
+                "day",
+                "day_part",
+                "second"
+              ]
+            }
+          }
+        },
+        {
+          "vertical": "commons",
+          "quantity_type": "/commons/quantity/temporal/durations/minutes",
+          "temporal": {
+            "duration": {
+              "selected": [
+                "minutes"
+              ]
+            }
+          }
+        },
+        {
+          "vertical": "commons",
+          "quantity_type": "/commons/quantity/temporal/range/hour_minutes",
+          "temporal": {
+            "range": {
+              "selected": [
+                "minutes",
+                "hours"
+              ],
+              "include_minimum": true,
+              "include_maximum": false
+            }
+          }
+        }
+      ]
+    },
+    "entity_dictionary" : {
+      "vertical" : "commons",
+      "entity" : [
+        {
+          "entity_type" : "/common/entity/city",
+          "attribute" : [
+            {
+              "name" : "/common/attribute/city/population",
+              "quantity_type" : "/common/quantity/count/population",
+              "qualifier" : [
+                {
+                  "name" : "/common/attribute_qualifier/city/population/year",
+                  "quantity_type" : "/common/quantity/temporal/instance/year"
+                }
+              ]
+            },
+            {
+              "name" : "/common/attribute/city/area",
+              "quantity_type" : "/common/quantity/geo/area"
+            }
+          ],
+          "predicate" : [
+            {
+              "name" : "/common/predicate/city/in_district/district",
+              "object" : "/common/entity/district"
+            },
+            {
+              "name" : "/common/predicate/city/in_state/state",
+              "object" : "/common/entity/state"
+            },
+            {
+              "name" : "/common/predicate/city/in_country/country",
+              "object" : "/common/entity/country"
+            },
+            {
+              "name" : "/common/predicate/city/has_mayor/person",
+              "object" : "/common/entity/person",
+              "qualifier" : [
+                {
+                  "name" : "/common/predicate_qualifier/city/has_mayor/person/start_date",
+                  "quantity_type" : "/common/quantity/temporal/instance/date"
+                },
+                {
+                  "name" : "/common/predicate_qualifier/city/has_mayor/person/end_date",
+                  "quantity_type" : "/common/quantity/temporal/instance/date"
+                },
+                {
+                  "name" : "/common/predicate_qualifier/city/has_mayor/person/order",
+                  "quantity_type" : "/common/quantity/ordinal/order"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "filter_config" : {
+
+  }
+}

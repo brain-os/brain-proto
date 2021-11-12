@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package jio.brain.proto.types;
+
+option java_package = "com.jio.brain.proto.types";
+option java_multiple_files = true;
+
+message BrainSet {
+  oneof set_is_one_of {
+    BrainStrSet str = 1;
+    BrainIdxSet idx = 2;
+    BrainS32Set s32 = 3;
+    BrainU32Set u32 = 4;
+    BrainF32Set f32 = 5;
+    BrainS64Set s64 = 6;
+    BrainU64Set u64 = 7;
+    BrainF64Set f64 = 8;
+  }
+}
+
+message BrainStrSet {
+  map<string, bool> element = 1;
+}
+
+message BrainIdxSet {
+  map<uint32, bool> element = 1;
+}
+
+message BrainS32Set {
+  map<sint32, bool> element = 1;
+}
+
+message BrainU32Set{
+  map<uint32, bool> element = 1;
+}
+
+message BrainF32Set {
+  // key = floor(x),
+  // value = {round(1e6 * (x - floor(x))}
+  map<uint32, BrainU32Set> element = 1;
+}
+message BrainS64Set {
+  map<sint64, bool> element = 1;
+}
+
+message BrainU64Set {
+  map<uint64, bool> element = 1;
+}
+
+message BrainF64Set {
+  // key = floor(x),
+  // value = {round(1e15 * (x - floor(x))}
+  map<uint64, BrainU64Set> element = 1;
+}

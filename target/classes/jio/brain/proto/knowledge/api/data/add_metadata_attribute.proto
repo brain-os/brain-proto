@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+
+service AddMetadataAttributeService {
+  rpc serve(AddMetadataAttributeRequest) returns (AddMetadataAttributeResponse) {}
+}
+
+message AddMetadataAttributeRequest {
+  string vertical = 1;
+  string entity_type = 2;
+  string attribute_name = 3;
+  string quantity_type = 4;
+  string attribute_type = 5;
+}
+
+message AddMetadataAttributeResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+}

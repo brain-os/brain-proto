@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package jio.brain.proto.types;
+
+option java_package = "com.jio.brain.proto.types";
+option java_multiple_files = true;
+
+message BrainVector {
+  oneof vector_is_one_of {
+    BrainStrVector str = 1;
+    BrainIdxVector idx = 2;
+    BrainS32Vector s32 = 3;
+    BrainU32Vector u32 = 4;
+    BrainF32Vector f32 = 5;
+    BrainS64Vector s64 = 6;
+    BrainU64Vector u64 = 7;
+    BrainF64Vector f64 = 8;
+  }
+}
+
+message BrainStrVector{
+  repeated string element = 1;
+}
+
+message BrainIdxVector {
+  repeated uint32 element = 1;
+}
+
+message BrainS32Vector {
+  repeated sint32 element = 1;
+}
+
+message BrainU32Vector {
+  repeated uint32 element = 1;
+}
+
+message BrainF32Vector {
+  repeated float element = 1;
+}
+
+message BrainS64Vector {
+  repeated sint64 element = 1;
+}
+
+message BrainU64Vector {
+  repeated uint64 element = 1;
+}
+
+message BrainF64Vector {
+  repeated double element = 1;
+}
+
+message BrainSparseVector {
+  oneof sparse_vector_is_one_of {
+    BrainStrSparseVector str = 1;
+    BrainIdxSparseVector idx = 2;
+    BrainS32SparseVector s32 = 3;
+    BrainU32SparseVector u32 = 4;
+    BrainF32SparseVector f32 = 5;
+    BrainS64SparseVector s64 = 6;
+    BrainU64SparseVector u64 = 7;
+    BrainF64SparseVector f64 = 8;
+  }
+}
+
+
+message BrainStrSparseVector {
+  map<uint32, string> element = 1;
+}
+
+message BrainIdxSparseVector {
+  map<uint32, uint32> element = 1;
+}
+
+message BrainS32SparseVector {
+  map<uint32, sint32> element = 1;
+}
+
+message BrainU32SparseVector {
+  map<uint32, uint32> element = 1;
+}
+
+message BrainF32SparseVector {
+  map<uint32, float> element = 1;
+}
+
+message BrainS64SparseVector {
+  map<uint32, sint64> element = 1;
+}
+
+message BrainU64SparseVector {
+  map<uint32, uint64> element = 1;
+}
+
+message BrainF64SparseVector {
+  map<uint32, double> element = 1;
+}

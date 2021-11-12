@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.schema;
+
+option java_package = "com.jio.brain.proto.knowledge.api.schema";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+import "google/protobuf/struct.proto";
+
+service AddAttributeTypeService {
+  rpc serve(AddAttributeTypeRequest) returns (AddAttributeTypeResponse) {}
+}
+
+message AddAttributeTypeRequest {
+  string collection_type = 1;
+  string attribute_name = 2;
+  google.protobuf.Struct attribute_schema = 3;
+  bool attribute_required = 4;
+}
+
+message AddAttributeTypeResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+}

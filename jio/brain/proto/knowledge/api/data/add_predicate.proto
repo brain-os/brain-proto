@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/entity/entity.proto";
+
+service AddPredicateService {
+  rpc serve(AddPredicateRequest) returns (AddPredicateResponse) {}
+}
+
+message AddPredicateRequest {
+  jio.brain.proto.entity.BrainPredicate predicate = 1; //predicate consists of predicate_name and attributes
+  string from_entity_id = 2;
+  string to_entity_id = 3;
+}
+
+message AddPredicateResponse {
+  string predicate_id = 1;
+  jio.brain.proto.base.BrainStatus status = 2;
+}

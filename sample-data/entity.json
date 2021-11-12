@@ -1,0 +1,56 @@
+{
+  "vertical" : "commons",
+  "entity" : [
+    {
+      "entity_type" : "/common/entity/city",
+      "attribute" : [
+        {
+          "name" : "/common/attribute/city/population",
+          "quantity_type" : "/common/quantity/count/population",
+          "qualifier" : [
+            {
+              "name" : "/common/attribute_qualifier/city/population/year",
+              "quantity_type" : "/common/quantity/temporal/instance/year"
+            }
+          ]
+        },
+        {
+          "name" : "/common/attribute/city/area",
+          "quantity_type" : "/common/quantity/geo/area"
+        }
+      ],
+      "predicate" : [
+        {
+          "name" : "/common/predicate/city/in_district/district",
+          "object" : "/common/entity/district"
+        },
+        {
+          "name" : "/common/predicate/city/in_state/state",
+          "object" : "/common/entity/state"
+        },
+        {
+          "name" : "/common/predicate/city/in_country/country",
+          "object" : "/common/entity/country"
+        },
+        {
+          "name" : "/common/predicate/city/has_mayor/person",
+          "object" : "/common/entity/person",
+          "qualifier" : [
+            {
+              "name" : "/common/predicate_qualifier/city/has_mayor/person/start_date",
+              "quantity_type" : "/common/quantity/temporal/instance/date"
+            },
+            {
+              "name" : "/common/predicate_qualifier/city/has_mayor/person/end_date",
+              "quantity_type" : "/common/quantity/temporal/instance/date"
+            },
+            {
+              "name" : "/common/predicate_qualifier/city/has_mayor/person/order",
+              "quantity_type" : "/common/quantity/ordinal/order"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

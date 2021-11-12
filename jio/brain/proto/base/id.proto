@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package jio.brain.proto.base;
+
+option java_package = "com.jio.brain.proto.base";
+option java_multiple_files = true;
+
+// <root> / Brain > Index Service
+
+//enum BrainIdType {
+//  BRAIN_STR_ID = 0;	// string
+//  BRAIN_U32_ID = 1;	// string
+//  BRAIN_U64_ID = 2;	// string
+//}
+
+message BrainId {
+  string key = 1;
+  oneof id_is_one_of {
+    uint32 u32 = 2;
+    uint64 u64 = 3;
+  }
+}
+

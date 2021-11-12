@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package jio.brain.proto.schema.api;
+
+option java_package = "com.jio.brain.proto.schema.api";
+option java_multiple_files = true;
+
+import "jio/brain/proto/entity/entity.proto";
+
+message EntitySchemaRequest {
+  string vertical = 1;
+  string domain = 2;
+  string name = 3;
+}
+//message EntitySchemaResponse {
+//  EntitySchema brain_id = 1;
+//}
+
+service EntitySchemaService {
+  rpc getSchemaForEntity(EntitySchemaRequest) returns (jio.brain.proto.entity.BrainEntitySchema);
+}

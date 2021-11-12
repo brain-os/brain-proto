@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+import "google/protobuf/struct.proto";
+
+service AttributeMetadataLookupService {
+  rpc serve(AttributeMetadataLookupRequest) returns (AttributeMetadataLookupResponse) {}
+}
+
+message AttributeMetadataLookupRequest {
+  string entity_type = 1;
+  string attribute = 2;
+}
+
+message AttributeMetadataLookupResponse {
+  google.protobuf.Struct metadata = 1;
+  jio.brain.proto.base.BrainStatus status = 2;
+}
