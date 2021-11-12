@@ -36,8 +36,13 @@ message BrainTemporalDurationQuantity {
   BrainTimeDuration time = 2;
 }
 
+//message BrainTemporalContextQuantityOld {
+//  uint32 instance = 1;
+//}
+
 message BrainTemporalContextQuantity {
-  uint32 instance = 1;
+  BrainDateContext date = 1;
+  BrainTimeContext time = 2;
 }
 
 message BrainDateInstance {
@@ -52,13 +57,36 @@ message BrainDateInstance {
 }
 
 message BrainTimeInstance {
-  uint32 part = 1;
+//  uint32 part = 1;
   uint32 hour = 2;
-  uint32 quarter = 3;
-  uint32 minute5 = 4;
+//  uint32 quarter = 3;
+ // uint32 minute5 = 4;
   uint32 minute = 5;
   uint32 second = 6;
   uint32 millisecond = 7;
+}
+
+
+message BrainDateContext {
+  uint32 century = 1;
+  uint32 decade = 2;
+  uint32 year = 3;
+  uint32 quarter = 4;
+  uint32 season = 5;
+  uint32 month = 6;
+  uint32 week = 7;
+  uint32 date = 8;
+  uint32 day_of_week = 9;
+}
+
+message BrainTimeContext {
+  uint32 part = 1;
+  uint32 hour = 2;
+  uint32 minute15 = 3;
+  uint32 minute5 = 4;
+  uint32 minute = 5;
+  uint32 second = 6;
+//  uint32 millisecond = 7;
 }
 
 message BrainDateDuration {
