@@ -6,5 +6,6 @@ option java_package = "com.jio.brain.proto.knowledge.base";
 option java_multiple_files = true;
 
 message Language {
-
+  string language = 1;
+  string script = 2;
 }
