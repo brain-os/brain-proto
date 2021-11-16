@@ -6,26 +6,11 @@ option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
 message ReduceConfig {
-  repeated ReduceConfigInstance instance = 1;
-}
-
-message ReduceConfigInstance {
-  string outputTopic = 1;
-  string outputSchema = 2;
-  uint32 windowTimeMins = 3;
-  repeated AggregateCondition aggregateCondition = 4;
-}
-
-message AggregateCondition {
-  string propertyName = 1;
-  AggregateConditionType type = 2;
-  enum AggregateConditionType {
-    SUM = 0;
-    AVERAGE = 1;
-    COUNT = 2;
-    MIN = 3;
-    MAX = 4;
-    SLOPE = 5;
-    PRODUCT = 6;
+  oneof reduce_config_is_one_of {
+    PurgeReduceConfig purge_reduce_config = 1;
   }
+}
+
+message PurgeReduceConfig {
+  // ...
 }

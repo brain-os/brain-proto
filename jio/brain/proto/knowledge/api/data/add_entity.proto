@@ -5,7 +5,7 @@ package jio.brain.proto.knowledge.api.data;
 option java_package = "com.jio.brain.proto.knowledge.api.data";
 option java_multiple_files = true;
 
-import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/knowledge/base/entity.proto";
 import "jio/brain/proto/base/status.proto";
 
 service AddEntityService {
@@ -13,7 +13,7 @@ service AddEntityService {
 }
 
 message AddEntityRequest {
-  jio.brain.proto.entity.BrainEntity entity = 1;
+  jio.brain.proto.knowledge.base.Entity entity = 1;
   //An entity consists of type, biz_id, name and attributes
 }
 

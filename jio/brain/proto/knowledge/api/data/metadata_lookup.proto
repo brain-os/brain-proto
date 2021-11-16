@@ -9,14 +9,15 @@ import "jio/brain/proto/base/status.proto";
 import "google/protobuf/struct.proto";
 
 /*
-MetadataLookupService helps to get the static and dynamically attributes of given collection name
+MetadataLookupService helps to get the document given the key, Key Value Lookup Service
+Can be utilize to read the schema of a vertical, attribute & predicate
  */
 service MetadataLookupService {
   rpc serve(MetadataLookupRequest) returns (MetadataLookupResponse) {}
 }
 
 message MetadataLookupRequest {
-  string collection_name = 1; // ex. /entity/agriculture/farm , /entity/agriculture/farmer, /entity/common/person
+  string key = 1; // /entity/common_person/1234, /entity/schema_vertical/agriculture, /entity/schema_entity_predicate/agriculture_soil
 }
 
 message MetadataLookupResponse {

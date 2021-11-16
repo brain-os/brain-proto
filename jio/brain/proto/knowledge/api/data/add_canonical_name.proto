@@ -14,7 +14,7 @@ service AddCanonicalNameService {
 
 message AddCanonicalNameRequest {
   string entity_id = 1;
-  map<uint32, jio.brain.proto.entity.BrainEntityName> name = 2;
+  map<string, jio.brain.proto.entity.BrainEntityName> name = 2; // key = language, value = {canonical & aliases }
 }
 
 message AddCanonicalNameResponse {

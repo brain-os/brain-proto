@@ -141,7 +141,7 @@ enum BrainDateContextType {
     BRAIN_TYPE_DATE_CONTEXT_WEEK_OF_MONTH = 4; // 1-5
     BRAIN_TYPE_DATE_CONTEXT_DAY_OF_YEAR = 5;  // 1-366
     BRAIN_TYPE_DATE_CONTEXT_DAY_OF_MONTH = 6; // 1-31
-    BRAIN_TYPE_DATE_CONTEXT_DAY_OF_WEEK = 7;  // 1 = monday to 7 = sunday
+    BRAIN_TYPE_DATE_CONTEXT_DAY_OF_WEEK = 7;  // 1 = sunday to 7 = saturday
     BRAIN_TYPE_DATE_CONTEXT_DAYTYPE_OF_WEEK = 8;  // 1 = weekday vs. 0 = weekend
 }
 
