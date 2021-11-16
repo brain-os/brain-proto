@@ -4,17 +4,19 @@ package jio.brain.proto.process;
 
 option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
+import "jio/brain/proto/types/vector.proto";
 
 message EnrichConfig {
   string input_topic = 1;
   string output_topic = 2;
-//  EnrichAttributesConfig attributes = 3;
+  EnrichAttributesConfig attributes = 3;
 //  EnrichPredicatesConfig predicates = 4;
 }
 
-//message EnrichAttributesConfig {
-//  map<string, BrainItemList> type = 1;
-//}
+message EnrichAttributesConfig {
+  map<string, jio.brain.proto.types.BrainStrVector> type = 1;
+}
+// grpc call entity , entity id, attributes list
 //
 //message EnrichPredicatesConfig {
 //  map<string, BrainItemList> type = 1;
