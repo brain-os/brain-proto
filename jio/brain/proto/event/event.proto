@@ -62,7 +62,7 @@ message BrainIngestionEvent {
 }
 
 message BrainEventKeyValue {
-  optional BrainEventKey key = 1;
+  BrainEventKey key = 1;
   BrainEventValue value = 2;
 }
 
