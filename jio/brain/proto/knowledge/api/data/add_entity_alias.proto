@@ -14,7 +14,7 @@ service AddEntityAliasService {
 
 message AddEntityAliasRequest {
   string entity_id = 1;
-  jio.brain.proto.knowledge.base.Language language = 2;
+  string language = 2;
   string canonical_name = 3;
   string alias = 4;
 }
