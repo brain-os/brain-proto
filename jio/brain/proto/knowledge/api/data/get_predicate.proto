@@ -13,10 +13,10 @@ service GetPredicateService {
 }
 
 message GetPredicateRequest {
-  string vertical = 1;
-  string collection_name = 2;
-  string from_id = 3;
-  string to_id = 4;
+  string vertical = 1; // vertical name for ex common, telecom, media, retail etc
+  string collection_name = 2; // collection/predicate name in aarango  ex is_a, has, owns full name /predicate/agriculture_farmer/owns/agriculture_farm
+  string from_id = 3; // from_id will subject node ID in static store
+  string to_id = 4; // object node ID in static store
 }
 
 message GetPredicateResponse {
