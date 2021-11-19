@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/knowledge/base/biz_id.proto";
+
+service GetBizidOfEntityidService {
+  rpc serve(GetBizidOfEntityidRequest) returns (GetBizidOfEntityidResponse) {}
+}
+
+message GetBizidOfEntityidRequest {
+  string entity_id = 1;
+  string biz_type = 2;
+}
+
+message GetBizidOfEntityidResponse {
+  repeated jio.brain.proto.knowledge.base.BizId biz_ids = 1;
+  jio.brain.proto.base.BrainStatus status = 2;
+}
