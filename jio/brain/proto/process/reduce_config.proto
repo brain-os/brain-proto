@@ -7,18 +7,20 @@ option java_multiple_files = true;
 
 message ReduceConfig {
   repeated ReduceConfigInstance instance = 1;
+
 }
 
 message ReduceConfigInstance {
-  string outputTopic = 1;
-  string outputSchema = 2;
-  uint32 windowTimeMins = 3;
-  repeated AggregateCondition aggregateCondition = 4;
+  uint32 windowTimeMinutes = 1;
+  repeated AggregateCondition aggregateCondition = 2;
+  string outputTopic = 3;
+  string outputSchema = 4;
 }
 
 message AggregateCondition {
-  string propertyName = 1;
-  AggregateConditionType type = 2;
+  string inputProperty = 1;
+  string outputProperty = 2;
+  AggregateConditionType type = 3;
   enum AggregateConditionType {
     SUM = 0;
     AVERAGE = 1;
@@ -29,3 +31,36 @@ message AggregateCondition {
     PRODUCT = 6;
   }
 }
+
+
+/*
+  reduce :
+
+  1.  time-window -> 5
+      output-topic -> out-topic
+      output-schema -> /process/reduce/out
+
+      aggregate condition ->
+      1.1 inputProperty -> order_amount
+          outputProperty -> order_amount_sum
+          type -> sum
+      1.2 inputProperty -> order_amount
+          outputProperty -> order_amount_average
+          type -> average
+      1.2 inputProperty -> not required
+          outputProperty -> count
+          type -> count
+
+
+  2. time -> 15 min window
+      count
+
+
+Brain Event ->
+
+ map < order_amount_sum , 0 >
+  map < order_amount_average , 0 >
+ map < order_amount_sum , 0 >
+
+
+ */
