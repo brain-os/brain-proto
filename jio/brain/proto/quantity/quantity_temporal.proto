@@ -49,11 +49,11 @@ message BrainDateInstance {
   uint32 century = 1;
   uint32 decade = 2;
   uint32 year = 3;
-  uint32 quarter = 4;
-  uint32 season = 5;
+//  uint32 quarter = 4;
+//  uint32 season = 5;
   uint32 month = 6;
-  uint32 week = 7;
-  uint32 date = 8;
+  uint32 day_of_week = 7;
+  uint32 day = 8;
 }
 
 message BrainTimeInstance {
@@ -74,13 +74,13 @@ message BrainDateContext {
   uint32 quarter = 4;
   uint32 season = 5;
   uint32 month = 6;
-  uint32 week = 7;
-  uint32 date = 8;
+  uint32 week_of_month = 7;
+  uint32 day = 8;
   uint32 day_of_week = 9;
 }
 
 message BrainTimeContext {
-  uint32 part = 1;
+  uint32 part = 1;       // morning , afternoon, evening, night
   uint32 hour = 2;
   uint32 minute15 = 3;
   uint32 minute5 = 4;
@@ -117,7 +117,7 @@ message BrainSchemaDateLevel {
   optional bool season = 5;
   optional bool month = 6;   // true
   optional bool week = 7;
-  optional bool date = 8;  // true
+  optional bool day = 8;  // true
 }
 
 message BrainSchemaTimeLevel {
@@ -146,7 +146,7 @@ message BrainTemporalInstanceQuantitySchema {
 }
 
 message BrainDateSchema {
-    jio.brain.proto.base.BrainDateInstanceType type = 1;
+  jio.brain.proto.base.BrainDateInstanceType type = 1;
   BrainSchemaDateLevel level = 2;
 }
 
