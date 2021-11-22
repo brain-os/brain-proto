@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/knowledge/base/entity.proto";
+import "jio/brain/proto/knowledge/base/language.proto";
+
+service GetCanonicalNameService {
+    rpc serve(GetCanonicalNameRequest) returns (GetCanonicalNameResponse) {}
+}
+
+message GetCanonicalNameRequest {
+	string entity_id = 1;
+	jio.brain.proto.knowledge.base.Language language = 2;
+}
+
+message GetCanonicalNameResponse {
+	repeated string canonical_name = 1;
+	jio.brain.proto.base.BrainStatus status = 2;
+	
+}
