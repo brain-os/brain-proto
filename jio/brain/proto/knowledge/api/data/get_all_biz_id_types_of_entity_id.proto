@@ -1,0 +1,21 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+
+service GetAllBizIdTypesOfEntityIdService {
+    rpc serve(knowledge.req_res.GetAllBizIdTypesOfEntityIdRequest) returns (knowledge.req_res.GetAllBizIdTypesOfEntityIdResponse) {}
+}
+
+message GetAllBizIdTypesOfEntityIdRequest {
+	string entity_id = 1;
+}
+
+message GetAllBizIdTypesOfEntityIdResponse {
+	repeated string biz_id_type  = 1;
+	knowledge.generic.Status status = 2;
+	//status signifies whether biz id types of entity have been retrieved or if error in DB has occured
+}
