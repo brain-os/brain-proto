@@ -15,19 +15,18 @@ import "jio/brain/proto/process/pivot_config.proto";
 import "jio/brain/proto/process/reduce_config.proto";
 import "jio/brain/proto/process/compute_config.proto";
 
-message ProcessSchema {
+message BrainProcessSchema {
   jio.brain.proto.base.BrainToken token = 1;
   string input_topic = 2;
   jio.brain.proto.event.BrainEventSchema input_event_schema = 3;
   map<string, jio.brain.proto.event.BrainEventSchema> output_event_schema = 4; // key = output_topic, value = event key in dictionary
   oneof config {
-    EnrichConfig enrich_config = 5;
-    FilterConfig filter_config = 6;
-    PivotConfig pivot_config = 7;
-    ReduceConfig reduce_config = 8;
-    IngestionConfig ingestion_config = 9;
-    QuantizationConfig quantization_config = 10;
-    ComputeConfig compute_config = 11;
+    BrainEnrichProcessSchema enrich = 5;
+    BrainFilterProcessSchema filter = 6;
+    BrainPivotProcessSchema pivot = 7;
+    BrainReduceProcessSchema reduce = 8;
+    BrainIngestProcessSchema ingest = 9;
+    BrainQuantizeProcessSchema quantize = 10;
+    BrainComputeProcessSchema compute = 11;
   }
-
 }

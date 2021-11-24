@@ -6,26 +6,77 @@ option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
 
-message PivotConfig {
+message BrainPivotProcessSchema {
   string input_topic = 1;
-  repeated PivotConfigInstance pivot_config = 2;
+  repeated BrainPivotConfigInstance pivot_config = 2;
 }
 
-message PivotConfigInstance {
+message BrainPivotConfigInstance {
   string output_topic = 1;
-  PivotKeyConfig pivot_key_config = 2;
-  PivotValueConfig pivot_value_config = 3;
+  BrainPivotKeyConfig key_config = 2;
+  BrainPivotValueConfig value_config = 3;
 }
 
-message PivotKeyConfig {
+message BrainPivotKeyConfig {
   repeated string entities = 1;
   repeated string attributes = 2;
-  map<string, string> contexts = 3;
+  map<string, string> contexts = 3;     // key -> context_name and value -> property_name
+                                        // key : common/context/window_15 , value : common/property/invoice_event/window_15
 }
 
-message PivotValueConfig {
-  repeated string entities = 1;
+message BrainPivotValueConfig {
+  repeated string entities = 1;     // Are entities necessary here in value event ? If yes it will be exactly same as in key..
   repeated string attributes = 2;
   repeated string properties = 3;
-  repeated string predicates = 4;
+//  repeated string predicates = 4;
 }
+
+/*
+  Example of pivot config :
+
+  pivot key ->
+  {
+  "entities" : "customer",
+  "attributes" : "product.brand",    // entity and attributes are mutually exclusive
+  "contexts" : "15_min_window"
+  }
+
+  customer * product.brand * 15_min_window
+
+  pivot value -> {
+  "entities" : ["customer" , "product"],            // TODO whether to keep it
+  "attributes" : ["customer.age" , "product.mrp"]   // TODO whether to keep it
+  "properties" : ["total_amount"]
+  }
+
+  No. Output Brain Event -> entity1.size * entity2.size ... entity_n.size
+
+  [
+  key1 -> { "customer" : "c1" , "product.brand" : {"p1" : "levi's"}  , "win_1" },
+  value1 -> { "customer" : c1 , "product" : "p1" } {"customer.age":30, "product.mrp" : 100 }
+
+  key2 -> { "customer" : "c1" , "product.brand" : {"p2" : "h&m"}  , "win_1" }
+  key3 -> { "customer" : "c1" , "product.brand" : {"p3" : "veromoda"}  , "win_1" }
+  key4 -> { "customer" : "c2" , "product.brand" : {"p1" : "levi's"}  , "win_1" },
+  key5 -> { "customer" : "c2" , "product.brand" : {"p2" : "h&m"}  , "win_1" }
+  key6 -> { "customer" : "c2" , "product.brand" : {"p3" : "veromoda"}  , "win_1" }
+  ]
+
+
+ context :
+  window_15min
+  window_1Hr
+
+  quantisation :
+  date_time -> duration_15min, duration_1Hr
+
+  Notes :
+  1. Context properties in value are created as a part of quantisation and in pivot we are just setting them in key from value.
+  2. Pivot key attributes will always be symbolic, ordinal, context (temporal, location, binned)
+  3. Contexts are global.
+  4. Properties are event centric.. ??
+  5. Do we need to have entities, attributes in value which are not in pivot key ?
+  6. In pivot value only numeric properties and attributes should be there.
+  7. Are we going to use pivot value attribute part in reduce/aggregate ?
+  8. In Pivot output we have discarded all other things apart from value config. Is it right thing to do ?
+ */

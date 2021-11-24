@@ -13,7 +13,7 @@ message BrainTokenName {
 }
 message BrainToken {
   string vertical = 1;
-  string domain = 2;
+//  string domain = 2;
   BrainTokenType type = 3;
   string key = 4;
   uint32 id32 = 5;
@@ -98,6 +98,6 @@ message BrainEventToken {
 }
 
 message BrainProcessToken {
-  BrainTokenName name = 2;
+  BrainTokenName name = 1;
 }
 
