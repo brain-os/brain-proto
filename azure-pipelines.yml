@@ -1,23 +1,56 @@
-resources:
-  repositories:
-    - repository: pipeline-templates
-      type: git
-      name: BrainOS/pipeline-templates
-
-
 trigger:
-  - master
+  tags:
+    include:
+      - '*'
+#  branches:
+#    include:
+#      - develop
+#      - master
+#variables:
+# https_proxy: http://prodproxy.jio.com:8080
+# http_proxy: http://prodproxy.jio.com:8080
+  
+stages:
+- stage: Nexus_release
+  variables:
+    venv_dir: ./brainprotoenv
+    nexus_host: nexus.rjil.ril.com
+    repository_url: http://10.141.51.157:9081/repository/Brain_os-py/
+    index_url: http://Brain_os:Brain_os@nexus.rjil.ril.com:9081/repository/Brain_os-py-group/simple/
+    distname: brainproto
+    libname: jio
 
-name: $(Build.DefinitionName)_$(SourceBranchName)_$(Build.BuildId)_$(Date:yyyyMMdd)$(Rev:.r)
-
-jobs:
-  - template: BrainOS-main.yml@pipeline-templates
-    parameters:
-      # RUN-CI: ${{ variables.RUN-CI }}
-      run_ci: 'true'
-      run_sonar: $(Sonar)
-      run_secops: $(SecOpsFortify)
-      run_release: $(Release)
-      sonar_project_name: 'jio-enterprise-ram-upload'
-      sonar_project_key: 'jio-enterprise-ram-upload'
-      sonar_project_version: 'jio-enterprise-ram-upload'
+  jobs:
+  - job: create_virtualenv
+    pool:
+      name: 'JioBuildAgent'
+    steps:
+    - script: |
+        pip3 install virtualenv --trusted-host $(nexus_host) --index-url $(index_url)
+        python3 -m venv $(venv_dir)
+        source $(venv_dir)/bin/activate
+        pip install --upgrade pip --trusted-host $(nexus_host) --index-url $(index_url)
+        pip install twine --trusted-host $(nexus_host) --index-url $(index_url)
+        pip install protoutils --trusted-host $(nexus_host) --index-url $(index_url)
+      displayName: Download, install & activate virtualenv
+    - bash: |
+        source $(venv_dir)/bin/activate
+        protoutils convert --protopath ../$(distname)/ --pythonpath ./$(distname)/
+      displayName: Compile proto to pb2
+    - script: |
+        current_version=$(grep "version=\".*\"" ./$(distname)/setup.py | awk -F'"' '{print $2}')
+        new_version=$(git tag --sort=-creatordate | head -n 1)
+        sed -i 's/version="'${current_version}'"/version="'${new_version}'"/g' ./$(distname)/setup.py
+        cat ./$(distname)/setup.py
+      displayName: Set version in setup.py
+    - script: |
+        source $(venv_dir)/bin/activate
+        python3 ./$(distname)/setup.py sdist
+        twine upload -r nexus --repository-url $(repository_url) -u Brain_os -p Brain_os ./dist/*
+      displayName: Build dist and upload
+    - script: |
+        source $(venv_dir)/bin/activate
+        version=$(git tag --sort=-creatordate | head -n 1)
+        pip3 install $(distname)==$version --trusted-host $(nexus_host) --index-url $(index_url)
+        python -c "import $(libname); print(dir($(libname)))"
+      displayName: pip install and test with "print(dir($(libname)))"
