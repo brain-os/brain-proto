@@ -37,7 +37,7 @@ stages:
         source $(venv_dir)/bin/activate
         echo $(Build.Repository.Name)
         protoutils convert --protopath $(Build.Repository.Name) --pythonpath ./$(distname)/
-        tree ./$(distname)/
+        ls ./$(distname)/
       displayName: Compile proto to pb2
     - script: |
         current_version=$(grep "version=\".*\"" ./$(distname)/setup.py | awk -F'"' '{print $2}')
