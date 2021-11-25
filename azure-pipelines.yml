@@ -39,7 +39,7 @@ stages:
         ls /bin/python*
         python -c 'a="str"; print(dir(a));'
         protoutils convert --protopath ./ --pythonpath ./$(distname)/
-        ls ./$(distname)/
+        sudo yum search python3.9
       displayName: Compile proto to pb2
     - script: |
         current_version=$(grep "version=\".*\"" ./$(distname)/setup.py | awk -F'"' '{print $2}')
