@@ -36,9 +36,8 @@ stages:
     - bash: |
         source $(venv_dir)/bin/activate
         echo $(PWD)
-        ls
-        which python
-        protoutils convert --protopath ../$(Build.Repository.Name) --pythonpath ./$(distname)/
+        ls /bin/python*
+        protoutils convert --protopath ./ --pythonpath ./$(distname)/
         ls ./$(distname)/
       displayName: Compile proto to pb2
     - script: |
