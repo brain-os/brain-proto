@@ -51,19 +51,19 @@ message BrainDateInstance {
   uint32 year = 3;
 //  uint32 quarter = 4;
 //  uint32 season = 5;
-  uint32 month = 6;
-  uint32 day_of_week = 7;
-  uint32 day = 8;
+  uint32 month = 4;
+  uint32 day_of_week = 5;
+  uint32 day = 6;
 }
 
 message BrainTimeInstance {
 //  uint32 part = 1;
-  uint32 hour = 2;
+  uint32 hour = 1;
 //  uint32 quarter = 3;
  // uint32 minute5 = 4;
-  uint32 minute = 5;
-  uint32 second = 6;
-  uint32 millisecond = 7;
+  uint32 minute = 2;
+  uint32 second = 3;
+  uint32 millisecond = 4;
 }
 
 
