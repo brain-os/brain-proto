@@ -37,6 +37,7 @@ stages:
         source $(venv_dir)/bin/activate
         echo $(PWD)
         ls /bin/python*
+        python -c 'a="str"; print(dir(a));'
         protoutils convert --protopath ./ --pythonpath ./$(distname)/
         ls ./$(distname)/
       displayName: Compile proto to pb2
