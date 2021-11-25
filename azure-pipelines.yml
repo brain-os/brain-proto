@@ -35,9 +35,11 @@ stages:
       displayName: Download, install & activate virtualenv
     - bash: |
         source $(venv_dir)/bin/activate
-        echo $(Build.Repository.Name)
-        protoutils convert --protopath ../$(Build.Repository.Name) --pythonpath ./$(distname)/
-        ls ./$(distname)/
+        echo $(PWD)
+        ls /bin/python*
+        python -c 'a="str"; print(dir(a));'
+        protoutils convert --protopath ./ --pythonpath ./$(distname)/
+        sudo yum search python3.9
       displayName: Compile proto to pb2
     - script: |
         current_version=$(grep "version=\".*\"" ./$(distname)/setup.py | awk -F'"' '{print $2}')
