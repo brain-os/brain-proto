@@ -35,8 +35,9 @@ stages:
       displayName: Download, install & activate virtualenv
     - bash: |
         source $(venv_dir)/bin/activate
-        ls ../
-        python -V
+        echo $(PWD)
+        ls
+        which python
         protoutils convert --protopath ../$(Build.Repository.Name) --pythonpath ./$(distname)/
         ls ./$(distname)/
       displayName: Compile proto to pb2
