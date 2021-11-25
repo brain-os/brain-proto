@@ -9,11 +9,11 @@ import "jio/brain/proto/types/vector.proto";
 message BrainEnrichProcessSchema {
   string input_topic = 1;
   string output_topic = 2;
-  EnrichAttributesConfig attribute_enrich_config = 3;
-  EnrichPredicateConfig predicate_enrich_config = 4;
+  EnrichAttributesInstance attribute = 3;
+  EnrichPredicateInstance predicate = 4;
 }
 
-message EnrichPredicateConfig {
+message EnrichAttributesInstance {
   map<string, jio.brain.proto.types.BrainStrVector> predicate_map = 1;
   // key = subject type ex. /entity/telecom/device, /entity/common/person
   // value = predicate/relationship [belong_city, study_college, experience]
@@ -21,7 +21,7 @@ message EnrichPredicateConfig {
   // /predicate/telecom_user/experience/telecom_device]
 }
 
-message EnrichAttributesConfig {
+message EnrichPredicateInstance {
   map<string, jio.brain.proto.types.BrainStrVector> attribute_map = 1;
   // key = entity type & value will be list of attribute
   // key = /entity/common/person

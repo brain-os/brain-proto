@@ -6,10 +6,10 @@ option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
 message BrainReduceProcessSchema {
-  repeated BrainReduceConfigInstance instance = 1;
+  repeated ReduceInstance instances = 1;
 }
 
-message BrainReduceConfigInstance {
+message ReduceInstance {
   uint32 window_time_minutes = 1;  // 10-10:30  , 10:15-10:45
   repeated AggregateCondition aggregate_condition = 2;
   string output_topic = 3;
