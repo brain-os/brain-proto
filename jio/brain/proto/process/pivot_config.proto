@@ -8,10 +8,10 @@ option java_multiple_files = true;
 
 message BrainPivotProcessSchema {
   string input_topic = 1;
-  repeated BrainPivotConfigInstance pivot_config = 2;
+  repeated PivotInstance instances = 2;
 }
 
-message BrainPivotConfigInstance {
+message PivotInstance {
   string output_topic = 1;
   BrainPivotKeyConfig key_config = 2;
   BrainPivotValueConfig value_config = 3;
