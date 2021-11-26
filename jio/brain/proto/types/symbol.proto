@@ -11,9 +11,9 @@ import  "jio/brain/proto/types/vector.proto";
 
 message BrainSymbol {
   oneof symbol_is_one_of {
-    string str = 2;
-    uint32 u32 = 3;  // not to be interpreted as integer but id
-    uint64 u64 = 4;  // not to be interpreted as integer but id
+    string str = 1;
+    uint32 u32 = 2;  // not to be interpreted as integer but id
+    uint64 u64 = 3;  // not to be interpreted as integer but id
   }
 }
 
