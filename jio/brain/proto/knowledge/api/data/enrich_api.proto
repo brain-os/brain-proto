@@ -39,14 +39,14 @@ message EnrichPredicateRequest {
 }
 
 message EnrichAttributeResponse {
-  map<string, EntityAttribute> i = 1; // key = customer
+  map<string, EntityAttribute> entity_attribute = 1; // key = customer
 }
 
 message EntityAttribute {
-  map<string, AttributeValue> attribute_value = 1; // key = customer_id and value AttributeValue
+  map<string, AttributeValue> attributes = 1; // key = customer_id and value AttributeValue
 }
 message AttributeValue {
-  map<string, jio.brain.proto.quantity.BrainQuantity> attribute_value = 1; //key = age, value = 30
+  map<string, jio.brain.proto.quantity.BrainQuantity> value = 1; //key = age, value = 30
 }
 
 message EnrichPredicateResponse {
