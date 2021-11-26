@@ -46,7 +46,8 @@ stages:
       displayName: Set version in setup.py
     - script: |
         source $(venv_dir)/bin/activate
-        python3 ./$(distname)/setup.py sdist
+        cd $(distname)
+        python3 setup.py sdist
         twine upload -r nexus --repository-url $(repository_url) -u Brain_os -p Brain_os ./dist/*
       displayName: Build dist and upload
     - script: |
