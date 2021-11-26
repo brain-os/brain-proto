@@ -27,8 +27,8 @@ stages:
       name: 'JioBuildAgent'
     steps:
     - script: |
-        pip3 install virtualenv --trusted-host $(nexus_host) --index-url $(index_url)
-        python3 -m venv $(venv_dir)
+        pip3.9 install virtualenv --trusted-host $(nexus_host) --index-url $(index_url)
+        python3.9 -m venv $(venv_dir)
         source $(venv_dir)/bin/activate
         pip install --upgrade pip --trusted-host $(nexus_host) --index-url $(index_url)
         pip install twine --trusted-host $(nexus_host) --index-url $(index_url)
@@ -36,11 +36,9 @@ stages:
       displayName: Download, install & activate virtualenv
     - bash: |
         source $(venv_dir)/bin/activate
-        echo $(PWD)
         ls /bin/python*
-        python -c 'a="str"; print(dir(a));'
+        ls /bin/pip*
         protoutils convert --protopath ./ --pythonpath ./$(distname)/
-        sudo yum search python3.9
       displayName: Compile proto to pb2
     - script: |
         current_version=$(grep "version=\".*\"" ./$(distname)/setup.py | awk -F'"' '{print $2}')
