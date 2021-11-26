@@ -13,8 +13,9 @@ message BrainPivotProcessSchema {
 
 message PivotInstance {
   string output_topic = 1;
-  BrainPivotKeyConfig key_config = 2;
-  BrainPivotValueConfig value_config = 3;
+  string output_event_topic = 2;
+  BrainPivotKeyConfig key_config = 3;
+  BrainPivotValueConfig value_config = 4;
 }
 
 message BrainPivotKeyConfig {
@@ -27,7 +28,7 @@ message BrainPivotKeyConfig {
 message BrainPivotValueConfig {
   repeated string entities = 1;     // Are entities necessary here in value event ? If yes it will be exactly same as in key..
   repeated string attributes = 2;
-  repeated string properties = 3;
+  map<string, string> properties = 3;
 //  repeated string predicates = 4;
 }
 
