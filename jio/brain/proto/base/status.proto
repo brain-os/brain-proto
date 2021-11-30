@@ -11,7 +11,7 @@ message BrainStatus {
 }
 
 message BrainStatusInstance {
-  BrainStatusCode status_code = 1;
+  BrainStatusCode status_code    = 1;
   map<string, string> parameters = 2;
 }
 
