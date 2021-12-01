@@ -47,7 +47,7 @@ message BrainNumericQuantity {
 message BrainNumericQuantitySchema {
   jio.brain.proto.base.BrainNumberType numeric_type = 1;
   jio.brain.proto.types.BrainNumberRange range = 2;
-  repeated jio.brain.proto.base.BrainToken unit = 3;
+  repeated BrainUnitSchema units = 3;
 }
 
 message BrainSymbolicQuantity {
@@ -123,3 +123,11 @@ enum BrainBinaryQuantitySchema {
 message BrainBinaryQuantity {
   bool value = 1;
 }
+message BrainUnitSchema {
+  jio.brain.proto.base.BrainToken token = 1;
+  repeated string aliases =2;
+  bool base_unit = 3;
+  double multiplier = 4;
+  double constant = 5;
+}
+

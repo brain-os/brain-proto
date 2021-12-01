@@ -54,7 +54,6 @@ message BrainQuantityToken {
 
 message BrainUnitToken {
   string name = 1;
-  BrainTokenName aliases = 2;
 }
 message BrainContextToken {
   //  BrainContextType type = 1; todo
