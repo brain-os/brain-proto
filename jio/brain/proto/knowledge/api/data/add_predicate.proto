@@ -8,17 +8,20 @@ option java_multiple_files = true;
 import "jio/brain/proto/base/status.proto";
 import "jio/brain/proto/knowledge/base/predicate.proto";
 
+/*
+AddPredicateService is used to onboard an predicate instance to Knowledge Graph
+ */
 service AddPredicateService {
   rpc serve(AddPredicateRequest) returns (AddPredicateResponse) {}
 }
 
 message AddPredicateRequest {
-  jio.brain.proto.knowledge.base.Predicate predicate = 1; //predicate consists of predicate_name and attributes
-  string from_entity_id = 2;
-  string to_entity_id = 3;
+  jio.brain.proto.knowledge.base.Predicate predicate = 1; //predicate consists of predicate_name and qualifiers
+  string from_entity_id = 2; // common_chemical/<brain-id>
+  string to_entity_id = 3; // agriculture_fertilizer/<brain-id>
 }
 
 message AddPredicateResponse {
-  string predicate_id = 1;
+  string predicate_id = 1; // common_chemical_composition_of_agriculture_fertilizer/<predicate-id>
   jio.brain.proto.base.BrainStatus status = 2;
 }

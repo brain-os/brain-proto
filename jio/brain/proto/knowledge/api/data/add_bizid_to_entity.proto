@@ -14,7 +14,7 @@ service AddBizIdToEntityService {
 
 message AddBizIdToEntityRequest {
   string entity_id = 1;
-  repeated jio.brain.proto.knowledge.base.BizId biz_id = 2;
+  jio.brain.proto.knowledge.base.BizId biz_id = 2;
 }
 
 message AddBizIdToEntityResponse {
