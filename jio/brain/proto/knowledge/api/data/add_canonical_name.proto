@@ -7,6 +7,7 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/base/status.proto";
 import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/knowledge/base/language.proto";
 
 service AddCanonicalNameService {
   rpc serve(AddCanonicalNameRequest) returns (AddCanonicalNameResponse) {}
@@ -14,7 +15,8 @@ service AddCanonicalNameService {
 
 message AddCanonicalNameRequest {
   string entity_id = 1;
-  map<string, jio.brain.proto.entity.BrainEntityName> name = 2; // key = language, value = {canonical & aliases }
+  jio.brain.proto.knowledge.base.Language language = 2;
+  jio.brain.proto.entity.BrainEntityName entity_name = 3;
 }
 
 message AddCanonicalNameResponse {
