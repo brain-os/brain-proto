@@ -7,14 +7,13 @@ option java_multiple_files = true;
 import "jio/brain/proto/types/vector.proto";
 
 message BrainEnrichProcessSchema {
-  string input_topic = 1;
-  string output_topic = 2;
-  EnrichAttributesInstance attribute = 3;
-  EnrichPredicateInstance predicate = 4;
+  string output_topic = 1;
+  EnrichAttributesInstance attribute = 2;
+  EnrichPredicateInstance predicate = 3;
 }
 
 message EnrichAttributesInstance {
-  map<string, jio.brain.proto.types.BrainStrVector> predicate_map = 1;
+  map<string, jio.brain.proto.types.BrainStrVector> attribute  = 1;
   // key = subject type ex. /entity/telecom/device, /entity/common/person
   // value = predicate/relationship [belong_city, study_college, experience]
   // value = predicate/relationship [/predicate/common_person/belong_city/common_city, /predicate/common_person/study_at/common_college,
@@ -22,7 +21,7 @@ message EnrichAttributesInstance {
 }
 
 message EnrichPredicateInstance {
-  map<string, jio.brain.proto.types.BrainStrVector> attribute_map = 1;
+  map<string, jio.brain.proto.types.BrainStrVector>  predicate = 1;
   // key = entity type & value will be list of attribute
   // key = /entity/common/person
   // value = [/attribute/common/person/age, /attribute/common/person/gender, /attribute/common/person/segment]
