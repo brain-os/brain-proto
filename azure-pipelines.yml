@@ -5,7 +5,7 @@ trigger:
   branches:
     include:
 #      - kg-v1
-#      - v1
+      - v1
       - master
 #variables:
 # https_proxy: http://prodproxy.jio.com:8080
