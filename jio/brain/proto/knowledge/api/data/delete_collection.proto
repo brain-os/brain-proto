@@ -13,7 +13,8 @@ service DeleteCollectionService {
 
 message DeleteCollectionRequest {
     string vertical = 1;
-    string collection_name = 2;
+    bool is_predicate = 2;
+    string collection_name = 3;
 }
 
 message DeleteCollectionResponse {
