@@ -377,4 +377,3 @@ OR is it going to be **/common/quantity/temperature**
 1. is_ordinal
 1. is_modulo
 ```
-
