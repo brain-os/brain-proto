@@ -377,3 +377,150 @@ OR is it going to be **/common/quantity/temperature**
 1. is_ordinal
 1. is_modulo
 ```
+
+#### Enrich Process
+
+1. Enrich Process == Brain Process
+2. Enrich API by Knowledge Graph 
+
+```json
+{
+  "input_topic": "/jio/aicoe/brainos/retail/user_product_txn",
+  "output_topic": "/jio/aicoe/brainos/retail/user_product_enrich_txn",
+  "attribute_enrich_config": {
+    "/entity/common/person": [
+      "location",
+      "segment"
+    ],
+    "/entity/retail/product": [
+      "price",
+      "discount"
+    ]
+  },
+  "predicate_enrich_config": {
+    "/entity/common/person": [
+      "study_at",
+      "works_at"
+    ],
+    "/entity/retail/product": [
+      "brand"
+    ]
+  }
+}
+```
+
+```json
+{
+  "enrich_attribute_request": [
+    {
+      "type": "/entity/common/person",
+      "entity_ids": [
+        "/entity/common/person/1",
+        "/entity/common/person/2"
+      ],
+      "attributes": [
+        "location",
+        "segment"
+      ]
+    },
+    {
+      "type": "/entity/retail/product",
+      "entity_ids": [
+        "/entity/retail/product/1",
+        "/entity/retail/product/2"
+      ],
+      "attributes": [
+        "price",
+        "discount"
+      ]
+    }
+  ],
+  "enrich_predicate_request": [
+    {
+      "type": "/entity/common/person",
+      "entity_ids": [
+        "/entity/common/person/1",
+        "/entity/common/person/2"
+      ],
+      "attributes": [
+        "study_at",
+        "works_at"
+      ]
+    },
+    {
+      "type": "/entity/retail/product",
+      "entity_ids": [
+        "/entity/retail/product/1",
+        "/entity/retail/product/2"
+      ],
+      "attributes": [
+        "brand"
+      ]
+    }
+  ]
+}
+```
+
+```json
+{
+  "status": "OK",
+  "enrich_attribute_response": {
+    "/entity/common/person": {
+      "/entity/common/person/1": {
+        "location": {
+          "atomic": {
+            "symbolic": {
+              "value": {
+                "str": "location1"
+              }
+            }
+          }
+        },
+        "segment": {
+          "atomic": {
+            "symbolic": {
+              "value": {
+                "str": "segment1"
+              }
+            }
+          }
+        }
+      },
+      "/entity/common/person/2": {
+        "location": {},
+        "segment": {}
+      }
+    },
+    "/entity/retail/product": {
+      "/entity/retail/product/1": {
+        "price": {},
+        "discount": {}
+      },
+      "/entity/retail/product/2": {
+        "price": {},
+        "discount": {}
+      }
+    }
+  },
+  "enrich_predicate_response": {
+    "/entity/common/person": {
+      "/entity/common/person/1": {
+        "works_at": {},
+        "study_at": {}
+      },
+      "/entity/common/person/2": {
+        "works_at": {},
+        "study_at": {}
+      }
+    },
+    "/entity/retail/product": {
+      "/entity/retail/product/1": {
+        "brand": {}
+      },
+      "/entity/retail/product/2": {
+        "brand": {}
+      }
+    }
+  }
+}
+```

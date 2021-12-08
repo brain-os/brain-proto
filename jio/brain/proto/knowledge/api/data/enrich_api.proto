@@ -11,7 +11,6 @@ import "jio/brain/proto/types/set.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/entity/entity.proto";
 
-
 service EnrichService {
   rpc serve(EnrichServiceRequest) returns (EnrichServiceResponse) {}
 }
@@ -22,9 +21,9 @@ message EnrichServiceRequest {
 }
 
 message EnrichServiceResponse {
-  jio.brain.proto.base.BrainStatus status = 1;
-  repeated EnrichAttributeResponse enrich_attribute_response = 2;
-  repeated EnrichPredicateResponse enrich_predicate_response = 3;
+  jio.brain.proto.base.BrainStatus status = 1; // OK
+  EnrichAttributeResponse enrich_attribute_response = 2;
+  EnrichPredicateResponse enrich_predicate_response = 3;
 
 }
 
@@ -41,7 +40,7 @@ message EnrichPredicateRequest {
 }
 
 message EnrichAttributeResponse {
-  map<string, EntityAttribute> i = 1; // key = customer
+  map<string, EntityAttribute> entity_id_attribute = 1; // key = customer
 }
 
 message EntityAttribute {
