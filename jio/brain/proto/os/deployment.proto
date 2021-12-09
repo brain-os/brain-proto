@@ -8,6 +8,7 @@ option java_multiple_files = true;
 message DeploymentRequest{
   string instance_id = 1;
   repeated Process process = 2;
+  bool deleteDeployment = 3; ;
 }
 
 message Process {
@@ -39,6 +40,12 @@ message InstanceStatus {
     DRAFT = 0;
     RUNNING = 1;
     DEPLOYMENT_ERROR = 2;
+    STARTING = 3;
+    STOPPING = 4;
+    STOPPED = 5;
+    TOPIC_CREATED = 6;
+    TOPIC_CREATION_ERROR = 7;
+    DEPLOYED = 8;
   }
 
 }
@@ -47,5 +54,8 @@ enum InstanceType {
   ENRICH = 0;
   FILTER = 1;
   PIVOT = 2;
-  AGGREGATE = 3;
+  REDUCE = 3;
+  INGESTION = 4;
+  QUANTIZATION = 5;
+  JOINER = 6;
 }
