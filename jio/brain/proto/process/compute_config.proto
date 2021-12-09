@@ -5,16 +5,16 @@ package jio.brain.proto.process;
 option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
-message ComputeConfig {
-  string output_schema = 1;
+message BrainComputeProcessSchema {
+  string output_event_schema = 1;
   string output_topic = 2;
-  repeated ComputeConfigInstance config_instances = 3;
+  repeated ComputeInstance instances = 3;
 }
 
-message ComputeConfigInstance {
-   FieldType type = 1;
-   string computeExpression = 2;  // (product.mrp - product.discount) * product.quantity + product.gst  ( BODMAS )
-   string outputPropertyName=3;  // product.price or bill_amount
+message ComputeInstance {
+  FieldType type = 1;
+   string compute_expression = 2;  // (product.mrp - product.discount) * product.quantity + product.gst  ( BODMAS )
+   string output_property_name=3;  // product.price or bill_amount
 
   enum FieldType {
       attribute=0;

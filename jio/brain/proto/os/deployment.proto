@@ -28,3 +28,24 @@ enum ProcessType {
   joiner = 5;
   reduce = 6;
 }
+
+message InstanceStatus {
+  string instanceId = 1;
+  string input_topic = 2;
+  InstanceType instance_type = 3;
+  InstanceDeploymentStatus deploy_status = 4;
+
+  enum InstanceDeploymentStatus{
+    DRAFT = 0;
+    RUNNING = 1;
+    DEPLOYMENT_ERROR = 2;
+  }
+
+}
+
+enum InstanceType {
+  ENRICH = 0;
+  FILTER = 1;
+  PIVOT = 2;
+  AGGREGATE = 3;
+}
