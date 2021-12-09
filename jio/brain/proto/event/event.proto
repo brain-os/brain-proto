@@ -43,7 +43,7 @@ message BrainEvent {
   oneof event {
     BrainIngestionEvent ingestion_event = 4;
   //  BrainEventValue value_event = 5;
-    BrainEventKeyValue key_value_event = 6;
+    BrainEventKeyValue key_value_event = 5;
   //  BrainEventKeyMultiValue key_multi_value_event = 7;
   }
 }
@@ -102,7 +102,7 @@ message BrainQuantityStore {
   // e.g. context, property,
   // e.g. attribute, attribute_qualifier,
   // e.g. predicate, predicate_qualifier
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 2;
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
 }
 
 message BrainAttributeStore {
@@ -115,11 +115,11 @@ message BrainEntityAttributeStore {
 }
 message BrainPredicateStore {
   // key = mid(/m/<vertical>/<domain>/predicate/<subject-type>/<predicate-name>/<object-type>)
-  map<uint32, BrainEntityPredicateStore> predicate = 2;
+  map<uint32, BrainEntityPredicateStore> predicate = 1;
 }
 message BrainEntityPredicateStore {
   // key = entity id
-  map<uint64, jio.brain.proto.entity.BrainPredicateSet> predicate = 2;
+  map<uint64, jio.brain.proto.entity.BrainPredicateSet> predicate = 1;
 }
 
 message BrainEventSchema {
@@ -165,6 +165,6 @@ message BrainEventContextSchema {
 message BrainEventPropertySchema {
   jio.brain.proto.base.BrainToken token = 1;
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
-  jio.brain.proto.base.BrainToken unit = 3;
+  optional jio.brain.proto.base.BrainToken unit = 3;
 }
 

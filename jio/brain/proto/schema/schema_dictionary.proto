@@ -21,7 +21,7 @@ message BrainSchemaDictionary {
   map<uint32, jio.brain.proto.entity.BrainPredicateSchema> predicate = 6;
   map<uint32, jio.brain.proto.entity.BrainPredicateQualifierSchema> predicate_qualifier = 7;
   map<uint32, jio.brain.proto.event.BrainEventSchema> event = 8;  // 2  input
-  map<uint32, jio.brain.proto.process.ProcessSchema>  process = 9;  // 100 processes
+  map<uint32, jio.brain.proto.process.BrainProcessSchema>  process = 9;  // 100 processes
   map<uint32, string>  topics = 10;
 }
 

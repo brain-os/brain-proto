@@ -7,7 +7,7 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/base/enums.proto";
 
-message IngestionConfig {
+message BrainIngestProcessSchema {
   repeated FieldMapping mappings = 1;
   oneof data_transport {
     KafkaTransport kafka_transport = 2;
@@ -64,8 +64,8 @@ message AttributeQualifierField {
 }
 message PropertyField {
   string property_meta_key = 1;
-  bool is_latitude = 4;
-  bool is_longitude = 5;
+  bool is_latitude = 2;
+  bool is_longitude = 3;
 }
 enum FieldType {
   FIELD_TYPE_UNKNOWN = 0;

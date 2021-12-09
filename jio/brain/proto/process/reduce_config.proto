@@ -5,27 +5,64 @@ package jio.brain.proto.process;
 option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
-message ReduceConfig {
-  repeated ReduceConfigInstance instance = 1;
+message BrainReduceProcessSchema {
+  repeated ReduceInstance instances = 1;
 }
 
-message ReduceConfigInstance {
-  string outputTopic = 1;
-  string outputSchema = 2;
-  uint32 windowTimeMins = 3;
-  repeated AggregateCondition aggregateCondition = 4;
+message ReduceInstance {
+  uint32 window_time_minutes = 1;  // 10-10:30  , 10:15-10:45
+  repeated AggregateCondition aggregate_condition = 2;
+  string output_topic = 3;
+  string output_event_schema = 4;
 }
 
 message AggregateCondition {
-  string propertyName = 1;
-  AggregateConditionType type = 2;
+  string input_property = 1;
+  string output_property = 2;
+  AggregateConditionType type = 3;
+
   enum AggregateConditionType {
-    SUM = 0;
-    AVERAGE = 1;
-    COUNT = 2;
-    MIN = 3;
-    MAX = 4;
-    SLOPE = 5;
-    PRODUCT = 6;
+    BRAIN_AGGREGATION_SUM = 0;
+    BRAIN_AGGREGATION_AVERAGE = 1;
+    BRAIN_AGGREGATION_COUNT = 2;
+    BRAIN_AGGREGATION_MIN = 3;
+    BRAIN_AGGREGATION_MAX = 4;
+    BRAIN_AGGREGATION_SLOPE = 5;
+    BRAIN_AGGREGATION_PRODUCT = 6;
+    BRAIN_AGGREGATION_DISTRIBUTION = 7;
   }
+
 }
+
+
+/*
+  reduce :
+
+  1.  time-window -> 5
+      output-topic -> out-topic
+      output-schema -> /common/event/order_aggregate
+
+      aggregate condition ->
+      1.1 inputProperty -> order_amount
+          outputProperty -> order_amount_sum
+          type -> sum
+      1.2 inputProperty -> order_amount
+          outputProperty -> order_amount_average
+          type -> average
+      1.2 inputProperty -> not required
+          outputProperty -> count
+          type -> count
+
+
+  2. time -> 15 min window
+      count
+
+
+Brain Event ->
+
+ map < order_amount_sum , 0 >
+  map < order_amount_average , 0 >
+ map < order_amount_sum , 0 >
+
+
+ */
