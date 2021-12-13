@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.base;
+
+option java_package = "com.jio.brain.proto.knowledge.base";
+option java_multiple_files = true;
+
+import "jio/brain/proto/quantity/quantity.proto";
+
+/*
+Predicate is an relationship between two entities in Knowledge Graph
+{
+  "predicate_name": "common_chemical_composition_of_agriculture_fertilizer",
+  "attributes": {
+    "percentage": {
+      "atomic": {
+        "numeric": {
+          "value": {
+            "u32": 46
+          }
+        }
+      }
+    }
+  }
+}
+*/
+message Predicate {
+  string predicate_name = 1; // common_chemical_composition_of_agriculture_fertilizer
+  map<string, jio.brain.proto.quantity.BrainQuantity> attributes = 2; // key = qualifier_name , value = qualifier_value represented by BrainQuantity
+}

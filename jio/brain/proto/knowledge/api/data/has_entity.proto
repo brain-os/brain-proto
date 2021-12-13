@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/knowledge/base/entity.proto";
+
+service HasEntityService {
+  rpc serve(HasEntityRequest) returns (HasEntityResponse) {}
+}
+
+message HasEntityRequest {
+	string entity_id = 1;
+}
+
+message HasEntityResponse {
+	bool is_present = 1;
+	jio.brain.proto.base.BrainStatus status = 2;
+}
