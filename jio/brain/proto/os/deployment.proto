@@ -28,6 +28,7 @@ enum ProcessType {
   pivot = 4;
   joiner = 5;
   reduce = 6;
+  compute = 7;
 }
 
 message InstanceStatus {
@@ -58,4 +59,5 @@ enum InstanceType {
   INGESTION = 4;
   QUANTIZATION = 5;
   JOINER = 6;
+  COMPUTE = 7;
 }
