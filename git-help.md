@@ -33,7 +33,7 @@ git remote remove origin
 
 ```
 git remote add origin git@github.com:brain-os/brain-ui.git
-git remote add origin https://devops.jio.com/AICOE/BrainOS/_git/brain-ui
+git remote add ril https://devops.jio.com/AICOE/BrainOS/_git/brain-ui
 git remote add origin https://devops.jio.com/AICOE/BrainOS/_git/brain-proto
 git remote remove origin
 git config http.sslVerify false
