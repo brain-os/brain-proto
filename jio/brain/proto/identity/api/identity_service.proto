@@ -6,6 +6,7 @@ option java_package = "com.jio.brain.proto.identity.api";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/id.proto";
+import "jio/brain/proto/base/status.proto";
 
 message IdentityRequest {
   oneof id_type {
@@ -17,6 +18,7 @@ message IdentityRequest {
 }
 message IdentityResponse {
   repeated jio.brain.proto.base.BrainId brain_id = 1;
+  jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
 service EntityIdService {
