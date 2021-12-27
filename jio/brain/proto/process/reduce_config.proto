@@ -17,9 +17,10 @@ message ReduceInstance {
 }
 
 message AggregateCondition {
-  string input_property = 1;
-  string output_property = 2;
-  AggregateConditionType type = 3;
+  optional string input_property = 1;
+  optional string output_property = 2;
+  optional string count_property = 3;
+  AggregateConditionType type = 4;
 
   enum AggregateConditionType {
     BRAIN_AGGREGATION_SUM = 0;
