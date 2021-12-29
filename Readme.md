@@ -378,3 +378,111 @@ OR is it going to be **/common/quantity/temperature**
 1. is_modulo
 ```
 
+### Enrich Process (Draft)
+
+```json
+[
+   {
+      "type": "common_person",
+      "ids" : ["common_person/1","common_person/2"],
+      "attribute_enrich_config" : ["age", "gender"]
+   },
+   {
+      "type": "telecom_cell",
+      "ids" : ["telecom_cell/1","telecom_cell/2"],
+      "attribute_enrich_config" : ["location", "id"]
+   }
+]
+```
+
+```json
+[
+   {
+      "type": "common_person",
+      "ids" : ["common_person/1","common_person/2"],
+      "predicate_enrich_config" : ["study_at", "belongs_to"]
+   },
+   {
+      "type": "telecom_cell",
+      "ids" : ["telecom_cell/1","telecom_cell/2"],
+      "predicate_enrich_config" : ["connected"]
+   }
+]
+```
+
+```json
+[
+   "common_person" : {
+      "common_person/1" : {
+         "study_at" : {
+            //Any or Entity or BrainQuantity
+         },
+         "belongs_to" : {
+            //Any or Entity or BrainQuantity
+         }
+      },
+      "common_person/2" : {
+         "study_at" : {
+            //Any or Entity or BrainQuantity
+         },
+         "belongs_to" : {
+            //Any or Entity or BrainQuantity
+         }
+      }
+   },
+   "telecom_cell" : {
+      "telecom_cell/1" : {
+         "connected" : {
+            //Any or Entity or BrainQuantity
+         }
+      },
+      "telecom_cell/2" : {
+         "connected" : {
+            //Any or Entity or BrainQuantity
+         }
+      }
+   }
+]
+```
+
+
+```json
+[
+   "common_person" : {
+      "common_person/1" : {
+         "age" : {
+            //Any or BrainQuantity
+         },
+         "gender" : {
+            // Any or BrainQuantity
+         }
+      },
+      "common_person/2" : {
+         "age" : {
+            // Any or BrainQuantity
+         },
+         "gender" : {
+            // Any or BrainQuantity
+         }
+      }
+   },
+   "telecom_cell" : {
+      "telecom_cell/1" : {
+         "location" : {
+            // Any or BrainQuantity
+         },
+         "id" : {
+            // Any or BrainQuantity
+         }
+      },
+      "telecom_cell/2" : {
+         "location" : {
+            // Any or BrainQuantity
+         },
+         "id" : {
+            // Any or BrainQuantity
+         }
+      }
+   }
+]
+```

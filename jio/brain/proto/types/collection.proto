@@ -29,9 +29,9 @@ message BrainCollectionSchema {
   //  }
 
   oneof collection_is_one_of {
-    BrainSymbolSet symbol = 4;
-    BrainEntitySet entity = 5;
-    BrainItemSequence ordinal = 6;
+    BrainSymbolSet symbol = 3;
+    BrainEntitySet entity = 4;
+    BrainItemSequence ordinal = 5;
   }
 }
 
@@ -51,8 +51,8 @@ message BrainSymbolSet {
 message BrainEntitySet {
   // /common/predicate/city/of_state/state == 'Maharashtra'
   // /common/attribute/city/population > 5000000 // population is attribute of entity city
-  BrainEntityCondition entity_condition = 2;
-  BrainU64Set entity = 3;
+  BrainEntityCondition entity_condition = 1;
+  BrainU64Set entity = 2;
 }
 // either
 // 1. enumeration of all entities

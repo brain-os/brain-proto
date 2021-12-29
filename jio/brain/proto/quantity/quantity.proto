@@ -15,18 +15,17 @@ import "jio/brain/proto/quantity/quantity_temporal.proto";
 message BrainQuantity {
   oneof quantity_is_one_of {
     BrainAtomicQuantity atomic = 1;
-    BrainCompoundQuantity compounded = 2;
+    BrainCompoundQuantity compound = 2;
     BrainTemporalQuantity temporal = 3;
     BrainSpatialQuantity spatial = 4;
   }
 }
 message BrainQuantitySchema {
   jio.brain.proto.base.BrainToken token = 1;
-  repeated jio.brain.proto.base.BrainToken unit = 2;
   jio.brain.proto.base.BrainQuantityType quantity_type = 3;
   oneof quantity_schema_is_one_of {
     BrainAtomicQuantitySchema	atomic = 4;
-    BrainCompoundQuantitySchema	compounded = 5;
+    BrainCompoundQuantitySchema	compound = 5;
     BrainTemporalQuantitySchema	temporal = 6;
     BrainSpatialQuantitySchema spatial = 7;
   }

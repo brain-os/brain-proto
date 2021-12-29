@@ -13,24 +13,24 @@ message BrainTokenName {
 }
 message BrainToken {
   string vertical = 1;
-  string domain = 2;
-  BrainTokenType type = 3;
-  string key = 4;
-  uint32 id32 = 5;
+//  string domain = 2;
+  BrainTokenType type = 2;
+  string key = 3;
+  uint32 id32 = 4;
   oneof token_is_one_of {
-    BrainCollectionToken  name = 6;
-    BrainQuantityToken quantity = 7;
-    BrainUnitToken unit = 8;
-    BrainContextToken context = 9;
-    BrainPropertyToken property = 10;
-    BrainEntityToken entity = 11;
-    BrainBizToken biz_id = 13;
-    BrainAttributeToken attribute = 14;
-    BrainPredicateToken predicate = 15;
-    BrainAttributeQualifierToken attribute_qualifier = 16;
-    BrainPredicateQualifierToken predicate_qualifier = 17;
-    BrainEventToken event = 18;
-    BrainProcessToken process = 19;
+    BrainCollectionToken  collection = 5;
+    BrainQuantityToken quantity = 6;
+    BrainUnitToken unit = 7;
+    BrainContextToken context = 8;
+    BrainPropertyToken property = 9;
+    BrainEntityToken entity = 10;
+    BrainBizToken biz_id = 11;
+    BrainAttributeToken attribute = 12;
+    BrainPredicateToken predicate = 13;
+    BrainAttributeQualifierToken attribute_qualifier = 14;
+    BrainPredicateQualifierToken predicate_qualifier = 15;
+    BrainEventToken event = 16;
+    BrainProcessToken process = 17;
   }
 }
 
@@ -53,15 +53,15 @@ message BrainQuantityToken {
 }
 
 message BrainUnitToken {
-  BrainTokenName name = 2;
+  string name = 1;
 }
 message BrainContextToken {
   //  BrainContextType type = 1; todo
-  BrainTokenName name = 2;
+  BrainTokenName name = 1;
 }
 message BrainPropertyToken {
   //  BrainContextType type = 1; todo
-  BrainTokenName name = 2;
+  BrainTokenName name = 1;
 }
 message BrainEntityToken {
   BrainTokenName name = 1;
@@ -83,21 +83,21 @@ message BrainPredicateToken {
   BrainTokenName name = 3;
 }
 message BrainAttributeQualifierToken {
-  BrainAttributeToken attribute = 2;
-  BrainTokenName name = 3;
+  BrainAttributeToken attribute = 1;
+  BrainTokenName name = 2;
 }
 
 message BrainPredicateQualifierToken {
-  BrainPredicateToken predicate = 2;
-  BrainTokenName name = 3;
+  BrainPredicateToken predicate = 1;
+  BrainTokenName name = 2;
 }
 
 message BrainEventToken {
   //  BrainEventType type = 1; todo
-  BrainTokenName name = 2;
+  BrainTokenName name = 1;
 }
 
 message BrainProcessToken {
-  BrainTokenName name = 2;
+  BrainTokenName name = 1;
 }
 
