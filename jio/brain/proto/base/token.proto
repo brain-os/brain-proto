@@ -18,7 +18,7 @@ message BrainToken {
   string key = 3;
   uint32 id32 = 4;
   oneof token_is_one_of {
-    BrainCollectionToken  name = 5;
+    BrainCollectionToken  collection = 5;
     BrainQuantityToken quantity = 6;
     BrainUnitToken unit = 7;
     BrainContextToken context = 8;

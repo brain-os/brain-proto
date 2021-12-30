@@ -27,4 +27,48 @@ enum ProcessType {
   pivot = 4;
   joiner = 5;
   reduce = 6;
+  compute = 7;
+}
+
+enum ProcessStatus {
+  NEW = 0;
+  STARTING = 1;
+  RUNNING = 2;
+  DEPLOYMENT_ERROR = 3;
+  STOPPING = 4;
+  STOPPED = 5;
+
+}
+
+message InstanceStatus {
+  string instanceId = 1;
+  string input_topic = 2;
+  InstanceType instance_type = 3;
+  InstanceDeploymentStatus deploy_status = 4;
+  map<int64, ProcessStatus> process_status = 5;
+
+  enum InstanceDeploymentStatus{
+    DRAFT = 0;
+    RUNNING = 1;
+    DEPLOYMENT_ERROR = 2;
+    STARTING = 3;
+    STOPPING = 4;
+    STOPPED = 5;
+    TOPIC_CREATED = 6;
+    TOPIC_CREATION_ERROR = 7;
+    DEPLOYED = 8;
+  }
+}
+
+
+
+enum InstanceType {
+  ENRICH = 0;
+  FILTER = 1;
+  PIVOT = 2;
+  REDUCE = 3;
+  INGESTION = 4;
+  QUANTIZATION = 5;
+  JOINER = 6;
+  COMPUTE = 7;
 }
