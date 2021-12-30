@@ -52,7 +52,7 @@ enum BrainSymbolType {
 //}
 
 enum BrainCollectionType {
-    BRAIN_UKNOWN_COLLECTION = 0;
+    BRAIN_UNKNOWN_COLLECTION = 0;
     BRAIN_SYMBOL_COLLECTION = 1;
     BRAIN_ORDINAL_COLLECTION = 2;
     BRAIN_ENTITY_COLLECTION = 3;  // subset e.g. “tier-1-cities”
