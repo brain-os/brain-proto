@@ -192,7 +192,7 @@ message BrainPredicateSetSchema {
 }
 message BrainAttributeSchema {
   jio.brain.proto.base.BrainToken attribute_token = 1; // contain information about brain entity
-  optional jio.brain.proto.base.BrainToken unit_token = 2;
+  optional jio.brain.proto.base.BrainToken unit = 2;
   oneof attribute_is_one_of {
     jio.brain.proto.quantity.BrainQuantitySchema absolute = 3;
     BrainQualifiedAttributeSchema qualifiers = 4;
