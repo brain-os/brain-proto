@@ -8,7 +8,6 @@ option java_multiple_files = true;
 message DeploymentRequest{
   string instance_id = 1;
   repeated Process process = 2;
-  bool deleteDeployment = 3; ;
 }
 
 message Process {
@@ -31,11 +30,22 @@ enum ProcessType {
   compute = 7;
 }
 
+enum ProcessStatus {
+  NEW = 0;
+  STARTING = 1;
+  RUNNING = 2;
+  DEPLOYMENT_ERROR = 3;
+  STOPPING = 4;
+  STOPPED = 5;
+
+}
+
 message InstanceStatus {
   string instanceId = 1;
   string input_topic = 2;
   InstanceType instance_type = 3;
   InstanceDeploymentStatus deploy_status = 4;
+  map<int64, ProcessStatus> process_status = 5;
 
   enum InstanceDeploymentStatus{
     DRAFT = 0;
@@ -48,8 +58,9 @@ message InstanceStatus {
     TOPIC_CREATION_ERROR = 7;
     DEPLOYED = 8;
   }
-
 }
+
+
 
 enum InstanceType {
   ENRICH = 0;

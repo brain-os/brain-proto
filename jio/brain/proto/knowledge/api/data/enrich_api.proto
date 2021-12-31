@@ -6,9 +6,10 @@ option java_package = "com.jio.brain.proto.knowledge.api.data";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/process/enrich_config.proto";
+import "jio/brain/proto/types/set.proto";
 import "jio/brain/proto/quantity/quantity.proto";
-import "jio/brain/proto/entity/entity.proto";
-
+import "jio/brain/proto/knowledge/base/entity.proto";
 
 service EnrichService {
   rpc serve(EnrichServiceRequest) returns (EnrichServiceResponse) {}
@@ -20,10 +21,9 @@ message EnrichServiceRequest {
 }
 
 message EnrichServiceResponse {
-  jio.brain.proto.base.BrainStatus status = 1;
-  repeated EnrichAttributeResponse enrich_attribute_response = 2;
-  repeated EnrichPredicateResponse enrich_predicate_response = 3;
-
+  jio.brain.proto.base.BrainStatus status = 1; // OK
+  EnrichAttributeResponse enrich_attribute_response = 2;
+  EnrichPredicateResponse enrich_predicate_response = 3;
 }
 
 message EnrichAttributeRequest {
@@ -39,14 +39,14 @@ message EnrichPredicateRequest {
 }
 
 message EnrichAttributeResponse {
-  map<string, EntityAttribute> entity_attribute = 1; // key = customer
+  map<string, EntityAttribute> entity_id_attribute = 1; // key = customer
 }
 
 message EntityAttribute {
-  map<string, AttributeValue> attributes = 1; // key = customer_id and value AttributeValue
+  map<string, AttributeValue> attribute_value = 1; // key = customer_id and value AttributeValue
 }
 message AttributeValue {
-  map<string, jio.brain.proto.quantity.BrainQuantity> value = 1; //key = age, value = 30
+  map<string, jio.brain.proto.quantity.BrainQuantity> attribute_value = 1; //key = age, value = 30
 }
 
 message EnrichPredicateResponse {
@@ -64,6 +64,6 @@ message PredicateValue {
 message PredicateObject {
   oneof predicate_object_is_one_of {
     jio.brain.proto.quantity.BrainQuantity quantity = 1;
-    jio.brain.proto.entity.BrainEntity entity = 2;
+    jio.brain.proto.knowledge.base.Entity entity = 2;
   }
 }

@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.base;
+
+option java_package = "com.jio.brain.proto.knowledge.base";
+option java_multiple_files = true;
+
+enum KnowledgeGraphStatusCode {
+  KNOWLEDGE_GRAPH_STATUS_CODE_UNSPECIFIED = 0;
+  KNOWLEDGE_GRAPH_STATUS_CODE_OK = 1;
+  KNOWLEDGE_GRAPH_STATUS_CODE_COLLECTION_ADDED = 2;
+  KNOWLEDGE_GRAPH_STATUS_CODE_COLLECTION_ALREADY_EXISTS = 3;
+}
+
+/*
+{
+    "is_ok":False,
+    "brain_status_instance": [
+        "status_code": BrainStatusCode.BRAIN_STATUS_CODE_ENTITY_ALREADY_EXIST_IN_KG,
+        "parameters" {
+           "vertical" : "common",
+           "entity_type" : "city",
+           "entity_instance_hid" : "bangalore",
+           "entity_instance_mid" : "1234"
+        }
+    ]
+}
+*/
+
+/*
+{
+    "is_ok":True
+}
+*/
+
+/*
+{
+    entity_id : "1234",
+    status : {
+        is_ok = True,
+        BrainStatusInstance : [
+            brain_status_code = KnowledgeGraphStatusCode.KNOWLEDGE_GRAPH_STATUS_CODE_OK
+        ]
+    }
+}
+ */
+
+/*
+{
+    entity_id : "",
+    status : {
+        is_ok = False,
+        BrainStatusInstance : [
+            brain_status_code = KnowledgeGraphStatusCode.KNOWLEDGE_GRAPH_STATUS_CODE_COLLECTION_ALREADY_EXISTS,
+            parameters : {
+              "Entity ID" : "1234"
+            }
+        ]
+    }
+}
+ */

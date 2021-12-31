@@ -28,4 +28,3 @@ message EnrichPredicateInstance {
   // key = /predicate/agriculture_farmer/owns/agriculture_farm || owns
   // value = /attribute/[agriculture_farmer/owns/agriculture_farm]/start_time
 }
-
