@@ -22,7 +22,6 @@ message BrainQuantity {
 }
 message BrainQuantitySchema {
   jio.brain.proto.base.BrainToken token = 1;
-  repeated jio.brain.proto.base.BrainToken unit = 2;
   jio.brain.proto.base.BrainQuantityType quantity_type = 3;
   oneof quantity_schema_is_one_of {
     BrainAtomicQuantitySchema	atomic = 4;
