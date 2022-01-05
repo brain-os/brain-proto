@@ -12,8 +12,8 @@ service DeleteAttributeService {
 }
 
 message DeleteAttributeRequest {
-  string collection_name = 1;
-  string attribute_name = 2;
+  string collection_id = 1; // example /entity/common/person/12345
+  string attribute_name = 2; // /attribute/entity/common/person/age
 }
 
 message DeleteAttributeResponse {

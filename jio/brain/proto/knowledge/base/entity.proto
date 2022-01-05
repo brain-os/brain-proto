@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.base;
+
+option java_package = "com.jio.brain.proto.knowledge.base";
+option java_multiple_files = true;
+
+import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/knowledge/base/biz_id.proto";
+
+message Entity {
+  string entity_type = 1; // common_person
+  repeated jio.brain.proto.knowledge.base.BizId biz_id = 2;
+  map<string, jio.brain.proto.entity.BrainEntityName> name = 3; // {"/language/hindi", {canonical : "krishna", alias = ["kk"] }}
+  map<string, jio.brain.proto.quantity.BrainQuantity> attributes = 4; //
+}
+

@@ -53,7 +53,7 @@ message BrainQuantityToken {
 }
 
 message BrainUnitToken {
-  BrainTokenName name = 1;
+  string name = 1;
 }
 message BrainContextToken {
   //  BrainContextType type = 1; todo

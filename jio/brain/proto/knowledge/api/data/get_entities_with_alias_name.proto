@@ -1,0 +1,23 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/knowledge/base/language.proto";
+import "jio/brain/proto/base/status.proto";
+
+service GetEntitiesWithAliasNameService {
+  rpc serve(GetEntitiesWithAliasNameRequest) returns (GetEntitiesWithAliasNameResponse) {}
+}
+
+message GetEntitiesWithAliasNameRequest {
+  string entity_type = 1; //entity_type is collection_name
+  jio.brain.proto.knowledge.base.Language language = 2;
+  string alias = 3;
+}
+
+message GetEntitiesWithAliasNameResponse {
+  repeated string entity_ids = 1;
+  jio.brain.proto.base.BrainStatus status = 2;
+}

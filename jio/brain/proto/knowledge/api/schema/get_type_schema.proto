@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.schema;
+
+option java_package = "com.jio.brain.proto.knowledge.api.schema";
+option java_multiple_files = true;
+
+import "google/protobuf/struct.proto";
+import "jio/brain/proto/base/status.proto";
+
+service GetTypeSchemaService {
+  rpc serve(GetTypeSchemaRequest) returns (GetTypeSchemaResponse) {}
+}
+
+message GetTypeSchemaRequest {
+  string collection_name = 2; // /entity/telecom_cell, /entity/retail_product, /predicate/bought/retail_customer/retail_product
+  string attribute_name = 3; // /attribute/telecom_cell/rsrp
+}
+
+message GetTypeSchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+  google.protobuf.Struct schema = 2;
+}
