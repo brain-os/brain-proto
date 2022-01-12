@@ -8,6 +8,7 @@ option java_multiple_files = true;
 message DeploymentRequest{
   string instance_id = 1;
   repeated Process process = 2;
+  bool deleteDeployment = 3; ;
 }
 
 message Process {

@@ -11,16 +11,17 @@ message BrainIngestProcessSchema {
   repeated FieldMapping mappings = 1;
   oneof data_transport {
     KafkaTransport kafka_transport = 2;
-    CsvFileTransport csv_transport = 3;
+    FileTransport file_transport = 3;
     JsonFileTransport json_transport = 4;
   }
+  uint32 readingStartPoint = 5;
 }
 
 message KafkaTransport {
   string input_topic = 1;
 }
 
-message CsvFileTransport {
+message FileTransport {
   string folder_to_watch = 1;
 }
 
