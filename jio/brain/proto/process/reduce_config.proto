@@ -5,6 +5,8 @@ package jio.brain.proto.process;
 option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
+import "jio/brain/proto/quantity/quantity_temporal.proto";
+
 message BrainReduceProcessSchema {
   repeated ReduceInstance instances = 1;
 }
@@ -14,6 +16,8 @@ message ReduceInstance {
   repeated AggregateCondition aggregate_condition = 2;
   string output_topic = 3;
   string output_event_schema = 4;
+  optional jio.brain.proto.quantity.BrainTimeInstance start_time = 5;
+  optional jio.brain.proto.quantity.BrainTimeInstance end_time = 6;
 }
 
 message AggregateCondition {
