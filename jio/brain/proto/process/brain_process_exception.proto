@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package jio.brain.proto.process;
+
+option java_package = "com.jio.brain.proto.process";
+option java_multiple_files = true;
+
+import "jio/brain/proto/event/event.proto";
+import "jio/brain/proto/base/status.proto";
+
+message BrainProcessException {
+  string process_id = 1; //processname+-+instanceid
+  string time = 2; //event exception time
+  jio.brain.proto.base.BrainStatus brain_status = 3;
+  jio.brain.proto.event.BrainEvent brain_event = 4;
+}
+
