@@ -197,6 +197,7 @@ message BrainAttributeSchema {
     jio.brain.proto.quantity.BrainQuantitySchema absolute = 3;
     BrainQualifiedAttributeSchema qualifiers = 4;
   }
+  bool is_knowledge_attribute = 5;
 }
 message BrainQualifiedAttributeSchema {
   jio.brain.proto.quantity.BrainQuantitySchema value = 1;
