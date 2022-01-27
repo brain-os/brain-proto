@@ -49,18 +49,18 @@ message BrainDateInstance {
   uint32 century = 1;
   uint32 decade = 2;
   uint32 year = 3;
-//  uint32 quarter = 4;
-//  uint32 season = 5;
+  //  uint32 quarter = 4;
+  //  uint32 season = 5;
   uint32 month = 4;
   uint32 day_of_week = 5;
   uint32 day = 6;
 }
 
 message BrainTimeInstance {
-//  uint32 part = 1;
+  //  uint32 part = 1;
   uint32 hour = 1;
-//  uint32 quarter = 3;
- // uint32 minute5 = 4;
+  //  uint32 quarter = 3;
+  // uint32 minute5 = 4;
   uint32 minute = 2;
   uint32 second = 3;
   uint32 millisecond = 4;
@@ -86,7 +86,7 @@ message BrainTimeContext {
   uint32 minute5 = 4;
   uint32 minute = 5;
   uint32 second = 6;
-//  uint32 millisecond = 7;
+  //  uint32 millisecond = 7;
 }
 
 message BrainDateDuration {
@@ -174,10 +174,18 @@ message BrainDurationTimeSchema {
 }
 
 message BrainTemporalContextQuantitySchema {
-  oneof context_type_is_one_of {
-    jio.brain.proto.base.BrainDateContextType date = 1;
-    jio.brain.proto.base.BrainTimeContextType time = 2;
-  }
+  BrainTemporalContextDateSchema date = 1;
+  BrainTemporalContextTimeSchema time = 2;
+}
+
+message BrainTemporalContextDateSchema {
+  jio.brain.proto.base.BrainDateContextType type = 1;
+  BrainSchemaDateLevel dateLevel = 2;
+}
+
+message BrainTemporalContextTimeSchema {
+  jio.brain.proto.base.BrainTimeContextType type = 1;
+  BrainSchemaTimeLevel timeLevel = 3;
 }
 
 message BrainTimestampSchema {
