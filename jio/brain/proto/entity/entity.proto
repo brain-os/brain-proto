@@ -175,7 +175,7 @@ message BrainPredicateQualifierSet {
 }
 
 message BrainEntitySchema {
-  jio.brain.proto.base.BrainToken token = 1;
+  jio.brain.proto.base.BrainToken token = 1;   // entityBrainToken
   jio.brain.proto.base.BrainToken primary_biz_id = 2;
   repeated jio.brain.proto.base.BrainToken biz_type = 4;
   BrainAttributeSetSchema attribute = 5;
