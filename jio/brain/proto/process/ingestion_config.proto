@@ -14,6 +14,7 @@ message BrainIngestProcessSchema {
     FileTransport file_transport = 3;
     JsonFileTransport json_transport = 4;
   }
+  uint32 readingStartPoint = 5;
 }
 
 message KafkaTransport {
@@ -64,8 +65,8 @@ message AttributeQualifierField {
 }
 message PropertyField {
   string property_meta_key = 1;
-  bool is_latitude = 2;
-  bool is_longitude = 3;
+  bool is_latitude = 4;
+  bool is_longitude = 5;
 }
 enum FieldType {
   FIELD_TYPE_UNKNOWN = 0;
