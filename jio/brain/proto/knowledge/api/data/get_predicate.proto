@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/knowledge/base/predicate.proto";
+
+service GetPredicateService {
+  rpc serve(GetPredicateRequest) returns (GetPredicateResponse) {}
+}
+
+message GetPredicateRequest {
+  string vertical = 1; // vertical name for ex common, telecom, media, retail etc
+  string collection_name = 2; // collection/predicate name in aarango  ex is_a, has, owns full name /predicate/agriculture_farmer/owns/agriculture_farm
+  string from_id = 3; // from_id will subject node ID in static store
+  string to_id = 4; // object node ID in static store
+}
+
+message GetPredicateResponse {
+  jio.brain.proto.knowledge.base.Predicate predicate = 1;
+  jio.brain.proto.base.BrainStatus status = 2;
+}

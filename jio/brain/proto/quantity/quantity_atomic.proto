@@ -10,7 +10,7 @@ import "jio/brain/proto/types/collection.proto";
 import "jio/brain/proto/types/vector.proto";
 import "jio/brain/proto/types/number.proto";
 import "jio/brain/proto/types/symbol.proto";
-
+import "jio/brain/proto/base/token.proto";
 enum BrainAtomicQuantityType {
   BRAIN_UNKNOWN_ATOMIC_QUANTITY = 0;
   BRAIN_NUMERIC_ATOMIC_QUANTITY = 1;
@@ -47,6 +47,7 @@ message BrainNumericQuantity {
 message BrainNumericQuantitySchema {
   jio.brain.proto.base.BrainNumberType numeric_type = 1;
   jio.brain.proto.types.BrainNumberRange range = 2;
+  repeated BrainUnitSchema units = 3;
 }
 
 message BrainSymbolicQuantity {
@@ -122,3 +123,11 @@ enum BrainBinaryQuantitySchema {
 message BrainBinaryQuantity {
   bool value = 1;
 }
+message BrainUnitSchema {
+  jio.brain.proto.base.BrainToken token = 1;
+  repeated string aliases =2;
+  bool base_unit = 3;
+  double multiplier = 4;
+  double constant = 5;
+}
+

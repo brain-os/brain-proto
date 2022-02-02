@@ -6,18 +6,17 @@ option java_package = "com.jio.brain.proto.knowledge.api.data";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/knowledge/base/entity.proto";
 
-service AddEntityAliasService {
-  rpc serve(AddEntityAliasRequest) returns (AddEntityAliasResponse) {}
+service GetEntityService {
+  rpc serve(GetEntityRequest) returns (GetEntityResponse) {}
 }
 
-message AddEntityAliasRequest {
+message GetEntityRequest {
   string entity_id = 1;
-  string language = 2;
-  string canonical_name = 3;
-  string alias = 4;
 }
 
-message AddEntityAliasResponse {
+message GetEntityResponse {
   jio.brain.proto.base.BrainStatus status = 1;
+  jio.brain.proto.knowledge.base.Entity entity = 2;
 }
