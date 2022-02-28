@@ -6,7 +6,8 @@ option java_package = "com.jio.brain.proto.schema.api";
 option java_multiple_files = true;
 
 import "jio/brain/proto/entity/entity.proto";
-
+import "jio/brain/proto/knowledge/base/entity.proto";
+import "jio/brain/proto/base/status.proto";
 message EntitySchemaRequest {
   string vertical = 1;
   string domain = 2;
@@ -18,4 +19,8 @@ message EntitySchemaRequest {
 
 service EntitySchemaService {
   rpc getSchemaForEntity(EntitySchemaRequest) returns (jio.brain.proto.entity.BrainEntitySchema);
+}
+
+service ValidationSchemaService {
+  rpc getSchemaForValidation(jio.brain.proto.knowledge.base.Entity) returns (jio.brain.proto.base.BrainStatus);
 }
