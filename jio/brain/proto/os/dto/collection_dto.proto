@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package jio.brain.proto.os.dto;
+
+option java_package = "com.jio.brain.proto.os.dto";
+option java_multiple_files = true;
+
+import "jio/brain/proto/os/enums/collection_type.proto";
+import "jio/brain/proto/os/enums/vertical.proto";
+import "jio/brain/proto/os/dto/unit_collection_dto.proto";
+
+message CollectionDto{
+  int64 id = 1;
+  string vertical = 2;
+  string domain = 3;
+  jio.brain.proto.os.enums.CollectionType type = 4;
+  ItemCollectionDto itemCollectionDto = 5;
+  EntityCollectionDto entityCollectionDto = 6;
+  jio.brain.proto.os.dto.UnitCollectionDto unitCollectionDto = 7;
+  string keyToken = 8;
+}
+
+message ItemCollectionDto {
+  string name = 1;
+  repeated string value = 2;
+  bool ordered = 3;
+  bool modulo = 4;
+}
+
+message EntityCollectionDto {
+  string entityType = 1;
+  string entityCondition = 2;
+}

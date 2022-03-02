@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package jio.brain.proto.os.dto;
+
+option java_package = "com.jio.brain.proto.os.dto";
+option java_multiple_files = true;
+
+import "jio/brain/proto/os/enums/vertical.proto";
+
+message EventConfigDto {
+  int64 id = 1;
+  jio.brain.proto.os.enums.Vertical vertical = 2;
+  string domain = 3;
+  string name = 4;
+  string keyToken = 5;
+  EventKeyDto key = 6;
+  EventValueDto lue = 7;
+}
+
+message EventKeyDto {
+  repeated string entities = 1;
+  repeated PropertyConfigDto context = 2;
+}
+
+message PropertyConfigDto {
+  string name = 1;
+  string quantityType = 2;
+  string unit = 3;
+  string keyToken = 4;
+}
+
+message EventValueDto {
+  repeated string entities = 1;
+  repeated PropertyConfigDto property = 2;
+}

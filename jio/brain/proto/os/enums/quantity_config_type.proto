@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package jio.brain.proto.os.enums;
+
+option java_package = "com.jio.brain.proto.os.enums";
+
+enum QuantityConfigType {
+    numeric = 0;
+    symbolic = 1;
+    ordinal = 2;
+    binned = 3;
+    spatial = 4;
+    temporal = 5;
+    basket = 6;
+    bag = 7;
+    range = 8;
+    series = 9;
+    distribution = 10;
+    sequence = 11;
+    binary = 12;
+}

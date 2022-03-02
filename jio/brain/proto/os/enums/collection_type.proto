@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package jio.brain.proto.os.enums;
+
+option java_package = "com.jio.brain.proto.os.enums";
+
+enum CollectionType{
+  unit = 0;
+  item = 1;
+  entity = 2;
+}

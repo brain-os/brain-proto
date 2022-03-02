@@ -1,0 +1,169 @@
+syntax = "proto3";
+
+package jio.brain.proto.os.dto;
+
+option java_package = "com.jio.brain.proto.os.dto";
+option java_multiple_files = true;
+
+import "jio/brain/proto/os/enums/quantity_config_type.proto";
+
+message QuantityConfigDto {
+  int64 id = 1;
+  string vertical = 2;
+  string domain = 3;
+  string name = 4;
+  string keyToken = 5;
+  jio.brain.proto.os.enums.QuantityConfigType quantityConfigType = 6;
+  Numeric numeric = 7;
+  Symbolic symbolic = 8;
+  Ordinal ordinal = 9;
+  Binary binary = 10;
+  Bin binned = 11;
+  Temporal temporal = 12;    // instance, range, duration
+  Spatial spatial = 13;
+  Range range = 14;    // (min, max)
+  Sequence sequence = 15;    // x_1, x_2, … x_n
+  Distribution distribution = 16;  // p(s_1), p(s_2), …, p(s_n)
+  Basket basket = 17;        // {s_1, s_2, …, s_k}
+  Bag bag = 18;            // {(w_1, s_1), (w_2, s_2), …}
+  IndexType indexType = 19;
+
+}
+
+message Numeric{
+  NumericType numerictype = 1;
+  double minimum = 2;
+  double maximum = 3;
+  bool includeMinimum = 4;
+  bool includeMaximum = 5;
+  repeated string units = 6;
+  string unitCollection = 7;
+}
+
+message Symbolic {
+  string collection = 1;
+}
+
+message Ordinal{
+  string collection = 1;
+}
+
+enum Binary{
+  YES_NO = 0;
+  ACTIVE_INACTIVE = 1;
+  TRUE_FALSE = 2;
+  ON_OFF = 3;
+}
+
+message Bin{
+  string quantity = 1;
+  string collectionKey = 2;
+  repeated string collection = 3;
+  repeated double boundaries = 4;
+  bool minimumOpen = 5;
+  bool maximumOpen = 6;
+}
+
+message Temporal {
+  DateTimeType dateTimeType = 1;
+  TemporalDate date = 2;
+  TemporalTime time = 3;
+  bool includeFrom = 4;
+  bool includeTo = 5;
+}
+
+message Spatial {
+  SpatialType type = 1;
+  GeohashQuantity geoHash = 2;
+  HierarchyLevel location_hierarchy_level = 3;
+
+  enum SpatialType {
+    lat_long = 0;
+    geohash = 1;
+    levels = 2;
+  }
+  message GeohashQuantity {
+    int32 precision = 1;
+  }
+
+  message HierarchyLevel {
+    bool continent = 1;
+    bool country = 2;
+    bool state = 3;
+    bool district = 4;
+    bool city = 5;
+    bool village = 6;
+    bool locality = 7;
+    bool building = 8;
+  }
+}
+
+message Range {
+  NumericRange numericRange = 1;
+  OrdinalRange ordinalRange = 2;
+  BinnedRange binnedRange = 3;
+}
+
+message NumericRange{
+  NumericType numericType = 1;
+  double minimum = 2;
+  double maximum = 3;
+  bool includeMinimum = 4;
+  bool includeMaximum = 5;
+}
+
+message OrdinalRange {
+  string ordinalQuantity = 1;
+}
+
+message BinnedRange {
+  string binnedQuantity = 1;
+}
+
+message Sequence {
+  string collection = 1;
+}
+
+message Distribution{
+  string collection = 1;
+}
+
+message Basket {
+  string collection = 1;
+}
+
+message Bag {
+  string collection = 1;
+  Numeric weight = 2;
+}
+
+enum IndexType {
+  string = 0;
+  index = 1;
+  i32 = 2;
+  i64 = 3;
+}
+
+message TemporalDate {
+  string dateTypeValue = 1;
+}
+
+message TemporalTime {
+  string timeTypeValue = 1;
+}
+
+enum NumericType {
+  SINT32 = 0;
+  SINT64 = 1;
+  UINT32 = 2;
+  UINT64 = 3;
+  F32 = 4;
+  F64 = 5;
+}
+
+enum DateTimeType {
+  instance = 0;
+  range = 1;
+  duration = 2;
+  context = 3;
+}

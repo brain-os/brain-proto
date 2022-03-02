@@ -1,0 +1,258 @@
+syntax = "proto3";
+
+package jio.brain.proto.os.dto;
+
+option java_package = "com.jio.brain.proto.os.dto";
+option java_multiple_files = true;
+
+import "jio/brain/proto/os/enums/vertical.proto";
+
+message ProcessConfigDto {
+  int64 id = 1;
+  string keyToken = 2;
+  jio.brain.proto.os.enums.Vertical vertical = 3;
+  string processName = 4;
+  string inputTopic = 5;
+  string inputEventSchema = 6;
+  ProcessConfigType processConfigType = 7;
+  oneof process_config_is_one_of {
+    EnrichConfig enrichConfig = 8;
+    FilterConfigList filterConfigs = 9;
+    PivotConfigList pivotConfigs = 10;
+    ReduceConfigList reduceConfigs = 11;
+    IngestConfig ingestConfig = 12;
+    QuantizationConfig quantizationConfig = 13;
+    ComputeConfig computeConfig = 14;
+  }
+}
+
+message FilterConfigList {
+  repeated FilterConfig filterConfigs = 1;
+}
+
+message PivotConfigList {
+  repeated PivotConfig pivotConfigs = 1;
+}
+
+message ReduceConfigList{
+  repeated ReduceConfig reduceConfig = 1;
+}
+
+enum ProcessConfigType {
+  ingestion = 0;
+  enrich = 1;
+  quantization = 2;
+  filter = 3;
+  pivot = 4;
+  compute = 5;
+  reduce = 6;
+}
+
+message EnrichConfig {
+  map<string, AttributeMapValue> attributes = 1;
+  string outputTopic = 2;
+  string outputSchema = 3;
+}
+
+message AttributeMapValue {
+  repeated string value = 1;
+}
+
+message FilterConfig {
+  string filterCondition = 1;
+  string outputTopic = 2;
+  string failureTopic = 3;
+}
+
+message PivotConfig {
+  PivotConfigKey pivotConfigKey = 1;
+  PivotConfigValue pivotConfigValue = 2;
+  string outputTopic = 3;
+  string outputSchema = 4;
+}
+
+message PivotConfigKey {
+  repeated string entities = 1;
+  repeated string attributes = 2;
+  map<string, string> contextMap = 3;
+}
+
+message PivotConfigValue {
+  repeated string attributes = 1;
+  map<string, string> properties = 2;
+}
+
+message ReduceConfig {
+  string outputTopic = 1;
+  string outputSchema = 2;
+  int32 windowTimeMinutes = 3;
+  repeated AggregateCondition aggregateCondition = 4;
+  BrainTimeInstance startTime = 5;
+  BrainTimeInstance endTime = 6;
+
+
+  message AggregateCondition {
+    string inputProperty = 1;
+    string outputProperty = 2;
+    string countProperty = 3;
+    AggregateConditionType type = 4;
+
+    enum AggregateConditionType {
+      BRAIN_AGGREGATION_SUM = 0;
+      BRAIN_AGGREGATION_AVERAGE = 1;
+      BRAIN_AGGREGATION_COUNT = 2;
+      BRAIN_AGGREGATION_MIN = 3;
+      BRAIN_AGGREGATION_MAX = 4;
+      BRAIN_AGGREGATION_SLOPE = 5;
+      BRAIN_AGGREGATION_PRODUCT = 6;
+      BRAIN_AGGREGATION_DISTRIBUTION = 7;
+    }
+  }
+
+
+  message BrainTimeInstance {
+    int64 hour = 1;
+    int64 minute = 2;
+  }
+}
+
+message IngestConfig {
+  SourceType sourceType = 1;
+  string folderToWatch = 2;
+  repeated ExcelColumnMapping excelConfig = 3;
+  repeated  JsonMapping jsonMappingList = 4;
+  string outputTopic = 5;
+  string outputSchema = 6;
+  int32 readingStartPoint = 7;
+}
+
+enum SourceType {
+  file = 0;
+  db = 1;
+  topic = 2;
+}
+
+message ExcelColumnMapping {
+  int32 columnIndex = 1;
+  string columnUnit = 2;
+  ColumnType columnType = 3;
+  EntityBizId entityBizId = 4;
+  EntityAttribute entityAttribute = 5;
+  EntityAttributeQualifier entityAttributeQualifier = 6;
+  EntityPredicateQualifier entityPredicateQualifier = 7;
+  Property excelColumnMappingProperty = 8;
+  bool optional = 9;
+  string dateFormat = 10;
+
+  message EntityAttribute {
+    string entity = 1;
+    int32 entityColumn = 2;
+    string attribute = 3;
+    bool latitude = 4;
+    bool longitude = 5;
+  }
+
+  message EntityAttributeQualifier {
+    string entity = 1;
+    int32 entityColumn = 2;
+    string attribute = 3;
+    int32 attributeColumn = 4;
+    string qualifier = 5;
+  }
+
+  message EntityPredicateQualifier {
+    string entity = 1;
+    int32 entityColumn = 2;
+    string predicate = 3;
+    string qualifier = 4;
+  }
+
+  enum ColumnType {
+    type_unknown = 0;
+    entity_bizId = 1;
+    entity_attribute = 2;
+    entity_attribute_qualifier = 3;
+    entity_predicate_qualifier = 4;
+    property = 5;
+  }
+
+
+}
+message JsonMapping {
+  string key = 1;
+  string unit = 2;
+  ColumnType columnType = 3;
+  EntityBizId entityBizId = 4;
+  EntityAttribute entityAttribute = 5;
+  EntityAttributeQualifier entityAttributeQualifier = 6;
+  Property jsonMappingProperty = 7;
+
+  message EntityAttribute {
+    string entity = 1;
+    string entityKey = 2;
+    string attribute = 3;
+    bool latitude = 4;
+    bool longitude = 5;
+  }
+
+  message EntityAttributeQualifier {
+    string entity = 1;
+    string entityKey = 2;
+    string attribute = 3;
+    string attributeKey = 4;
+    string qualifier = 5;
+  }
+
+  enum ColumnType {
+    entity_bizId = 0;
+    entity_attribute = 1;
+    entity_attribute_qualifier = 2;
+    property = 3;
+  }
+}
+
+message Property {
+  string name = 1;
+  bool latitude = 2;
+  bool longitude = 3;
+}
+
+message EntityBizId {
+  string entity = 1;
+  string bizId = 2;
+}
+
+message QuantizationConfig {
+  repeated QuantizationConfigProperties config = 1;
+  string outputTopic = 2;
+  string outputSchema = 3;
+}
+
+message QuantizationConfigProperties {
+  InputPropertyType type = 1;
+  string lhsProperty = 2;
+  string rhsProperty = 3;
+
+  enum InputPropertyType {
+    Temporal = 0;
+    Spatial = 1;
+    Binned = 2;
+  }
+}
+
+message ComputeConfig {
+  repeated ComputeConfigInstance configInstanceList = 1;
+  string outputTopic = 2;
+  string outputSchema = 3;
+}
+
+message ComputeConfigInstance {
+  FieldType type = 1;
+  string computeExpression = 2;  // (product.mrp - product.discount) * product.quantity + product.gst  ( BODMAS )
+  string outputName = 3;  // product.price or bill_amount
+
+  enum FieldType {
+    attribute = 0;
+    property = 1;
+  }
+}
