@@ -7,6 +7,10 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/os/enums/vertical.proto";
 
+message UnitProtoList{
+  repeated UnitCollectionDto unitCollectionDto = 1;
+}
+
 message UnitCollectionDto{
   int64 id = 1;
   jio.brain.proto.os.enums.Vertical vertical = 2;
@@ -14,7 +18,6 @@ message UnitCollectionDto{
   string name = 4;
   string keyToken = 5;
   repeated UnitDto unitDto = 6;
-
 }
 
 message UnitDto {
