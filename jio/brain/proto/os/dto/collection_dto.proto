@@ -14,9 +14,11 @@ message CollectionDto{
   string vertical = 2;
   string domain = 3;
   jio.brain.proto.os.enums.CollectionType type = 4;
-  ItemCollectionDto itemCollectionDto = 5;
-  EntityCollectionDto entityCollectionDto = 6;
-  jio.brain.proto.os.dto.UnitCollectionDto unitCollectionDto = 7;
+  oneof collection_config_is_one_of{
+    ItemCollectionDto itemCollectionDto = 5;
+    EntityCollectionDto entityCollectionDto = 6;
+    jio.brain.proto.os.dto.UnitCollectionDto unitCollectionDto = 7;
+  }
   string keyToken = 8;
 }
 
