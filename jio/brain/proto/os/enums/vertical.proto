@@ -3,8 +3,9 @@ syntax = "proto3";
 package jio.brain.proto.os.enums;
 
 option java_package = "com.jio.brain.proto.os.enums";
+option java_multiple_files = true;
 
-enum Vertical {
+enum VerticalProto {
     Common = 0;
     Telecom = 1;
     Retail = 2;

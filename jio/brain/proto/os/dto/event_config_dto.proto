@@ -7,29 +7,33 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/os/enums/vertical.proto";
 
-message EventConfigDto {
+message EventProtoList{
+  repeated EventProto eventProto=1;
+}
+
+message EventProto {
   int64 id = 1;
-  jio.brain.proto.os.enums.Vertical vertical = 2;
+  jio.brain.proto.os.enums.VerticalProto vertical = 2;
   string domain = 3;
   string name = 4;
   string keyToken = 5;
-  EventKeyDto key = 6;
-  EventValueDto lue = 7;
+  EventKeyProto key = 6;
+  EventValueProto value = 7;
 }
 
-message EventKeyDto {
+message EventKeyProto {
   repeated string entities = 1;
-  repeated PropertyConfigDto context = 2;
+  repeated PropertyConfigProto context = 2;
 }
 
-message PropertyConfigDto {
+message PropertyConfigProto {
   string name = 1;
   string quantityType = 2;
   string unit = 3;
   string keyToken = 4;
 }
 
-message EventValueDto {
+message EventValueProto {
   repeated string entities = 1;
-  repeated PropertyConfigDto property = 2;
+  repeated PropertyConfigProto property = 2;
 }

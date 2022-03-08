@@ -7,38 +7,41 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/os/enums/vertical.proto";
 
-message EntityConfigDto {
+message EntityProtoList{
+  repeated EntityProto EntityProto=1;
+}
+
+message EntityProto {
   int64 id = 1;
-  jio.brain.proto.os.enums.Vertical vertical = 2;
+  jio.brain.proto.os.enums.VerticalProto vertical = 2;
   string domain = 3;
   string entity = 4;
   string primaryId = 5;
   repeated string businessId = 6;
-  repeated AttributeConfigDto attribute = 7;
-  repeated PredicateConfigDto predicate = 8;
+  repeated AttributeProto attribute = 7;
+  repeated PredicateProto predicate = 8;
   string keyToken = 9;
-
 }
 
-message AttributeConfigDto {
+message AttributeProto {
   string attributeName = 1;
   string quantityType = 2;
   string unit = 3;
   string keyToken = 4;
   bool kGAttribute = 5;
-  repeated QualifierConfigDto qualifier = 6;
+  repeated QualifierProto qualifier = 6;
 }
 
-message QualifierConfigDto {
+message PredicateProto {
+  string name = 1;
+  string object = 2;
+  string keyToken = 3;
+  repeated QualifierProto qualifier = 4;
+}
+
+message QualifierProto {
   string qualifier = 1;
   string quantityType = 2;
   string unit = 3;
   string keyToken = 4;
-}
-
-message PredicateConfigDto {
-  string name = 1;
-  string object = 2;
-  string keyToken = 3;
-  repeated QualifierConfigDto qualifier = 4;
 }
