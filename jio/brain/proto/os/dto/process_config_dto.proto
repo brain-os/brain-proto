@@ -53,7 +53,7 @@ enum ProcessType {
 }
 
 message EnrichProto {
-  map<string, AttributeProtoMapValue> attributesMap = 1;
+  map<string, AttributeProtoMapValue> attributes = 1;
   string outputTopic = 2;
   string outputSchema = 3;
 }
@@ -139,11 +139,13 @@ message ExcelColumnMappingProto {
   int32 columnIndex = 1;
   string columnUnit = 2;
   ColumnTypeProto columnType = 3;
-  EntityBizIdProto entityBizId = 4;
-  EntityAttributeProto entityAttribute = 5;
-  EntityAttributeQualifierProto entityAttributeQualifier = 6;
-  EntityPredicateQualifierProto entityPredicateQualifier = 7;
-  PropertyProto excelColumnMappingProperty = 8;
+  oneof excel_column_type_is_one_of{
+    EntityBizIdProto entityBizId = 4;
+    EntityAttributeProto entityAttribute = 5;
+    EntityAttributeQualifierProto entityAttributeQualifier = 6;
+    EntityPredicateQualifierProto entityPredicateQualifier = 7;
+    PropertyProto excelColumnMappingProperty = 8;
+  }
   bool optional = 9;
   string dateFormat = 10;
 
@@ -183,11 +185,13 @@ message ExcelColumnMappingProto {
 message JsonMappingProto {
   string key = 1;
   string unit = 2;
-  ColumnTypeProto columnType = 3;
-  EntityBizIdProto entityBizId = 4;
-  EntityAttributeProto entityAttribute = 5;
-  EntityAttributeQualifierProto entityAttributeQualifier = 6;
-  PropertyProto jsonMappingProperty = 7;
+  oneof json_mapping_one_of{
+    ColumnTypeProto columnType = 3;
+    EntityBizIdProto entityBizId = 4;
+    EntityAttributeProto entityAttribute = 5;
+    EntityAttributeQualifierProto entityAttributeQualifier = 6;
+    PropertyProto jsonMappingProperty = 7;
+  }
 
   message EntityAttributeProto {
     string entity = 1;

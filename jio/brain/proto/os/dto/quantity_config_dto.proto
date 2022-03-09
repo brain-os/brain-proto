@@ -103,6 +103,7 @@ message HierarchyLevelProto {
   bool village = 6;
   bool locality = 7;
   bool building = 8;
+  bool zipCode=9; //todo :doubt: required or not ??
 }
 
 message RangeProto {
