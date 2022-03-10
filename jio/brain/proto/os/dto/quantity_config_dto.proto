@@ -106,7 +106,7 @@ message HierarchyLevelProto {
   bool zipCode=9; //todo :doubt: required or not ??
 }
 
-message RangeProto {
+message RangeProto { // todo: can add type also ??
   oneof range_proto_is_one_of{
     NumericRangeProto numericRange = 1;
     OrdinalRangeProto ordinalRange = 2;

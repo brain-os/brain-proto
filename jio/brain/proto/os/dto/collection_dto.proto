@@ -21,7 +21,7 @@ message CollectionProto{
   oneof collection_proto_is_one_of{
     ItemCollectionProto itemCollectionDto = 5;
     EntityCollectionProto entityCollectionDto = 6;
-    jio.brain.proto.os.dto.UnitCollectionProto unitCollectionDto = 7;
+    jio.brain.proto.os.dto.UnitCollectionProto unitCollectionDto = 7; // todo: reminder: not present in collectionDto(brain) ?
   }
   string keyToken = 8;
 }

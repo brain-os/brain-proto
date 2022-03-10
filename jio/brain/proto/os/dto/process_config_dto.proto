@@ -114,19 +114,28 @@ message ReduceProto {
   }
 
   message TimeInstanceProto {
-    int64 hour = 1;
-    int64 minute = 2;
+    int32 hour = 1;
+    int32 minute = 2;
   }
 }
 
 message IngestProto {
   SourceTypeProto sourceType = 1;
   string folderToWatch = 2;
-  repeated ExcelColumnMappingProto excelColumnMappingList = 3;
-  repeated  JsonMappingProto jsonMappingList = 4;
+  oneof ingestion_column_mapping_is_one_of{
+    IngestionExcelColumnProto ingestionExcelColumnProto=3;
+    IngestionJsonProto ingestionJsonProto=4;
+  }
   string outputTopic = 5;
   string outputSchema = 6;
   int32 readingStartPoint = 7;
+}
+
+message IngestionExcelColumnProto{
+  repeated ExcelColumnMappingProto excelColumnMapping = 1;
+}
+message IngestionJsonProto{
+  repeated  JsonMappingProto jsonMapping = 1;
 }
 
 enum SourceTypeProto {
@@ -229,7 +238,7 @@ message EntityBizIdProto {
 }
 
 message QuantizationProto {
-  repeated QuantizationProtoProperties quantizationPropertiesList = 1;
+  repeated QuantizationProtoProperties quantizationProperties = 1;
   string outputTopic = 2;
   string outputSchema = 3;
 }
@@ -247,7 +256,7 @@ message QuantizationProtoProperties {
 }
 
 message ComputeProto {
-  repeated ComputeInstanceProto computeInstancesList = 1;
+  repeated ComputeInstanceProto computeInstances = 1;
   string outputTopic = 2;
   string outputSchema = 3;
 }
