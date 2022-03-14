@@ -6,7 +6,7 @@ option java_package = "com.jio.brain.proto.os.dto";
 option java_multiple_files = true;
 
 import "jio/brain/proto/os/enums/collection_type.proto";
-//import "jio/brain/proto/os/enums/vertical.proto";
+import "jio/brain/proto/os/enums/vertical.proto";
 import "jio/brain/proto/os/dto/unit_collection_dto.proto";
 
 message CollectionProtoList{
@@ -15,13 +15,13 @@ message CollectionProtoList{
 
 message CollectionProto{
   int64 id = 1;
-  string vertical = 2;
+  jio.brain.proto.os.enums.VerticalProto vertical = 2;
   string domain = 3;
   jio.brain.proto.os.enums.CollectionTypeProto type = 4;
   oneof collection_proto_is_one_of{
     ItemCollectionProto itemCollectionDto = 5;
     EntityCollectionProto entityCollectionDto = 6;
-    jio.brain.proto.os.dto.UnitCollectionProto unitCollectionDto = 7; // todo: reminder: not present in collectionDto(brain) ?
+    jio.brain.proto.os.dto.UnitCollectionProto unitCollectionDto = 7;
   }
   string keyToken = 8;
 }
