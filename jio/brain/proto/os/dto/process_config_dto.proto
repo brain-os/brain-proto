@@ -194,8 +194,8 @@ message ExcelColumnMappingProto {
 message JsonMappingProto {
   string key = 1;
   string unit = 2;
+  ColumnTypeProto columnType = 3;
   oneof json_mapping_one_of{
-    ColumnTypeProto columnType = 3;
     EntityBizIdProto entityBizId = 4;
     EntityAttributeProto entityAttribute = 5;
     EntityAttributeQualifierProto entityAttributeQualifier = 6;
