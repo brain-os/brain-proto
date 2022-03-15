@@ -78,7 +78,7 @@ message PivotProto {
 message PivotProtoKey {
   repeated string entities = 1;
   repeated string attributes = 2;
-  map<string, string> contextMap = 3;
+  map<string, string> context = 3;
 }
 
 message PivotProtoValue {
