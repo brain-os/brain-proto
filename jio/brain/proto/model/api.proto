@@ -1,0 +1,392 @@
+syntax = "proto3";
+
+package jio.brain.proto.base;
+
+import "jio/brain/proto/base/status.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.jio.brain.proto.model";
+option java_outer_classname = "ApiDefinitionProto";
+option java_multiple_files = true;
+
+
+/**
+ * Represents an API Definition. 
+ * 
+ * This message is just a wrapper over ApiDefinitionDetails message
+ * and contains status of the API (Enabled or not). Disabled APIs 
+ * should not be allowed to have their implementations onboarded
+ * and invoked. 
+ *
+ */
+message ApiDefinition {
+    uint32                      api_id                      = 1;
+    ApiDefinitionDetails        api_definition_details      = 2;
+    bool                        enabled                     = 3;    // If disabled then adding/consuming impl will NOT be allowed
+    google.protobuf.Timestamp   created_at                  = 4;
+    google.protobuf.Timestamp   last_modified_at            = 5;
+}
+
+
+
+
+message ApiDefinitionDetails {
+                string                      api_id_ext                  = 1;    // Unique (Human Readable ID) of an API Definition
+                ApiDefinitionMetadata       api_definition_metadata     = 2;
+    repeated    ApiInputFieldDescriptor     input_field_descriptors     = 3;    // Input Fields of the API Definition
+    repeated    ApiOutputFieldDescriptor    output_field_descriptors    = 4;    // Output Fields of the API Definition            
+                map<string, string>         invocation_code_snippets    = 5;    // Map of Programming Language -> Example Code Snippet for Invoking the API 
+    
+    repeated    ApiTestCase                 health_check_tests          = 6;    // Basic Tests to run on any model during onboarding to ensure bare minimum quality 
+                ApiBenchmarkingTestCases    benchmarking_tests          = 7;    
+}
+
+
+
+/**
+ * Book Keeping information for an API Definition
+ * 
+ * Will help in discoverability of the API Definition from the list of
+ * APIs stored. 
+ */
+message ApiDefinitionMetadata {
+                string                      api_name                    = 1;    // Name of the API. Example Sentiment Analysis
+                string                      api_description             = 2;    // Brief Description of the API Definition 
+    repeated    string                      api_tags                    = 3;    // Tags by which this API definition can be searched against
+                ApiType                     api_type                    = 4;    
+    repeated    ApiDataType                 api_data_types              = 5;    // Input and/or Output Types 
+    repeated    ApiDomain                   api_domains                 = 6;    // Domains in which this API is applicable        
+}
+
+
+/**
+ * Encapsulates details about an Input Field of an API
+ */
+message ApiInputFieldDescriptor {
+    uint32              field_sequence_number       = 1; 
+    ApiFieldDescriptor  field_descriptor            = 2;
+    bool                is_configurational          = 3;                    // Configurational Fields play a role in selection of the Model
+    bool                is_mandatory                = 4;                    // If not supplied by consuer, value of this field will be derirved from default Value, when invoked
+    string              default_value_str           = 5;                    // Default Value of the field in string format
+    oneof               constraint_one_of {                                 // constraints (validations) to be applied on the field's value when API is invoked
+        TextFieldConstraint         text_constraint         = 6;
+        NumericFieldConstraint      numeric_constraint      = 7;
+        DecimalFieldConstraint      decimal_constraint      = 8;
+        FileFieldConstraint         file_constraint         = 9;
+        EnumConstraint              enum_constraint         = 10;
+    }
+}
+
+
+
+/**
+ * Encapsulates details about an Input Field of an API
+ */
+ message ApiOutputFieldDescriptor {
+    uint32              field_sequence_number       = 1; 
+    ApiFieldDescriptor  field_descriptor            = 2;
+    bool                compare_during_testing      = 3;            // if set to true, then match the value of this field with expected field during benchmarking or health check process
+
+    oneof               constraint_one_of {
+            TextFieldConstraint         text_constraint         = 4;
+            NumericFieldConstraint      numeric_constraint      = 5;
+            DecimalFieldConstraint      decimal_constraint      = 6;
+            FileFieldConstraint         file_constraint         = 7;
+            EnumConstraint              enum_constraint         = 8;
+    }
+}
+
+
+
+
+/**
+ * Represents a Field that is part of either API Input or API Output
+ */
+ message ApiFieldDescriptor {
+                string              field_name                  = 1;
+                ApiFieldType        field_type                  = 2;
+                bool                is_repeated                 = 3;
+    repeated    ApiFieldDescriptor  schema                      = 4;    // Will be set only if the fieldType is OBJECT
+}
+
+
+enum ApiFieldType {
+    NUMBER      = 0;
+    DECIMAL     = 1;
+    SHORT_TEXT  = 2;
+    TEXT        = 3;
+    BOOLEAN     = 4;
+    DATE        = 5;
+    ENUM        = 6;
+    FILE        = 7;
+    OBJECT      = 8;
+}
+
+
+/**
+ * This message represents a set of name - value pairs. 
+ *
+ * the name represents the name of either the input or output field
+ * of an API.
+ * 
+ * the value of the field is given as string but is interpreted
+ * based on the type of the field in the API definition 
+ * 
+ */
+message ApiInputOrOutputFieldValue {
+    map<string, string>         api_input_field_values = 1;
+}
+
+
+message ApiTestCase {
+    ApiInputOrOutputFieldValue  api_input               = 1;
+    ApiInputOrOutputFieldValue  expected_api_output     = 2;
+}
+
+
+message ApiBenchmarkingTestCases {
+                uint32          version                 = 1;
+    repeated    ApiTestCase     test_cases              = 2;
+}
+
+
+message TextFieldConstraint {
+    uint32              min_length                  = 1;
+    uint32              max_length                  = 2;
+}
+
+
+message NumericFieldConstraint {
+    uint32              min_value                   = 1;
+    uint32              max_value                   = 2;
+}
+
+
+message DecimalFieldConstraint {
+    float              min_value                    = 1;
+    float              max_value                    = 2;
+}
+
+
+message FileFieldConstraint {
+    repeated    string              allowed_file_extensions     = 1;
+                uint32              max_file_size_bytes         = 2;
+                FileFieldFormat     file_value_specified_as     = 3;
+}
+
+
+enum FileFieldFormat {
+    URL                 = 0;    // File specified as a downloadable URL
+    LOCAL_FILE_PATH     = 1;    // File specified on Client's Machine Path
+    BASE64_ENC_STRING   = 2;    // File's content specified as base64 encoded string
+    BYTES               = 3;    // raw content of file in bytes
+}
+
+
+message EnumConstraint {
+    repeated    string              possible_values             = 1;
+}
+
+
+
+
+enum ApiType {
+    PREDICTION          = 0;
+    INTERPRETATION      = 1;
+    EXPLANATION         = 2;
+    CLASSIFICATION      = 3;
+    OPTIMIZATION        = 4;
+    OUTLIER_DETECTION   = 5;
+    RECOMMENDATION      = 6;
+    TRANSLATION         = 7;
+    LOCALIZATION        = 8;
+}
+
+
+enum ApiDataType {
+    TEXTUAL             = 0;
+    IMAGE               = 1;
+    AUDIO               = 2;
+    VIDEO               = 3;
+    SENSOR_DATA         = 4;
+    MULTIVARIATE        = 5;
+    TIME_SERIES         = 6;
+    GENOMICS            = 7;
+    REMOTE_SENSING      = 8;
+}
+
+
+
+enum ApiDomain {
+    E_COMMERCE          = 0;
+    RETAIL              = 1;
+    WEATHER             = 2;
+    SMART_CITIES        = 3;
+    AGRICULTURE         = 4;
+    HEALTH_CARE         = 5;
+    SAFETY_AND_SECURITY = 6;
+    EDUCATION           = 7;
+}
+
+
+message ApiDefinitionIdentity {
+    oneof id_oneof {
+        uint32      api_id           = 1;
+        string      api_id_ext       = 2;
+    }
+
+}
+
+
+
+message ApiSearchRequest {
+    ApiSelector     selector                = 1;
+    bool            fetch_disabled_apis     = 2;    // If true, then include disabled APIs as well
+    bool            fetch_code_snippets     = 3;    // include code-snippets in the returned ApiDefinitions
+    bool            fetch_test_data         = 4;    // include test data (health-check and benchmarking) in the returned ApiDefinitions
+    uint32          starting_offset         = 5;    // If the search result has many matches then return results from this index (starting from 0)
+    uint32          max_results             = 6;    // Search Request will return upto these many ApiDefinitions
+}
+
+
+
+/**
+ * This message represents Search Criteria for finding API Definitions
+ * 
+ * If multiple fields are specified then Logical "AND" conditions will be applied among them
+ * If multiple values for a repeated field are set then Logical "OR" conditions will be applied among them
+ * 
+ * For example if api_data_types is set as ["TEXTUAL", "AUDIO"] then API Definitions that have either api_data_type as TEXTUAL OR AUDIO will be returned
+ * If domain is also supplied along with the above values of api_data_types then ONLY those that API Definitions that match the supplied domain from the above set will be returned
+ */
+message ApiSelector {
+                string              api_name_search_text    = 1;
+    repeated    ApiDomain           api_domains             = 2;
+    repeated    string              api_tags                = 3;
+    repeated    ApiDataType         api_data_types          = 4;
+    repeated    ApiType             api_types               = 5;
+                ApiSortBy           sorty_by                = 6;
+
+    enum ApiSortBy {
+        API_NAME    = 0;
+        API_DOMAIN  = 1;
+    }
+
+}
+
+
+
+message ApiDefinitionsHolder {
+                BrainStatus         status              = 1;
+    repeated    ApiDefinition       api_definitions     = 2;
+}
+
+
+
+message ApiBenchmarkingTestsUpdateRequest {
+                ApiDefinitionIdentity   api_identity            = 1;
+    repeated    ApiTestCase             test_cases              = 2;
+}
+
+
+
+// ----------------------------------------------------------- //
+//              API Definition Service Methods 
+// ----------------------------------------------------------- //
+
+
+
+
+
+service ApiDefinitionService {
+
+    /**
+     * Create a new API Definition
+     *
+     * Possible BrainStatusInstance on Errors
+     * - BRAIN_STATUS_CODE_ALREADY_EXIST, {"api_id_ext": <>}
+     * - BRAIN_STATUS_CODE_API_METADATA_INCOMPLETE, {"api_domain": <>, "api_name": <>}
+     * - BRAIN_STATUS_CODE_API_INPUT_FIELDS_NOT_SPECIFIED
+     * - BRAIN_STATUS_CODE_API_OUTPUT_FIELDS_NOT_SPECIFIED
+     * - BRAIN_STATUS_CODE_API_INVOCATION_CODE_SNIPPET_NOT_SPECIFID
+     */
+    rpc createApiDefinition (ApiDefinitionDetails) returns (ApiDefinition);
+    
+
+    /**
+     * Updates an existing API Definition
+     *
+     * Possible BrainStatusInstance on Errors
+     * - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : <> }
+     * - BRAIN_STATUS_CODE_ALREADY_EXIST, {"api_id_ext": <>}
+     * - BRAIN_STATUS_CODE_API_METADATA_INCOMPLETE, {"api_domain": <>, "api_name": <>}
+     * - BRAIN_STATUS_CODE_API_INPUT_FIELDS_NOT_SPECIFIED
+     * - BRAIN_STATUS_CODE_API_OUTPUT_FIELDS_NOT_SPECIFIED
+     * - BRAIN_STATUS_CODE_API_INVOCATION_CODE_SNIPPET_NOT_SPECIFID
+     */
+     rpc updateApiDefinition (ApiDefinition) returns (google.protobuf.BoolValue);
+
+
+
+    /** 
+     * Enable an API Definition
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : <>, api_id_ext: <> }
+     *  - BRAIN_STATUS_CODE_OPERATION_NOT_ALLOWED, {"reason": "ApiDefinition already enabled", "api_id" : <>, api_id_ext: <> }
+     */
+    rpc enableApiDefinition (ApiDefinitionIdentity) returns (google.protobuf.BoolValue);
+
+
+
+    /** 
+     * Disable an API Definition
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : <>, api_id_ext: <> }
+     *  - BRAIN_STATUS_CODE_OPERATION_NOT_ALLOWED, {"reason": "ApiDefinition already disabled", "api_id" : <>, api_id_ext: <> }
+     */
+    rpc disableApiDefinition (ApiDefinitionIdentity) returns (google.protobuf.BoolValue);
+
+
+
+    /**
+     * Updates Benchmarking Test cases for a given API ID. The API returns the new 
+     * version number of the Benchmarking Tests. 
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : "xxx", api_id_ext: "yyy" }
+     */
+    rpc updateBenchmarkingTests (ApiBenchmarkingTestsUpdateRequest) returns (google.protobuf.UInt32Value);
+
+
+
+    /** 
+     * Fetches a specific API Definition
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : <>, api_id_ext: <> }
+     */
+    rpc getApiDefinition (ApiDefinitionIdentity) returns (ApiDefinition);
+
+    
+
+    /** 
+     * Fetches API Definitions that match the supplied search criteria
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : "xxx", api_id_ext: "yyy" }
+     *  - BRAIN_STATUS_CODE_INVALID_DATA, {"reason": "offset can't be negative", "starting_offset": <>, "max_results": <>}
+     */
+    rpc searchApiDefinitions (ApiSearchRequest) returns (ApiDefinitionsHolder);
+    
+
+
+    /** 
+     * Fetches ALL API Definitions 
+     * 
+     */
+     rpc getAllApiDefinitions (google.protobuf.Empty) returns (ApiDefinitionsHolder);
+}
