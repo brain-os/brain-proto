@@ -12,35 +12,34 @@ message IdentityRequest {
   oneof id_type {
     uint32 collection_type_id = 1;
     uint32 entity_type_id = 2;
-
   }
-  repeated string unique_key = 3;
+  repeated string unique_key = 3;      // primary bizIds
 }
+
 message IdentityResponse {
   repeated jio.brain.proto.base.BrainId brain_id = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
 message IdentityAddSecondaryBizIdWithEntityIdRequest {
-  uint32 entity_id = 1;
-  string biz_id = 2;
-
+  uint64 entity_id = 1;
+  repeated string secondary_biz_ids = 2;
 }
+
 message IdentityAddSecondaryBizIdWithEntityIdResponse {
   jio.brain.proto.base.BrainId brain_id = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
 message IdentityAddSecondaryBizIdWithPrimaryBizIdAndEntityTypeRequest {
-
   string primary_biz_id = 1;
-  string biz_id = 2;
+  repeated string secondary_biz_id = 2;
   oneof id_type {
     uint32 collection_type_id = 3;
     uint32 entity_type_id = 4;
   }
-
 }
+
 message IdentityAddSecondaryBizIdWithPrimaryBizIdAndEntityTypeResponse {
   jio.brain.proto.base.BrainId brain_id = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
@@ -51,17 +50,18 @@ message IdentityCreateBrainIdWithPrimaryAndBizIdRequest {
     uint32 collection_type_id = 1;
     uint32 entity_type_id = 2;
   }
-  repeated string biz_id = 3;
-  repeated string unique_key = 4;
+  repeated string secondary_biz_ids = 3;
+  string primary_biz_id = 4;
 }
+
 message IdentityCreateBrainIdWithPrimaryAndBizIdResponse {
-  repeated jio.brain.proto.base.BrainId brain_id = 1;
+  jio.brain.proto.base.BrainId brain_id = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
 message IdentityAddSecondaryBizIdWithPrimaryBizIdRequest {
   string primary_biz_id = 1;
-  string biz_id = 2;
+  string secondary_biz_id = 2;
 }
 message IdentityAddSecondaryBizIdWithPrimaryBizIdResponse {
   jio.brain.proto.base.BrainId brain_id = 1;
@@ -69,7 +69,7 @@ message IdentityAddSecondaryBizIdWithPrimaryBizIdResponse {
 }
 
 message IdentityAddSecondaryBizIdWithEntityIdAndEntityTypeRequest {
-  uint32 entity_id = 1;
+  uint64 entity_id = 1;
   string biz_id = 2;
   oneof id_type {
     uint32 collection_type_id = 3;
@@ -84,11 +84,11 @@ message IdentityAddSecondaryBizIdWithEntityIdAndEntityTypeResponse {
 
 service EntityIdService {
   rpc getBrainIdForEntity(IdentityRequest) returns (IdentityResponse);
-  rpc getBrainIdForEntityWithPrimaryAndSecondaryIds(IdentityCreateBrainIdWithPrimaryAndBizIdRequest) returns (IdentityCreateBrainIdWithPrimaryAndBizIdResponse);
-  rpc addSecondaryBizIdWithEntityId(IdentityAddSecondaryBizIdWithEntityIdRequest) returns (IdentityAddSecondaryBizIdWithEntityIdResponse);
-  rpc addSecondaryBizIdWithPrimaryBizIdAndEntityType(IdentityAddSecondaryBizIdWithPrimaryBizIdAndEntityTypeRequest) returns (IdentityAddSecondaryBizIdWithPrimaryBizIdAndEntityTypeResponse);
-  rpc addSecondaryBizIdWithPrimaryBizId(IdentityAddSecondaryBizIdWithPrimaryBizIdRequest) returns (IdentityAddSecondaryBizIdWithPrimaryBizIdResponse);
-  rpc addSecondaryBizIdWithEntityIdAndEntityType(IdentityAddSecondaryBizIdWithEntityIdAndEntityTypeRequest) returns (IdentityAddSecondaryBizIdWithEntityIdAndEntityTypeResponse);
+  rpc createEntityWithPrimaryAndSecondaryIds(IdentityCreateBrainIdWithPrimaryAndBizIdRequest) returns (IdentityCreateBrainIdWithPrimaryAndBizIdResponse);
+  rpc updateSecondaryBizIds(IdentityAddSecondaryBizIdWithEntityIdRequest) returns (IdentityAddSecondaryBizIdWithEntityIdResponse);
+  rpc updateSecondaryBizIdsWithEntityType(IdentityAddSecondaryBizIdWithPrimaryBizIdAndEntityTypeRequest) returns (IdentityAddSecondaryBizIdWithPrimaryBizIdAndEntityTypeResponse);
+ // rpc addSecondaryBizIdWithPrimaryBizId(IdentityAddSecondaryBizIdWithPrimaryBizIdRequest) returns (IdentityAddSecondaryBizIdWithPrimaryBizIdResponse);
+ // rpc addSecondaryBizIdWithEntityIdAndEntityType(IdentityAddSecondaryBizIdWithEntityIdAndEntityTypeRequest) returns (IdentityAddSecondaryBizIdWithEntityIdAndEntityTypeResponse);
 }
 
 /*
