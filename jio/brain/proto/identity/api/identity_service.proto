@@ -13,35 +13,11 @@ message IdentityRequest {
     uint32 collection_type_id = 1;
     uint32 entity_type_id = 2;
   }
-  repeated string unique_key = 3;      // primary bizIds
+  repeated string primary_biz_id = 3;
 }
 
 message IdentityResponse {
   repeated jio.brain.proto.base.BrainId brain_id = 1;
-  jio.brain.proto.base.BrainStatus brainStatus = 2;
-}
-
-message IdentityAddSecondaryBizIdWithEntityIdRequest {
-  uint64 entity_id = 1;
-  repeated string secondary_biz_ids = 2;
-}
-
-message IdentityAddSecondaryBizIdWithEntityIdResponse {
-  jio.brain.proto.base.BrainId brain_id = 1;
-  jio.brain.proto.base.BrainStatus brainStatus = 2;
-}
-
-message IdentityAddSecondaryBizIdWithPrimaryBizIdAndEntityTypeRequest {
-  string primary_biz_id = 1;
-  repeated string secondary_biz_id = 2;
-  oneof id_type {
-    uint32 collection_type_id = 3;
-    uint32 entity_type_id = 4;
-  }
-}
-
-message IdentityAddSecondaryBizIdWithPrimaryBizIdAndEntityTypeResponse {
-  jio.brain.proto.base.BrainId brain_id = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
@@ -59,36 +35,35 @@ message IdentityCreateBrainIdWithPrimaryAndBizIdResponse {
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
-message IdentityAddSecondaryBizIdWithPrimaryBizIdRequest {
-  string primary_biz_id = 1;
-  string secondary_biz_id = 2;
+message IdentityAddSecondaryBizIdsWithEntityIdRequest {
+  uint64 entity_id = 1;
+  repeated string secondary_biz_ids = 2;
 }
-message IdentityAddSecondaryBizIdWithPrimaryBizIdResponse {
+
+message IdentityAddSecondaryBizIdsWithEntityIdResponse {
   jio.brain.proto.base.BrainId brain_id = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
-message IdentityAddSecondaryBizIdWithEntityIdAndEntityTypeRequest {
-  uint64 entity_id = 1;
-  string biz_id = 2;
+message IdentityAddSecondaryBizIdsWithPrimaryBizIdAndEntityTypeRequest {
+  string primary_biz_id = 1;
+  repeated string secondary_biz_ids = 2;
   oneof id_type {
     uint32 collection_type_id = 3;
     uint32 entity_type_id = 4;
   }
 }
 
-message IdentityAddSecondaryBizIdWithEntityIdAndEntityTypeResponse {
+message IdentityAddSecondaryBizIdsWithPrimaryBizIdAndEntityTypeResponse {
   jio.brain.proto.base.BrainId brain_id = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
 service EntityIdService {
-  rpc getBrainIdForEntity(IdentityRequest) returns (IdentityResponse);
+  rpc createEntityWithPrimaryId(IdentityRequest) returns (IdentityResponse);
   rpc createEntityWithPrimaryAndSecondaryIds(IdentityCreateBrainIdWithPrimaryAndBizIdRequest) returns (IdentityCreateBrainIdWithPrimaryAndBizIdResponse);
-  rpc updateSecondaryBizIds(IdentityAddSecondaryBizIdWithEntityIdRequest) returns (IdentityAddSecondaryBizIdWithEntityIdResponse);
-  rpc updateSecondaryBizIdsWithEntityType(IdentityAddSecondaryBizIdWithPrimaryBizIdAndEntityTypeRequest) returns (IdentityAddSecondaryBizIdWithPrimaryBizIdAndEntityTypeResponse);
- // rpc addSecondaryBizIdWithPrimaryBizId(IdentityAddSecondaryBizIdWithPrimaryBizIdRequest) returns (IdentityAddSecondaryBizIdWithPrimaryBizIdResponse);
- // rpc addSecondaryBizIdWithEntityIdAndEntityType(IdentityAddSecondaryBizIdWithEntityIdAndEntityTypeRequest) returns (IdentityAddSecondaryBizIdWithEntityIdAndEntityTypeResponse);
+  rpc updateSecondaryBizIds(IdentityAddSecondaryBizIdsWithEntityIdRequest) returns (IdentityAddSecondaryBizIdsWithEntityIdResponse);
+  rpc updateSecondaryBizIdsWithEntityType(IdentityAddSecondaryBizIdsWithPrimaryBizIdAndEntityTypeRequest) returns (IdentityAddSecondaryBizIdsWithPrimaryBizIdAndEntityTypeResponse);
 }
 
 /*
