@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package jio.brain.proto.base;
+package jio.brain.proto.model;
 
 import "jio/brain/proto/base/status.proto";
 import "google/protobuf/timestamp.proto";
@@ -53,8 +53,8 @@ message ModelAuthorIdentity {
 
 
 message ModelAuthorHolder {
-    BrainStatus     status              = 1;
-    ModelAuthor     model_author        = 2;
+    jio.brain.proto.base.BrainStatus        status              = 1;
+    ModelAuthor                             model_author        = 2;
 }
 
 

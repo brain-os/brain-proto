@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package jio.brain.proto.base;
+package jio.brain.proto.model;
 
 import "jio/brain/proto/base/status.proto";
 import "google/protobuf/timestamp.proto";
@@ -279,8 +279,8 @@ message ApiSelector {
 
 
 message ApiDefinitionsHolder {
-                BrainStatus         status              = 1;
-    repeated    ApiDefinition       api_definitions     = 2;
+                jio.brain.proto.base.BrainStatus            status              = 1;
+    repeated    ApiDefinition                               api_definitions     = 2;
 }
 
 

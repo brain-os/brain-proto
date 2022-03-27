@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+package jio.brain.proto.model;
+
+import "jio/brain/proto/base/status.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.jio.brain.proto.model";
+option java_outer_classname = "ModelProto";
+option java_multiple_files = true;
+
+
+// --------------------------------------------------------------------------------------
+// Preprocessor: 
+//
+// A Preprocessor is an in-built Python function that is invoked by AIX just before
+// invoking the model. Each Preprocessor function will be doing a single specific
+// thing. It would be named and will accept any number of named parameters. 
+//
+// During onboarding of a model, the author of the model will be able to provide a 
+// chain of preprocessor functions which can modify the input in any manner before
+// invoking the actual model.  
+//
+// For more information on how a preprocessor gets linked by a Model Author during
+// onboarding, please refer documentation in model.proto
+//
+// --------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+/**
+ * This message encapsulates the definition of a preprocessor function
+ * 
+ * It would contain the name of the function the input arguement names in an array  
+ *
+ * When adding a preprocessor function to a model, the author will be 
+ * able to chain a couple of functions together and pass arguements
+ * to the functions based on the API Parameters
+ */
+ message PreprocessorFunctionDefinition {
+                uint32                                  function_id                 = 1;    // unique id of the function
+                PreprocessorFunctionMetadata            preproc_func_metadata       = 2;
+    repeated    PreprocessorFunctionVersionDetail       function_versions           = 3;
+}
+
+
+message PreprocessorFunctionMetadata {
+    string                                  function_id_ext                     = 1;    // human readable unique id of the function
+    string                                  function_name                       = 2;    // Name of the function
+    repeated string                         function_parameters                 = 3;    // Names of the parameters required by the function
+}
+
+
+message PreprocessorFunctionVersionDetail {
+    uint32                                  version_number                      = 1;
+    string                                  source_file_id                      = 2;    // ID of the file that contains the source code
+    google.protobuf.Timestamp               created_at                          = 3;
+}
+
+
+
+message PreprocessorFunctionDefinitionCreationRequest {
+    PreprocessorFunctionMetadata            function_metadata           = 1;
+    string                                  source_file_id_version_1    = 2;
+}
+
+
+message PreprocessorFunctionDefinitionHolder {
+    jio.brain.proto.base.BrainStatus        status                      = 1;
+    PreprocessorFunctionDefinition          function_definition         = 2;
+}
+
+
+message PreprocessorFunctionDefinitionIdentity {
+    oneof id_oneof {
+        uint32      func_id           = 1;
+        string      func_id_ext       = 2;
+    }
+}
+
+
+
+message PreprocessorFunctionUpdateRequest {
+    PreprocessorFunctionDefinitionIdentity      func_identity   = 1;
+    PreprocessorFunctionVersionDetail           func_version    = 2;
+}
+
+
+message PreprocessorFunctionMetadataList {
+    repeated    PreprocessorFunctionMetadata    func_metadatas       = 1;
+}
+
+
+/**
+ * Represents a collection of Methods that help defining 
+ * pre-processing functions written in python. 
+ * 
+ * A preprocessor contains a single function with any number
+ * of arguments returning a tupple with any number of variables. 
+ * 
+ * The name of the function should be same as the name defined
+ * in the proto with which it was invoked. 
+ * 
+ * Changes made to the function's code will be versioned. 
+ */ 
+service PreprocessorFunctionDefinitionService {
+
+    /**
+     * Creates a new Preprocessor Function
+     *
+     * Possible BrainStatusInstance on Errors
+     *  - TODO
+     */ 
+    rpc createPreprocessorFunctionDefinition (PreprocessorFunctionDefinitionCreationRequest) returns (PreprocessorFunctionDefinitionHolder);
+
+
+
+    /**
+     * Updates an existing Preprocessing Function Definition by supplying a 
+     * new implementation. This method will result in bumping up the version
+     * number by 1. 
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"func_id" : <>, func_id_ext: <> }
+     */
+    rpc updatePreprocessorFunctionDefinition (PreprocessorFunctionUpdateRequest) returns (google.protobuf.UInt32Value);
+
+
+
+    /**
+     * Returns a previously created Preprocessor Function Definition
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"func_id" : <>, func_id_ext: <> }
+     */
+    rpc getPreprocessorFunctionDefinition (PreprocessorFunctionDefinitionIdentity) returns (PreprocessorFunctionDefinitionHolder);
+
+
+
+
+    /**
+     * Gets the latest version number for the specified Function Definition
+     */
+    rpc getPreprocessorFunctionDefinitionLastVersionNumber (PreprocessorFunctionDefinitionIdentity) returns (google.protobuf.UInt32Value);
+
+
+
+    /**
+     * Gets metadata for all functions
+     *
+     */
+    rpc getMetadataForAllPreprocessorFunctions (google.protobuf.Empty) returns (PreprocessorFunctionMetadataList);
+}
