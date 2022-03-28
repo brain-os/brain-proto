@@ -8,7 +8,7 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 
 option java_package = "com.jio.brain.proto.model";
-option java_outer_classname = "ModelProto";
+option java_outer_classname = "PreProcessorProto";
 option java_multiple_files = true;
 
 

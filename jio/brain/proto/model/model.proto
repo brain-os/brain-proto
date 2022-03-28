@@ -4,7 +4,10 @@ package jio.brain.proto.model;
 
 import "jio/brain/proto/model/author.proto";
 import "jio/brain/proto/model/api.proto";
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/stores/article_store.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
 option java_package = "com.jio.brain.proto.model";
 option java_outer_classname = "ModelProto";
@@ -18,8 +21,8 @@ option java_multiple_files = true;
 //     +--  Implements a specific API
 
 message ModelGroup {
-    uint32                                              mg_id                   = 1;
-    string                                              mg_id_ext               = 2;        // /.../models/author-id-1/SentimentAnalysis/scikit/132
+    uint32                                              model_group_id          = 1;
+    string                                              model_group_id_ext      = 2;        // /.../models/author-id-1/SentimentAnalysis/scikit/132
     jio.brain.proto.model.ModelAuthorIdentity           author_id               = 3;        // The Author of the Model
     jio.brain.proto.model.ApiDefinitionIdentity         api_id                  = 4;        // The API of which this model is a solution of
     string                                              mg_name                 = 5;        // Unique Name within an Author's Implementations of API
@@ -41,13 +44,14 @@ message ModelGroup {
 
 
 message ModelVariant {
-    string                          mv_name                         = 1;    // Not Required if have 1:1 relationship b/w ModelGroup & ModelVariant
-    InputTransformation             input_transformation            = 2;    
-    OutputTransformation            output_transformation           = 3;
-    PricingRange                    pricing_range                   = 4;
-    ApiInputOrOutputFieldValue      configurational_parameters      = 5;    // Values of various Configuration Parameters associated with the API Definition
-    ModelInformation                model_info                      = 6;    // TODO: Think of a better name
-    Preprocessor                    preprocessor                    = 7;
+                string                          mv_name                         = 1;    // Not Required if have 1:1 relationship b/w ModelGroup & ModelVariant
+                InputTransformation             input_transformation            = 2;    
+                OutputTransformation            output_transformation           = 3;
+                PricingRange                    pricing_range                   = 4;
+                ApiInputOrOutputFieldValue      configurational_parameters      = 5;    // Values of various Configuration Parameters associated with the API Definition
+                ModelInformation                model_info                      = 6;    // TODO: Think of a better name
+                Preprocessor                    preprocessor                    = 7;
+    repeated    ModelVersion                    model_versions                  = 8;
 }
 
 
@@ -88,14 +92,17 @@ message ModelInformation {
 
 
 message ModelDependency {
-    string              module_dependency_name      = 1;    
-    string              module_dependency_version   = 2;
-    PackageManager      module_package_manager      = 3;    // which package manager to use. This would be language specific. For python default will be pip 
-    string              module_repo_name            = 4;    // package manager specific. For conda - which channel to use to get this dependency 
+    string              module_dependency_name      = 1;    // example SkLearn
+    string              module_dependency_version   = 2;    // 
+    PackageManager      module_package_manager      = 3;    // (Optional) which package manager to use. This would be language specific. For python default will be pip 
+    string              module_repo_name            = 4;    // (Optional) package manager specific. For conda - which channel to use to get this dependency 
 
     enum PackageManager {
-        PY_PIP      = 0;
-        PY_CONDA    = 1;
+        PY_PIP              = 0;
+        PY_CONDA            = 1;
+        PY_RIL_NEXUS        = 2;
+        
+        JAVA_MVN_CENTRAL    = 100;
     }
 }
 
@@ -169,3 +176,222 @@ message PreprocessorFunction {
     repeated string         function_output_mapping     = 5;    // Mapping of declared function function output variables Vs context variable names
 }
 
+
+
+message ModelVersion {
+    uint32                                                  version_number                  = 1;
+    google.protobuf.Timestamp                               created_at                      = 2;
+    ModelVersionState                                       state                           = 3;
+    string                                                  change_note                     = 4;
+    jio.brain.proto.stores.PersistentArticleIdAndMetadata   model_version_article_info      = 5;
+}
+
+enum ModelVersionState {
+    NEW                         = 0;    // Default State
+    STORING_MODEL               = 1;       
+    STORED_MODEL                = 2;
+    CREATING_DOCKER_IMAGE       = 3;
+    CREATED_DOCKER_IMAGE        = 4;
+    BENCHMARKING                = 5;
+    READY                       = 6;
+    LAUNCHING                   = 7;
+    RUNNING                     = 8;
+    STOPPING                    = 9;
+    STOPPED                     = 10;
+    ARCHIVED                    = 11;
+    DELETED                     = 12;
+    TEMPORARY_ERROR             = 13;
+    ERROR                       = 14;
+}
+
+
+
+message ModelVersionStateChangeEvent {
+    uint32                      model_group_id          = 1;
+    string                      model_group_id_ext      = 2;
+    uint32                      model_version           = 3;
+    google.protobuf.Timestamp   timestamp               = 4;
+    ModelVersionState           existing_state          = 5;
+    ModelVersionState           new_state               = 6;
+    string                      additional_info         = 7;
+}
+
+
+// --------------------------------------------------------------- //
+//                  Request & Response Messages
+// --------------------------------------------------------------- //
+
+
+
+message CreateModelRequest {
+    string                                                  model_group_id_ext                       = 1;        // /.../models/author-id-1/SentimentAnalysis/scikit/132
+    jio.brain.proto.model.ModelAuthorIdentity               author_id                       = 2;        // The Author of the Model
+    jio.brain.proto.model.ApiDefinitionIdentity             api_id                          = 3;        // The API of which this model is a solution of
+    string                                                  mg_name                         = 4;        // Unique Name within an Author's Implementations of API
+    string                                                  mg_description                  = 5;        // A brief description (possibly containing approach followed)
+
+    string                                                  mv_name                         = 6;        // Not Required if have 1:1 relationship b/w ModelGroup & ModelVariant
+    ModelInformation                                        model_info                      = 7;        // TODO: Think of a better name
+    InputTransformation                                     input_transformation            = 8;    
+    OutputTransformation                                    output_transformation           = 9;
+    PricingRange                                            pricing_range                   = 10;
+    ApiInputOrOutputFieldValue                              configurational_parameters      = 11;       // Values of various Configuration Parameters associated with the API Definition
+    Preprocessor                                            preprocessor                    = 12;       
+
+    jio.brain.proto.stores.PersistentArticleIdAndMetadata   model_version_article_info      = 13;       // Represents the Pointer to the original Model File 
+}
+
+
+
+
+message ModelGroupIdentity {
+    oneof id_oneof {
+        uint32      model_group_id           = 1;
+        string      model_group_id_ext       = 2;
+    }
+}
+
+
+
+message AddModelVersionRequest {
+    ModelGroupIdentity                                      model_group_id                  = 1;
+    string                                                  change_note                     = 2;
+    jio.brain.proto.stores.PersistentArticleIdAndMetadata   model_version_article_info      = 3;
+}
+
+
+
+message SearchModelGroupRequest {
+    jio.brain.proto.model.ModelAuthorIdentity               author_id                       = 1;
+    jio.brain.proto.model.ApiDefinitionIdentity             api_id                          = 2;
+    bool                                                    include_model_versions          = 3;    // if set to false, then model_versions won't be populated
+}
+
+message GetModelVersionStateRequest {
+    ModelGroupIdentity      model_group_id                  = 1;
+    uint32                  model_version                   = 2;
+}
+
+
+message GetModelVersionEventsRequest {
+    ModelGroupIdentity      model_group_id                  = 1;
+    uint32                  model_version                   = 2;
+}
+
+message ModelVersionStateTransitionRequest {
+    ModelGroupIdentity      model_group_id                  = 1;
+    uint32                  model_version                   = 2;
+    ModelVersionState       desired_state                   = 3;
+}
+
+message ModelVersionEventsHolder {
+                jio.brain.proto.base.BrainStatus        status              = 1;
+    repeated    ModelVersionStateChangeEvent            events              = 2;
+}
+
+message ModelVersionStateHolder {
+    jio.brain.proto.base.BrainStatus        status              = 1;
+    ModelVersionState                       state               = 2;
+}
+
+message ModelGroupListHolder {
+                jio.brain.proto.base.BrainStatus        status              = 1;
+    repeated    ModelGroup                              model_groups        = 2;
+}
+
+message ModelGroupHolder {
+    jio.brain.proto.base.BrainStatus        status          = 1;
+    ModelGroup                              model_group     = 2;    
+}
+
+
+
+
+
+// --------------------------------------------------------------- //
+//                             Service
+// --------------------------------------------------------------- //
+
+
+
+
+/**
+ * Service providing mechanisms to store and retrive information about
+ * a Model.
+ */
+service ModelRepositoryService {
+    
+    /**
+     * Creates a new Model against a given API authored by the supplied
+     * author. Successful invocation of this API results in a Model Group
+     * getting created with a single version in it. 
+     *
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_ALREADY_EXIST, {"model_group_id_ext" : <> }
+     *  - BRAIN_STATUS_CODE_API_AUTHOR_NOT_FOUND, {"author_id" : <> }
+     *  - BRAIN_STATUS_CODE_API_DEFINITION_NOT_FOUND, {"api_id": <>}
+     *  - BRAIN_STATUS_CODE_MODEL_INCOMPLETE_MODEL_INFO, {"prog_language": <>, "prog_language_version": <>, }
+     *  - BRAIN_STATUS_CODE_MODEL_DEPENDENCY_NOT_FOUND {"module_dependency_name": <>, "module_dependency_version": <>, "module_package_manager": <>, "module_repo_name": <> }
+     *  - BRAIN_STATUS_CODE_MODEL_FILE_NOT_FOUND, {"article_id": <>}
+     *  - TODO: Add More
+     */
+    rpc createNewModel (CreateModelRequest) returns (ModelGroupHolder);
+
+
+
+    /**
+     * Adds a New Version to the given Model. If added successfully, the
+     *  will return 
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"model_group_id_ext" : <> , "model_group_id": <>}
+     *  - BRAIN_STATUS_CODE_MODEL_FILE_NOT_FOUND, {"article_id": <>}
+     *  - TODO: Add More
+     */
+    rpc addNewVersion (AddModelVersionRequest) returns (google.protobuf.UInt32Value);
+
+
+    /**
+     * Fetch Model Groups that match one or more criteria defined in the search
+     * requests. The Information returned will contain Group along with Variant
+     * information. The version information will be populated only if the request
+     * instructs to do so. 
+     */
+    rpc getModelGroupList (SearchModelGroupRequest) returns (ModelGroupListHolder);
+
+
+    /**
+     * Gets the State of the model version identified by the request
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"model_group_id_ext" : <> , "model_group_id": <>, "model_version": <>}
+     */
+    rpc getModelVersionStateInformation (GetModelVersionStateRequest) returns (ModelVersionStateHolder);
+
+
+
+
+    /**
+     * Gets the Events of the model version identified by the request. The returned
+     * events will be sorted in reverse chronological manner (latest -> oldest). 
+     * 
+     * If model_version is not specified, then the entire history of Model Group
+     * is returned. 
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"model_group_id_ext" : <> , "model_group_id": <>, "model_version": <>}
+     */
+    rpc getModelVersionEvents (GetModelVersionEventsRequest) returns (ModelVersionEventsHolder);
+
+
+
+    /**
+     * Method to request transition of state of a Model Version
+     *
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"model_group_id_ext" : <> , "model_group_id": <>, "model_version": <>}
+     *  - BRAIN_STATUS_CODE_MODEL_VERSION_STATE_CHANGE_NOT_ALLOWED, {"desired_state": <>, "current_state": <>}
+     */
+    rpc transitionStateForModelVersion (ModelVersionStateTransitionRequest) returns (google.protobuf.BoolValue);
+}

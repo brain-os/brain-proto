@@ -1,0 +1,232 @@
+syntax = "proto3";
+
+package jio.brain.proto.stores;
+
+import "jio/brain/proto/base/status.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.jio.brain.proto.stores";
+option java_outer_classname = "ArticleStoreProto";
+option java_multiple_files = true;
+
+message PersistentArticle {
+                uint32                      article_id                  = 1;
+                PersistentArticleMetadata   metadata                    = 2;
+    repeated    StoredArticleChunk          chunks                      = 3;
+}
+
+
+message PersistentArticleIdAndMetadata {
+    uint32                                  article_id      = 2;
+    PersistentArticleMetadata               metadata        = 3;
+}
+
+
+message PersistentArticleMetadata {
+                string                      article_id_ext                  = 1;
+                string                      original_name                   = 2;
+                uint64                      article_size_bytes              = 3;    
+                ArticleSourceType           source_type                     = 4; 
+                ArticleSourceData           source_data                     = 5;
+                google.protobuf.Timestamp   created_at                      = 6;
+    repeated    string                      tags                            = 7;    // arbitrary tags based on which articles can be tagged and fetched
+}
+
+
+message StoredArticleChunk {
+    bytes       chunk  = 1;
+}
+
+
+enum ArticleSourceType {
+    URL                 = 0;    // File specified as a downloadable URL
+    LOCAL_FILE_PATH     = 1;    // File specified on Client's Machine Path
+    BASE64_ENC_STRING   = 2;    // File's content specified as base64 encoded string
+    BYTES               = 3;    // raw content of file in bytes
+}
+
+
+message ArticleSourceData {
+    oneof file_source_is_oneof {
+        URLSourceData       url_data        = 1;
+        Base64SourceData    base64_data     = 2;
+    }
+}
+
+
+message URLSourceData {
+    string url = 1;
+}
+
+
+message Base64SourceData {
+    uint64  base64_content_size_bytes       = 1;
+}
+
+
+
+// --------------------------------------------------------------- //
+//                  Request & Response Messages
+// --------------------------------------------------------------- //
+
+
+
+message DownloadAndStoreFromUrlRequest {
+                string      download_url        = 1;
+                string      id_ext              = 2;
+    repeated    string      tags                = 3;
+}
+
+
+message DecodeAndStoreBase64DataRequest {
+                string      id_ext                  = 1;
+                string      original_name           = 2;
+    repeated    string      tags                    = 3;
+                oneof       data_is_oneof {
+                    Base64EncodedArticleData                base64_encoded_article_data         = 4;
+                    ExtensibleBase64EncodedArticleData      huge_base64_encoded_article_data    = 5;
+                }
+}
+
+message Base64EncodedArticleData {
+    string  data     = 1;        
+}
+
+
+message ExtensibleBase64EncodedArticleData {
+    repeated  string  data      = 1;        // A String can hold upto 4 GB of data, hence using a string array to allow holding of data greater than that size
+}
+
+
+
+message StoreRawDataRequest {
+                string      id_ext                  = 1;
+                string      original_name           = 2;
+    repeated    string      tags                    = 3;
+                oneof   data_is_oneof {
+                    RawBytesArticleData                 raw_article_data         = 4;
+                    ExtensibleRawBytesArticleData       huge_raw_article_data    = 5;
+                }
+}
+
+
+message RawBytesArticleData {
+    bytes data = 1;
+}
+
+
+message ExtensibleRawBytesArticleData {
+    repeated bytes data = 1;
+}
+
+
+message ArticleIdentity {
+    oneof id_oneof {
+        uint32      article_id           = 1;
+        string      article_id_ext       = 2;
+    }
+}
+
+
+message searchArticlesRequest {
+    repeated string tags = 1;
+}
+
+
+message PersistentArticleIdAndMetadataHolder {
+    jio.brain.proto.base.BrainStatus        status          = 1;
+    PersistentArticleIdAndMetadata          id_and_metadata = 2;
+}
+
+message PersistentArticleHolder {
+    jio.brain.proto.base.BrainStatus        status          = 1;
+    PersistentArticle                       article         = 2;
+}
+
+
+message PersistentArticleListHolder {
+                jio.brain.proto.base.BrainStatus        status          = 1;
+    repeated    PersistentArticle                       articles        = 2;
+}
+
+
+
+
+// --------------------------------------------------------------- //
+//                             Service
+// --------------------------------------------------------------- //
+
+
+
+
+
+/**
+ * Article Storage Service. 
+ * 
+ * This service provides methods to upload any arbitrary content for
+ * storage purposes which can then be retrieved to get the original 
+ * content.
+ */
+service ArticleStoreService {
+
+    /**
+     * Downloads the Article available at the specified URL and stores it. If 
+     * successful it returns an instance of PersistedArticle.
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_ALREADY_EXIST, {"article_id_ext" : <> }
+     *  - BRAIN_STATUS_CODE_UNABLE_TO_DOWNLOAD, {"http_response_code" : <>, "download_url": <> }
+     */
+    rpc downloadAndStoreArticle (DownloadAndStoreFromUrlRequest) returns (PersistentArticleIdAndMetadataHolder);
+
+
+    /**
+     * This request accepts a Base64 encoded String in input and decodes it
+     * stores it. 
+     *
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_ALREADY_EXIST, {"article_id_ext" : <> }
+     *  - BRAIN_STATUS_CODE_INVALID_DATA, {}
+     */
+    rpc decodeAndStoreBase64Article (DecodeAndStoreBase64DataRequest) returns (PersistentArticleIdAndMetadataHolder);
+
+
+
+    /**
+     * This request accepts a Base64 encoded String in input and decodes it
+     * stores it. 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_ALREADY_EXIST, {"article_id_ext" : <> }
+     *  - BRAIN_STATUS_CODE_INVALID_DATA, {}
+     */
+    rpc storeRawArticle (StoreRawDataRequest) returns (PersistentArticleIdAndMetadataHolder);
+
+
+    /*
+     * Retrieves an Article Stored in Article Store
+     *
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"article_id": <>, "article_id_ext" : <> }
+     */
+    rpc retrieveArticle (ArticleIdentity) returns (PersistentArticleHolder);
+
+
+
+
+    /*
+     * Retrieves a List of Article Stored in Article Store that match any of
+     * the tags in the request. 
+     */
+    rpc rerieveArticleInfoByTags (searchArticlesRequest) returns (PersistentArticleListHolder);
+    
+
+
+    /*
+     * Deletes a previously stored Article
+     *
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"article_id": <>, "article_id_ext" : <> }
+     */
+    rpc deleteArticle (ArticleIdentity) returns (google.protobuf.BoolValue);
+}
