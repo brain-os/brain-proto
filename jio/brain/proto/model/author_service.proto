@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package jio.brain.proto.model;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/model/author.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.jio.brain.proto.model";
+option java_outer_classname = "ModelAuthorServiceProto";
+option java_multiple_files = true;
+
+
+
+
+message ModelAuthorHolder {
+    jio.brain.proto.base.BrainStatus        status              = 1;
+    ModelAuthor                             model_author        = 2;
+}
+
+
+
+
+// ----------------------------------------------------------- //
+//              API Author Service Methods 
+// ----------------------------------------------------------- //
+
+
+
+service ModelAuthorService {
+    /**
+     * Create a new ModelAuthor. On success returns details about the newly
+     * created ModelAuthor wrapped in a holder. 
+     *
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_ALREADY_EXIST, {"model_author_id_ext" : "xxx" }
+     *  - BRAIN_STATUS_CODE_EMPTY_DATA,  {"email_address" : "" }
+     *  - BRAIN_STATUS_CODE_EMPTY_DATA, {"first_name" : ""}
+     */
+    rpc createModelAuthor (ModelAuthorDetails) returns (ModelAuthorHolder);
+
+
+
+    /**
+     * Gets the author details for the supplied ModelAuthor ID
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"model_author_id" : "xxx", model_author_id_ext: "yyy" }
+     */
+    rpc getModelAuthor (ModelAuthorIdentity) returns (ModelAuthorHolder);
+
+
+
+    /**
+     * Enables the ModelAuthor
+     *
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"model_author_id" : "xxx", model_author_id_ext: "yyy" }
+     *  - BRAIN_STATUS_CODE_OPERATION_NOT_ALLOWED, {"reason": "ModelAuthor already enabled", "model_author_id" : "xxx", model_author_id_ext: "yyy" }
+     */
+    rpc enableModelAuthor (ModelAuthorIdentity) returns (google.protobuf.BoolValue);
+
+
+
+    /**
+     * Disable the ModelAuthor
+     *
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"model_author_id" : "xxx", model_author_id_ext: "yyy" }
+     *  - BRAIN_STATUS_CODE_OPERATION_NOT_ALLOWED, {"reason": "ModelAuthor already Disabled", "model_author_id" : "xxx", model_author_id_ext: "yyy" }
+     */
+    rpc disableModelAuthor (ModelAuthorIdentity) returns (google.protobuf.BoolValue);
+
+
+     /**
+      * Updates the ModelAuthor Details for the given ModelAuthor External ID. Fields 
+      * specified in the given ModelAuthorDetails will be updated for the ModelAuthor
+      * with maching api_autho* 
+      * Errors
+      * 
+      * Possible BrainStatusInstance on Errors
+      *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"model_author_id" : "xxx", model_author_id_ext: "yyy" }
+      */
+    rpc updateAuthorDetails (ModelAuthorDetails) returns (ModelAuthorHolder);
+}

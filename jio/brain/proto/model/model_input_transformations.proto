@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package jio.brain.proto.model;
+
+import "jio/brain/proto/model/api_definition.proto";
+
+option java_package = "com.jio.brain.proto.model";
+option java_outer_classname = "ModelInputTransformationProto";
+option java_multiple_files = true;
+
+
+
+message InputTransformation {
+    oneof input_transformation_is_oneof {
+        ArrayTransformation     array_based_input_transformation                = 1;        // For models that accept an array as input
+        TabularTransformation   tabluar_input_transformation                    = 2;        // For models that accept a table as input (with one or multiple rows)
+    }
+}
+
+
+/**
+ * This class represents information to be stored for models 
+ * that accept an Array. 
+ */
+message ArrayTransformation {
+                jio.brain.proto.model.ApiFieldType          array_type                      = 1;
+    repeated    StandardApiInputFieldMappingToArrayIndex    input_field_mapping             = 2;
+}
+
+
+message StandardApiInputFieldMappingToArrayIndex {
+    uint32      array_index                                         = 1;    // The array index for which this transformation is applicable
+    oneof       index_mapping_is_one_of {
+        StandardApiInputFieldName       standard_api_field_name     = 2;
+        ConstantStringValue             fixed_value                 = 3;
+    }
+}
+
+
+
+message TabularTransformation {
+    oneof  transformations_are_one_of {
+            NamedColumnarTransformations        named_column_transformations    = 2;
+            IndexedColumnarTransformations      indexed_column_transformations  = 3;
+    }
+}
+
+
+message NamedColumnarTransformations {
+    repeated NamedColumnarTransformation     transformations        = 1;
+}
+
+message NamedColumnarTransformation {
+    string      column_name                                         = 1;
+    oneof       column_mapping_is_one_of {
+        StandardApiInputFieldName       standard_api_field_name     = 2;
+        ConstantStringValue             fixed_value                 = 3;
+    }
+}
+
+
+
+message IndexedColumnarTransformations {
+    repeated IndexedColumnarTransformation  transformations         = 1;
+}
+
+
+message IndexedColumnarTransformation {
+    uint32                    column_index                          = 1;
+    oneof       column_mapping_is_one_of {
+        StandardApiInputFieldName       standard_api_field_name     = 2;
+        ConstantStringValue             fixed_value                 = 3;
+    }
+}
+
+
+message ColumnIdentifier {
+    oneof column_identifier_is_oneof {
+        NamedColumnIdentifier           named_column_identifier     = 1;
+        IndexedColumnIdentifier         indexed_column_identifier   = 2;
+    }
+}
+
+
+message NamedColumnIdentifier {
+    string column_name  = 1;
+}
+
+
+message IndexedColumnIdentifier {
+    uint32  column_index = 1;
+}
+
+
+/**
+ * This represents an Input Field of the API Definition in $. notation. 
+ * 
+ * Standard API Field Name in $ donation where $ represents the input arg 
+ * and $.a refers to an attribute named a of the root input object 
+ */
+message StandardApiInputFieldName {
+    string      standard_api_field_name     = 1;    
+}
+
+
+message ConstantStringValue {
+    string      value                       = 1;
+}

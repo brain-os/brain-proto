@@ -1,0 +1,164 @@
+syntax = "proto3";
+
+package jio.brain.proto.model;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/model/api_definition.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.jio.brain.proto.model";
+option java_outer_classname = "ApiDefinitionServiceProto";
+option java_multiple_files = true;
+
+
+
+message ApiSearchRequest {
+    ApiSelector     selector                = 1;
+    bool            fetch_disabled_apis     = 2;    // If true, then include disabled APIs as well
+    bool            fetch_code_snippets     = 3;    // include code-snippets in the returned ApiDefinitions
+    bool            fetch_test_data         = 4;    // include test data (health-check and benchmarking) in the returned ApiDefinitions
+    uint32          starting_offset         = 5;    // If the search result has many matches then return results from this index (starting from 0)
+    uint32          max_results             = 6;    // Search Request will return upto these many ApiDefinitions
+}
+
+
+
+/**
+ * This message represents Search Criteria for finding API Definitions
+ * 
+ * If multiple fields are specified then Logical "AND" conditions will be applied among them
+ * If multiple values for a repeated field are set then Logical "OR" conditions will be applied among them
+ * 
+ * For example if api_data_types is set as ["TEXTUAL", "AUDIO"] then API Definitions that have either api_data_type as TEXTUAL OR AUDIO will be returned
+ * If domain is also supplied along with the above values of api_data_types then ONLY those that API Definitions that match the supplied domain from the above set will be returned
+ */
+message ApiSelector {
+                string              api_name_search_text    = 1;
+    repeated    ApiDomain           api_domains             = 2;
+    repeated    string              api_tags                = 3;
+    repeated    ApiDataType         api_data_types          = 4;
+    repeated    ApiType             api_types               = 5;
+                ApiSortBy           sorty_by                = 6;
+
+    enum ApiSortBy {
+        API_NAME    = 0;
+        API_DOMAIN  = 1;
+    }
+
+}
+
+
+
+message ApiDefinitionsHolder {
+                jio.brain.proto.base.BrainStatus            status              = 1;
+    repeated    ApiDefinition                               api_definitions     = 2;
+}
+
+
+
+message ApiBenchmarkingTestsUpdateRequest {
+                ApiDefinitionIdentity   api_identity            = 1;
+    repeated    ApiTestCase             test_cases              = 2;
+}
+
+
+
+// ----------------------------------------------------------- //
+//              API Definition Service Methods 
+// ----------------------------------------------------------- //
+
+
+
+
+
+service ApiDefinitionService {
+
+    /**
+     * Create a new API Definition
+     *
+     * Possible BrainStatusInstance on Errors
+     * - BRAIN_STATUS_CODE_ALREADY_EXIST, {"api_id_ext": <>}
+     * - BRAIN_STATUS_CODE_API_METADATA_INCOMPLETE, {"api_domain": <>, "api_name": <>}
+     * - BRAIN_STATUS_CODE_API_INPUT_FIELDS_NOT_SPECIFIED
+     * - BRAIN_STATUS_CODE_API_OUTPUT_FIELDS_NOT_SPECIFIED
+     * - BRAIN_STATUS_CODE_API_INVOCATION_CODE_SNIPPET_NOT_SPECIFID
+     */
+    rpc createApiDefinition (ApiDefinitionDetails) returns (ApiDefinition);
+    
+
+    /**
+     * Updates an existing API Definition
+     *
+     * Possible BrainStatusInstance on Errors
+     * - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : <> }
+     * - BRAIN_STATUS_CODE_ALREADY_EXIST, {"api_id_ext": <>}
+     * - BRAIN_STATUS_CODE_API_METADATA_INCOMPLETE, {"api_domain": <>, "api_name": <>}
+     * - BRAIN_STATUS_CODE_API_INPUT_FIELDS_NOT_SPECIFIED
+     * - BRAIN_STATUS_CODE_API_OUTPUT_FIELDS_NOT_SPECIFIED
+     * - BRAIN_STATUS_CODE_API_INVOCATION_CODE_SNIPPET_NOT_SPECIFID
+     */
+     rpc updateApiDefinition (ApiDefinition) returns (google.protobuf.BoolValue);
+
+
+
+    /** 
+     * Enable an API Definition
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : <>, api_id_ext: <> }
+     *  - BRAIN_STATUS_CODE_OPERATION_NOT_ALLOWED, {"reason": "ApiDefinition already enabled", "api_id" : <>, api_id_ext: <> }
+     */
+    rpc enableApiDefinition (ApiDefinitionIdentity) returns (google.protobuf.BoolValue);
+
+
+
+    /** 
+     * Disable an API Definition
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : <>, api_id_ext: <> }
+     *  - BRAIN_STATUS_CODE_OPERATION_NOT_ALLOWED, {"reason": "ApiDefinition already disabled", "api_id" : <>, api_id_ext: <> }
+     */
+    rpc disableApiDefinition (ApiDefinitionIdentity) returns (google.protobuf.BoolValue);
+
+
+
+    /**
+     * Updates Benchmarking Test cases for a given API ID. The API returns the new 
+     * version number of the Benchmarking Tests. 
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : "xxx", api_id_ext: "yyy" }
+     */
+    rpc updateBenchmarkingTests (ApiBenchmarkingTestsUpdateRequest) returns (google.protobuf.UInt32Value);
+
+
+
+    /** 
+     * Fetches a specific API Definition
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : <>, api_id_ext: <> }
+     */
+    rpc getApiDefinition (ApiDefinitionIdentity) returns (ApiDefinition);
+
+    
+
+    /** 
+     * Fetches API Definitions that match the supplied search criteria
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"api_id" : "xxx", api_id_ext: "yyy" }
+     *  - BRAIN_STATUS_CODE_INVALID_DATA, {"reason": "offset can't be negative", "starting_offset": <>, "max_results": <>}
+     */
+    rpc searchApiDefinitions (ApiSearchRequest) returns (ApiDefinitionsHolder);
+    
+
+
+    /** 
+     * Fetches ALL API Definitions 
+     * 
+     */
+     rpc getAllApiDefinitions (google.protobuf.Empty) returns (ApiDefinitionsHolder);
+}

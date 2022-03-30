@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package jio.brain.proto.model;
+
+import "jio/brain/proto/model/pre_processor_definition.proto";
+
+option java_package = "com.jio.brain.proto.model";
+option java_outer_classname = "ModelPreprocessorProto";
+option java_multiple_files = true;
+
+
+message ModelPreprocessor {
+    oneof   preprocessor_one_of {
+        string                      preprocessor_file_id            = 1;
+        PreprocessingFunctions      preprocessor_functions          = 2;
+    }
+}
+
+
+message PreprocessingFunctions {
+    repeated    PreprocessorFunctionForModel    functions       = 1;
+}
+
+
+/**
+ * 
+ * When Preprocessing Functions are called just before invoking the model
+ * the AIX layer creates a "context" having a map of variables (post the
+ * transformation via the SDK of the input provided to the SDK by Consumer)
+ * The key of the map contains the names specified by the provider in the
+ * configuration of the model and the value represents the data provided
+ * by the consumer through the SDK. 
+ * 
+ * For example: 
+ *  - Imagine a function called 'capitalize' that takes a string input argument
+ *    called 'var1' and returns a capitalized value of the input string and
+ *    the original string in a tuple with 0th element with capitalized value
+ *    and the 1st element in the tuple with original string
+ * 
+ *  - When this function is invoked before calling the model, the output parameters
+ *    of the function are added to the context and are mapped with names as 
+ *    specified in the configuration of the function of the model. 
+ * 
+ *  - A sample Output configuration for the above function could be
+ *    ['capitalized-var', 'original-var'] indicating the 0th element
+ *    of the returned tuple will be stored in the context with the name
+ *    'capitalized-var' and the 1st element of the returned tuple will 
+ *    stored in the context with name 'original-var'. 
+ *
+ *  - Assume that there is an API named 'foo' that accepts a String input 
+ *    called 'bar'. 
+ *  - When onboarding a model that implements this API, the provider gives
+ *    input configuration that maps the variable bar to a dataframe with 
+ *    a variable called 'baz'. 
+ * 
+ *  - Also during the onboarding the provider selects the function 'capitalize'
+ *    as the preprocessing function and maps the input variable 'var1' to 'baz'
+ * 
+ *  - The configuration of this function will now look something like below
+ *     {'function_id':<>, 'function_id_ext': <>, 'function_param_mapping': {'var1': 'baz'}}, 'function_output_mapping': ['my-capitalized-baz'] } 
+ *  
+ *  - Now if a consumer invokes foo with bar = 'hello'; it will be transformed
+ *    to a dataframe with a column called 'baz' with value = 'hello'. 
+ *  - The context will therefore have a map 'baz': 'hello' at runtime.
+ *  - When invoking 'capitalize' function the value of 'baz' which is equal
+ *    to 'hello' will be used to invoke the function and the output (let's assume
+ *    'HELLO' will be stored in the context with the name 'my-capitalized-baz') 
+ *    which can then be used to pass as input to another function or supplied to
+ *    the model.  
+ *  
+ */
+message PreprocessorFunctionForModel {
+                PreprocessorFunctionDefinitionIdentity  function_id                 = 1;
+                uint32                                  function_version_number     = 2;
+                map<string, string>                     function_param_mapping      = 3;    // Mapping of the declared function param names Vs context and SDK variable names 
+    repeated    string                                  function_output_mapping     = 4;    // Mapping of declared function function output variables Vs context variable names
+}
+
