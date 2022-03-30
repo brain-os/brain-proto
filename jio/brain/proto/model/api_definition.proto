@@ -38,9 +38,6 @@ message ApiDefinitionDetails {
     
     repeated    ApiTestCase                 health_check_tests          = 6;    // Basic Tests to run on any model during onboarding to ensure bare minimum quality 
                 ApiBenchmarkingTestCases    benchmarking_tests          = 7;    
-
-
-                // Batch???
 }
 
 
