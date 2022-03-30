@@ -2,10 +2,11 @@ syntax = "proto3";
 
 package jio.brain.proto.model;
 
-import "jio/brain/proto/base/status.proto";
-import "jio/brain/proto/model/api_definition.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/model/model_enums.proto";
+import "jio/brain/proto/model/api_definition.proto";
 
 option java_package = "com.jio.brain.proto.model";
 option java_outer_classname = "ApiDefinitionServiceProto";

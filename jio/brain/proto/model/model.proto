@@ -15,12 +15,23 @@ option java_package = "com.jio.brain.proto.model";
 option java_outer_classname = "ModelProto";
 option java_multiple_files = true;
 
-//               1:1               1:N
-// ModelGroup  -----> ModelVariant -----> ModelVersion
-//     |
-//     +--  Contributed by a Model Author
-//     |
-//     +--  Implements a specific API
+//                     1:1                                     1:N
+// ModelGroup   ------------------->   ModelVariant --------------------------> ModelVersion
+//     |                                      |                                     |
+//     +--  Contributed by a Model Author     |                                     +---- Change Note
+//     |                                      +--- Input Transformation             |
+//     +--  Implements a specific API         |                                     +---- Persistent File ID 
+//                                            +--- Output Transformation 
+//                                            |
+//                                            +--- Model Information 
+//                                            |
+//                                            +--- PreProcessor
+//                                            |
+//                                            +--- Config Param Values
+//                                            |
+//                                            +--- Pricing
+
+
 
 message ModelGroup {
     uint32                              model_group_id          = 1;

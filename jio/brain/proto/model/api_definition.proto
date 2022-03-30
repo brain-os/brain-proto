@@ -3,6 +3,7 @@ syntax = "proto3";
 package jio.brain.proto.model;
 
 import "google/protobuf/timestamp.proto";
+import "jio/brain/proto/model/model_enums.proto";
 
 option java_package = "com.jio.brain.proto.model";
 option java_outer_classname = "ApiDefinitionProto";
@@ -111,17 +112,6 @@ message ApiInputFieldDescriptor {
 }
 
 
-enum ApiFieldType {
-    NUMBER      = 0;
-    DECIMAL     = 1;
-    SHORT_TEXT  = 2;
-    TEXT        = 3;
-    BOOLEAN     = 4;
-    DATE        = 5;
-    ENUM        = 6;
-    FILE        = 7;
-    OBJECT      = 8;
-}
 
 
 /**
@@ -191,45 +181,6 @@ message EnumConstraint {
 }
 
 
-
-
-enum ApiType {
-    PREDICTION          = 0;
-    INTERPRETATION      = 1;
-    EXPLANATION         = 2;
-    CLASSIFICATION      = 3;
-    OPTIMIZATION        = 4;
-    OUTLIER_DETECTION   = 5;
-    RECOMMENDATION      = 6;
-    TRANSLATION         = 7;
-    LOCALIZATION        = 8;
-}
-
-
-enum ApiDataType {
-    TEXTUAL             = 0;
-    IMAGE               = 1;
-    AUDIO               = 2;
-    VIDEO               = 3;
-    SENSOR_DATA         = 4;
-    MULTIVARIATE        = 5;
-    TIME_SERIES         = 6;
-    GENOMICS            = 7;
-    REMOTE_SENSING      = 8;
-}
-
-
-
-enum ApiDomain {
-    E_COMMERCE          = 0;
-    RETAIL              = 1;
-    WEATHER             = 2;
-    SMART_CITIES        = 3;
-    AGRICULTURE         = 4;
-    HEALTH_CARE         = 5;
-    SAFETY_AND_SECURITY = 6;
-    EDUCATION           = 7;
-}
 
 
 message ApiDefinitionIdentity {
