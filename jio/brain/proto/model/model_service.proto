@@ -136,6 +136,7 @@ message CreateModelRequest {
                 ModelPreprocessor                                       preprocessor                    = 12;       
 
                 jio.brain.proto.stores.PersistentArticleIdAndMetadata   model_version_article_info      = 13;       // Represents the Pointer to the original Model File 
+                SerializationModule                                     model_serialized_with           = 14;       // Framework Used for Serializing the Model Version
 }
 
 

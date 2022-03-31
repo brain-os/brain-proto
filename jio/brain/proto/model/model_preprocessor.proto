@@ -2,22 +2,31 @@ syntax = "proto3";
 
 package jio.brain.proto.model;
 
+import "jio/brain/proto/stores/article_store.proto";
+import "jio/brain/proto/model/common_messages.proto";
 import "jio/brain/proto/model/pre_processor_definition.proto";
+
 
 option java_package = "com.jio.brain.proto.model";
 option java_outer_classname = "ModelPreprocessorProto";
 option java_multiple_files = true;
 
 
+/**
+ * A custom Preprocessing Source Code OR a chain of pre-built
+ * preprocessor functions
+ */
 message ModelPreprocessor {
-    oneof   preprocessor_one_of {
-        string                      preprocessor_file_id            = 1;
-        PreprocessingFunctions      preprocessor_functions          = 2;
+    
+    oneof   preprocessor_is_one_of {
+        jio.brain.proto.stores.PersistentArticleIdAndMetadata   preprocessor_file                       = 1;    // Custom Preprocessing Logic
+        PreBuiltPreprocessingFunctions                          preprocessor_prebuilt_function_list     = 2;    // Chain of PreBuilt Preprocessing Functions
     }
+
 }
 
 
-message PreprocessingFunctions {
+message PreBuiltPreprocessingFunctions {
     repeated    PreprocessorFunctionForModel    functions       = 1;
 }
 
@@ -32,10 +41,10 @@ message PreprocessingFunctions {
  * by the consumer through the SDK. 
  * 
  * For example: 
- *  - Imagine a function called 'capitalize' that takes a string input argument
- *    called 'var1' and returns a capitalized value of the input string and
- *    the original string in a tuple with 0th element with capitalized value
- *    and the 1st element in the tuple with original string
+ *  - Imagine a prebuilt function called 'capitalize' that takes a string 
+ *    input argument called 'var1' and returns a capitalized value of the 
+ *    input string and the original string in a tuple with 0th element with 
+ *    capitalized value and the 1st element in the tuple with original string
  * 
  *  - When this function is invoked before calling the model, the output parameters
  *    of the function are added to the context and are mapped with names as 
@@ -47,32 +56,42 @@ message PreprocessingFunctions {
  *    'capitalized-var' and the 1st element of the returned tuple will 
  *    stored in the context with name 'original-var'. 
  *
- *  - Assume that there is an API named 'foo' that accepts a String input 
- *    called 'bar'. 
+ *  - Assume that there is an AIX API named 'foo' that accepts a String input 
+ *    parameter called 'bar'. 
+ *
  *  - When onboarding a model that implements this API, the provider gives
- *    input configuration that maps the variable bar to a dataframe with 
- *    a variable called 'baz'. 
+ *    empty input configuration and adds the above Prebuilt function as a 
+ *    preprocessor
  * 
- *  - Also during the onboarding the provider selects the function 'capitalize'
- *    as the preprocessing function and maps the input variable 'var1' to 'baz'
+ *  - The configuration for the preprocessor function 'capitalize'
+ *    maps the input variable 'var1' to 'bar'
  * 
  *  - The configuration of this function will now look something like below
- *     {'function_id':<>, 'function_id_ext': <>, 'function_param_mapping': {'var1': 'baz'}}, 'function_output_mapping': ['my-capitalized-baz'] } 
+ *     {'function_id':<>, 'function_id_ext': <>, 'function_param_mapping': {'var1': 'bar'}}, 'function_output_mapping': ['my-capitalized-bar'] } 
  *  
- *  - Now if a consumer invokes foo with bar = 'hello'; it will be transformed
- *    to a dataframe with a column called 'baz' with value = 'hello'. 
- *  - The context will therefore have a map 'baz': 'hello' at runtime.
- *  - When invoking 'capitalize' function the value of 'baz' which is equal
+ *  - Now if a consumer invokes foo with bar = 'hello'; 
+ *  - The context will therefore have a map 'bar': 'hello' at runtime.
+ *  - When invoking 'capitalize' function the value of 'bar' which is equal
  *    to 'hello' will be used to invoke the function and the output (let's assume
- *    'HELLO' will be stored in the context with the name 'my-capitalized-baz') 
+ *    'HELLO' will be stored in the context with the name 'my-capitalized-bar') 
  *    which can then be used to pass as input to another function or supplied to
  *    the model.  
  *  
  */
 message PreprocessorFunctionForModel {
                 PreprocessorFunctionDefinitionIdentity  function_id                 = 1;
-                uint32                                  function_version_number     = 2;
-                map<string, string>                     function_param_mapping      = 3;    // Mapping of the declared function param names Vs context and SDK variable names 
-    repeated    string                                  function_output_mapping     = 4;    // Mapping of declared function function output variables Vs context variable names
+    repeated    FunctionArgMapping                      function_param_mapping      = 2;    // Mapping of the declared function param names Vs context and SDK variable names 
+    repeated    string                                  function_output_names       = 3;    // Mapping of declared function function output variables Vs context variable names
+}
+
+
+
+message FunctionArgMapping {
+    string  function_arg_name   = 1;        // the name of the argument of the prebuilt-function 
+
+    oneof mapped_from {
+        StandardApiInputFieldName       api_input_field_name                            = 2;
+        string                          ouput_field_name_of_prev_prebuilt_function      = 3;
+    }
 }
 

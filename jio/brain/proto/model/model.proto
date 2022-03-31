@@ -34,7 +34,13 @@ option java_multiple_files = true;
 //                                            +--- Pricing
 
 
-
+/**
+ * A Model Group represents a Versioned Model which is provided by
+ * a given Author and implements a common API. Each ModelGroup has
+ * one ModelVariant which encapsulates all the information about
+ * the model and its versions. 
+ *
+ */
 message ModelGroup {
     uint32                              model_group_id          = 1;
     string                              model_group_id_ext      = 2;        // Example: /.../models/author-id-1/SentimentAnalysis/scikit/132
@@ -57,7 +63,10 @@ message ModelGroup {
 }
 
 
-
+/**
+ * Information about a given Model. The information encapsulated by
+ * this messages remains fixed for all versions of that model. 
+ */
 message ModelVariant {
                 string                                          mv_name                         = 1;    
                 StandardApiInputToModelInputTransformation      input_transformation            = 2;    
@@ -79,12 +88,20 @@ message ModelInformation {
                 string                      prog_language_version       = 2;
                 ModelDependency             framework_used              = 3;
     repeated    ModelDependency             other_dependencies          = 4;            
-
 }
 
 
 
-
+/**
+ * Encapsulates a specific module that be required at 'runtime' 
+ * for the model to function properly. The module should be compatible
+ * with the programming language in which the model was created and
+ * should be found in one of the repositories of the supplied Package 
+ * Managers for that model's programming language.
+ * 
+ * If a dependency is added to a model which is not found at the time
+ * of creation of the model an exception will be thrown. 
+ */
 message ModelDependency {
     string              module_dependency_name      = 1;    // example SkLearn
     string              module_dependency_version   = 2;    // 
@@ -102,13 +119,45 @@ message ModelDependency {
 
 
 
+/**
+ * Model Version encpasulates the physical model filealong with the 
+ * note that describes the changes made from the previous version. 
+ *
+ * It is expected that the actual model will be stored in the ArticleStore
+ * and the id of the stored file will be provided as part of Model's
+ * version detail. 
+ * 
+ * The system will fetch the model file from ArticleStore and transform
+ * it in the manner required in order to expose it. 
+ */
 message ModelVersion {
     uint32                                                  version_number                  = 1;
     google.protobuf.Timestamp                               created_at                      = 2;
     ModelVersionState                                       state                           = 3;
     string                                                  change_note                     = 4;
     jio.brain.proto.stores.PersistentArticleIdAndMetadata   model_version_article_info      = 5;
+    SerializationModule                                     serialized_with                 = 6;
 }
+
+
+
+
+message SerializationModule {
+
+    enum SerializationFormat {
+        PICKLE          = 0;
+        CLOUD_PICKLE    = 1;
+        JOBLIB          = 2;
+        HDF5            = 3;
+        ZIP             = 4;
+    }
+
+    SerializationFormat         format              = 1;
+    string                      version_number      = 2;
+}
+
+
+
 
 enum ModelVersionState {
     NEW                         = 0;    // Default State

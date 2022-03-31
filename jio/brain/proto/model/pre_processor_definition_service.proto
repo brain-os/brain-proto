@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package jio.brain.proto.model;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/model/pre_processor_definition.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.jio.brain.proto.model";
+option java_outer_classname = "PreProcessorServiceProto";
+option java_multiple_files = true;
+
+
+/**
+ * Represents a collection of Methods that help defining 
+ * pre-processing functions written in python. 
+ * 
+ * A preprocessor contains a single function with any number
+ * of arguments returning a tupple with any number of variables. 
+ * 
+ * The name of the function should be same as the name defined
+ * in the proto with which it was invoked. 
+ * 
+ * Changes made to the function's code will be versioned. 
+ */ 
+service PreprocessorFunctionDefinitionService {
+
+    /**
+     * Creates a new Preprocessor Function
+     *
+     * Possible BrainStatusInstance on Errors
+     *  - TODO
+     */ 
+    rpc createPreprocessorFunctionDefinition (PreprocessorFunctionDefinitionCreationRequest) returns (PreprocessorFunctionDefinitionHolder);
+
+
+
+    /**
+     * Updates an existing Preprocessing Function Definition by supplying a 
+     * new implementation. This method will result in bumping up the version
+     * number by 1. 
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"func_id" : <>, func_id_ext: <> }
+     */
+    rpc updatePreprocessorFunctionDefinition (PreprocessorFunctionUpdateRequest) returns (google.protobuf.UInt32Value);
+
+
+
+    /**
+     * Returns a previously created Preprocessor Function Definition
+     * 
+     * Possible BrainStatusInstance on Errors
+     *  - BRAIN_STATUS_CODE_DOES_NOT_EXIST, {"func_id" : <>, func_id_ext: <> }
+     */
+    rpc getPreprocessorFunctionDefinition (PreprocessorFunctionDefinitionIdentity) returns (PreprocessorFunctionDefinitionHolder);
+
+
+
+
+    /**
+     * Gets the latest version number for the specified Function Definition
+     */
+    rpc getPreprocessorFunctionDefinitionLastVersionNumber (PreprocessorFunctionDefinitionIdentity) returns (google.protobuf.UInt32Value);
+
+
+
+    /**
+     * Gets metadata for all functions
+     *
+     */
+    rpc getMetadataForAllPreprocessorFunctions (google.protobuf.Empty) returns (PreprocessorFunctionMetadataList);
+}
+
+
+
+
+
+
+message PreprocessorFunctionDefinitionCreationRequest {
+    PreprocessorFunctionMetadata            function_metadata           = 1;
+    string                                  source_file_id_version_1    = 2;
+}
+
+
+message PreprocessorFunctionDefinitionHolder {
+    jio.brain.proto.base.BrainStatus        status                      = 1;
+    PreprocessorFunctionDefinition          function_definition         = 2;
+}
+
+
+
+
+message PreprocessorFunctionUpdateRequest {
+    PreprocessorFunctionDefinitionIdentity      func_identity   = 1;
+    PreprocessorFunctionVersionDetail           func_version    = 2;
+}
+
+
+message PreprocessorFunctionMetadataList {
+    repeated    PreprocessorFunctionMetadata    func_metadatas       = 1;
+}
+

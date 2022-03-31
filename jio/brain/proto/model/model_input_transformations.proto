@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package jio.brain.proto.model;
 
+import "google/protobuf/empty.proto";
 import "jio/brain/proto/model/common_messages.proto";
 import "jio/brain/proto/model/model_enums.proto";
 
@@ -25,6 +26,7 @@ message StandardApiInputToModelInputTransformation {
     oneof input_transformation_is_oneof {
         ApiToArrayTransformation            array_based_input_transformation                = 1;        // For models that accept an array as input
         ApiToTabularFormatTransformation    tabluar_input_transformation                    = 2;        // For models that accept a table as input (with one or multiple rows)
+        google.protobuf.Empty               no_input_transformation                         = 3;        // If a provider wants to transform in the pre-processor then no need to perform additional transformation
     }
 }
 
