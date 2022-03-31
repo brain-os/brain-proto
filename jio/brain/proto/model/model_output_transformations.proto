@@ -50,8 +50,8 @@ message ArrayToApiTransformation {
  *  - Element 'b' of API output will be populated with constant string 'abcd'
  */
 message ApiFieldToArrayIndexOrConstantTransformation {
-    StandardApiInputFieldName       field_name         = 1;
-    ArrayIndexOrConstantValue       mapped_to           = 2;
+    ArrayIndexOrConstantValue       from_array_index_or_const       = 1;        
+    StandardApiInputFieldName       to_field_name                   = 2;
 }
 
 
@@ -78,8 +78,8 @@ message JSONToApiTransformation {
  *  - Element 'b' of API output will be populated with constant string 'abcd'
  */
 message ApiFieldToJsonAttributeOrConstantTransformation {
-    StandardApiInputFieldName       field_name         = 1;
-    JsonPathOrConstantValue         mapped_to          = 2;
+    JsonPathOrConstantValue         from_json_path_or_const         = 1;
+    StandardApiInputFieldName       to_field_name                   = 2;
 }
 
 
@@ -92,8 +92,8 @@ message ApiFieldToJsonAttributeOrConstantTransformation {
 
 
 message DelimitedTextToApiTransformation {
-                string                                          delimiter       = 1;    // comma, semi-colon, pipe etc 
-    repeated    ApiFieldToCSVIndexOrConstantTransformation      transformations = 2;
+                string                                          delimiter_to_use    = 1;    // comma, semi-colon, pipe etc 
+    repeated    ApiFieldToCSVIndexOrConstantTransformation      transformations     = 2;
 }
 
 
@@ -107,8 +107,8 @@ message DelimitedTextToApiTransformation {
  *  - Element 'b' of API output will be populated with constant string 'abcd'
  */
 message ApiFieldToCSVIndexOrConstantTransformation {
-    StandardApiInputFieldName       field_name          = 1;
-    ArrayIndexOrConstantValue       mapped_to           = 2;
+    ArrayIndexOrConstantValue       from_delimited_index_or_const       = 1;
+    StandardApiInputFieldName       to_field_name                       = 2;
 }
     
 
@@ -122,5 +122,5 @@ message ApiFieldToCSVIndexOrConstantTransformation {
 
 
 message SingleFieldToApiTransformation {
-    StandardApiInputFieldName       field_name          = 1;   
+    StandardApiInputFieldName       to_field_name          = 1;   
 }

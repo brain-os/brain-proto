@@ -54,8 +54,8 @@ message ApiToArrayTransformation {
  * OR can also be a fixed constant. 
  */
 message ArrayElementTransformation {
-    uint32                      array_index                     = 1;    // The array index for which this transformation is applicable
-    FieldOrConstantValue        mapped_to                       = 2;
+    FieldOrConstantValue        from_api_field_or_const         = 1;
+    uint32                      to_array_index                  = 2;    // The array index for which this transformation is applicable
 }
 
 
@@ -86,8 +86,8 @@ message NamedColumnarTransformations {
 }
 
 message NamedColumnarTransformation {
-    string                      column_name                     = 1;
-    FieldOrConstantValue        mapped_to                       = 2;
+    FieldOrConstantValue        from_api_field_or_const            = 1;
+    string                      to_column_name                     = 2;
 }
 
 
@@ -98,6 +98,6 @@ message IndexedColumnarTransformations {
 
 
 message IndexedColumnarTransformation {
-    uint32                      column_index                    = 1;
-    FieldOrConstantValue        mapped_to                       = 2;
+    FieldOrConstantValue        from_api_field_or_const            = 1;
+    uint32                      to_column_index                    = 2;
 }
