@@ -4,6 +4,8 @@ package jio.brain.proto.model;
 
 import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/model/model_enums.proto";
+import "jio/brain/proto/model/api_definition_testcases.proto";
+import "jio/brain/proto/model/api_definition_field_descriptors.proto";
 
 option java_package = "com.jio.brain.proto.model";
 option java_outer_classname = "ApiDefinitionProto";
@@ -35,10 +37,11 @@ message ApiDefinitionDetails {
                 ApiDefinitionMetadata       api_definition_metadata     = 2;
     repeated    ApiInputFieldDescriptor     input_field_descriptors     = 3;    // Input Fields of the API Definition
     repeated    ApiOutputFieldDescriptor    output_field_descriptors    = 4;    // Output Fields of the API Definition            
-                map<string, string>         invocation_code_snippets    = 5;    // Map of Programming Language -> Example Code Snippet for Invoking the API 
     
-    repeated    ApiTestCase                 health_check_tests          = 6;    // Basic Tests to run on any model during onboarding to ensure bare minimum quality 
-                ApiBenchmarkingTestCases    benchmarking_tests          = 7;    
+                HealthCheckTestCases        health_check_tests          = 5;    // Basic Tests to run on any model during onboarding to ensure bare minimum quality 
+                ApiBenchmarkingTestCases    benchmarking_tests          = 6;    
+
+                map<string, CodeSnippet>    invocation_code_snippets    = 7;    // Map of Programming Language -> Example Code Snippet for Invoking the API 
 }
 
 
@@ -61,125 +64,6 @@ message ApiDefinitionMetadata {
 
 
 
-/**
- * Encapsulates details about an Input Field of an API
- */
-message ApiInputFieldDescriptor {
-    uint32              field_sequence_number       = 1; 
-    ApiFieldDescriptor  field_descriptor            = 2;
-    bool                is_configurational          = 3;                    // Configurational Fields play a role in selection of the Model
-    bool                is_mandatory                = 4;                    // If not supplied by consuer, value of this field will be derirved from default Value, when invoked
-    string              default_value_str           = 5;                    // Default Value of the field in string format
-    oneof               constraint_one_of {                                 // constraints (validations) to be applied on the field's value when API is invoked
-        TextFieldConstraint         text_constraint         = 6;
-        NumericFieldConstraint      numeric_constraint      = 7;
-        DecimalFieldConstraint      decimal_constraint      = 8;
-        FileFieldConstraint         file_constraint         = 9;
-        EnumConstraint              enum_constraint         = 10;
-    }
-}
-
-
-
-/**
- * Encapsulates details about an Input Field of an API
- */
- message ApiOutputFieldDescriptor {
-    uint32              field_sequence_number       = 1; 
-    ApiFieldDescriptor  field_descriptor            = 2;
-    bool                compare_during_testing      = 3;            // if set to true, then match the value of this field with expected field during benchmarking or health check process
-
-    oneof               constraint_one_of {
-            TextFieldConstraint         text_constraint         = 4;
-            NumericFieldConstraint      numeric_constraint      = 5;
-            DecimalFieldConstraint      decimal_constraint      = 6;
-            FileFieldConstraint         file_constraint         = 7;
-            EnumConstraint              enum_constraint         = 8;
-    }
-}
-
-
-
-
-/**
- * Represents a Field that is part of either API Input or API Output
- */
- message ApiFieldDescriptor {
-                string              field_name                  = 1;
-                ApiFieldType        field_type                  = 2;
-                bool                is_repeated                 = 3;
-    repeated    ApiFieldDescriptor  schema                      = 4;    // Will be set only if the fieldType is OBJECT
-}
-
-
-
-
-/**
- * This message represents a set of name - value pairs. 
- *
- * the name represents the name of either the input or output field
- * of an API.
- * 
- * the value of the field is given as string but is interpreted
- * based on the type of the field in the API definition 
- * 
- */
-message ApiInputOrOutputFieldValue {
-    map<string, string>         api_input_field_values = 1;
-}
-
-
-message ApiTestCase {
-    ApiInputOrOutputFieldValue  api_input               = 1;
-    ApiInputOrOutputFieldValue  expected_api_output     = 2;
-}
-
-
-
-
-message ApiBenchmarkingTestCases {
-                uint32          version                 = 1;
-    repeated    ApiTestCase     test_cases              = 2;
-}
-
-
-message TextFieldConstraint {
-    uint32              min_length                  = 1;
-    uint32              max_length                  = 2;
-}
-
-
-message NumericFieldConstraint {
-    uint32              min_value                   = 1;
-    uint32              max_value                   = 2;
-}
-
-
-message DecimalFieldConstraint {
-    float              min_value                    = 1;
-    float              max_value                    = 2;
-}
-
-
-message FileFieldConstraint {
-    repeated    string              allowed_file_extensions     = 1;
-                uint32              max_file_size_bytes         = 2;
-                FileFieldFormat     file_value_specified_as     = 3;
-}
-
-
-enum FileFieldFormat {
-    URL                 = 0;    // File specified as a downloadable URL
-    LOCAL_FILE_PATH     = 1;    // File specified on Client's Machine Path
-    BASE64_ENC_STRING   = 2;    // File's content specified as base64 encoded string
-    BYTES               = 3;    // raw content of file in bytes
-}
-
-
-message EnumConstraint {
-    repeated    string              possible_values             = 1;
-}
-
 
 
 
@@ -192,3 +76,7 @@ message ApiDefinitionIdentity {
 }
 
 
+
+message CodeSnippet {
+    string      code_snippet        = 1;
+}

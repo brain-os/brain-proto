@@ -3,8 +3,10 @@ syntax = "proto3";
 package jio.brain.proto.model;
 
 import "jio/brain/proto/model/author.proto";
+import "jio/brain/proto/model/model_enums.proto";
 import "jio/brain/proto/model/api_definition.proto";
 import "jio/brain/proto/stores/article_store.proto";
+import "jio/brain/proto/model/api_definition_field_values.proto";
 import "jio/brain/proto/model/model_input_transformations.proto";
 import "jio/brain/proto/model/model_output_transformations.proto";
 import "jio/brain/proto/model/model_preprocessor.proto";
@@ -63,7 +65,7 @@ message ModelVariant {
                 ModelInformation                model_info                      = 4;    // TODO: Think of a better name
     repeated    ModelVersion                    model_versions                  = 5;
                 ModelPreprocessor               preprocessor                    = 6;
-                ApiInputOrOutputFieldValue      configurational_parameters      = 7;    // Values of various Configuration Parameters associated with the API Definition
+    repeated    ApiFieldNameAndValue            configurational_parameters      = 7;    // Values of various Configuration Parameters associated with the API Definition
                 PricingRange                    pricing_range                   = 8;
 }
 
@@ -73,10 +75,6 @@ message ModelVariant {
 
 
 message ModelInformation {
-    
-    enum ProgrammingLanguage {
-        PYTHON = 0;
-    }
                 ProgrammingLanguage         prog_language               = 1;    // Programming Language in which this model has been created
                 string                      prog_language_version       = 2;
                 ModelDependency             framework_used              = 3;

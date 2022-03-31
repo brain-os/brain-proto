@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package jio.brain.proto.model;
+
+import "jio/brain/proto/model/model_enums.proto";
+import "jio/brain/proto/model/api_definition_field_constraints.proto";
+
+option java_package = "com.jio.brain.proto.model";
+option java_outer_classname = "ApiDefinitionFieldDescriptorsProto";
+option java_multiple_files = true;
+
+
+
+
+/**
+ * Encapsulates details about an Input Field of an API
+ */
+ message ApiInputFieldDescriptor {
+    uint32              field_sequence_number       = 1; 
+    ApiFieldDescriptor  field_descriptor            = 2;
+    bool                is_configurational          = 3;                    // Configurational Fields play a role in selection of the Model
+    bool                is_mandatory                = 4;                    // If not supplied by consuer, value of this field will be derirved from default Value, when invoked
+    string              default_value_str           = 5;                    // Default Value of the field in string format
+    oneof               constraint_one_of {                                 // constraints (validations) to be applied on the field's value when API is invoked
+        TextFieldConstraint         text_constraint         = 6;
+        NumericFieldConstraint      numeric_constraint      = 7;
+        DecimalFieldConstraint      decimal_constraint      = 8;
+        FileFieldConstraint         file_constraint         = 9;
+        EnumConstraint              enum_constraint         = 10;
+    }
+}
+
+
+
+/**
+ * Encapsulates details about an Input Field of an API
+ */
+ message ApiOutputFieldDescriptor {
+    uint32              field_sequence_number       = 1; 
+    ApiFieldDescriptor  field_descriptor            = 2;
+    bool                compare_during_testing      = 3;            // if set to true, then match the value of this field with expected field during benchmarking or health check process
+
+    oneof               constraint_one_of {
+            TextFieldConstraint         text_constraint         = 4;
+            NumericFieldConstraint      numeric_constraint      = 5;
+            DecimalFieldConstraint      decimal_constraint      = 6;
+            FileFieldConstraint         file_constraint         = 7;
+            EnumConstraint              enum_constraint         = 8;
+    }
+}
+
+
+
+
+/**
+ * Represents a Field that is part of either API Input or API Output
+ */
+ message ApiFieldDescriptor {
+                string              field_name                  = 1;
+                ApiFieldType        field_type                  = 2;
+                bool                is_repeated                 = 3;
+    repeated    ApiFieldDescriptor  schema                      = 4;    // Will be set only if the fieldType is OBJECT
+}
+
+
+

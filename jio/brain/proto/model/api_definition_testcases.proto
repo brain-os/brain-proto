@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package jio.brain.proto.model;
+
+import "jio/brain/proto/model/api_definition_field_values.proto";
+
+option java_package = "com.jio.brain.proto.model";
+option java_outer_classname = "ApiDefinitionTestCasesProto";
+option java_multiple_files = true;
+
+
+message ApiBenchmarkingTestCases {
+                uint32          version                 = 1;
+    repeated    ApiTestCase     test_cases              = 2;
+}
+
+
+
+message HealthCheckTestCases {
+    repeated    ApiTestCase     test_cases              = 1;
+}
+
+/**
+* A single Test case is a collection of Name/Value pairs
+* where a Name represents the name of the field while
+* the value represents the value of the field. 
+* 
+* It also encapsulates expected output
+*/
+message ApiTestCase {
+    repeated    ApiFieldNameAndValue              input_fields_and_their_values               = 1;
+    repeated    ApiFieldNameAndValue              expected_output_fields_and_their_values     = 2;
+}
+

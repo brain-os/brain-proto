@@ -4,6 +4,7 @@ package jio.brain.proto.model;
 
 import "jio/brain/proto/model/author.proto";
 import "jio/brain/proto/model/api_definition.proto";
+import "jio/brain/proto/model/api_definition_field_values.proto";
 import "jio/brain/proto/base/status.proto";
 import "jio/brain/proto/stores/article_store.proto";
 import "jio/brain/proto/model/model.proto";
@@ -120,21 +121,21 @@ service ModelRepositoryService {
 
 
 message CreateModelRequest {
-    string                                                  model_group_id_ext              = 1;        // /.../models/author-id-1/SentimentAnalysis/scikit/132
-    jio.brain.proto.model.ModelAuthorIdentity               author_id                       = 2;        // The Author of the Model
-    jio.brain.proto.model.ApiDefinitionIdentity             api_id                          = 3;        // The API of which this model is a solution of
-    string                                                  mg_name                         = 4;        // Unique Name within an Author's Implementations of API
-    string                                                  mg_description                  = 5;        // A brief description (possibly containing approach followed)
+                string                                                  model_group_id_ext              = 1;        // /.../models/author-id-1/SentimentAnalysis/scikit/132
+                jio.brain.proto.model.ModelAuthorIdentity               author_id                       = 2;        // The Author of the Model
+                jio.brain.proto.model.ApiDefinitionIdentity             api_id                          = 3;        // The API of which this model is a solution of
+                string                                                  mg_name                         = 4;        // Unique Name within an Author's Implementations of API
+                string                                                  mg_description                  = 5;        // A brief description (possibly containing approach followed)
 
-    string                                                  mv_name                         = 6;        // Not Required if have 1:1 relationship b/w ModelGroup & ModelVariant
-    ModelInformation                                        model_info                      = 7;        // TODO: Think of a better name
-    InputTransformation                                     input_transformation            = 8;    
-    OutputTransformation                                    output_transformation           = 9;
-    PricingRange                                            pricing_range                   = 10;
-    ApiInputOrOutputFieldValue                              configurational_parameters      = 11;       // Values of various Configuration Parameters associated with the API Definition
-    ModelPreprocessor                                       preprocessor                    = 12;       
+                string                                                  mv_name                         = 6;        // Not Required if have 1:1 relationship b/w ModelGroup & ModelVariant
+                ModelInformation                                        model_info                      = 7;        // TODO: Think of a better name
+                InputTransformation                                     input_transformation            = 8;    
+                OutputTransformation                                    output_transformation           = 9;
+                PricingRange                                            pricing_range                   = 10;
+    repeated    ApiFieldNameAndValue                                    configurational_parameters      = 11;       // Values of various Configuration Parameters associated with the API Definition
+                ModelPreprocessor                                       preprocessor                    = 12;       
 
-    jio.brain.proto.stores.PersistentArticleIdAndMetadata   model_version_article_info      = 13;       // Represents the Pointer to the original Model File 
+                jio.brain.proto.stores.PersistentArticleIdAndMetadata   model_version_article_info      = 13;       // Represents the Pointer to the original Model File 
 }
 
 

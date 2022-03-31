@@ -8,6 +8,11 @@ option java_outer_classname = "ModelEnumsProto";
 option java_multiple_files = true;
 
 
+enum ProgrammingLanguage {
+    PYTHON      = 0;
+    JAVA        = 1;
+}
+
 
 enum ApiFieldType {
     NUMBER      = 0;
