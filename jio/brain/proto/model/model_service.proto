@@ -129,8 +129,8 @@ message CreateModelRequest {
 
                 string                                                  mv_name                         = 6;        // Not Required if have 1:1 relationship b/w ModelGroup & ModelVariant
                 ModelInformation                                        model_info                      = 7;        // TODO: Think of a better name
-                InputTransformation                                     input_transformation            = 8;    
-                OutputTransformation                                    output_transformation           = 9;
+                StandardApiInputToModelInputTransformation              input_transformation            = 8;    
+                ModelOutputToStandardApiOutputTransformation            output_transformation           = 9;
                 PricingRange                                            pricing_range                   = 10;
     repeated    ApiFieldNameAndValue                                    configurational_parameters      = 11;       // Values of various Configuration Parameters associated with the API Definition
                 ModelPreprocessor                                       preprocessor                    = 12;       

@@ -2,14 +2,125 @@ syntax = "proto3";
 
 package jio.brain.proto.model;
 
+import "jio/brain/proto/model/common_messages.proto";
+
 option java_package = "com.jio.brain.proto.model";
 option java_outer_classname = "ModelOutputTransformationProto";
 option java_multiple_files = true;
 
 
 
-message OutputTransformation {
-    // TODO: Fill this
+/**
+ * Encapsulates the Transformation Logic of Output coming from
+ * a model to the standard Output of the corresponding API
+ *
+ */
+message ModelOutputToStandardApiOutputTransformation {
+    oneof   output_transformation_is_oneof {
+        ArrayToApiTransformation            array_to_api_transformation             = 1;
+        JSONToApiTransformation             json_to_api_transformation              = 2;
+        DelimitedTextToApiTransformation    delimited_text_to_api_transformation    = 3;
+        SingleFieldToApiTransformation      complete_output_to_api_transformation   = 4;
+    }
 }
 
 
+
+
+
+        // ----------------------------------------------------------------- //
+        //      Transformations for Model that provode an Array Output
+        // ----------------------------------------------------------------- //
+
+
+
+message ArrayToApiTransformation {
+    repeated    ApiFieldToArrayIndexOrConstantTransformation    transformations = 1;
+}
+
+
+
+/**
+ * Transformation required to populate a single Attribute of 
+ * the standard API Output from the array based response of
+ * a model. 
+ * 
+ * Examples of transformations that this message can represent 
+ *  - Element 'a' of API output will be populated from index '1' of response
+ *  - Element 'b' of API output will be populated with constant string 'abcd'
+ */
+message ApiFieldToArrayIndexOrConstantTransformation {
+    StandardApiInputFieldName       field_name         = 1;
+    ArrayIndexOrConstantValue       mapped_to           = 2;
+}
+
+
+
+
+        // ----------------------------------------------------------------- //
+        //      Transformations for Model that provode a JSON Output
+        // ----------------------------------------------------------------- //
+
+
+
+message JSONToApiTransformation {
+    repeated    ApiFieldToJsonAttributeOrConstantTransformation    transformations = 1;
+}
+
+
+
+/**
+ * Transformation required to populate a single Attribute of 
+ * the standard API Output from the JSON response of a model. 
+ * 
+ * Examples of transformations that this message can represent 
+ *  - Element 'a' of API output will be populated from index '$.a.b' of response
+ *  - Element 'b' of API output will be populated with constant string 'abcd'
+ */
+message ApiFieldToJsonAttributeOrConstantTransformation {
+    StandardApiInputFieldName       field_name         = 1;
+    JsonPathOrConstantValue         mapped_to          = 2;
+}
+
+
+
+
+        // ----------------------------------------------------------------- //
+        //      Transformations for Model that provode a CSV Output
+        // ----------------------------------------------------------------- //
+
+
+
+message DelimitedTextToApiTransformation {
+                string                                          delimiter       = 1;    // comma, semi-colon, pipe etc 
+    repeated    ApiFieldToCSVIndexOrConstantTransformation      transformations = 2;
+}
+
+
+
+/**
+ * Transformation required to populate a single Attribute of 
+ * the standard API Output from the JSON response of a model. 
+ * 
+ * Examples of transformations that this message can represent 
+ *  - Element 'a' of API output will be populated from index 1 of delimited response
+ *  - Element 'b' of API output will be populated with constant string 'abcd'
+ */
+message ApiFieldToCSVIndexOrConstantTransformation {
+    StandardApiInputFieldName       field_name          = 1;
+    ArrayIndexOrConstantValue       mapped_to           = 2;
+}
+    
+
+
+
+
+        // ----------------------------------------------------------------- //
+        //   Transformation Allowing the complete output of Model to
+        //          be mapped to a single Output Field
+        // ----------------------------------------------------------------- //
+
+
+message SingleFieldToApiTransformation {
+    StandardApiInputFieldName       field_name          = 1;   
+}
