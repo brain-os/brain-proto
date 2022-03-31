@@ -29,3 +29,19 @@ The Important attributes of these messages are depicted in the hierarchy below.
 
 
 ## API Definition
+
+
+//                       1:1                                          1:1
+// ApiDefintion   ------------------->   ApiDefinitionDetails --------------------------> ApiDefinitionMetadata
+//     |                                      |                                               |
+//     +--  api_id                            | 1:N                                           +---- name/description/tags/domain/dataTypes/apiType
+//     |                                      +------ Api Input Fields                        
+//     +--  enabled/disabled                  | 1:N                                           
+//     |                                      +------ Api Output Fields
+//     +-- created/modifiedAt                 |
+//                                            +------ HealthCheckTests
+//                                            |
+//                                            +------ BenchmarkingTests
+//                                            |
+//                                            +------ Code Snippets
+//
