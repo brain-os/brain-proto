@@ -30,7 +30,7 @@ The Important attributes of these messages are depicted in the hierarchy below.
 
 ## API Definition
 
-
+```
 //                       1:1                                          1:1
 // ApiDefintion   ------------------->   ApiDefinitionDetails --------------------------> ApiDefinitionMetadata
 //     |                                      |                                               |
@@ -45,3 +45,4 @@ The Important attributes of these messages are depicted in the hierarchy below.
 //                                            |
 //                                            +------ Code Snippets
 //
+```
