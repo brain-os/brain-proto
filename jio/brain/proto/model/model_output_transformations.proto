@@ -50,8 +50,9 @@ message ArrayToApiTransformation {
  *  - Element 'b' of API output will be populated with constant string 'abcd'
  */
 message ApiFieldToArrayIndexOrConstantTransformation {
-    ArrayIndexOrConstantValue       from_array_index_or_const       = 1;        
-    StandardApiInputFieldName       to_field_name                   = 2;
+                ArrayIndexOrConstantValue       from_array_index_or_const       = 1;        
+    repeated    string                          transformation_function_ids     = 2;    // chain of transformation functions applied to the output before mapping to standard field             
+                StandardApiInputFieldName       to_field_name                   = 3;
 }
 
 
@@ -78,8 +79,9 @@ message JSONToApiTransformation {
  *  - Element 'b' of API output will be populated with constant string 'abcd'
  */
 message ApiFieldToJsonAttributeOrConstantTransformation {
-    JsonPathOrConstantValue         from_json_path_or_const         = 1;
-    StandardApiInputFieldName       to_field_name                   = 2;
+                JsonPathOrConstantValue         from_json_path_or_const         = 1;
+    repeated    string                          transformation_function_ids     = 2;    // chain of transformation functions applied to the output before mapping to standard field             
+                StandardApiInputFieldName       to_field_name                   = 3;
 }
 
 
@@ -107,8 +109,9 @@ message DelimitedTextToApiTransformation {
  *  - Element 'b' of API output will be populated with constant string 'abcd'
  */
 message ApiFieldToCSVIndexOrConstantTransformation {
-    ArrayIndexOrConstantValue       from_delimited_index_or_const       = 1;
-    StandardApiInputFieldName       to_field_name                       = 2;
+                ArrayIndexOrConstantValue       from_delimited_index_or_const       = 1;
+    repeated    string                          transformation_function_ids         = 2;    // chain of transformation functions applied to the output before mapping to standard field             
+                StandardApiInputFieldName       to_field_name                       = 3;
 }
     
 
@@ -122,5 +125,6 @@ message ApiFieldToCSVIndexOrConstantTransformation {
 
 
 message SingleFieldToApiTransformation {
-    StandardApiInputFieldName       to_field_name          = 1;   
+                StandardApiInputFieldName       to_field_name                   = 1;   
+    repeated    string                          transformation_function_ids     = 2;    // chain of transformation functions applied to the output before mapping to standard field             
 }
