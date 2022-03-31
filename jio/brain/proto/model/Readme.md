@@ -1,4 +1,16 @@
 # Message Hierarchy
+This directory contains protos that allow creation of a Model and adding versions of the same. The following are the important entities that make up the model management services. 
+
+1. **Model** - *[Start here](https://github.com/brain-os/brain-proto/edit/model-storage/jio/brain/proto/model/model.proto) for exploring different entities and their services*
+2. **API Definition**  - *Think of this as the problem that the model is a solution to. For example Object Detection in Image etc etc*
+3. **Model Author** - *Think of this as a user of the system currently with minimal information*
+4. **Input Transformation** - *Think of this as mapping of API parameters to the format that the model expects*
+5. **Output Transformation** - *Think of this as mapping of Model's Output to API's output parameters*
+6. **Preprocessor** - *Think of this as a chain of pre-built functions that allow intercepting and modifying input of the model just before invocation*
+
+Different Messages and services that allow managing the above entities are organized in different proto files. 
+
+Some of the above need persisted files which are stored in [Article Store](https://github.com/brain-os/brain-proto/edit/model-storage/jio/brain/proto/stores/article_store.md)
 
 ## Models
 Models are organized into the following
