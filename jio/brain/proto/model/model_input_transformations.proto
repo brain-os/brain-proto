@@ -23,8 +23,8 @@ option java_multiple_files = true;
  */
 message StandardApiInputToModelInputTransformation {
     oneof input_transformation_is_oneof {
-        ArrayTransformation     array_based_input_transformation                = 1;        // For models that accept an array as input
-        TabularTransformation   tabluar_input_transformation                    = 2;        // For models that accept a table as input (with one or multiple rows)
+        ApiToArrayTransformation            array_based_input_transformation                = 1;        // For models that accept an array as input
+        ApiToTabularFormatTransformation    tabluar_input_transformation                    = 2;        // For models that accept a table as input (with one or multiple rows)
     }
 }
 
@@ -40,7 +40,7 @@ message StandardApiInputToModelInputTransformation {
  * This class represents information to be stored for models 
  * that accept an Array. 
  */
-message ArrayTransformation {
+message ApiToArrayTransformation {
                 jio.brain.proto.model.ApiFieldType          array_type                      = 1;        // The type of Array needed by the model
     repeated    ArrayElementTransformation                  input_field_mapping             = 2;        // An Array of Mappings to define how would the array elements be populated
 }
@@ -73,7 +73,7 @@ message ArrayElementTransformation {
  * into Tabular form (where one input will correspond to one row of the table) 
  * and different attributes of the input will correspond to the columns. 
  */
-message TabularTransformation {
+message ApiToTabularFormatTransformation {
     oneof  transformations_are_one_of {
             NamedColumnarTransformations        named_column_transformations    = 2;
             IndexedColumnarTransformations      indexed_column_transformations  = 3;
