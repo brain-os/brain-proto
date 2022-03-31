@@ -60,7 +60,7 @@ message IdentityAddSecondaryBizIdsWithPrimaryBizIdAndEntityTypeResponse {
 }
 
 service EntityIdService {
-  rpc createEntityWithPrimaryId(IdentityRequest) returns (IdentityResponse);
+  rpc getBrainIdForEntity(IdentityRequest) returns (IdentityResponse);
   rpc createEntityWithPrimaryAndSecondaryIds(IdentityCreateBrainIdWithPrimaryAndBizIdRequest) returns (IdentityCreateBrainIdWithPrimaryAndBizIdResponse);
   rpc updateSecondaryBizIds(IdentityAddSecondaryBizIdsWithEntityIdRequest) returns (IdentityAddSecondaryBizIdsWithEntityIdResponse);
   rpc updateSecondaryBizIdsWithEntityType(IdentityAddSecondaryBizIdsWithPrimaryBizIdAndEntityTypeRequest) returns (IdentityAddSecondaryBizIdsWithPrimaryBizIdAndEntityTypeResponse);
