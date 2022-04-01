@@ -1,5 +1,12 @@
-# Message Hierarchy
-This directory contains protos that allow creation of a Model and adding versions of the same. The following are the important entities that make up the model management services. 
+# Model Protos
+This directory contains protos that allow creation of a Model and adding versions of the same. 
+
+# Integration
+The Image below shows how AIX will be invoked through BrainOS
+![Here](https://github.com/brain-os/brain-proto/blob/model-storage/jio/brain/proto/model/Aix%20Function%20Invocation.svg) 
+
+# Important Protos
+The following are the important entities that make up the model management services. 
 
 1. **Model** - *[Start here](https://github.com/brain-os/brain-proto/edit/model-storage/jio/brain/proto/model/model.proto) for exploring different entities and their services*
 2. **API Definition**  - *Think of this as the problem that the model is a solution to. For example Object Detection in Image etc etc*
