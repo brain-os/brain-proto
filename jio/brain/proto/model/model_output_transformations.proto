@@ -35,7 +35,7 @@ message ModelOutputToStandardApiOutputTransformation {
 
 
 message ArrayToApiTransformation {
-    repeated    ApiFieldToArrayIndexOrConstantTransformation    transformations = 1;
+    repeated    ArrayIndexOrConstantToApiFieldTransformation    transformations = 1;
 }
 
 
@@ -49,7 +49,7 @@ message ArrayToApiTransformation {
  *  - Element 'a' of API output will be populated from index '1' of response
  *  - Element 'b' of API output will be populated with constant string 'abcd'
  */
-message ApiFieldToArrayIndexOrConstantTransformation {
+message ArrayIndexOrConstantToApiFieldTransformation {
                 ArrayIndexOrConstantValue       from_array_index_or_const       = 1;        
     repeated    string                          transformation_function_ids     = 2;    // chain of transformation functions applied to the output before mapping to standard field             
                 StandardApiInputFieldName       to_field_name                   = 3;
@@ -65,7 +65,7 @@ message ApiFieldToArrayIndexOrConstantTransformation {
 
 
 message JSONToApiTransformation {
-    repeated    ApiFieldToJsonAttributeOrConstantTransformation    transformations = 1;
+    repeated    JsonAttributeOrConstantToApiFieldTransformation    transformations = 1;
 }
 
 
@@ -78,7 +78,7 @@ message JSONToApiTransformation {
  *  - Element 'a' of API output will be populated from index '$.a.b' of response
  *  - Element 'b' of API output will be populated with constant string 'abcd'
  */
-message ApiFieldToJsonAttributeOrConstantTransformation {
+message JsonAttributeOrConstantToApiFieldTransformation {
                 JsonPathOrConstantValue         from_json_path_or_const         = 1;
     repeated    string                          transformation_function_ids     = 2;    // chain of transformation functions applied to the output before mapping to standard field             
                 StandardApiInputFieldName       to_field_name                   = 3;
@@ -95,7 +95,7 @@ message ApiFieldToJsonAttributeOrConstantTransformation {
 
 message DelimitedTextToApiTransformation {
                 string                                          delimiter_to_use    = 1;    // comma, semi-colon, pipe etc 
-    repeated    ApiFieldToCSVIndexOrConstantTransformation      transformations     = 2;
+    repeated    CSVIndexOrConstantToApiFieldTransformation      transformations     = 2;
 }
 
 
@@ -108,7 +108,7 @@ message DelimitedTextToApiTransformation {
  *  - Element 'a' of API output will be populated from index 1 of delimited response
  *  - Element 'b' of API output will be populated with constant string 'abcd'
  */
-message ApiFieldToCSVIndexOrConstantTransformation {
+message CSVIndexOrConstantToApiFieldTransformation {
                 ArrayIndexOrConstantValue       from_delimited_index_or_const       = 1;
     repeated    string                          transformation_function_ids         = 2;    // chain of transformation functions applied to the output before mapping to standard field             
                 StandardApiInputFieldName       to_field_name                       = 3;
