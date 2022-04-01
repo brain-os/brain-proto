@@ -86,7 +86,7 @@ message ModelVariant {
                 string                                          mv_name                         = 1;    
                 StandardApiInputToModelInputTransformation      input_transformation            = 2;    
                 ModelOutputToStandardApiOutputTransformation    output_transformation           = 3;
-                ModelInformation                                model_info                      = 4;    // TODO: Think of a better name
+                ModelDependencies                               model_dependencies              = 4;    
     repeated    ModelVersion                                    model_versions                  = 5;
                 ModelPreprocessor                               preprocessor                    = 6;
     repeated    ApiFieldNameAndValue                            configurational_parameters      = 7;    // Values of various Configuration Parameters associated with the API Definition
@@ -98,11 +98,12 @@ message ModelVariant {
 
 
 
-message ModelInformation {
-                ProgrammingLanguage         prog_language               = 1;    // Programming Language in which this model has been created
-                string                      prog_language_version       = 2;
-                ModelDependency             framework_used              = 3;
-    repeated    ModelDependency             other_dependencies          = 4;            
+message ModelDependencies {
+                ProgrammingLanguage                                     prog_language                       = 1;    // Programming Language in which this model has been created
+                string                                                  prog_language_version               = 2;
+                ModelDependency                                         framework_used                      = 3;
+    repeated    ModelDependency                                         other_dependencies                  = 4;            
+    repeated    jio.brain.proto.stores.PersistentArticleIdAndMetadata   files_needed_by_model_at_runtime    = 5;
 }
 
 
