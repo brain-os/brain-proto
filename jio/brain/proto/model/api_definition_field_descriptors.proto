@@ -3,7 +3,7 @@ syntax = "proto3";
 package jio.brain.proto.model;
 
 import "jio/brain/proto/model/model_enums.proto";
-import "jio/brain/proto/model/api_definition_field_values.proto";
+import "jio/brain/proto/model/common_messages.proto";
 import "jio/brain/proto/model/api_definition_field_constraints.proto";
 
 option java_package = "com.jio.brain.proto.model";
@@ -21,7 +21,7 @@ option java_multiple_files = true;
     ApiFieldDescriptor  field_descriptor            = 2;
     bool                is_configurational          = 3;                    // Configurational Fields play a role in selection of the Model
     bool                is_mandatory                = 4;                    // If not supplied by consuer, value of this field will be derirved from default Value, when invoked
-    ApiFieldValue       default_value               = 5;                    // Default Value of the field 
+    ConstantValue       default_value               = 5;                    // Default Value of the field 
     
     oneof               constraint_one_of {                                 // constraints (validations) to be applied on the field's value when API is invoked
         TextFieldConstraint         text_constraint         = 6;

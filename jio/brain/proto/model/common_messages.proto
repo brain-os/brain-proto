@@ -8,6 +8,48 @@ option java_outer_classname = "ModelCommonProto";
 option java_multiple_files = true;
 
 
+
+
+
+/**
+ * This represents an Input Field of the API Definition in $. notation. 
+ * 
+ * Standard API Field Name in $ donation where $ represents the input arg 
+ * and $.a refers to an attribute named a of the root input object 
+ */
+ message StandardApiInputFieldName {
+    string      standard_api_field_name     = 1;    
+}
+
+
+message ConstantValue {
+    oneof   constant_is_one_of {
+        string      str_value       = 1;
+        int32       int32_value     = 2;
+        float       float_value     = 3;
+        bool        bool_value      = 4;    
+    }
+}
+
+
+
+/**
+ * This message represents a Name/Value pair of an input or output
+ * field of any API
+ *
+ * Name represents the name of the field in $. notation
+ */
+ message ApiFieldNameAndValue {
+    StandardApiInputFieldName       field_name              = 1;
+    ConstantValue                   field_value             = 2;
+}
+
+
+
+/**
+ * Field Name OR a constant Value. Used when mapping 
+ * an API input or output to Model's input or output
+ */
 message FieldOrConstantValue {
     
     oneof  value_is_one_of {
@@ -32,25 +74,9 @@ message JsonPathOrConstantValue {
 }
 
 
-/**
- * This represents an Input Field of the API Definition in $. notation. 
- * 
- * Standard API Field Name in $ donation where $ represents the input arg 
- * and $.a refers to an attribute named a of the root input object 
- */
-message StandardApiInputFieldName {
-    string      standard_api_field_name     = 1;    
-}
 
 
-message ConstantValue {
-    oneof   constant_is_one_of {
-        string      str_value       = 1;
-        int32       int32_value     = 2;
-        float       float_value     = 3;
-        bool        bool_value      = 4;    
-    }
-}
+
 
 
 

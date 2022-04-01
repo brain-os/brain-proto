@@ -3,10 +3,10 @@ syntax = "proto3";
 package jio.brain.proto.model;
 
 import "jio/brain/proto/model/author.proto";
-import "jio/brain/proto/model/api_definition.proto";
-import "jio/brain/proto/model/api_definition_field_values.proto";
 import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/model/api_definition.proto";
 import "jio/brain/proto/stores/article_store.proto";
+import "jio/brain/proto/model/common_messages.proto";
 import "jio/brain/proto/model/model.proto";
 import "jio/brain/proto/model/model_input_transformations.proto";
 import "jio/brain/proto/model/model_output_transformations.proto";
