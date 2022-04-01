@@ -6,6 +6,7 @@ import "jio/brain/proto/model/author.proto";
 import "jio/brain/proto/model/model_enums.proto";
 import "jio/brain/proto/model/api_definition.proto";
 import "jio/brain/proto/stores/article_store.proto";
+import "jio/brain/proto/model/common_messages.proto";
 import "jio/brain/proto/model/api_definition_field_values.proto";
 import "jio/brain/proto/model/model_input_transformations.proto";
 import "jio/brain/proto/model/model_output_transformations.proto";
@@ -17,8 +18,12 @@ option java_package = "com.jio.brain.proto.model";
 option java_outer_classname = "ModelProto";
 option java_multiple_files = true;
 
-//                     1:1                                     1:N
-// ModelGroup   ------------------->   ModelVariant --------------------------> ModelVersion
+//
+//
+//       +-------------------------->   HttpVariant
+//      /  (oneof)
+//     |                                                     1:N
+// ModelGroup ---------------------->   ModelVariant --------------------------> ModelVersion
 //     |                                      |                                     |
 //     +--  Contributed by a Model Author     |                                     +---- Change Note
 //     |                                      +--- Input Transformation             |
@@ -48,7 +53,11 @@ message ModelGroup {
     ApiDefinitionIdentity               api_id                  = 4;        // The API of which this model is a solution of
     string                              mg_name                 = 5;        // Unique Name within an Author's Implementations of API
     string                              mg_description          = 6;        // A brief description (possibly containing approach followed)
-    ModelVariant                        variant                 = 7;
+    
+    oneof  variant_is_oneof {
+        ModelVariant                    model_variant           = 7;
+        HttpVariant                     http_variant            = 8;
+    }
 
     ModelGroupStatus                    mg_status               = 9;        // Draft | Published | Archived
     google.protobuf.Timestamp           created_at              = 10;
@@ -61,6 +70,13 @@ message ModelGroup {
     }
 
 }
+
+
+
+            // ------------------------------------------------------------------ //
+            //                 Model Variant Specific Messages
+            // ------------------------------------------------------------------ //
+
 
 
 /**
@@ -176,6 +192,66 @@ enum ModelVersionState {
     TEMPORARY_ERROR             = 13;
     ERROR                       = 14;
 }
+
+
+
+
+            // ------------------------------------------------------------------ //
+            //                 Http Variant Specific Messages
+            // ------------------------------------------------------------------ //
+
+
+
+
+
+message HttpVariant {
+    string                              hv_name                             = 1;    
+    HttpMethod                          method		                        = 2;
+    string                              url				                    = 3;
+    PricingRange                        pricing_range                       = 4;
+    map<string, FieldOrConstantValue>   params                              = 5;
+    map<string, FieldOrConstantValue>   header                              = 6;
+	oneof body {
+		string                          body_raw 							= 7;
+		URLEncodedFormData              body_url_encoded 		            = 8;
+		MultiPartFormData               body_form_data 			            = 9;
+		string                          body_json 							= 10;
+	}
+}
+            
+
+message URLEncodedFormData {
+	map < string, FieldOrConstantValue > form_elements 		= 	1;
+}
+
+
+
+
+message MultiPartFormData {
+	repeated FormDataElement form_data_element 	= 	1;
+}
+
+
+
+
+message FormDataElement {
+	enum FormElementType {
+		DEFAULT		=	0;
+		TXT 		= 	1;
+		FILE 		= 	2;
+	}
+
+	string name 			= 	1;
+	FormElementType type 	= 	2;
+	string value 			= 	3;
+	string contentType 		= 	4;
+}
+
+
+
+            // ------------------------------------------------------------------ //
+            //              Messages Common to Http & Model Variants
+            // ------------------------------------------------------------------ //
 
 
 

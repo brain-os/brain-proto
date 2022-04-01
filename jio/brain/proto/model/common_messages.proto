@@ -51,3 +51,12 @@ message ConstantValue {
         bool        bool_value      = 4;    
     }
 }
+
+
+
+enum HttpMethod {
+    DEFAULT 	= 0;
+    GET 		= 1;
+    POST 		= 2;
+}
+
