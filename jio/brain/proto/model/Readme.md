@@ -36,7 +36,7 @@ The Important attributes of these messages are depicted in the hierarchy below.
 //                                             |
 //                                             + ------ HttpEndPoint
 //                                            /
-//                                           |                                                    1:1
+//                 1:1                       |                                                    1:1
 //       +-------------------------->   HttpVariant                                   +-------------------------->   ModelVersionDetails
 //      /  (oneof)                                                                   /                                      |
 //     |                                                     1:N                    |                                       +--- mlflow_run_id
