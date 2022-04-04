@@ -205,18 +205,19 @@ enum ModelVersionState {
 
 
 message HttpVariant {
-    string                              hv_name                             = 1;    
-    HttpMethod                          method		                        = 2;
-    string                              url				                    = 3;
-    PricingRange                        pricing_range                       = 4;
-    map<string, FieldOrConstantValue>   params                              = 5;
-    map<string, FieldOrConstantValue>   header                              = 6;
-	oneof body {
-		string                          body_raw 							= 7;
-		URLEncodedFormData              body_url_encoded 		            = 8;
-		MultiPartFormData               body_form_data 			            = 9;
-		string                          body_json 							= 10;
+    string                                          hv_name                             = 1;    
+    HttpMethod                                      method		                        = 2;
+    string                                          url				                    = 3;
+    PricingRange                                    pricing_range                       = 4;
+    map<string, FieldOrConstantValue>               params                              = 5;
+    map<string, FieldOrConstantValue>               header                              = 6;
+	oneof body {            
+		string                                      body_raw 							= 7;
+		URLEncodedFormData                          body_url_encoded 		            = 8;
+		MultiPartFormData                           body_form_data 			            = 9;
+		string                                      body_json 							= 10;
 	}
+    ModelOutputToStandardApiOutputTransformation    output_transformation               = 11;
 }
             
 
