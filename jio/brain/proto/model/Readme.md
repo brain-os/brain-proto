@@ -30,16 +30,23 @@ The Important attributes of these messages are depicted in the hierarchy below.
 ```
 //
 //
-//       +-------------------------->   HttpVariant
-//      /  (oneof)
-//     /                                                     1:N
-// ModelGroup ---------------------->   ModelVariant --------------------------> ModelVersion
-//     |                                      |                                     |
-//     +--  Contributed by a Model Author     |                                     +---- Change Note
-//     |                                      +--- Input Transformation             |
-//     +--  Implements a specific API         |                                     +---- Persistent File ID 
-//                                            +--- Output Transformation 
-//                                            |
+//                                             + ------ Pricing
+//                                             |
+//                                             + ------ Output Transformation
+//                                             |
+//                                             + ------ HttpEndPoint
+//                                            /
+//                                           |                                                    1:1
+//       +-------------------------->   HttpVariant                                   +-------------------------->   ModelVersionDetails
+//      /  (oneof)                                                                   /                                      |
+//     |                                                     1:N                    |                                       +--- mlflow_run_id
+// ModelGroup ---------------------->   ModelVariant --------------------------> ModelVersion                               |
+//     |                                      |                                     |                                       +--- docker_image_id
+//     +--  Contributed by a Model Author     |                                     +---- Change Note                       |
+//     |                                      +--- Input Transformation             |                                       +--- HttpEndPoint
+//     +--  Implements a specific API         |                                     +---- Persistent File ID                |
+//                                            +--- Output Transformation            |                                       +--- PerformanceDetails
+//                                            |                                     +---- State
 //                                            +--- Model Information 
 //                                            |
 //                                            +--- PreProcessor
@@ -47,6 +54,8 @@ The Important attributes of these messages are depicted in the hierarchy below.
 //                                            +--- Config Param Values
 //                                            |
 //                                            +--- Pricing
+//
+//                                                  (TODO: Batching???)
 
 ```
 
