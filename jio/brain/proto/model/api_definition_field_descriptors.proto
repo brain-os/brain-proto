@@ -17,19 +17,22 @@ option java_multiple_files = true;
  * Encapsulates details about an Input Field of an API
  */
  message ApiInputFieldDescriptor {
-    uint32              field_sequence_number       = 1; 
-    ApiFieldDescriptor  field_descriptor            = 2;
-    bool                is_configurational          = 3;                    // Configurational Fields play a role in selection of the Model
-    bool                is_mandatory                = 4;                    // If not supplied by consuer, value of this field will be derirved from default Value, when invoked
-    ConstantValue       default_value               = 5;                    // Default Value of the field 
-    
-    oneof               constraint_one_of {                                 // constraints (validations) to be applied on the field's value when API is invoked
-        TextFieldConstraint         text_constraint         = 6;
-        NumericFieldConstraint      numeric_constraint      = 7;
-        DecimalFieldConstraint      decimal_constraint      = 8;
-        FileFieldConstraint         file_constraint         = 9;
-        EnumConstraint              enum_constraint         = 10;
-    }
+                uint32              field_sequence_number       = 1; 
+                string              field_name                  = 2;
+                ApiFieldType        field_type                  = 3;
+                bool                is_repeated                 = 4;
+                string              mapped_proto_field_name     = 5;
+                bool                is_configurational          = 6;                    // Configurational Fields play a role in selection of the Model
+                bool                is_mandatory                = 7;                    // If not supplied by consuer, value of this field will be derirved from default Value, when invoked
+                ConstantValue       default_value               = 8;                    // Default Value of the field 
+    repeated    ApiInputFieldDescriptor  schema                 = 9;                    // Will be set only if the fieldType is OBJECT
+                oneof               constraint_one_of {                                 // constraints (validations) to be applied on the field's value when API is invoked
+                    TextFieldConstraint         text_constraint         = 10;
+                    NumericFieldConstraint      numeric_constraint      = 11;
+                    DecimalFieldConstraint      decimal_constraint      = 12;
+                    FileFieldConstraint         file_constraint         = 13;
+                    EnumConstraint              enum_constraint         = 14;
+                }
 }
 
 
@@ -37,32 +40,20 @@ option java_multiple_files = true;
 /**
  * Encapsulates details about an Input Field of an API
  */
- message ApiOutputFieldDescriptor {
-    uint32              field_sequence_number       = 1; 
-    ApiFieldDescriptor  field_descriptor            = 2;
-    bool                compare_during_testing      = 3;            // if set to true, then match the value of this field with expected field during benchmarking or health check process
+message ApiOutputFieldDescriptor {
+                uint32                      field_sequence_number       = 1; 
+                string                      field_name                  = 2;
+                ApiFieldType                field_type                  = 3;
+                bool                        is_repeated                 = 4;
+                string                      mapped_proto_field_name     = 5;
+                bool                        compare_during_testing      = 6;            // if set to true, then match the value of this field with expected field during benchmarking or health check process
 
-    oneof               constraint_one_of {
-            TextFieldConstraint         text_constraint         = 4;
-            NumericFieldConstraint      numeric_constraint      = 5;
-            DecimalFieldConstraint      decimal_constraint      = 6;
-            FileFieldConstraint         file_constraint         = 7;
-            EnumConstraint              enum_constraint         = 8;
-    }
+    repeated    ApiOutputFieldDescriptor    schema                      = 7;            // Will be set only if the fieldType is OBJECT
+                oneof               constraint_one_of {                                 // constraints (validations) to be applied on the field's value when API is invoked
+                    TextFieldConstraint         text_constraint         = 8;
+                    NumericFieldConstraint      numeric_constraint      = 9;
+                    DecimalFieldConstraint      decimal_constraint      = 10;
+                    FileFieldConstraint         file_constraint         = 11;
+                    EnumConstraint              enum_constraint         = 12;
+                }
 }
-
-
-
-
-/**
- * Represents a Field that is part of either API Input or API Output
- */
- message ApiFieldDescriptor {
-                string              field_name                  = 1;
-                ApiFieldType        field_type                  = 2;
-                bool                is_repeated                 = 3;
-    repeated    ApiFieldDescriptor  schema                      = 4;    // Will be set only if the fieldType is OBJECT
-}
-
-
-

@@ -13,10 +13,10 @@ option java_multiple_files = true;
 
 
 
-//                       1:1                                          1:1
-// ApiDefintion   ------------------->   ApiDefinitionDetails --------------------------> ApiDefinitionMetadata
-//     |                                      |                                               |
-//     +--  api_id                            | 1:N                                           +---- name/description/tags/domain/dataTypes/apiType
+//                       1:1                                   
+// ApiDefintion   ------------------->   ApiDefinitionDetails 
+//     |                                      |               
+//     +--  api_id                            | 1:N                                           
 //     |                                      +------ Api Input Fields                        
 //     +--  enabled/disabled                  | 1:N                                           
 //     |                                      +------ Api Output Fields
@@ -26,7 +26,8 @@ option java_multiple_files = true;
 //                                            +------ BenchmarkingTests
 //                                            |
 //                                            +------ Code Snippets
-//
+//                                            |
+//                                            +---- name/description/tags/domain/dataTypes/apiType
 
 
 /**
@@ -51,32 +52,24 @@ message ApiDefinition {
 
 message ApiDefinitionDetails {
                 string                      api_id_ext                  = 1;    // Unique (Human Readable ID) of an API Definition
-                ApiDefinitionMetadata       api_definition_metadata     = 2;
-    repeated    ApiInputFieldDescriptor     input_field_descriptors     = 3;    // Input Fields of the API Definition
-    repeated    ApiOutputFieldDescriptor    output_field_descriptors    = 4;    // Output Fields of the API Definition            
     
-                HealthCheckTestCases        health_check_tests          = 5;    // Basic Tests to run on any model during onboarding to ensure bare minimum quality 
-                ApiBenchmarkingTestCases    benchmarking_tests          = 6;    
+                string                      api_name                    = 2;    // Name of the API. Example Sentiment Analysis
+                string                      api_description             = 3;    // Brief Description of the API Definition 
 
-                map<string, CodeSnippet>    invocation_code_snippets    = 7;    // Map of Programming Language -> Example Code Snippet for Invoking the API 
+    repeated    ApiInputFieldDescriptor     input_field_descriptors     = 4;    // Input Fields of the API Definition
+    repeated    ApiOutputFieldDescriptor    output_field_descriptors    = 5;    // Output Fields of the API Definition            
+    
+                HealthCheckTestCases        health_check_tests          = 6;    // Basic Tests to run on any model during onboarding to ensure bare minimum quality 
+                ApiBenchmarkingTestCases    benchmarking_tests          = 7;    
+
+                ApiType                     api_type                    = 8;    
+                ApiDataType                 api_input_data_type         = 9;    
+                ApiDataType                 api_output_data_type        = 10;    
+    repeated    ApiDomain                   api_domains                 = 11;    // Domains in which this API is applicable        
+    repeated    string                      api_tags                    = 12;    // Tags by which this API definition can be searched against
+                map<string, CodeSnippet>    invocation_code_snippets    = 13;    // Map of Programming Language -> Example Code Snippet for Invoking the API 
 }
 
-
-
-/**
- * Book Keeping information for an API Definition
- * 
- * Will help in discoverability of the API Definition from the list of
- * APIs stored. 
- */
-message ApiDefinitionMetadata {
-                string                      api_name                    = 1;    // Name of the API. Example Sentiment Analysis
-                string                      api_description             = 2;    // Brief Description of the API Definition 
-    repeated    string                      api_tags                    = 3;    // Tags by which this API definition can be searched against
-                ApiType                     api_type                    = 4;    
-    repeated    ApiDataType                 api_data_types              = 5;    // Input and/or Output Types 
-    repeated    ApiDomain                   api_domains                 = 6;    // Domains in which this API is applicable        
-}
 
 
 

@@ -63,10 +63,10 @@ The Important attributes of these messages are depicted in the hierarchy below.
 ## API Definition
 
 ```
-//                       1:1                                          1:1
-// ApiDefintion   ------------------->   ApiDefinitionDetails --------------------------> ApiDefinitionMetadata
-//     |                                      |                                               |
-//     +--  api_id                            | 1:N                                           +---- name/description/tags/domain/dataTypes/apiType
+//                       1:1                                   
+// ApiDefintion   ------------------->   ApiDefinitionDetails 
+//     |                                      |               
+//     +--  api_id                            | 1:N                                           
 //     |                                      +------ Api Input Fields                        
 //     +--  enabled/disabled                  | 1:N                                           
 //     |                                      +------ Api Output Fields
@@ -76,5 +76,7 @@ The Important attributes of these messages are depicted in the hierarchy below.
 //                                            +------ BenchmarkingTests
 //                                            |
 //                                            +------ Code Snippets
+//                                            |
+//                                            +---- name/description/tags/domain/dataTypes/apiType
 //
 ```
