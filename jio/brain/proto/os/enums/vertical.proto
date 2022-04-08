@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package jio.brain.proto.os.enums;
+
+option java_package = "com.jio.brain.proto.os.enums";
+option java_multiple_files = true;
+
+enum VerticalProto {
+    Common = 0;
+    Telecom = 1;
+    Retail = 2;
+    Media = 3;
+    Hydrocarbons = 4;
+    SmartCities = 5;
+    Healthcare = 6;
+    Agriculture = 7;
+    Education = 8;
+    HumanResources = 9;
+    CyberSecurity = 10;
+}
