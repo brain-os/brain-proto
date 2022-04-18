@@ -9,7 +9,7 @@ import "jio/brain/proto/base/enums.proto";
 // <root> / Brain Identity / Brain Token
 
 message BrainTokenName {
-  repeated string path = 1;
+  repeated string path = 1; //
 }
 message BrainToken {
   string vertical = 1;
@@ -31,6 +31,8 @@ message BrainToken {
     BrainPredicateQualifierToken predicate_qualifier = 15;
     BrainEventToken event = 16;
     BrainProcessToken process = 17;
+    BrainFeatureToken feature = 18;
+    BrainFunctionToken function = 19;
   }
 }
 
@@ -98,6 +100,14 @@ message BrainEventToken {
 }
 
 message BrainProcessToken {
+  BrainTokenName name = 1;
+}
+
+message BrainFeatureToken {
+  BrainTokenName name = 1;
+}
+
+message BrainFunctionToken {
   BrainTokenName name = 1;
 }
 

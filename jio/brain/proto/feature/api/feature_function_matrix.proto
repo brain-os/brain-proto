@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package jio.brain.proto.feature.api;
+
+option java_package = "com.jio.brain.proto.feature.api";
+option java_multiple_files = true;
+
+import "jio/brain/proto/feature/schema/feature.proto";
+import "jio/brain/proto/base/status.proto";
+
+message FeatureToFunctionMappingRequest {
+  repeated jio.brain.proto.feature.schema.FeatureFunctionMapping feature_function_mapping = 1;
+}
+message FeatureToFunctionMappingResponse {
+  jio.brain.proto.base.BrainStatus brainStatus = 1;
+}
+
+service FeatureToFunctionMappingService {
+  rpc addFeatureToFunctionMapping(FeatureToFunctionMappingRequest) returns (FeatureToFunctionMappingResponse);
+  rpc deleteFeatureToFunctionMapping(FeatureToFunctionMappingRequest) returns (FeatureToFunctionMappingResponse);
+}

@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package jio.brain.proto.feature;
+
+option java_package = "com.jio.brain.proto.feature.schema";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/id.proto";
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/base/enums.proto";
+import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+
+//message BrainFeature {
+//  uint32 id = 1; // Brain Id
+//  jio.brain.proto.quantity.BrainQuantity quantity = 2; // will only be numeric, symbolic or binned
+//}
+
+message BrainFeatureSchema {
+  jio.brain.proto.base.BrainToken token = 1;
+  jio.brain.proto.base.BrainFeatureType feature_type = 2;
+  string related_type = 3;
+}
+service FeatureMetadataService {
+  rpc serve(FeatureMetadataRequest) returns (FeatureMetadataResponse) {}
+}
+message FeatureMetadataRequest {
+  string feature_name = 1;
+}
+message FeatureMetadataResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+  repeated string function_set = 2;
+}

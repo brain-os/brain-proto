@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package jio.brain.proto.process;
+
+option java_package = "com.jio.brain.proto.process";
+option java_multiple_files = true;
+
+import "jio/brain/proto/feature/feature.proto";
+import "jio/brain/proto/base/enums.proto";
+
+message BrainFunctionProcessSchema {
+  jio.brain.proto.base.BrainFunctionType function_type = 1;
+  string output_event_schema = 2;
+  string output_topic = 3;
+  map<string, string> function_context = 4;
+  string grpc_host = 5;
+  uint32 grpc_port = 6;
+}

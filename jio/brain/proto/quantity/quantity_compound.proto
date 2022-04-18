@@ -9,6 +9,7 @@ import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/types/collection.proto";
 import "jio/brain/proto/types/vector.proto";
 import "jio/brain/proto/types/symbol.proto";
+import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/quantity/quantity_atomic.proto";
 import "jio/brain/proto/quantity/quantity_compound_range.proto";
 import "jio/brain/proto/quantity/quantity_temporal.proto";
@@ -135,9 +136,9 @@ message BrainHorizontalAxesPoint {
 }
 // A Multivariate set of features (e.g. all features in a model)
 message BrainMultivariateQuantity {
-  map<uint32, BrainAtomicQuantity> value = 1;
+  map<uint32, BrainQuantity> value = 1;
 }
 message BrainMultivariateQuantitySchema {
-  map<uint32, BrainAtomicQuantitySchema> value = 1;
+  map<string, BrainQuantitySchema> value = 1;
 }
 
