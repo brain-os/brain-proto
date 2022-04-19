@@ -16,6 +16,8 @@ message ExecutionResponse {
   jio.brain.proto.event.BrainEvent output_event = 2;
 }
 ```
+
+![Feature Lake](./img/FeatureLake_v3.png "Feature Lake")
 ## Two kind of functions
 * **Interpretation functions** for feature extractions
    * Will be called from ingestion layer
@@ -306,7 +308,6 @@ message FeatureMetadataResponse {
   repeated string function_set = 2;
 }
 ```
-![Feature Lake](./img/FeatureLake_v3.png "Feature Lake")
 
 ### Sequence Diagram
 ![Sequence Diagram](./img/feature_sequence.png "Sequence Diagram")
