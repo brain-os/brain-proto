@@ -19,7 +19,7 @@ message Process {
   repeated string output_topic = 5;
   ProcessType type = 6;
   MessageService messageService = 7;
-  string inputQueue = 8;
+  string inputExchange = 8;
   string outputExchange = 9;
 }
 
