@@ -18,6 +18,16 @@ message Process {
   string input_topic = 4;
   repeated string output_topic = 5;
   ProcessType type = 6;
+  MessageService messageService = 7;
+  string inputQueue = 8;
+  string outputExchange = 9;
+}
+
+enum MessageService {
+  rabbitMq = 0;
+  kafka = 1;
+  rabbitMqToKafka = 2;
+  kafkaToRabbitMq = 3;
 }
 
 enum ProcessType {
