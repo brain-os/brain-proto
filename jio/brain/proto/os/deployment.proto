@@ -15,12 +15,22 @@ message Process {
   int64  id = 1;
   string key_token = 2;
   string name = 3;
-  string input_topic = 4;
-  repeated string output_topic = 5;
-  ProcessType type = 6;
-  MessageService messageService = 7;
-  string inputExchange = 8;
-  string outputExchange = 9;
+  ProcessType type = 4;
+  MessageService messageService = 5;
+
+  oneof input_is_one_of {
+    string input_topic = 6;
+    string inputExchange = 7;
+  }
+  oneof output_is_one_of {
+   OutputTopic outputTopics = 8;
+    string outputExchange = 9;
+  }
+
+}
+
+message OutputTopic{
+  repeated string output_topic = 1;
 }
 
 enum MessageService {
