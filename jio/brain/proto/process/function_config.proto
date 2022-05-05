@@ -8,7 +8,39 @@ option java_multiple_files = true;
 import "jio/brain/proto/feature/feature.proto";
 import "jio/brain/proto/base/enums.proto";
 
-message BrainFunctionProcessSchema {
+message GrpcModelProcess {
+  string grpc_host = 5;
+  uint32 grpc_port = 6;
+}
+message HttpModelProcess {
+  string http_host = 5;
+  uint32 http_port = 6;
+  // TODO request response config
+}
+message TransportProcess {
+  oneof process_is_one_of {
+      GrpcModelProcess grpc = 1;
+      HttpModelProcess http = 2;
+  }
+}
+// TODO remove 29-31
+// Rule, Classification ...
+message BrainModelProcessSchema {
+  jio.brain.proto.base.BrainFunctionType function_type = 1; // one of kind of model - classification, regression, interpretation, cluster
+  string output_event_schema = 2;
+  string output_topic = 3;
+  map<string, string> function_context = 4;
+  TransportProcess transport = 5;
+}
+message BrainRuleProcessSchema {
+  jio.brain.proto.base.BrainFunctionType function_type = 1;
+  string output_event_schema = 2;
+  string output_topic = 3;
+  map<string, string> function_context = 4;
+  string grpc_host = 5;
+  uint32 grpc_port = 6;
+}
+message BrainOptimizationProcessSchema {
   jio.brain.proto.base.BrainFunctionType function_type = 1;
   string output_event_schema = 2;
   string output_topic = 3;

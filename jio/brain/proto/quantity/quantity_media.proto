@@ -13,22 +13,24 @@ import "jio/brain/proto/quantity/quantity_spatial.proto";
 import "jio/brain/proto/quantity/quantity_temporal.proto";
 
 message BrainPayload {
+  string uri = 1;
+  string source_uri = 2;
   oneof payload_is_one_of {
-    bytes payload = 1;
-    string url = 2;
+    bytes payload = 3;
+    string base64encoded = 4;
   }
 }
 message BrainMediaQuantity {
   oneof media_is_one_of {
     BrainTextQuantity text = 1;
-    BrainDocumentQuantity document = 2;
+//    BrainDocumentQuantity document = 2;
     BrainVideoQuantity video = 3;
     BrainAudioQuantity audio = 4;
     BrainImageQuantity image = 5;
   }
 }
 message BrainTextQuantity {
-  string encoding = 1;
+  string encoding = 1; //TODO need to make it enum
   jio.brain.proto.base.BrainLanguageType language = 2; // en, hn, sp
   jio.brain.proto.base.BrainTextType text_type = 3; // tweet, review comment, chat
   string text = 4; // actual content
@@ -47,6 +49,8 @@ message BrainAudioQuantity {
 }
 message BrainImageQuantity {
   jio.brain.proto.base.BrainImageFormat format = 1; // png, jpeg
+  // TODO image type - MRI, Xray, thermal camera, remote sensing - Bala Krishna Pailla and Naveen
+  // Hierarchy - X Ray - Leg, Knee
   BrainPayload payload = 2; // url or bytes
 }
 message BrainMediaQuantitySchema {

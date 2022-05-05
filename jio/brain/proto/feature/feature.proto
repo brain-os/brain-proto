@@ -9,20 +9,22 @@ import "jio/brain/proto/base/id.proto";
 import "jio/brain/proto/base/status.proto";
 import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/quantity/quantity.proto";
-
-//message BrainFeature {
-//  uint32 id = 1; // Brain Id
-//  jio.brain.proto.quantity.BrainQuantity quantity = 2; // will only be numeric, symbolic or binned
-//}
+import "jio/brain/proto/event/event.proto";
 
 message BrainFeatureSchema {
   jio.brain.proto.base.BrainToken token = 1;
-  jio.brain.proto.base.BrainFeatureType feature_type = 2;
-  string related_type = 3;
+  oneof type_is_one_of {
+    jio.brain.proto.entity.BrainAttributeSchema attribute = 2; // static - attribute of entity as well as their time series values
+    jio.brain.proto.event.BrainEventPropertySchema property  = 3; // output of DAG e.g. aggregate same
+    // todo predicates and predicate qualifiers
+    jio.brain.proto.quantity.BrainQuantitySchema inferred = 4;
+  }
+  uint32 record_count = 6; // for time series values
 }
 service FeatureMetadataService {
-  rpc serve(FeatureMetadataRequest) returns (FeatureMetadataResponse) {}
+  rpc getDependentFunctions(FeatureMetadataRequest) returns (FeatureMetadataResponse) {}
 }
 message FeatureMetadataRequest {
   string feature_name = 1;
