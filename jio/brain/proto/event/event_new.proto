@@ -1,164 +1,164 @@
-syntax = "proto3";
-
-package jio.brain.proto.event;
-
-option java_package = "com.jio.brain.proto.event1";
-option java_multiple_files = true;
-
-import "google/protobuf/any.proto";
-import "jio/brain/proto/base/enums.proto";
-import "jio/brain/proto/base/token.proto";
-import "jio/brain/proto/types/collection.proto";
-import "jio/brain/proto/quantity/quantity.proto";
-import "jio/brain/proto/quantity/quantity_temporal.proto";
-import "jio/brain/proto/quantity/quantity_media.proto";
-import "jio/brain/proto/entity/entity.proto";
-import "jio/brain/proto/event/tracing.proto";
-
-message BrainEvent {
-  uint32 id = 1;
-  uint32 type = 2;
-  BrainEventMetadata meta_data = 3;
-  oneof event {
-    BrainIngestionEvent ingestion_event = 4; // raw data - file, kafka, text, video, audio
-    BrainEventKeyValue key_value_event = 5; // transaction event
-    BrainInterpretationEvent interpretation_event = 6; // data ready for interpretation
-  }
-}
-// Image, Text, Audi, Video
-// Text - tweet, email
-message BrainInterpretationEvent {
-  BrainEntityStore entity_store = 1; // tweets - tweet author, tweet time; video - camera id,
-  BrainQuantityStore property_store = 2; // tweets - tweet time; video - timestamp
-  jio.brain.proto.quantity.BrainMediaQuantity media_quantity = 3;
-
-}
-message BrainInterpretationEventSchema {
-  BrainEntityStoreSchema entity = 1;
-  map<string, BrainEventPropertySchema> property = 2;
-  jio.brain.proto.quantity.BrainMediaQuantitySchema media_quantity = 3;
-}
-message BrainEventMetadata {
-  repeated BrainEventTrace trace = 1;
-}
-
-message BrainIngestionEvent {
-  oneof source {
-    string csv_file_path = 1;
-    string excel_file_path = 2;
-    string json_file_path = 3;
-    google.protobuf.Any message = 4; // event on kafka
-  }
-  uint32 startReadingLineNumber = 5;
-}
-
-message BrainEventKeyValue {
-  BrainEventKey key = 1;
-  BrainEventValue value = 2;
-}
-
-message BrainEventKeyMultiValue {
-  BrainEventKey key = 1;
-  repeated BrainEventValue values = 2;
-}
-
-/*message BrainEvent {
-  uint32 type = 1; // entity type <-> lsr event
-  BrainEventKey key = 2;
-  BrainEventValue value = 3;
-  repeated BrainEventTrace trace = 4;
-}*/
-
-message BrainEventKey {
-  BrainEntityStore entity_store = 1;    // customer, cell-id
-  BrainQuantityStore context_store = 2;  // time-stamp, lat-long
-  BrainAttributeStore attribute_store = 3; // only symbolic, binned
-  BrainEntityPredicateStore predicate_store = 4;
-  jio.brain.proto.base.BrainTimeWindowType window_type = 5;
-}
-message BrainEventValue {
-  BrainEntityStore entity_store = 1;
-  BrainQuantityStore property_store = 2;
-  BrainAttributeStore attribute_store = 3;
-  BrainEntityPredicateStore predicate_store = 4;
-}
-message BrainEntityStore {
-  // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
-  // Value = A Set of entities of key type
-  // entities[<entity-type>].elements[<entity-id>] = true
-  map<uint32, jio.brain.proto.types.BrainEntitySet> entities = 1;
-}
-message BrainQuantityStore {
-  // key = machine_id for whatever role it is playing
-  // Note: This is NOT quantity type but the role_type
-  // e.g. context, property,
-  // e.g. attribute, attribute_qualifier,
-  // e.g. predicate, predicate_qualifier
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
-}
-
-message BrainAttributeStore {
-  // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
-  map<uint32, BrainEntityAttributeStore> attributes = 1;
-}
-message BrainEntityAttributeStore {
-  // key = <entity-id> (attributes of these entities)
-  map<uint64, jio.brain.proto.entity.BrainAttributeSet> attribute_set = 1;
-}
-message BrainPredicateStore {
-  // key = mid(/m/<vertical>/<domain>/predicate/<subject-type>/<predicate-name>/<object-type>)
-  map<uint32, BrainEntityPredicateStore> predicate = 1;
-}
-message BrainEntityPredicateStore {
-  // key = entity id
-  map<uint64, jio.brain.proto.entity.BrainPredicateSet> predicate = 1;
-}
-
-message BrainEventSchema {
-  jio.brain.proto.base.BrainToken token = 1;
-  jio.brain.proto.base.BrainAudioFormat payload_type = 2;
-  oneof event_schema {
-    BrainIngestionEventSchema ingestion_event = 3;
-    BrainEventValueSchema value_event = 4;
-    BrainEventKeyValueSchema key_value_event = 5;
-    BrainEventKeyMultiValueSchema key_multi_value_event = 6;
-  }
-}
-message BrainIngestionEventSchema {
-  string name = 1;
-}
-
-message BrainEventKeySchema {
-  BrainEntityStoreSchema entity = 1;
-  // key = mid(/m/<vertical>/<domain>/<event>/<context>)
-  map<string, BrainEventContextSchema> context = 2;
-  jio.brain.proto.base.BrainTimeWindowType window_type = 3;
-}
-message BrainEventValueSchema {
-  BrainEntityStoreSchema entity = 1;
-  // key = mid(/m/<vertical>/<domain>/<event>/<property>)
-  map<string, BrainEventPropertySchema> property = 2;
-}
-message BrainEventKeyValueSchema {
-  BrainEventKeySchema key = 1;
-  BrainEventValueSchema value = 2;
-}
-message BrainEventKeyMultiValueSchema {
-  BrainEventKeySchema key = 1;
-  repeated BrainEventValueSchema value = 2;
-}
-message BrainEntityStoreSchema {
-  // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
-  map<string, jio.brain.proto.entity.BrainEntitySchema> entity = 1;
-}
-message BrainEventContextSchema {
-  jio.brain.proto.base.BrainToken token = 1;
-  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
-  // BrainToken unit = 3;
-}
-message BrainEventPropertySchema {
-  jio.brain.proto.base.BrainToken token = 1;
-  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
-  optional jio.brain.proto.base.BrainToken unit = 3;
-}
-
+//syntax = "proto3";
+//
+//package jio.brain.proto.event;
+//
+//option java_package = "com.jio.brain.proto.event1";
+//option java_multiple_files = true;
+//
+//import "google/protobuf/any.proto";
+//import "jio/brain/proto/base/enums.proto";
+//import "jio/brain/proto/base/token.proto";
+//import "jio/brain/proto/types/collection.proto";
+//import "jio/brain/proto/quantity/quantity.proto";
+//import "jio/brain/proto/quantity/quantity_temporal.proto";
+//import "jio/brain/proto/quantity/quantity_media.proto";
+//import "jio/brain/proto/entity/entity.proto";
+//import "jio/brain/proto/event/tracing.proto";
+//
+//message BrainEvent {
+//  uint32 id = 1;
+//  uint32 type = 2;
+//  BrainEventMetadata meta_data = 3;
+//  oneof event {
+//    BrainIngestionEvent ingestion_event = 4; // raw data - file, kafka, text, video, audio
+//    BrainEventKeyValue key_value_event = 5; // transaction event
+//    BrainInterpretationEvent interpretation_event = 6; // data ready for interpretation
+//  }
+//}
+//// Image, Text, Audi, Video
+//// Text - tweet, email
+//message BrainInterpretationEvent {
+//  BrainEntityStore entity_store = 1; // tweets - tweet author, tweet time; video - camera id,
+//  BrainQuantityStore property_store = 2; // tweets - tweet time; video - timestamp
+//  jio.brain.proto.quantity.BrainMediaQuantity media_quantity = 3;
+//
+//}
+//message BrainInterpretationEventSchema {
+//  BrainEntityStoreSchema entity = 1;
+//  map<string, BrainEventPropertySchema> property = 2;
+//  jio.brain.proto.quantity.BrainMediaQuantitySchema media_quantity = 3;
+//}
+//message BrainEventMetadata {
+//  repeated BrainEventTrace trace = 1;
+//}
+//
+//message BrainIngestionEvent {
+//  oneof source {
+//    string csv_file_path = 1;
+//    string excel_file_path = 2;
+//    string json_file_path = 3;
+//    google.protobuf.Any message = 4; // event on kafka
+//  }
+//  uint32 startReadingLineNumber = 5;
+//}
+//
+//message BrainEventKeyValue {
+//  BrainEventKey key = 1;
+//  BrainEventValue value = 2;
+//}
+//
+//message BrainEventKeyMultiValue {
+//  BrainEventKey key = 1;
+//  repeated BrainEventValue values = 2;
+//}
+//
+///*message BrainEvent {
+//  uint32 type = 1; // entity type <-> lsr event
+//  BrainEventKey key = 2;
+//  BrainEventValue value = 3;
+//  repeated BrainEventTrace trace = 4;
+//}*/
+//
+//message BrainEventKey {
+//  BrainEntityStore entity_store = 1;    // customer, cell-id
+//  BrainQuantityStore context_store = 2;  // time-stamp, lat-long
+//  BrainAttributeStore attribute_store = 3; // only symbolic, binned
+//  BrainEntityPredicateStore predicate_store = 4;
+//  jio.brain.proto.base.BrainTimeWindowType window_type = 5;
+//}
+//message BrainEventValue {
+//  BrainEntityStore entity_store = 1;
+//  BrainQuantityStore property_store = 2;
+//  BrainAttributeStore attribute_store = 3;
+//  BrainEntityPredicateStore predicate_store = 4;
+//}
+//message BrainEntityStore {
+//  // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+//  // Value = A Set of entities of key type
+//  // entities[<entity-type>].elements[<entity-id>] = true
+//  map<uint32, jio.brain.proto.types.BrainEntitySet> entities = 1;
+//}
+//message BrainQuantityStore {
+//  // key = machine_id for whatever role it is playing
+//  // Note: This is NOT quantity type but the role_type
+//  // e.g. context, property,
+//  // e.g. attribute, attribute_qualifier,
+//  // e.g. predicate, predicate_qualifier
+//  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
+//}
+//
+//message BrainAttributeStore {
+//  // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+//  map<uint32, BrainEntityAttributeStore> attributes = 1;
+//}
+//message BrainEntityAttributeStore {
+//  // key = <entity-id> (attributes of these entities)
+//  map<uint64, jio.brain.proto.entity.BrainAttributeSet> attribute_set = 1;
+//}
+//message BrainPredicateStore {
+//  // key = mid(/m/<vertical>/<domain>/predicate/<subject-type>/<predicate-name>/<object-type>)
+//  map<uint32, BrainEntityPredicateStore> predicate = 1;
+//}
+//message BrainEntityPredicateStore {
+//  // key = entity id
+//  map<uint64, jio.brain.proto.entity.BrainPredicateSet> predicate = 1;
+//}
+//
+//message BrainEventSchema {
+//  jio.brain.proto.base.BrainToken token = 1;
+//  jio.brain.proto.base.BrainAudioFormat payload_type = 2;
+//  oneof event_schema {
+//    BrainIngestionEventSchema ingestion_event = 3;
+//    BrainEventValueSchema value_event = 4;
+//    BrainEventKeyValueSchema key_value_event = 5;
+//    BrainEventKeyMultiValueSchema key_multi_value_event = 6;
+//  }
+//}
+//message BrainIngestionEventSchema {
+//  string name = 1;
+//}
+//
+//message BrainEventKeySchema {
+//  BrainEntityStoreSchema entity = 1;
+//  // key = mid(/m/<vertical>/<domain>/<event>/<context>)
+//  map<string, BrainEventContextSchema> context = 2;
+//  jio.brain.proto.base.BrainTimeWindowType window_type = 3;
+//}
+//message BrainEventValueSchema {
+//  BrainEntityStoreSchema entity = 1;
+//  // key = mid(/m/<vertical>/<domain>/<event>/<property>)
+//  map<string, BrainEventPropertySchema> property = 2;
+//}
+//message BrainEventKeyValueSchema {
+//  BrainEventKeySchema key = 1;
+//  BrainEventValueSchema value = 2;
+//}
+//message BrainEventKeyMultiValueSchema {
+//  BrainEventKeySchema key = 1;
+//  repeated BrainEventValueSchema value = 2;
+//}
+//message BrainEntityStoreSchema {
+//  // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+//  map<string, jio.brain.proto.entity.BrainEntitySchema> entity = 1;
+//}
+//message BrainEventContextSchema {
+//  jio.brain.proto.base.BrainToken token = 1;
+//  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
+//  // BrainToken unit = 3;
+//}
+//message BrainEventPropertySchema {
+//  jio.brain.proto.base.BrainToken token = 1;
+//  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
+//  optional jio.brain.proto.base.BrainToken unit = 3;
+//}
+//

@@ -5,14 +5,16 @@ package jio.brain.proto.process;
 option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
-import "jio/brain/proto/feature/feature.proto";
 import "jio/brain/proto/base/enums.proto";
+import "jio/brain/proto/base/token.proto";
+
 
 message BrainFunctionProcessSchema {
-  jio.brain.proto.base.BrainFunctionType function_type = 1;
-  string output_event_schema = 2;
-  string output_topic = 3;
-  map<string, string> function_context = 4;
-  string grpc_host = 5;
-  uint32 grpc_port = 6;
+  jio.brain.proto.base.BrainToken feature = 1;
+  jio.brain.proto.base.BrainFunctionType function_type = 2;
+  string input_topic = 3;
+  string output_topic = 4;
+  repeated string input_features = 5;
+  repeated string output_features = 6;
+  map<string, string> function_context = 7;
 }
