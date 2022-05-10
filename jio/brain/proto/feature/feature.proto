@@ -9,19 +9,44 @@ import "jio/brain/proto/base/status.proto";
 import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/quantity/quantity.proto";
+import "google/protobuf/any.proto";
 
 message BrainFeatureSet {
   map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
 }
 
+/**
+{  "telecom/feature/call_duration"  : 100 ,
+   "telecom/feature/call_drop" : 4365,
+   "telecom/feature/call_noise" : 834 }
+ */
+
 message BrainFeatureFamily {
   map<uint32, BrainFeatureSet> value = 1;
+}
+
+/*
+{ "telecom/feature/call_experience" : {
+   "telecom/feature/call_duration"  : 100 ,
+   "telecom/feature/call_drop" : 4365,
+   "telecom/feature/call_noise" : 834 }
+   }
+ */
+
+/**
+ This BrainFeature will be used while saving feature to store and fetching it back.
+ */
+message BrainFeature {
+  uint32 feature = 1;
+  string feature_key = 2;
+  google.protobuf.Any feature_value = 3;      // can be of type int, string, map
 }
 
 message BrainFeatureSchema {
   jio.brain.proto.base.BrainToken feature = 1;
   jio.brain.proto.base.BrainFeatureType feature_type = 2;
   jio.brain.proto.base.BrainToken source = 3;       //source name e.g. DAG property or KG attribute
+
 }
 
 service FeatureMetadataService {
