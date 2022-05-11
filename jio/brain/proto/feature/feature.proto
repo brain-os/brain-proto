@@ -34,7 +34,7 @@ message BrainFeatureFamily {
  */
 
 /**
- This BrainFeature will be used while saving feature to store and fetching it back.
+ This BrainFeature proto will be used while saving feature to store and fetching it back.
  */
 message BrainFeature {
   uint32 feature = 1;
@@ -42,11 +42,27 @@ message BrainFeature {
   google.protobuf.Any feature_value = 3;      // can be of type int, string, map
 }
 
-message BrainFeatureSchema {
-  jio.brain.proto.base.BrainToken feature = 1;
-  jio.brain.proto.base.BrainFeatureType feature_type = 2;
-  jio.brain.proto.base.BrainToken source = 3;       //source name e.g. DAG property or KG attribute
+// Old version
+//message BrainFeatureSchema {
+//  jio.brain.proto.base.BrainToken feature = 1;
+//  jio.brain.proto.base.BrainFeatureType feature_type = 2;
+//  jio.brain.proto.base.BrainToken source = 3;       //source name e.g. DAG property or KG attribute
+//
+//}
 
+message BrainFeatureSetSchema {
+  map<string, BrainEventFeatureSchema> feature_set = 1;
+}
+
+message BrainFeatureFamilySchema {
+  map<string, BrainFeatureSetSchema> value = 1;
+}
+
+message BrainEventFeatureSchema {
+  jio.brain.proto.base.BrainToken token = 1;
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
+  //jio.brain.proto.base.BrainFeatureType feature_type = 2;
+  //optional jio.brain.proto.base.BrainToken unit = 3;
 }
 
 service FeatureMetadataService {
@@ -60,3 +76,8 @@ message FeatureMetadataResponse {
   jio.brain.proto.base.BrainStatus status = 1;
   repeated uint32 function_set = 2;
 }
+
+
+//message FeatureServiceRepoConfig {
+//  repeated input_topics = 1;
+//}
