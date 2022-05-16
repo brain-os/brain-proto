@@ -11,8 +11,9 @@ import "jio/brain/proto/types/collection.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/event/tracing.proto";
+import "jio/brain/proto/feature/feature.proto";
 
-/*
+/**
 {
   "id" : 12345, // 12345 (generated) from schema <=> /telecom/network/event/lsr - will same for all LSR events
   "value" : {
@@ -34,7 +35,7 @@ import "jio/brain/proto/event/tracing.proto";
     }
   ]
 }
- */
+ **/
 
 message BrainEvent {
   uint32 id = 1;
@@ -42,9 +43,8 @@ message BrainEvent {
   BrainEventMetadata meta_data = 3;
   oneof event {
     BrainIngestionEvent ingestion_event = 4;
-  //  BrainEventValue value_event = 5;
     BrainEventKeyValue key_value_event = 5;
-  //  BrainEventKeyMultiValue key_multi_value_event = 7;
+    //BrainEventFeatureKeyValue feature_key_value = 6;
   }
 }
 
@@ -57,7 +57,7 @@ message BrainIngestionEvent {
     string csv_file_path = 1;
     string excel_file_path = 2;
     string json_file_path = 3;
-    google.protobuf.Any message = 4; // event on kafka
+    google.protobuf.Any message = 4;
   }
   uint32 startReadingLineNumber = 5;
 }
@@ -72,25 +72,33 @@ message BrainEventKeyMultiValue {
   repeated BrainEventValue values = 2;
 }
 
-/*message BrainEvent {
-  uint32 type = 1; // entity type <-> lsr event
-  BrainEventKey key = 2;
-  BrainEventValue value = 3;
-  repeated BrainEventTrace trace = 4;
-}*/
-
 message BrainEventKey {
-  BrainEntityStore entity_store = 1;    // customer, cell-id
-  BrainQuantityStore context_store = 2;  // tie-stamp, lat-long
+  BrainEntityStore entity_store = 1;
+  BrainQuantityStore context_store = 2;
   BrainAttributeStore attribute_store = 3;
   BrainEntityPredicateStore predicate_store = 4;
 }
+
 message BrainEventValue {
   BrainEntityStore entity_store = 1;
   BrainQuantityStore property_store = 2;
   BrainAttributeStore attribute_store = 3;
   BrainEntityPredicateStore predicate_store = 4;
+  BrainFeatureSetStore feature_value = 5;
 }
+
+//message BrainEventFeatureKeyValue {
+//  BrainEventKey feature_key = 1;
+//  BrainFeatureSetStore feature_value = 2;
+//}
+
+message BrainFeatureSetStore {
+  oneof feature {
+    jio.brain.proto.feature.BrainFeatureSet features = 1;
+    jio.brain.proto.feature.BrainFeatureFamily  feature_family = 2;   // TBD for usage in feature lake
+  }
+}
+
 message BrainEntityStore {
   // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
   // Value = A Set of entities of key type
@@ -127,9 +135,10 @@ message BrainEventSchema {
   jio.brain.proto.base.BrainToken token = 1;
   oneof event_schema {
     BrainIngestionEventSchema ingestion_event = 2;
-    BrainEventValueSchema value_event = 3;
+    // BrainEventValueSchema value_event = 3;
     BrainEventKeyValueSchema key_value_event = 4;
-    BrainEventKeyMultiValueSchema key_multi_value_event = 5;
+    // BrainEventKeyMultiValueSchema key_multi_value_event = 5;
+    //BrainEventFeatureKeyValueSchema feature_event = 6;
   }
 }
 message BrainIngestionEventSchema {
@@ -141,19 +150,31 @@ message BrainEventKeySchema {
   // key = mid(/m/<vertical>/<domain>/<event>/<context>)
   map<string, BrainEventContextSchema> context = 2;
 }
+
 message BrainEventValueSchema {
   BrainEntityStoreSchema entity = 1;
   // key = mid(/m/<vertical>/<domain>/<event>/<property>)
   map<string, BrainEventPropertySchema> property = 2;
+  BrainEventFeatureValueSchema feature = 3;
 }
+
 message BrainEventKeyValueSchema {
-    BrainEventKeySchema key = 1;
-    BrainEventValueSchema value = 2;
-}
-message BrainEventKeyMultiValueSchema {
   BrainEventKeySchema key = 1;
-  repeated BrainEventValueSchema value = 2;
+  BrainEventValueSchema value = 2;
 }
+//message BrainEventFeatureKeyValueSchema {
+//  BrainEventKeySchema key = 1;
+//  BrainEventFeatureValueSchema value = 2;
+//}
+
+message BrainEventFeatureValueSchema {
+  // key = mid(/m/<vertical>/<domain>/<event>/<property>)
+  oneof feature_schema {
+    jio.brain.proto.feature.BrainFeatureSetSchema features = 1;
+    jio.brain.proto.feature.BrainFeatureFamilySchema  feature_family = 2;
+  }
+}
+
 message BrainEntityStoreSchema {
   // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
   map<string, jio.brain.proto.entity.BrainEntitySchema> entity = 1;
@@ -169,3 +190,8 @@ message BrainEventPropertySchema {
   optional jio.brain.proto.base.BrainToken unit = 3;
 }
 
+
+//message BrainEventKeyMultiValueSchema {
+//  BrainEventKeySchema key = 1;
+//  repeated BrainEventValueSchema value = 2;
+//}

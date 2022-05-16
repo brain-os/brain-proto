@@ -6,11 +6,11 @@ option java_package = "com.jio.brain.proto.quantity";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/enums.proto";
-import "jio/brain/proto/base/token.proto";
-import "jio/brain/proto/quantity/quantity_atomic.proto";
-import "jio/brain/proto/quantity/quantity_compound.proto";
-import "jio/brain/proto/quantity/quantity_spatial.proto";
-import "jio/brain/proto/quantity/quantity_temporal.proto";
+//import "jio/brain/proto/base/token.proto";
+//import "jio/brain/proto/quantity/quantity_atomic.proto";
+//import "jio/brain/proto/quantity/quantity_compound.proto";
+//import "jio/brain/proto/quantity/quantity_spatial.proto";
+//import "jio/brain/proto/quantity/quantity_temporal.proto";
 
 message BrainPayload {
   string uri = 1;
