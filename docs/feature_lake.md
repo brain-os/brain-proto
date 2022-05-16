@@ -1,6 +1,7 @@
 ## Feature Lake
+
 <div>
-<img alt="feature-lake" src="./img/feature-lake.png" usemap="#image-map">
+<img alt="feature-lake" src="https://github.com/brain-os/brain-proto/blob/e6b8dfc84bd2174e84e6351e76e961bd6a172259/docs/img/feature-lake.png?raw=true" usemap="#image-map">
 
 <map name="image-map">
     <area target="_blank" alt="Function Executor" title="Function Executor" href="https://www.google.com/1" coords="377,829,252,766" shape="rect">
