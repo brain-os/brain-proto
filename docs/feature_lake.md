@@ -1,5 +1,4 @@
 ## Feature Lake
-![Feature Lake](./img/feature-lake.png "Feature Lake")
 <div>
 <img alt="feature-lake" src="./img/feature-lake.png" usemap="#image-map">
 
