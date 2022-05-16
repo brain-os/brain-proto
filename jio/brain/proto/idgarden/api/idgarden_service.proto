@@ -22,7 +22,28 @@ message IdGardenGetEntityIdResponse {
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
+message IdGardenGetPrimaryBizIdForEntityIdRequest {
+  uint64 entity_id  = 1;
+  uint32 entity_type_id  = 2;
+}
+
+message IdGardenGetPrimaryBizIdForEntityIdResponse {
+  string primary_biz_id = 1;
+  jio.brain.proto.base.BrainStatus brainStatus = 2;
+}
+
+message IdGardenGetSpecificBizIdForEntityIdRequest {
+  uint64 entity_id  = 1;
+  string biz_id_type = 2;
+}
+
+message IdGardenGetSpecificBizIdForEntityIdResponse {
+  string biz_id = 1;
+  jio.brain.proto.base.BrainStatus brainStatus = 2;
+}
 
 service IdGardenService {
   rpc getEntityIdForBizId(IdGardenGetEntityIdRequest) returns (IdGardenGetEntityIdResponse);
+  rpc getPrimaryBizIdForEntityId(IdGardenGetPrimaryBizIdForEntityIdRequest) returns (IdGardenGetPrimaryBizIdForEntityIdResponse);
+  rpc getSpecificBizIdForEntityId(IdGardenGetSpecificBizIdForEntityIdRequest) returns (IdGardenGetSpecificBizIdForEntityIdResponse);
 }

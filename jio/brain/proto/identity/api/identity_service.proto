@@ -8,12 +8,17 @@ option java_multiple_files = true;
 import "jio/brain/proto/base/id.proto";
 import "jio/brain/proto/base/status.proto";
 
+message PrimaryBizId {
+  string primary_biz_id = 3;
+  string primary_biz_id_type = 4;
+}
+
 message IdentityRequest {
   oneof id_type {
     uint32 collection_type_id = 1;
     uint32 entity_type_id = 2;
   }
-  repeated string primary_biz_id = 3;
+  repeated PrimaryBizId primary_biz_ids = 3;
 }
 
 message IdentityResponse {
@@ -26,8 +31,9 @@ message IdentityCreateBrainIdWithPrimaryAndBizIdRequest {
     uint32 collection_type_id = 1;
     uint32 entity_type_id = 2;
   }
-  repeated string secondary_biz_ids = 3;
+  map<string, string> secondary_biz_ids = 3;
   string primary_biz_id = 4;
+  string primary_biz_id_type = 5;
 }
 
 message IdentityCreateBrainIdWithPrimaryAndBizIdResponse {
@@ -37,7 +43,7 @@ message IdentityCreateBrainIdWithPrimaryAndBizIdResponse {
 
 message IdentityAddSecondaryBizIdsWithEntityIdRequest {
   uint64 entity_id = 1;
-  repeated string secondary_biz_ids = 2;
+  map<string, string> secondary_biz_ids = 2;
 }
 
 message IdentityAddSecondaryBizIdsWithEntityIdResponse {
@@ -47,7 +53,7 @@ message IdentityAddSecondaryBizIdsWithEntityIdResponse {
 
 message IdentityAddSecondaryBizIdsWithPrimaryBizIdAndEntityTypeRequest {
   string primary_biz_id = 1;
-  repeated string secondary_biz_ids = 2;
+  map<string, string> secondary_biz_ids = 2;
   oneof id_type {
     uint32 collection_type_id = 3;
     uint32 entity_type_id = 4;
