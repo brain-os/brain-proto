@@ -14,6 +14,7 @@ import "jio/brain/proto/process/filter_config.proto";
 import "jio/brain/proto/process/pivot_config.proto";
 import "jio/brain/proto/process/reduce_config.proto";
 import "jio/brain/proto/process/compute_config.proto";
+import "jio/brain/proto/process/repository_config.proto";
 
 message BrainProcessSchema {
   jio.brain.proto.base.BrainToken token = 1;
@@ -28,5 +29,7 @@ message BrainProcessSchema {
     BrainIngestProcessSchema ingest = 9;
     BrainQuantizeProcessSchema quantize = 10;
     BrainComputeProcessSchema compute = 11;
+    BrainRepositoryProcessSchema repository = 12;
+
   }
 }
