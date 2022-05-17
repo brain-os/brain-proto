@@ -194,3 +194,13 @@ enum BrainInputDataType {
     BRAIN_INPUT_DATA_TYPE_DOUBLE = 13;
     BRAIN_INPUT_DATA_TYPE_FLOAT = 14;
 }
+
+enum BrainProcessType {
+    INGESTION = 0;
+    ENRICH = 1;
+    QUANTIZATION = 2;
+    FILTER = 3;
+    PIVOT = 4;
+    COMPUTE = 5;
+    REDUCE = 6;
+}
