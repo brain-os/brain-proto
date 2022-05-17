@@ -17,8 +17,16 @@ message Process {
   string name = 3;
   ProcessType type = 4;
   MessageService messageService = 5;
-  string input_topic = 6;
-  OutputTopic outputTopics = 7;
+
+  oneof input_is_one_of {
+    string input_topic = 6;
+    string inputExchange = 7;
+  }
+  oneof output_is_one_of {
+    OutputTopic outputTopics = 8;
+    string outputExchange = 9;
+  }
+
 }
 
 message OutputTopic{
