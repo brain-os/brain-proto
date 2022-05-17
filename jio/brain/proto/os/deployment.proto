@@ -46,9 +46,9 @@ enum ProcessType {
   quantization = 2;
   filter = 3;
   pivot = 4;
-  joiner = 5;
-  reduce = 6;
-  compute = 7;
+  reduce = 5;
+  compute = 6;
+  repository = 7;
 }
 
 enum ProcessStatus {
