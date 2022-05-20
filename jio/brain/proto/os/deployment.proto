@@ -17,14 +17,15 @@ message Process {
   string name = 3;
   ProcessType type = 4;
   MessageService messageService = 5;
+  string profile = 6;
 
   oneof input_is_one_of {
-    string input_topic = 6;
-    string inputExchange = 7;
+    string input_topic = 7;
+    string inputExchange = 8;
   }
   oneof output_is_one_of {
-   OutputTopic outputTopics = 8;
-    string outputExchange = 9;
+    OutputTopic outputTopics = 9;
+    string outputExchange = 10;
   }
 
 }
@@ -46,9 +47,9 @@ enum ProcessType {
   quantization = 2;
   filter = 3;
   pivot = 4;
-  joiner = 5;
-  reduce = 6;
-  compute = 7;
+  reduce = 5;
+  compute = 6;
+  repository = 7;
 }
 
 enum ProcessStatus {
