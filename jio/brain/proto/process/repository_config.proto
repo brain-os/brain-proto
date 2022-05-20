@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package jio.brain.proto.process;
+
+option java_package = "com.jio.brain.proto.process";
+option java_multiple_files = true;
+
+message BrainRepositoryProcessSchema {
+  BrainEventUseCase brain_event_use_case = 1;
+  DatabaseType database_type = 2;
+  string host_name = 3;
+  int32 port_number = 4;
+  string username = 5;
+  string password = 6;
+  string database_url = 7;
+
+}
+enum DatabaseType {
+  ELASTICSEARCH = 0;
+  MONGODB = 1;
+}
+enum BrainEventUseCase {
+  COMPRESSED_FORM = 0;
+  MACHINE_FORM = 1;
+  DASHBOARD = 2;
+}

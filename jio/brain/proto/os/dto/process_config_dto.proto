@@ -6,7 +6,7 @@ option java_package = "com.jio.brain.proto.os.dto";
 option java_multiple_files = true;
 
 import "jio/brain/proto/os/enums/vertical.proto";
-
+import "jio/brain/proto/os/deployment.proto";
 message ProcessProtoList{
   repeated ProcessProto processProto=1;
 }
@@ -41,17 +41,6 @@ message PivotProtoList {
 message ReduceProtoList{
   repeated ReduceProto reduceProto = 1;
 }
-
-enum ProcessType {
-  ingestion = 0;
-  enrich = 1;
-  quantization = 2;
-  filter = 3;
-  pivot = 4;
-  compute = 5;
-  reduce = 6;
-}
-
 message EnrichProto {
   map<string, AttributeProtoMapValue> attributes = 1;
   string outputTopic = 2;
