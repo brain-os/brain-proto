@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package jio.brain.proto.os.dto;
+
+option java_package = "com.jio.brain.proto.os.dto";
+option java_multiple_files = true;
+
+import "jio/brain/proto/os/dto/process_config_dto.proto";
+
+message WorkflowTemplateProtoList {
+  repeated WorkflowTemplateProto workflowTemplateProto = 1;
+}
+
+
+message WorkflowTemplateProto{
+  string id = 1;
+  string workflowTemplateName = 2;
+  repeated jio.brain.proto.os.dto.ProcessProto processProto = 3;
+}

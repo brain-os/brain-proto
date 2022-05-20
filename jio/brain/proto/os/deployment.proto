@@ -8,16 +8,37 @@ option java_multiple_files = true;
 message DeploymentRequest{
   string instance_id = 1;
   repeated Process process = 2;
-  bool deleteDeployment = 3; ;
+  bool deleteDeployment = 3;
 }
 
 message Process {
   int64  id = 1;
   string key_token = 2;
   string name = 3;
-  string input_topic = 4;
-  repeated string output_topic = 5;
-  ProcessType type = 6;
+  ProcessType type = 4;
+  MessageService messageService = 5;
+  string profile = 6;
+
+  oneof input_is_one_of {
+    string input_topic = 7;
+    string inputExchange = 8;
+  }
+  oneof output_is_one_of {
+    OutputTopic outputTopics = 9;
+    string outputExchange = 10;
+  }
+
+}
+
+message OutputTopic{
+  repeated string output_topic = 1;
+}
+
+enum MessageService {
+  rabbitMq = 0;
+  kafka = 1;
+  rabbitMqToKafka = 2;
+  kafkaToRabbitMq = 3;
 }
 
 enum ProcessType {
@@ -26,9 +47,9 @@ enum ProcessType {
   quantization = 2;
   filter = 3;
   pivot = 4;
-  joiner = 5;
-  reduce = 6;
-  compute = 7;
+  reduce = 5;
+  compute = 6;
+  repository = 7;
 }
 
 enum ProcessStatus {

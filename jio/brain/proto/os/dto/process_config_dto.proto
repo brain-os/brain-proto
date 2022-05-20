@@ -1,0 +1,262 @@
+syntax = "proto3";
+
+package jio.brain.proto.os.dto;
+
+option java_package = "com.jio.brain.proto.os.dto";
+option java_multiple_files = true;
+
+import "jio/brain/proto/os/enums/vertical.proto";
+import "jio/brain/proto/os/deployment.proto";
+message ProcessProtoList{
+  repeated ProcessProto processProto=1;
+}
+
+message ProcessProto {
+  int64 id = 1;
+  string keyToken = 2;
+  jio.brain.proto.os.enums.VerticalProto vertical = 3;
+  string processName = 4;
+  string inputTopic = 5;
+  string inputEventSchema = 6;
+  ProcessType processType = 7;
+  oneof process_proto_is_one_of {
+    EnrichProto enrichProto = 8;
+    FilterProtoList filterProto = 9;
+    PivotProtoList pivotProto = 10;
+    ReduceProtoList reduceProto = 11;
+    IngestProto ingestProto = 12;
+    QuantizationProto quantizationProto = 13;
+    ComputeProto computeProto = 14;
+  }
+}
+
+message FilterProtoList {
+  repeated FilterProto filterProto = 1;
+}
+
+message PivotProtoList {
+  repeated PivotProto pivotProto = 1;
+}
+
+message ReduceProtoList{
+  repeated ReduceProto reduceProto = 1;
+}
+message EnrichProto {
+  map<string, AttributeProtoMapValue> attributes = 1;
+  string outputTopic = 2;
+  string outputSchema = 3;
+}
+
+message AttributeProtoMapValue {
+  repeated string value = 1;
+}
+
+message FilterProto {
+  string filterCondition = 1;
+  string outputTopic = 2;
+  string failureTopic = 3;
+}
+
+message PivotProto {
+  PivotProtoKey pivotProtoKey = 1;
+  PivotProtoValue pivotProtoValue = 2;
+  string outputTopic = 3;
+  string outputSchema = 4;
+}
+
+message PivotProtoKey {
+  repeated string entities = 1;
+  repeated string attributes = 2;
+  map<string, string> context = 3;
+}
+
+message PivotProtoValue {
+  repeated string attributes = 1;
+  map<string, string> properties = 2;
+}
+
+message ReduceProto {
+  string outputTopic = 1;
+  string outputSchema = 2;
+  int32 windowTimeMinutes = 3;
+  repeated AggregateConditionProto aggregateCondition = 4;
+  TimeInstanceProto startTime = 5;
+  TimeInstanceProto endTime = 6;
+
+
+  message AggregateConditionProto {
+    string inputProperty = 1;
+    string outputProperty = 2;
+    string countProperty = 3;
+    AggregateType type = 4;
+
+    enum AggregateType {
+      BRAIN_AGGREGATION_SUM = 0;
+      BRAIN_AGGREGATION_AVERAGE = 1;
+      BRAIN_AGGREGATION_COUNT = 2;
+      BRAIN_AGGREGATION_MIN = 3;
+      BRAIN_AGGREGATION_MAX = 4;
+      BRAIN_AGGREGATION_SLOPE = 5;
+      BRAIN_AGGREGATION_PRODUCT = 6;
+      BRAIN_AGGREGATION_DISTRIBUTION = 7;
+    }
+  }
+
+  message TimeInstanceProto {
+    int32 hour = 1;
+    int32 minute = 2;
+  }
+}
+
+message IngestProto {
+  SourceTypeProto sourceType = 1;
+  string folderToWatch = 2;
+  oneof ingestion_column_mapping_is_one_of{
+    IngestionExcelColumnProto ingestionExcelColumnProto=3;
+    IngestionJsonProto ingestionJsonProto=4;
+  }
+  string outputTopic = 5;
+  string outputSchema = 6;
+  int32 readingStartPoint = 7;
+}
+
+message IngestionExcelColumnProto{
+  repeated ExcelColumnMappingProto excelColumnMapping = 1;
+}
+message IngestionJsonProto{
+  repeated  JsonMappingProto jsonMapping = 1;
+}
+
+enum SourceTypeProto {
+  file = 0;
+  db = 1;
+  topic = 2;
+}
+
+message ExcelColumnMappingProto {
+  int32 columnIndex = 1;
+  string columnUnit = 2;
+  ColumnTypeProto columnType = 3;
+  oneof excel_column_type_is_one_of{
+    EntityBizIdProto entityBizId = 4;
+    EntityAttributeProto entityAttribute = 5;
+    EntityAttributeQualifierProto entityAttributeQualifier = 6;
+    EntityPredicateQualifierProto entityPredicateQualifier = 7;
+    PropertyProto excelColumnMappingProperty = 8;
+  }
+  bool optional = 9;
+  string dateFormat = 10;
+
+  message EntityAttributeProto {
+    string entity = 1;
+    int32 entityColumn = 2;
+    string attribute = 3;
+    bool latitude = 4;
+    bool longitude = 5;
+  }
+
+  message EntityAttributeQualifierProto {
+    string entity = 1;
+    int32 entityColumn = 2;
+    string attribute = 3;
+    int32 attributeColumn = 4;
+    string qualifier = 5;
+  }
+
+  message EntityPredicateQualifierProto {
+    string entity = 1;
+    int32 entityColumn = 2;
+    string predicate = 3;
+    string qualifier = 4;
+  }
+
+  enum ColumnTypeProto {
+    type_unknown = 0;
+    entity_bizId = 1;
+    entity_attribute = 2;
+    entity_attribute_qualifier = 3;
+    entity_predicate_qualifier = 4;
+    property = 5;
+  }
+}
+
+message JsonMappingProto {
+  string key = 1;
+  string unit = 2;
+  ColumnTypeProto columnType = 3;
+  oneof json_mapping_one_of{
+    EntityBizIdProto entityBizId = 4;
+    EntityAttributeProto entityAttribute = 5;
+    EntityAttributeQualifierProto entityAttributeQualifier = 6;
+    PropertyProto jsonMappingProperty = 7;
+  }
+
+  message EntityAttributeProto {
+    string entity = 1;
+    string entityKey = 2;
+    string attribute = 3;
+    bool latitude = 4;
+    bool longitude = 5;
+  }
+
+  message EntityAttributeQualifierProto {
+    string entity = 1;
+    string entityKey = 2;
+    string attribute = 3;
+    string attributeKey = 4;
+    string qualifier = 5;
+  }
+
+  enum ColumnTypeProto {
+    entity_bizId = 0;
+    entity_attribute = 1;
+    entity_attribute_qualifier = 2;
+    property = 3;
+  }
+}
+
+message PropertyProto {
+  string name = 1;
+  bool latitude = 2;
+  bool longitude = 3;
+}
+
+message EntityBizIdProto {
+  string entity = 1;
+  string bizId = 2;
+}
+
+message QuantizationProto {
+  repeated QuantizationProtoProperties quantizationProperties = 1;
+  string outputTopic = 2;
+  string outputSchema = 3;
+}
+
+message QuantizationProtoProperties {
+  InputPropertyTypeProto type = 1;
+  string lhsProperty = 2;
+  string rhsProperty = 3;
+
+  enum InputPropertyTypeProto {
+    Temporal = 0;
+    Spatial = 1;
+    Binned = 2;
+  }
+}
+
+message ComputeProto {
+  repeated ComputeInstanceProto computeInstances = 1;
+  string outputTopic = 2;
+  string outputSchema = 3;
+}
+
+message ComputeInstanceProto {
+  FieldTypeProto type = 1;
+  string computeExpression = 2;  // (product.mrp - product.discount) * product.quantity + product.gst  ( BODMAS )
+  string outputName = 3;  // product.price or bill_amount
+
+  enum FieldTypeProto {
+    attribute = 0;
+    property = 1;
+  }
+}
