@@ -77,16 +77,6 @@ message IdentityNameAliases {
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
-message IdentityAddNameAliases{
-  uint64 entity_id = 1;
-  string language = 2;
-  string name = 3;
-}
-
-message IdentityNameAliases {
-  jio.brain.proto.base.BrainId brain_id = 1;
-  jio.brain.proto.base.BrainStatus brainStatus = 2;
-}
 message FuzzyNameRequest {
   string fuzzy_name = 1;
   string language = 2;
