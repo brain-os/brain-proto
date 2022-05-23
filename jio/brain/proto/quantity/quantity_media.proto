@@ -13,9 +13,9 @@ import "jio/brain/proto/base/enums.proto";
 //import "jio/brain/proto/quantity/quantity_temporal.proto";
 
 message BrainPayload {
-  string uri = 1;
-  string source_uri = 2;
+  string source_uri = 1;
   oneof payload_is_one_of {
+    string uri = 2;
     bytes payload = 3;
     string base64encoded = 4;
   }
