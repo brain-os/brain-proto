@@ -31,8 +31,7 @@ message BrainProcessSchema {
     BrainQuantizeProcessSchema quantize = 10;
     BrainComputeProcessSchema compute = 11;
     BrainFunctionProcessSchema function = 12;
-    BrainRepositoryProcessSchema repository = 12;
-
+    BrainRepositoryProcessSchema repository = 13;
   }
 }
 // TODO - output event schema in enrich vs quantization is different. Make it consistent.

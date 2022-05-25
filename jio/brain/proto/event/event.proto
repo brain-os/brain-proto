@@ -42,9 +42,8 @@ message BrainEvent {
   uint32 type = 2;
   BrainEventMetadata meta_data = 3;
   oneof event {
-    BrainIngestionEvent ingestion_event = 4;
+    //BrainIngestionEvent ingestion_event = 4;
     BrainEventKeyValue key_value_event = 5;
-    //BrainEventFeatureKeyValue feature_key_value = 6;
   }
 }
 
@@ -52,15 +51,15 @@ message BrainEventMetadata {
   repeated BrainEventTrace trace = 1;
 }
 
-message BrainIngestionEvent {
-  oneof source {
-    string csv_file_path = 1;
-    string excel_file_path = 2;
-    string json_file_path = 3;
-    google.protobuf.Any message = 4;
-  }
-  uint32 startReadingLineNumber = 5;
-}
+//message BrainIngestionEvent {
+//  oneof source {
+//    string csv_file_path = 1;
+//    string excel_file_path = 2;
+//    string json_file_path = 3;
+//    google.protobuf.Any message = 4;
+//  }
+//  uint32 startReadingLineNumber = 5;
+//}
 
 message BrainEventKeyValue {
   BrainEventKey key = 1;

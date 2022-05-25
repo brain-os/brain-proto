@@ -8,10 +8,11 @@ option java_multiple_files = true;
 import "jio/brain/proto/base/enums.proto";
 
 message BrainIngestProcessSchema {
-  repeated FieldMapping mappings = 1;
-  oneof data {
-    BrainDataIngestionProcessSchema data_ingestion = 2;
-    BrainMediaIngestionProcessSchema media_ingestion = 3;
+  oneof source {
+    KafkaTransport kafka_transport = 2;
+    FileTransport file_transport = 3;
+    JsonFileTransport json_transport = 4;
+    BlobStorageTransport blob_transport = 5;
   }
 }
 message BrainDataIngestionProcessSchema {
@@ -20,7 +21,6 @@ message BrainDataIngestionProcessSchema {
     FileTransport file_transport = 3;
     JsonFileTransport json_transport = 4;
   }
-  uint32 readingStartPoint = 5;
 }
 message BrainMediaIngestionProcessSchema {
   oneof data_transport {
@@ -34,6 +34,8 @@ message KafkaTransport {
 
 message FileTransport {
   string folder_to_watch = 1;
+  uint32 readingStartPoint = 2;
+  repeated FieldMapping mappings = 3;
 }
 message BlobStorageTransport {
   string bucket_name = 1;
@@ -42,6 +44,7 @@ message BlobStorageTransport {
 }
 message JsonFileTransport {
   string folder_to_watch = 1;
+  repeated FieldMapping mappings = 2;
 }
 
 message FieldMapping {
