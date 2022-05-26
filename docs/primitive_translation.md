@@ -1,28 +1,38 @@
-# Data representation
+# Primitive translation
+
+>> Data from entity and feature are represented as BrainQuantity. During storage or while calculation, primitive types are required. Translation layer transform data from BrainQuantity to primitive and vice versa 
+
+This translation will require during
+1. BrainQuantity storage into DB
+2. BrainBinaryQuantity read from DB
+3. ML Bridge - calling ml functions require features (brain quantity) 
+4. ML Bridge - results of ml functions are primitives, and they will be used BrainQuantity
+5. Rule bridge - calling rule engine
+6. Rule bridge - result of rule engine
+
 [Language Mapping](https://developers.google.com/protocol-buffers/docs/proto3#scalar)
 
 ## Constraints
 1. Only time series data (For attribute qualifier)
-2. Limited support to predicate
+2. Limited support to predicate qualifier
 
-## Tables
+## Tables in feature lake
 1. key (Sha256) to event key
-2. function to features
-3. features to functions
+2. function to features (updates in config of model should update this table)
+3. features to functions (updates in config of model should update this table)
 4. key to feature (main table)
-5. entity id to event key
+5. entity id to event key (change in attribute of 1 entity will result in all dependent models)
 
 ## Data Stores
-1. entity - arango
-2. features - mongo
-3. time series - influx
-4. Profile - mongo
+1. features - mongo
+2. time series - influx
+3. Profile and other data structures - mongo
 
 ## Translation Layer
 1. Feature(BrainQuantity) to primitive
 2. Primitives to features (BrainQuantity)
 
-### Supported feature quantities
+### Supported quantities
 | BrainQuantity        | Protobuf Scaler | Assigned Type | Default Datastore   | Notes   |
 | ------------------   | --------------- |------------- |------------- |------------- |
 | BrainBinaryQuantity   | bool   | boolean   | Any |      |
@@ -58,12 +68,6 @@
 | BrainSpatialQuantity   | double array   | double array  | GIS |  polygon  |
 | BrainMediaQuantity   | string   | string  | Bucket |  URL of object  |
 | BrainMediaQuantity   | byte array   | byte array  | Bucket |  actual bytes  |
-
-## Tables
-1. key (Sha256) to event key
-2. function to features 
-3. features to functions
-4. key to feature (main table)
 
 ## CQRS
 ### Sink Layer
