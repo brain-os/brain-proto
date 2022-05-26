@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package jio.brain.proto.repository;
+
+option java_package = "com.jio.brain.proto.repository";
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/event/event.proto";
+
+message AddOrUpdateFeatureCommand {
+  google.protobuf.Timestamp created_time = 1;
+  jio.brain.proto.event.BrainEventKey event_key = 2;
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3;
+}
+message DeleteFeatureCommand {
+  google.protobuf.Timestamp created_time = 1;
+  jio.brain.proto.event.BrainEventKey event_key = 2;
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3;
+}
