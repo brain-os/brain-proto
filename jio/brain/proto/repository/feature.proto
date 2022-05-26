@@ -10,13 +10,14 @@ import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/event/event.proto";
 
-message AddOrUpdateFeatureCommand {
-  google.protobuf.Timestamp created_time = 1;
-  jio.brain.proto.event.BrainEventKey event_key = 2;
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3;
+enum FeatureCommandType {
+  FEATURE_UPDATE_COMMAND = 0;
+  FEATURE_DELETE_COMMAND = 1;
 }
-message DeleteFeatureCommand {
-  google.protobuf.Timestamp created_time = 1;
-  jio.brain.proto.event.BrainEventKey event_key = 2;
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3;
+message FeatureCommand {
+  FeatureCommandType command_type = 1;
+  google.protobuf.Timestamp created_time = 2;
+  uint32 source_event_schema = 3;
+  jio.brain.proto.event.BrainEventKey event_key = 4;
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 5;
 }

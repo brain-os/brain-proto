@@ -4,7 +4,7 @@
 
 This translation will require during
 1. BrainQuantity storage into DB
-2. BrainBinaryQuantity read from DB
+2. BrainQuantity read from DB
 3. ML Bridge - calling ml functions require features (brain quantity) 
 4. ML Bridge - results of ml functions are primitives, and they will be used BrainQuantity
 5. Rule bridge - calling rule engine
