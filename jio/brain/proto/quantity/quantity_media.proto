@@ -56,7 +56,7 @@ message BrainImageQuantity {
 message BrainMediaQuantitySchema {
   oneof media_is_one_of {
     BrainTextQuantitySchema text = 1;
-    BrainDocumentQuantitySchema document = 2;
+  //  BrainDocumentQuantitySchema document = 2;
     BrainVideoQuantitySchema video = 3;
     BrainAudioQuantitySchema audio = 4;
     BrainImageQuantitySchema image = 5;
