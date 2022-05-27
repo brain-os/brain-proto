@@ -11,6 +11,7 @@ import "jio/brain/proto/quantity/quantity_atomic.proto";
 import "jio/brain/proto/quantity/quantity_compound.proto";
 import "jio/brain/proto/quantity/quantity_spatial.proto";
 import "jio/brain/proto/quantity/quantity_temporal.proto";
+import "jio/brain/proto/quantity/quantity_media.proto";
 
 message BrainQuantity {
   oneof quantity_is_one_of {
@@ -18,6 +19,7 @@ message BrainQuantity {
     BrainCompoundQuantity compound = 2;
     BrainTemporalQuantity temporal = 3;
     BrainSpatialQuantity spatial = 4;
+    BrainMediaQuantity media = 5;
   }
 }
 message BrainQuantitySchema {
@@ -28,6 +30,7 @@ message BrainQuantitySchema {
     BrainCompoundQuantitySchema	compound = 5;
     BrainTemporalQuantitySchema	temporal = 6;
     BrainSpatialQuantitySchema spatial = 7;
+    BrainMediaQuantitySchema media = 8;
   }
 }
 

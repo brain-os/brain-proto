@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package jio.brain.proto.quantity;
+
+option java_package = "com.jio.brain.proto.quantity";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/enums.proto";
+//import "jio/brain/proto/base/token.proto";
+//import "jio/brain/proto/quantity/quantity_atomic.proto";
+//import "jio/brain/proto/quantity/quantity_compound.proto";
+//import "jio/brain/proto/quantity/quantity_spatial.proto";
+//import "jio/brain/proto/quantity/quantity_temporal.proto";
+
+message BrainPayload {
+  string source_uri = 1;
+  oneof payload_is_one_of {
+    string uri = 2;
+    bytes payload = 3;
+    string base64encoded = 4;
+  }
+}
+message BrainMediaQuantity {
+  oneof media_is_one_of {
+    BrainTextQuantity text = 1;
+//    BrainDocumentQuantity document = 2;
+    BrainVideoQuantity video = 3;
+    BrainAudioQuantity audio = 4;
+    BrainImageQuantity image = 5;
+  }
+}
+message BrainTextQuantity {
+  string encoding = 1; //TODO need to make it enum
+  jio.brain.proto.base.BrainLanguageType language = 2; // en, hn, sp
+  jio.brain.proto.base.BrainTextType text_type = 3; // tweet, review comment, chat
+  string text = 4; // actual content
+}
+message BrainDocumentQuantity {
+  jio.brain.proto.base.BrainDocumentType document_type = 1; // word, excel, docs
+  BrainPayload payload = 2; // url or bytes
+}
+message BrainVideoQuantity {
+  jio.brain.proto.base.BrainVideoFormat video_format = 1; // mpeg4, mov
+  BrainPayload payload = 2; // url or bytes
+}
+message BrainAudioQuantity {
+  jio.brain.proto.base.BrainAudioFormat audio_format = 1; // mp3, wav
+  BrainPayload payload = 2; // url or bytes
+}
+message BrainImageQuantity {
+  jio.brain.proto.base.BrainImageFormat format = 1; // png, jpeg
+  // TODO image type - MRI, Xray, thermal camera, remote sensing - Bala Krishna Pailla and Naveen
+  // Hierarchy - X Ray - Leg, Knee
+  BrainPayload payload = 2; // url or bytes
+}
+message BrainMediaQuantitySchema {
+  oneof media_is_one_of {
+    BrainTextQuantitySchema text = 1;
+    BrainDocumentQuantitySchema document = 2;
+    BrainVideoQuantitySchema video = 3;
+    BrainAudioQuantitySchema audio = 4;
+    BrainImageQuantitySchema image = 5;
+  }
+}
+message BrainTextQuantitySchema {
+  jio.brain.proto.base.BrainTextType default_text_type = 1; // tweet/chat/email
+  jio.brain.proto.base.BrainLanguageType default_language = 2; // english/hindi
+  jio.brain.proto.base.BrainTextEncoding default_encoding = 3; // utf16, utf8, ascii
+}
+message BrainDocumentQuantitySchema {
+  jio.brain.proto.base.BrainDocumentType default_document_type = 1; // invoice/aadhaar/pan
+  jio.brain.proto.base.BrainDocumentFormat default_document_format = 2; // pdf/word/excel
+  jio.brain.proto.base.BrainPayloadType default_payload_type = 3;
+}
+message BrainVideoQuantitySchema {
+  jio.brain.proto.base.BrainVideoFormat default_video_format = 1; //mpeg,mov
+  jio.brain.proto.base.BrainPayloadType default_payload_type = 2;
+}
+message BrainAudioQuantitySchema {
+  jio.brain.proto.base.BrainAudioFormat default_audio_format = 1; // wav,mp3
+  jio.brain.proto.base.BrainPayloadType payload_type = 2;
+}
+message BrainImageQuantitySchema {
+  jio.brain.proto.base.BrainImageFormat image_format = 1;
+  jio.brain.proto.base.BrainPayloadType payload_type = 2;
+}
