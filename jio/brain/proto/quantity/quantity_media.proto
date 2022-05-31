@@ -13,15 +13,17 @@ import "jio/brain/proto/base/enums.proto";
 //import "jio/brain/proto/quantity/quantity_temporal.proto";
 
 message BrainPayload {
+  string source_uri = 1;
   oneof payload_is_one_of {
-    bytes payload = 1;
-    string url = 2;
+    string uri = 2;
+    bytes payload = 3;
+    string base64encoded = 4;
   }
 }
 message BrainMediaQuantity {
   oneof media_is_one_of {
     BrainTextQuantity text = 1;
-    BrainDocumentQuantity document = 2;
+//    BrainDocumentQuantity document = 2;
     BrainVideoQuantity video = 3;
     BrainAudioQuantity audio = 4;
     BrainImageQuantity image = 5;
@@ -52,7 +54,7 @@ message BrainImageQuantity {
 message BrainMediaQuantitySchema {
   oneof media_is_one_of {
     BrainTextQuantitySchema text = 1;
-    BrainDocumentQuantitySchema document = 2;
+  //  BrainDocumentQuantitySchema document = 2;
     BrainVideoQuantitySchema video = 3;
     BrainAudioQuantitySchema audio = 4;
     BrainImageQuantitySchema image = 5;
