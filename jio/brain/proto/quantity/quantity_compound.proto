@@ -33,8 +33,6 @@ message BrainCompoundQuantity {
     BrainBagQuantity bag = 4; // Weighted set of symbols from a dictionary (e.g. term frequency)
     BrainDistributionQuantity distribution = 5; // A Distribution over symbols (e.g. hourly download distribution)
     BrainSeriesQuantity series = 6; // time series data from IoT sensor
-    BrainMultivariateQuantity multivariate = 7;
-    //    BrainQuantityCompoundMultivariate 	multivariate 	= 9;
   }
 }
 
@@ -47,7 +45,7 @@ message BrainCompoundQuantitySchema {
     BrainBagQuantitySchema bag = 5;
     BrainDistributionQuantitySchema distribution = 6;
     BrainSeriesQuantitySchema series = 7;
-    BrainMultivariateQuantitySchema multivariate = 8;
+   // BrainMultivariateQuantitySchema multivariate = 8;
     //    BrainQuantitySchemaCompoundSeries 		series 		= 6;
     //    BrainQuantitySchemaCompoundSequence 		sequence 		= 7;
     //    BrainQuantitySchemaCompoundPermutation 	permutation 	= 8;
@@ -132,12 +130,5 @@ message BrainHorizontalAxesPoint {
     BrainNumericQuantity numeric = 1;
     BrainTemporalInstanceQuantity temporal = 2;
   }
-}
-// A Multivariate set of features (e.g. all features in a model)
-message BrainMultivariateQuantity {
-  map<uint32, BrainAtomicQuantity> value = 1;
-}
-message BrainMultivariateQuantitySchema {
-  map<uint32, BrainAtomicQuantitySchema> value = 1;
 }
 

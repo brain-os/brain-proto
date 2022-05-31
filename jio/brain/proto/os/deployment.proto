@@ -5,6 +5,8 @@ package jio.brain.proto.os;
 option java_package = "com.jio.brain.proto.os";
 option java_multiple_files = true;
 
+import "jio/brain/proto/base/enums.proto";
+
 message DeploymentRequest{
   string instance_id = 1;
   repeated Process process = 2;
@@ -15,10 +17,19 @@ message Process {
   int64  id = 1;
   string key_token = 2;
   string name = 3;
-  ProcessType type = 4;
+  jio.brain.proto.base.BrainProcessType brain_process_type = 4;
   MessageService messageService = 5;
-  string input_topic = 6;
-  OutputTopic outputTopics = 7;
+  string profile = 6;
+
+  oneof input_is_one_of {
+    string input_topic = 7;
+    string inputExchange = 8;
+  }
+  oneof output_is_one_of {
+    OutputTopic outputTopics = 9;
+    string outputExchange = 10;
+  }
+
 }
 
 message OutputTopic{
@@ -30,17 +41,6 @@ enum MessageService {
   kafka = 1;
   rabbitMqToKafka = 2;
   kafkaToRabbitMq = 3;
-}
-
-enum ProcessType {
-  ingestion = 0;
-  enrich = 1;
-  quantization = 2;
-  filter = 3;
-  pivot = 4;
-  joiner = 5;
-  reduce = 6;
-  compute = 7;
 }
 
 enum ProcessStatus {
