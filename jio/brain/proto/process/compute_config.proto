@@ -19,5 +19,7 @@ message ComputeInstance {
   enum FieldType {
       attribute=0;
       property=1;
+      attribute_qualifier=3;
+      predicate_qualifier=4;
   }
 }
