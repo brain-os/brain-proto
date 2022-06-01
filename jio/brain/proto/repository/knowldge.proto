@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package jio.brain.proto.repository;
+
+option java_package = "com.jio.brain.proto.repository";
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+
+message EntityCommand {
+  google.protobuf.Timestamp created_time = 1;
+  uint32 entity_type = 2;
+  oneof command_is_one_of {
+      NewEntityCommand new_entity = 4;
+      DeleteEntityCommand delete_entity = 5;
+      AddOrUpdateAttributeCommand attribute_set= 6;
+      DeleteAttributeCommand delete_attribute = 7;
+      AddOrUpdateAttributeQualifierCommand add_or_update_attribute_qualifier = 8;
+      DeleteAttributeQualifierCommand delete_attribute_qualifier = 9;
+      NewEntityPredicateCommand new_predicate = 10;
+      DeleteEntityPredicateCommand delete_predicate = 11;
+      AddOrUpdatePredicateQualifierCommand add_or_update_predicate_qualifier = 12;
+      DeletePredicateQualifierCommand delete_predicate_qualifier = 13;
+  }
+}
+message NewEntityCommand {
+  jio.brain.proto.entity.BrainEntity entity = 1;
+}
+message DeleteEntityCommand {
+  uint64 entity_id = 1;
+}
+message AddOrUpdateAttributeCommand {
+  uint64 entity_id = 1;
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> attribute_set = 2;
+}
+message DeleteAttributeCommand {
+  uint64 entity_id = 1;
+  repeated uint32 attribute_type = 5;
+}
+message AddOrUpdateAttributeQualifierCommand {
+  uint64 entity_id = 1;
+  uint32 attribute_type = 2;
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> attribute_qualifier_set = 3;
+}
+message DeleteAttributeQualifierCommand {
+  uint64 entity_id = 1;
+  uint32 attribute_type = 2;
+  uint32 attribute_qualifier_type = 3;
+}
+message NewEntityPredicateCommand {
+  uint64 entity_id = 1;
+  uint32 object_type = 2;
+  uint64 object_id = 3;
+}
+message DeleteEntityPredicateCommand {
+  uint64 entity_id = 1;
+  uint32 object_type = 2;
+  uint64 object_id = 3;
+  uint64 predicate_id = 4;
+}
+message AddOrUpdatePredicateQualifierCommand {
+  uint64 predicate_id = 1;
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> predicate_qualifier_set = 2;
+}
+message DeletePredicateQualifierCommand {
+  uint64 predicate_id = 1;
+  uint32 predicate_qualifier_type = 2;
+}

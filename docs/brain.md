@@ -1,3 +1,4 @@
+TODO : Bridge for Knowledge, AIX, Rule
 # Functions
 > All function and feature name will be standardised. Feature will be defined in subsequent section. 
 > They will be understood by AIX, Rule Engine, Optimization Engine and 0ML platform.
@@ -493,3 +494,5 @@ Every 5 minutes -> Every 1 hour -> Every Day -> Every Month
 Id
 Payload - reference or blob
 Metadata
+
+18008227373

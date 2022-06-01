@@ -7,6 +7,7 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/base/enums.proto";
 
+// TODO - transaction, sensor, media, online (Crawl Internet)
 message BrainIngestProcessSchema {
   oneof source {
     KafkaTransport kafka_transport = 2;
