@@ -7,6 +7,8 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/os/enums/vertical.proto";
 import "jio/brain/proto/os/deployment.proto";
+import "jio/brain/proto/base/enums.proto";
+
 message ProcessProtoList{
   repeated ProcessProto processProto=1;
 }
@@ -18,7 +20,7 @@ message ProcessProto {
   string processName = 4;
   string inputTopic = 5;
   string inputEventSchema = 6;
-  ProcessType processType = 7;
+  jio.brain.proto.base.BrainProcessType brain_process_type = 7;
   oneof process_proto_is_one_of {
     EnrichProto enrichProto = 8;
     FilterProtoList filterProto = 9;
