@@ -15,6 +15,7 @@ import "jio/brain/proto/process/pivot_config.proto";
 import "jio/brain/proto/process/reduce_config.proto";
 import "jio/brain/proto/process/compute_config.proto";
 import "jio/brain/proto/process/function_config.proto";
+import "jio/brain/proto/process/repository_config.proto";
 
 message BrainProcessSchema {
   jio.brain.proto.base.BrainToken token = 1;
@@ -30,6 +31,7 @@ message BrainProcessSchema {
     BrainQuantizeProcessSchema quantize = 10;
     BrainComputeProcessSchema compute = 11;
     BrainFunctionProcessSchema function = 12;
+    BrainRepositoryProcessSchema repository = 13;
   }
 }
 // TODO - output event schema in enrich vs quantization is different. Make it consistent.

@@ -1,0 +1,180 @@
+syntax = "proto3";
+
+package jio.brain.proto.os.dto;
+
+option java_package = "com.jio.brain.proto.os.dto";
+option java_multiple_files = true;
+
+import "jio/brain/proto/os/enums/quantity_config_type.proto";
+import "jio/brain/proto/os/enums/vertical.proto";
+
+message QuantityProtoList{
+  repeated QuantityProto quantityProto = 1;
+}
+
+message QuantityProto {
+  int64 id = 1;
+  jio.brain.proto.os.enums.VerticalProto vertical = 2;
+  string domain = 3;
+  string name = 4;
+  string keyToken = 5;
+  jio.brain.proto.os.enums.QuantityType quantityType = 6;
+  oneof quantity_proto_is_one_of{
+    NumericProto numeric = 7;
+    SymbolicProto symbolic = 8;
+    OrdinalProto ordinal = 9;
+    BinaryProto binary = 10;
+    BinProto binned = 11;
+    TemporalProto temporal = 12;    // instance, range, duration
+    SpatialProto spatial = 13;
+    RangeProto range = 14;    // (min, max)
+    SequenceProto sequence = 15;    // x_1, x_2, … x_n
+    DistributionProto distribution = 16;  // p(s_1), p(s_2), …, p(s_n)
+    BasketProto basket = 17;        // {s_1, s_2, …, s_k}
+    BagProto bag = 18; // {(w_1, s_1), (w_2, s_2), …}
+  }
+  IndexTypeProto indexType = 19;
+}
+
+message NumericProto{
+  NumericTypeProto numericType = 1;
+  double minimum = 2;
+  double maximum = 3;
+  bool includeMinimum = 4;
+  bool includeMaximum = 5;
+  repeated string units = 6;
+  string unitCollection = 7;
+}
+
+message SymbolicProto {
+  string collection = 1;
+}
+
+message OrdinalProto{
+  string collection = 1;
+}
+
+enum BinaryProto{
+  YES_NO = 0;
+  ACTIVE_INACTIVE = 1;
+  TRUE_FALSE = 2;
+  ON_OFF = 3;
+}
+
+message BinProto{
+  string quantity = 1;
+  string collectionKey = 2;
+  repeated string collection = 3;
+  repeated double boundaries = 4;
+  bool minimumOpen = 5;
+  bool maximumOpen = 6;
+}
+
+message TemporalProto {
+  DateTimeTypeProto dateTimeType = 1;
+  TemporalDateProto date = 2;
+  TemporalTimeProto time = 3;
+  bool includeFrom = 4;
+  bool includeTo = 5;
+}
+
+message SpatialProto {
+  SpatialTypeProto type = 1;
+  oneof spatial_proto_is_one_of{
+    GeoHashQuantityProto geoHash = 2;
+    HierarchyLevelProto location_hierarchy_level = 3;
+  }
+}
+
+enum SpatialTypeProto {
+  lat_long = 0;
+  geohash = 1;
+  levels = 2;
+}
+message GeoHashQuantityProto {
+  int32 precision = 1;
+}
+
+message HierarchyLevelProto {
+  bool continent = 1;
+  bool country = 2;
+  bool state = 3;
+  bool district = 4;
+  bool city = 5;
+  bool village = 6;
+  bool locality = 7;
+  bool building = 8;
+  bool zipCode=9; //todo :doubt: required or not ??
+}
+
+message RangeProto { // todo: can add type also ??
+  oneof range_proto_is_one_of{
+    NumericRangeProto numericRange = 1;
+    OrdinalRangeProto ordinalRange = 2;
+    BinnedRangeProto binnedRange = 3;
+  }
+}
+
+message NumericRangeProto{
+  NumericTypeProto numericType = 1;
+  double minimum = 2;
+  double maximum = 3;
+  bool includeMinimum = 4;
+  bool includeMaximum = 5;
+}
+
+message OrdinalRangeProto {
+  string ordinalQuantity = 1;
+}
+
+message BinnedRangeProto {
+  string binnedQuantity = 1;
+}
+
+message SequenceProto {
+  string collection = 1;
+}
+
+message DistributionProto{
+  string collection = 1;
+}
+
+message BasketProto {
+  string collection = 1;
+}
+
+message BagProto {
+  string collection = 1;
+  NumericProto weight = 2;
+}
+
+enum IndexTypeProto {
+  string = 0;
+  index = 1;
+  i32 = 2;
+  i64 = 3;
+}
+
+message TemporalDateProto {
+  string dateTypeValue = 1;
+}
+
+message TemporalTimeProto {
+  string timeTypeValue = 1;
+}
+
+enum NumericTypeProto {
+  SINT32 = 0;
+  SINT64 = 1;
+  UINT32 = 2;
+  UINT64 = 3;
+  F32 = 4;
+  F64 = 5;
+}
+
+enum DateTimeTypeProto {
+  instance = 0;
+  range = 1;
+  duration = 2;
+  context = 3;
+}

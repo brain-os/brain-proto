@@ -40,8 +40,7 @@ import "jio/brain/proto/feature/feature.proto";
 message BrainEvent {
   uint32 id = 1;
   uint32 type = 2;
-  BrainEventKey key = 3;
-  BrainEventMetadata meta_data = 4;
+  BrainEventMetadata meta_data = 3;
   oneof event {
     BrainEventValue value_event = 5;
     BrainFeatureEventValue feature_value_event = 6;
@@ -64,7 +63,7 @@ message BrainIngestionEvent {
 }
 
 message BrainEventKeyValue {
-
+  BrainEventKey key = 1;
   BrainEventValue value = 2;
 }
 

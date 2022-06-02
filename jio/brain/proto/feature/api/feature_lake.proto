@@ -2,5 +2,45 @@ syntax = "proto3";
 
 package jio.brain.proto.feature.api;
 
+import "jio/brain/proto/event/event.proto";
+
 option java_package = "com.jio.brain.proto.feature.api";
 option java_multiple_files = true;
+
+//Input of Delta Cache Service
+message DeltaCacheInput {
+  uint32 key = 1;
+  string name = 2;
+}
+
+//Input of Feature Resolver
+message KeyFunction{
+  repeated KeyFunctionMap keyFunctionMap = 1;
+}
+
+message KeyFunctionMap {
+  uint32 key = 1;
+  repeated string function_name = 2;
+}
+
+//Input of Function Executor service
+message KeyFunctionEventSet{
+  repeated KeyFunctionEventSet keyFunctionEventSet = 1;
+}
+
+message KeyFunctionEvent{
+  uint32 key = 1;
+  repeated FunctionEvent functionEvent = 2;
+}
+
+message FunctionEvent{
+  string function = 1;
+  jio.brain.proto.event.BrainEvent brainEvent = 2; //This can be changed to other
+}
+
+//Read Feature request/response - uint32 key and string name is available
+//Also for time series data what will be the input param(for how many steps we have to fetch the data)
+//TODO - TBD Rajan about the format
+
+//Read Knowledge request/response
+//TODO - TBD Rajan about the format

@@ -30,33 +30,27 @@ message BrainMediaQuantity {
   }
 }
 message BrainTextQuantity {
-  string encoding = 1; //TODO need to make it enum
-  jio.brain.proto.base.BrainLanguageType language = 2; // en, hn, sp
-  jio.brain.proto.base.BrainTextType text_type = 3; // tweet, review comment, chat
+//  string encoding = 1;
+//  jio.brain.proto.base.BrainLanguageType language = 2; // en, hn, sp
+//  jio.brain.proto.base.BrainTextType text_type = 3; // tweet, review comment, chat
   string text = 4; // actual content
 }
-message BrainDocumentQuantity {
-  jio.brain.proto.base.BrainDocumentType document_type = 1; // word, excel, docs
-  BrainPayload payload = 2; // url or bytes
-}
+
 message BrainVideoQuantity {
-  jio.brain.proto.base.BrainVideoFormat video_format = 1; // mpeg4, mov
+  //jio.brain.proto.base.BrainVideoFormat video_format = 1; // mpeg4, mov
   BrainPayload payload = 2; // url or bytes
 }
 message BrainAudioQuantity {
-  jio.brain.proto.base.BrainAudioFormat audio_format = 1; // mp3, wav
+ // jio.brain.proto.base.BrainAudioFormat audio_format = 1; // mp3, wav
   BrainPayload payload = 2; // url or bytes
 }
 message BrainImageQuantity {
-  jio.brain.proto.base.BrainImageFormat format = 1; // png, jpeg
-  // TODO image type - MRI, Xray, thermal camera, remote sensing - Bala Krishna Pailla and Naveen
-  // Hierarchy - X Ray - Leg, Knee
+ // jio.brain.proto.base.BrainImageFormat format = 1; // png, jpeg
   BrainPayload payload = 2; // url or bytes
 }
 message BrainMediaQuantitySchema {
   oneof media_is_one_of {
     BrainTextQuantitySchema text = 1;
-    BrainDocumentQuantitySchema document = 2;
     BrainVideoQuantitySchema video = 3;
     BrainAudioQuantitySchema audio = 4;
     BrainImageQuantitySchema image = 5;
