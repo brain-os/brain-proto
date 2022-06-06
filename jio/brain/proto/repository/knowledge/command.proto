@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package jio.brain.proto.repository;
+package jio.brain.proto.repository.knowledge;
 
-option java_package = "com.jio.brain.proto.repository";
+option java_package = "com.jio.brain.proto.repository.knowledge";
 option java_multiple_files = true;
 
 import "google/protobuf/timestamp.proto";
@@ -13,16 +13,16 @@ message EntityCommand {
   google.protobuf.Timestamp created_time = 1;
   uint32 entity_type = 2;
   oneof command_is_one_of {
-      NewEntityCommand new_entity = 4;
-      DeleteEntityCommand delete_entity = 5;
-      AddOrUpdateAttributeCommand attribute_set= 6;
-      DeleteAttributeCommand delete_attribute = 7;
-      AddOrUpdateAttributeQualifierCommand add_or_update_attribute_qualifier = 8;
-      DeleteAttributeQualifierCommand delete_attribute_qualifier = 9;
-      NewEntityPredicateCommand new_predicate = 10;
-      DeleteEntityPredicateCommand delete_predicate = 11;
-      AddOrUpdatePredicateQualifierCommand add_or_update_predicate_qualifier = 12;
-      DeletePredicateQualifierCommand delete_predicate_qualifier = 13;
+    NewEntityCommand new_entity = 4;
+    DeleteEntityCommand delete_entity = 5;
+    AddOrUpdateAttributeCommand attribute_set= 6;
+    DeleteAttributeCommand delete_attribute = 7;
+    AddOrUpdateAttributeQualifierCommand add_or_update_attribute_qualifier = 8;
+    DeleteAttributeQualifierCommand delete_attribute_qualifier = 9;
+    NewEntityPredicateCommand new_predicate = 10;
+    DeleteEntityPredicateCommand delete_predicate = 11;
+    AddOrUpdatePredicateQualifierCommand add_or_update_predicate_qualifier = 12;
+    DeletePredicateQualifierCommand delete_predicate_qualifier = 13;
   }
 }
 message NewEntityCommand {
