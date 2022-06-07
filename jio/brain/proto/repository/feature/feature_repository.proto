@@ -50,13 +50,19 @@ service FeatureLakeService {
   rpc key_components(FeatureKeyComponentsRequest) returns (FeatureKeyComponentResponse);
   rpc create(FeatureCrudRequest) returns (FeatureCrudResponse);
   rpc get(FeatureGetRequest) returns (FeatureGetResponse);
+  rpc getFeatureList(SpecificFeatureGetRequest) returns (FeatureGetResponse);
+}
+message SpecificFeatureGetRequest {
+  string feature_key = 1;
+  repeated uint32 feature_name_set = 2;
 }
 
 message FeatureGetRequest {
   string feature_key = 1;
 }
 message FeatureGetResponse {
-  jio.brain.proto.quantity.BrainQuantity feature_quantity = 1;
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 1;
+  //jio.brain.proto.quantity.BrainQuantity feature_quantity = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 message FeatureKeyRequest {

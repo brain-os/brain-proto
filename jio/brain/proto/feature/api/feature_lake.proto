@@ -10,7 +10,7 @@ option java_multiple_files = true;
 //Input of Delta Cache Service
 message DeltaCacheInput {
   uint32 key = 1;
-  string name = 2;
+  repeated string name = 2;
 }
 
 //Input of Feature Resolver
