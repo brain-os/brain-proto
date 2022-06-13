@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package jio.brain.proto.process;
+
+option java_package = "com.jio.brain.proto.process";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/enums.proto";
+import "jio/brain/proto/base/token.proto";
+
+message BrainFunctionProcessSchema {
+  jio.brain.proto.base.BrainToken function_token = 1;
+  jio.brain.proto.base.BrainFunctionType function_type = 2;
+  string input_topic = 3;
+  string output_topic = 4;
+  FunctionParameterSet input = 5;
+  FunctionParameterSet output = 6;
+  map<string, string> function_context = 9;
+}
+
+message FunctionParameterSet {
+  repeated string features = 5;
+  repeated string knowledge_attributes = 6;
+}

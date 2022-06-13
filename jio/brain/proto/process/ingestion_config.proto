@@ -7,26 +7,45 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/base/enums.proto";
 
+// TODO - transaction, sensor, media, online (Crawl Internet)
 message BrainIngestProcessSchema {
-  repeated FieldMapping mappings = 1;
+  oneof source {
+    KafkaTransport kafka_transport = 2;
+    FileTransport file_transport = 3;
+    JsonFileTransport json_transport = 4;
+    BlobStorageTransport blob_transport = 5;
+  }
+}
+message BrainDataIngestionProcessSchema {
   oneof data_transport {
     KafkaTransport kafka_transport = 2;
     FileTransport file_transport = 3;
     JsonFileTransport json_transport = 4;
   }
-  uint32 readingStartPoint = 5;
 }
-
+message BrainMediaIngestionProcessSchema {
+  oneof data_transport {
+    KafkaTransport kafka_transport = 2;
+    BlobStorageTransport blob_transport = 3;
+  }
+}
 message KafkaTransport {
   string input_topic = 1;
 }
 
 message FileTransport {
   string folder_to_watch = 1;
+  uint32 readingStartPoint = 2;
+  repeated FieldMapping mappings = 3;
 }
-
+message BlobStorageTransport {
+  string bucket_name = 1;
+  string prefix = 2;
+  string suffix = 3;
+}
 message JsonFileTransport {
   string folder_to_watch = 1;
+  repeated FieldMapping mappings = 2;
 }
 
 message FieldMapping {

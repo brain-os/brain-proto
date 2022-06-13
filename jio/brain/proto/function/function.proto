@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package jio.brain.proto.function.api;
+
+option java_package = "jio.brain.proto.function.api";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/enums.proto";
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/event/event.proto";
+
+message BrainFunctionSchema {
+  jio.brain.proto.base.BrainToken token = 1;
+  jio.brain.proto.base.FunctionCallType function_call_type = 2; // http, grpc, sdk
+}
+
+service FunctionMetadataService {
+  rpc getDependentFeatures(FunctionMetadataRequest) returns (FunctionMetadataResponse) {}
+}
+message FunctionMetadataRequest {
+  string function_name = 1;
+}
+message FunctionMetadataResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+  repeated string feature = 2;
+}
+
+service FunctionExecutionService {
+  rpc serve(ExecutionRequest) returns (ExecutionResponse) {}
+}
+message ExecutionRequest {
+  jio.brain.proto.event.BrainEvent input_event = 1;
+}
+message ExecutionResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+  jio.brain.proto.event.BrainEvent output_event = 2;
+}

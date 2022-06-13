@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package jio.brain.proto.repository.feature;
+
+option java_package = "com.jio.brain.proto.repository.feature";
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/event/event.proto";
+import "jio/brain/proto/quantity/quantity_temporal.proto";
+import "jio/brain/proto/base/status.proto";
+
+message FeatureCommand {
+  oneof command_is_one_of {
+    FeatureCreateCommand create = 1;
+    FeatureUpdateCommand update = 2; // TODO do we need it
+    FeatureDeleteCommand delete = 3;
+  }
+}
+message FeatureCreateCommand {
+  google.protobuf.Timestamp window_end_time = 1; // get from brain event meta data
+  jio.brain.proto.event.BrainEventKey event_key = 2; // get from brain event
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3;
+  // todo do we need atomic quantity here??
+  // todo brand profile
+  // todo recommendation engine
+  // todo time series
+}
+message FeatureUpdateCommand {
+  google.protobuf.Timestamp window_end_time = 1; // get from brain event meta data
+  jio.brain.proto.event.BrainEventKey event_key = 2; // get from brain event
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3;
+}
+message FeatureDeleteCommand {
+  jio.brain.proto.event.BrainEventKey event_key = 1;
+  repeated uint32 id_set = 2;
+}
+
+message FeatureCrudRequest {
+    FeatureCommand command = 1;
+}
+message FeatureCrudResponse {
+  jio.brain.proto.base.BrainStatus brainStatus = 1;
+}
+
+service FeatureLakeService {
+  rpc generate_key(FeatureKeyRequest) returns (FeatureKeyResponse); // convert to sha256
+  rpc key_components(FeatureKeyComponentsRequest) returns (FeatureKeyComponentResponse);
+  rpc create(FeatureCrudRequest) returns (FeatureCrudResponse);
+  rpc get(FeatureGetRequest) returns (FeatureGetResponse);
+  rpc getFeatureList(SpecificFeatureGetRequest) returns (FeatureGetResponse);
+}
+message SpecificFeatureGetRequest {
+  string feature_key = 1;
+  repeated uint32 feature_name_set = 2;
+}
+
+message FeatureGetRequest {
+  string feature_key = 1;
+}
+message FeatureGetResponse {
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 1;
+  //jio.brain.proto.quantity.BrainQuantity feature_quantity = 1;
+  jio.brain.proto.base.BrainStatus brainStatus = 2;
+}
+message FeatureKeyRequest {
+  jio.brain.proto.event.BrainEventKey event_key = 1;
+}
+message FeatureKeyResponse {
+  string feature_key = 1;
+  jio.brain.proto.base.BrainStatus brainStatus = 2;
+}
+message FeatureKeyComponentsRequest {
+  string feature_key = 1;
+}
+message FeatureKeyComponentResponse {
+  jio.brain.proto.event.BrainEventKey event_key = 1;
+  jio.brain.proto.base.BrainStatus brainStatus = 2;
+}
