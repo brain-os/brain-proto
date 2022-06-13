@@ -15,13 +15,16 @@ import "jio/brain/proto/process/pivot_config.proto";
 import "jio/brain/proto/process/reduce_config.proto";
 import "jio/brain/proto/process/compute_config.proto";
 import "jio/brain/proto/process/function_config.proto";
+import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/process/repository_config.proto";
+
 
 message BrainProcessSchema {
   jio.brain.proto.base.BrainToken token = 1;
   string input_topic = 2;
   jio.brain.proto.event.BrainEventSchema input_event_schema = 3;
   map<string, jio.brain.proto.event.BrainEventSchema> output_event_schema = 4; // key = output_topic, value = event key in dictionary
+  jio.brain.proto.base.BrainProcessType brain_process_type = 5;
   oneof config {
     BrainEnrichProcessSchema enrich = 5;
     BrainFilterProcessSchema filter = 6;
