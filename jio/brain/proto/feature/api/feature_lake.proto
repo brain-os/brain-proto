@@ -24,11 +24,15 @@ message KeyFunctionMap {
 }
 
 //Input of Function Executor service
-message KeyFunctionEventSet{
+message KeyFunctionEventSet{ // todo:wrong :delete it
   repeated KeyFunctionEventSet keyFunctionEventSet = 1;
 }
 
 message KeyFunctionEvent{
+  repeated KeyFunctionEventMap keyFunctionEventMap=1;
+}
+
+message KeyFunctionEventMap{
   string key = 1;
   repeated FunctionEvent functionEvent = 2;
 }
