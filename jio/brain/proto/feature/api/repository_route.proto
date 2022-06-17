@@ -7,6 +7,6 @@ option java_multiple_files = true;
 
 message RepositoryRouterTopics{
   repeated string topics=1;
-  string instanceId=2; //todo:TBD:Pankaj Sir: should need to change to string ?
+  string instanceId=2;
   bool create=3;
 }
