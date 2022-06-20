@@ -77,6 +77,7 @@ enum BrainTokenType {
     BRAIN_PREDICATE_QUALIFIER_TOKEN = 11;
     BRAIN_EVENT_TOKEN = 12;
     BRAIN_PROCESS_TOKEN = 13;
+    BRAIN_FEATURE_TOKEN = 14;
 }
 
 // Temporal
