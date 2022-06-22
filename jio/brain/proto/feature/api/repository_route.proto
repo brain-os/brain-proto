@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package jio.brain.proto.feature.api;
+
+option java_package = "com.jio.brain.proto.feature.api";
+option java_multiple_files = true;
+
+message RepositoryRouterTopics{
+  repeated string topics=1;
+  string instanceId=2;
+  bool create=3;
+}
