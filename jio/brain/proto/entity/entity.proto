@@ -110,19 +110,23 @@ message BrainEntity {
 
   // Event - Not needed beyond ingestion
   // Knowledge graph - Can have multiple values present
+  // TODO - will do in later release
   map<uint32, string> biz_id = 3;
 
   // key => ID(/common/language/Hin_NI)
   // Event - not required
   // Knowledge graph - Can have multiple values present
+  // TODO - will do in later release
   map<uint32, BrainEntityName> name = 4;
 
   // Event - Only few attributes will be present. Might need enrichment for other attributes from knowledge graph
   // Knowledge graph - Contain value of all attributes
   BrainAttributeSet attribute = 5;
 
+  // TODO - will do in later release (ingestion)
   BrainPredicateSet predicate = 6;
 }
+
 message BrainEntityName {
   string canonical = 1;
   jio.brain.proto.types.BrainStrSet aliases = 2;
@@ -180,8 +184,12 @@ message BrainEntitySchema {
   repeated jio.brain.proto.base.BrainToken biz_type = 4;
   BrainAttributeSetSchema attribute = 5;
   BrainPredicateSetSchema predicate = 6;
+  map<string, BrainAttributeFamily> attribute_family_set = 7;
 }
 
+message BrainAttributeFamily {
+  repeated string attribute_name = 1;
+}
 message BrainAttributeSetSchema {
   // key = ID(/v/d/attribute/entity_type/attribute_name)
   map<string, BrainAttributeSchema> attribute = 5;
