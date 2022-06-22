@@ -61,8 +61,8 @@ message BrainFeatureFamilySchema {
 message BrainEventFeatureSchema {
   jio.brain.proto.base.BrainToken token = 1;
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
-  //jio.brain.proto.base.BrainFeatureType feature_type = 2;
-  //optional jio.brain.proto.base.BrainToken unit = 3;
+  bool is_timeseries = 3;
+  optional jio.brain.proto.base.BrainToken unit = 4;
 }
 
 service FeatureMetadataService {
@@ -81,3 +81,22 @@ message FeatureMetadataResponse {
 //message FeatureServiceRepoConfig {
 //  repeated input_topics = 1;
 //}
+
+message BrainFeatureSchema {
+  jio.brain.proto.base.BrainToken token = 1;
+  optional jio.brain.proto.base.BrainToken unit_token = 2;
+  oneof attribute_is_one_of {
+    jio.brain.proto.quantity.BrainQuantitySchema absolute = 3;
+    BrainQualifiedFeatureSchema qualifiers = 4;
+  }
+}
+
+message BrainQualifiedFeatureSchema {
+  jio.brain.proto.quantity.BrainQuantitySchema value = 1;
+  map<string, BrainFeatureQualifierSchema> qualifiers = 2;
+}
+message BrainFeatureQualifierSchema {
+  jio.brain.proto.base.BrainToken token = 1; // contain information about brain entity and attribute
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
+  optional jio.brain.proto.base.BrainToken unit = 3;
+}

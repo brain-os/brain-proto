@@ -9,8 +9,8 @@ option java_multiple_files = true;
 
 //Input of Delta Cache Service
 message DeltaCacheInput {
-  uint32 key = 1;
-  string name = 2;
+  string key = 1;
+  repeated uint32 name = 2;
 }
 
 //Input of Feature Resolver
@@ -19,17 +19,21 @@ message KeyFunction{
 }
 
 message KeyFunctionMap {
-  uint32 key = 1;
+  string key = 1;
   repeated string function_name = 2;
 }
 
 //Input of Function Executor service
-message KeyFunctionEventSet{
+message KeyFunctionEventSet{ // todo:wrong :delete it
   repeated KeyFunctionEventSet keyFunctionEventSet = 1;
 }
 
 message KeyFunctionEvent{
-  uint32 key = 1;
+  repeated KeyFunctionEventMap keyFunctionEventMap=1;
+}
+
+message KeyFunctionEventMap{
+  string key = 1;
   repeated FunctionEvent functionEvent = 2;
 }
 

@@ -12,6 +12,7 @@ import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/event/tracing.proto";
 import "jio/brain/proto/feature/feature.proto";
+import "google/protobuf/timestamp.proto";
 
 /**
 {
@@ -42,14 +43,16 @@ message BrainEvent {
   uint32 type = 2;
   BrainEventMetadata meta_data = 3;
   oneof event {
-    BrainEventValue value_event = 5;
-    BrainFeatureEventValue feature_value_event = 6;
+    BrainIngestionEvent ingestion_event = 4;
+    BrainEventKeyValue key_value_event = 5;
+    BrainEventFeatureKeyValue feature_event = 6;
     //BrainEventFeatureKeyValue feature_key_value = 6;
   }
 }
 
 message BrainEventMetadata {
   repeated BrainEventTrace trace = 1;
+  google.protobuf.Timestamp created_time =  2;
 }
 
 message BrainIngestionEvent {
@@ -84,13 +87,12 @@ message BrainEventValue {
   BrainQuantityStore property_store = 2;
   BrainAttributeStore attribute_store = 3;
   BrainEntityPredicateStore predicate_store = 4;
-  BrainFeatureSetStore feature_value = 5;
 }
 
-//message BrainEventFeatureKeyValue {
-//  BrainEventKey feature_key = 1;
-//  BrainFeatureSetStore feature_value = 2;
-//}
+message BrainEventFeatureKeyValue {
+  BrainEventKey feature_key = 1;
+  BrainFeatureEventValue feature_value = 2;
+}
 message BrainFeatureEventValue {
   BrainFeatureSetStore features = 1;
   BrainAttributeStore attribute_store = 2;
@@ -142,7 +144,7 @@ message BrainEventSchema {
     // BrainEventValueSchema value_event = 3;
     BrainEventKeyValueSchema key_value_event = 4;
     // BrainEventKeyMultiValueSchema key_multi_value_event = 5;
-    //BrainEventFeatureKeyValueSchema feature_event = 6;
+    BrainEventFeatureKeyValueSchema feature_event = 6;
   }
 }
 message BrainIngestionEventSchema {
@@ -159,17 +161,16 @@ message BrainEventValueSchema {
   BrainEntityStoreSchema entity = 1;
   // key = mid(/m/<vertical>/<domain>/<event>/<property>)
   map<string, BrainEventPropertySchema> property = 2;
-  BrainEventFeatureValueSchema feature = 3;
 }
 
 message BrainEventKeyValueSchema {
   BrainEventKeySchema key = 1;
   BrainEventValueSchema value = 2;
 }
-//message BrainEventFeatureKeyValueSchema {
-//  BrainEventKeySchema key = 1;
-//  BrainEventFeatureValueSchema value = 2;
-//}
+message BrainEventFeatureKeyValueSchema {
+  BrainEventKeySchema key = 1;
+  BrainEventFeatureValueSchema value = 2;
+}
 
 message BrainEventFeatureValueSchema {
   // key = mid(/m/<vertical>/<domain>/<event>/<property>)
@@ -177,6 +178,7 @@ message BrainEventFeatureValueSchema {
     jio.brain.proto.feature.BrainFeatureSetSchema features = 1;
     jio.brain.proto.feature.BrainFeatureFamilySchema  feature_family = 2;
   }
+   jio.brain.proto.entity.BrainAttributeSetSchema attribute_schema = 3;
 }
 
 message BrainEntityStoreSchema {
