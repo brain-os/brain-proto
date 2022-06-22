@@ -180,8 +180,12 @@ message BrainEntitySchema {
   repeated jio.brain.proto.base.BrainToken biz_type = 4;
   BrainAttributeSetSchema attribute = 5;
   BrainPredicateSetSchema predicate = 6;
+  map<string, BrainAttributeFamily> attribute_family_set = 7;
 }
 
+message BrainAttributeFamily {
+  repeated string attribute_name = 1;
+}
 message BrainAttributeSetSchema {
   // key = ID(/v/d/attribute/entity_type/attribute_name)
   map<string, BrainAttributeSchema> attribute = 5;
