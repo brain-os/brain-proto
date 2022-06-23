@@ -11,58 +11,27 @@ import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "google/protobuf/any.proto";
 
-message BrainFeatureSet {
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
-}
-
-/**
-{  "telecom/feature/call_duration"  : 100 ,
-   "telecom/feature/call_drop" : 4365,
-   "telecom/feature/call_noise" : 834 }
- */
-
-message BrainFeatureFamily {
-  map<uint32, BrainFeatureSet> value = 1;
-}
-
-/*
-{ "telecom/feature/call_experience" : {
-   "telecom/feature/call_duration"  : 100 ,
-   "telecom/feature/call_drop" : 4365,
-   "telecom/feature/call_noise" : 834 }
-   }
- */
-
-/**
- This BrainFeature proto will be used while saving feature to store and fetching it back.
- */
 message BrainFeature {
-  uint32 feature = 1;
-  string feature_key = 2;
-  google.protobuf.Any feature_value = 3;      // can be of type int, string, map
+  uint32 feature_id = 1;
+  jio.brain.proto.quantity.BrainQuantity value = 2;
 }
-
-// Old version
-//message BrainFeatureSchema {
-//  jio.brain.proto.base.BrainToken feature = 1;
-//  jio.brain.proto.base.BrainFeatureType feature_type = 2;
-//  jio.brain.proto.base.BrainToken source = 3;       //source name e.g. DAG property or KG attribute
-//
-//}
-
-message BrainFeatureSetSchema {
-  map<string, BrainEventFeatureSchema> feature_set = 1;
-}
-
-message BrainFeatureFamilySchema {
-  map<string, BrainFeatureSetSchema> value = 1;
-}
-
-message BrainEventFeatureSchema {
+message BrainFeatureSchema {
   jio.brain.proto.base.BrainToken token = 1;
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
-  bool is_timeseries = 3;
+//  bool is_time_series = 3; NOT NEEDED - All features with have time aspect
+  jio.brain.proto.base.BrainTimeWindowType time_window = 3;
   optional jio.brain.proto.base.BrainToken unit = 4;
+}
+message BrainFeatureSetStoreSchema {
+  map<string, BrainFeatureSchema> feature_set = 1;
+}
+message BrainFeatureStore {
+  map<uint32, BrainFeature> features = 1;
+}
+// Independently manage grouping of features
+message BrainFeatureFamilySchema {
+  jio.brain.proto.base.BrainToken token = 1;
+  repeated jio.brain.proto.base.BrainToken feature_set = 2;
 }
 
 service FeatureMetadataService {
@@ -75,28 +44,4 @@ message FeatureMetadataRequest {
 message FeatureMetadataResponse {
   jio.brain.proto.base.BrainStatus status = 1;
   repeated uint32 function_set = 2;
-}
-
-
-//message FeatureServiceRepoConfig {
-//  repeated input_topics = 1;
-//}
-
-message BrainFeatureSchema {
-  jio.brain.proto.base.BrainToken token = 1;
-  optional jio.brain.proto.base.BrainToken unit_token = 2;
-  oneof attribute_is_one_of {
-    jio.brain.proto.quantity.BrainQuantitySchema absolute = 3;
-    BrainQualifiedFeatureSchema qualifiers = 4;
-  }
-}
-
-message BrainQualifiedFeatureSchema {
-  jio.brain.proto.quantity.BrainQuantitySchema value = 1;
-  map<string, BrainFeatureQualifierSchema> qualifiers = 2;
-}
-message BrainFeatureQualifierSchema {
-  jio.brain.proto.base.BrainToken token = 1; // contain information about brain entity and attribute
-  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
-  optional jio.brain.proto.base.BrainToken unit = 3;
 }

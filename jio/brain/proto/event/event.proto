@@ -94,16 +94,13 @@ message BrainEventFeatureKeyValue {
   BrainFeatureEventValue feature_value = 2;
 }
 message BrainFeatureEventValue {
-  BrainFeatureSetStore features = 1;
+  jio.brain.proto.feature.BrainFeatureStore feature_store = 1;
   BrainAttributeStore attribute_store = 2;
 }
 
-message BrainFeatureSetStore {
-  oneof feature {
-    jio.brain.proto.feature.BrainFeatureSet features = 1;
-    jio.brain.proto.feature.BrainFeatureFamily  feature_family = 2;   // TBD for usage in feature lake
-  }
-}
+//message BrainFeatureSetStore {
+//  jio.brain.proto.feature.BrainFeatureSetStore features = 1;
+//}
 
 message BrainEntityStore {
   // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
@@ -173,12 +170,8 @@ message BrainEventFeatureKeyValueSchema {
 }
 
 message BrainEventFeatureValueSchema {
-  // key = mid(/m/<vertical>/<domain>/<event>/<property>)
-  oneof feature_schema {
-    jio.brain.proto.feature.BrainFeatureSetSchema features = 1;
-    jio.brain.proto.feature.BrainFeatureFamilySchema  feature_family = 2;
-  }
-   jio.brain.proto.entity.BrainAttributeSetSchema attribute_schema = 3;
+  jio.brain.proto.feature.BrainFeatureSetStoreSchema features = 1;
+  jio.brain.proto.entity.BrainAttributeSetSchema attributes = 2;
 }
 
 message BrainEntityStoreSchema {

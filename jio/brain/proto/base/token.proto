@@ -32,7 +32,9 @@ message BrainToken {
     BrainEventToken event = 16;
     BrainProcessToken process = 17;
     BrainFeatureToken feature = 18;
-    BrainFunctionToken function = 19;
+    BrainFeatureFamilyToken feature_family = 19;
+    BrainAttributeFamilyToken attribute_family = 20;
+    BrainFunctionToken function = 21;
   }
 }
 
@@ -102,11 +104,15 @@ message BrainEventToken {
 message BrainProcessToken {
   BrainTokenName name = 1;
 }
-
+message BrainAttributeFamilyToken {
+  BrainTokenName name = 1;
+}
 message BrainFeatureToken {
   BrainTokenName name = 1;
 }
-
+message BrainFeatureFamilyToken {
+  BrainTokenName name = 1;
+}
 message BrainFunctionToken {
   BrainTokenName name = 1;
 }
