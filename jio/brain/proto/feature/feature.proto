@@ -52,11 +52,16 @@ message BrainFeatureFamily {
 
 message BrainFeatureSetSchema {
   map<string, BrainEventFeatureSchema> feature_set = 1;
+  repeated BrainFeatureFamilySchema feature_family_set = 2;
 }
 
 message BrainFeatureFamilySchema {
-  map<string, BrainFeatureSetSchema> value = 1;
+  jio.brain.proto.base.BrainToken token = 1;   // feature_family_token
+  repeated string features = 2;
 }
+//message BrainFeatureFamilySchema {
+//  map<string, BrainFeatureSetSchema> value = 1;
+//}
 
 message BrainEventFeatureSchema {
   jio.brain.proto.base.BrainToken token = 1;
