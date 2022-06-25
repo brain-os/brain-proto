@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package jio.brain.proto.process;
+
+option java_package = "com.jio.brain.proto.process";
+option java_multiple_files = true;
+
+message FeatureException{
+  string exception_message=1;
+  string origin=2;
+  ExceptionStatus exceptionStatus=3;
+}
+
+message ExceptionStatus{
+  bool isOk=1;
+  ErrorCode errorCode=2;
+}
+
+enum ErrorCode{
+    NOT_FOUND=0;
+    ALREADY_EXIST=1;
+}
