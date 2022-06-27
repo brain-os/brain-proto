@@ -118,6 +118,7 @@ enum BrainBinaryQuantitySchema {
   TRUE_FALSE = 1;
   ON_OFF = 2;
   ACTIVE_INACTIVE = 3;
+  ONE_ZERO=4;
 }
 
 message BrainBinaryQuantity {
