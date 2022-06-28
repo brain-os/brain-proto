@@ -19,15 +19,32 @@ message FeatureCommand {
     FeatureDeleteCommand delete = 3;
   }
 }
+
 message FeatureCreateCommand {
-  google.protobuf.Timestamp window_end_time = 1; // get from brain event meta data
-  jio.brain.proto.event.BrainEventKey event_key = 2; // get from brain event
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3;
+  uint32 event_schema = 1;
+  google.protobuf.Timestamp window_end_time = 2; // get from brain event meta data
+  jio.brain.proto.event.BrainEventKey event_key = 3; // get from brain event
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 4;
   // todo do we need atomic quantity here??
   // todo brand profile
   // todo recommendation engine
   // todo time series
 }
+
+/**
+{
+"key" : {
+"customer" : "Adhar001",
+"context" : "indoor"
+}
+"sha256" : "xedwxdsed",
+"call_experience" : {
+"f1" : 10,
+"f2" : 20
+},
+"f3" : 33
+}
+ */
 message FeatureUpdateCommand {
   google.protobuf.Timestamp window_end_time = 1; // get from brain event meta data
   jio.brain.proto.event.BrainEventKey event_key = 2; // get from brain event
