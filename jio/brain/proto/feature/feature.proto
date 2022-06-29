@@ -52,7 +52,7 @@ message BrainFeatureFamily {
 
 message BrainFeatureSetSchema {
   map<string, BrainFeatureSchema> feature_set = 1; //string --> Key Token to be used
-  repeated BrainFeatureFamilySchema feature_family_set = 2;
+  map<string,BrainFeatureFamilySchema>  feature_family_set = 2;
 }
 
 message BrainFeatureFamilySchema {

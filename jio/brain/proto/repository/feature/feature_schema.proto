@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package jio.brain.proto.repository.feature;
+
+option java_package = "com.jio.brain.proto.repository.feature";
+option java_multiple_files = true;
+
+import "jio/brain/proto/feature/feature.proto";
+
+service FeatureSetSchemaService {
+  rpc get_feature_set_schema(Empty) returns (jio.brain.proto.feature.BrainFeatureSetSchema);
+}
+
+message Empty{}
