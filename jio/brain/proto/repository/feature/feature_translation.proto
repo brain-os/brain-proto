@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package jio.brain.proto.repository.feature;
+
+option java_package = "com.jio.brain.proto.repository.feature";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/enums.proto";
+
+
+message BrainPersistenceDataValue {
+  oneof data_is_one_of
+  {
+    double double_data = 1;
+    uint64 uint64_data = 2;
+    sint64 sint64_data = 3;
+    string string_data = 4;
+    bool boolean_data = 5;
+
+  }
+}
+
+message BrainPersistenceData {
+  jio.brain.proto.base.BrainPersistenceDataType brain_persistence_data_type = 1;
+  BrainPersistenceDataValue brain_persistence_data_value = 2;
+}

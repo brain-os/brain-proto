@@ -117,7 +117,7 @@ message BrainEntity {
   // Event - not required
   // Knowledge graph - Can have multiple values present
   // TODO - will do in later release
-  map<uint32, BrainEntityName> name = 4;
+  map<string, BrainEntityName> name = 4;//key is language
 
   // Event - Only few attributes will be present. Might need enrichment for other attributes from knowledge graph
   // Knowledge graph - Contain value of all attributes
@@ -128,7 +128,7 @@ message BrainEntity {
 }
 
 message BrainEntityName {
-  string canonical = 1;
+ // string canonical = 1;
   jio.brain.proto.types.BrainStrSet aliases = 2;
 }
 message BrainAttributeSet {
@@ -184,7 +184,12 @@ message BrainEntitySchema {
   repeated jio.brain.proto.base.BrainToken biz_type = 4;
   BrainAttributeSetSchema attribute = 5;
   BrainPredicateSetSchema predicate = 6;
-  map<string, BrainAttributeFamily> attribute_family_set = 7;
+  repeated BrainAttributeFamilySchema attribute_family_set = 7;
+}
+
+message BrainAttributeFamilySchema {
+  jio.brain.proto.base.BrainToken token = 1;   // attribute_family_token common_profile, medical_profile
+  repeated string attributes = 2;              // /common/person/attribute/age
 }
 
 message BrainAttributeFamily {

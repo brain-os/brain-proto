@@ -9,8 +9,13 @@ import "jio/brain/proto/base/id.proto";
 import "jio/brain/proto/base/status.proto";
 
 message PrimaryBizId {
-  string primary_biz_id = 3;
-  string primary_biz_id_type = 4;
+  string primary_biz_id = 1;
+  string primary_biz_id_type = 2;
+  map<string,LanguageSpecificNamesAliases> name_aliases = 3;
+}
+
+message LanguageSpecificNamesAliases {
+  repeated string language_specific_name_alias = 1;
 }
 
 message IdentityRequest {
