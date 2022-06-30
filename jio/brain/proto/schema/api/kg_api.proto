@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package jio.brain.proto.schema.api;
+
+option java_package = "com.jio.brain.proto.schema.kgapi";
+option java_multiple_files = true;
+
+import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/base/status.proto";
+
+  service KnowledgeRepositoryService {
+  rpc serve(KnowledgeRepositoryServiceRequest) returns (KnowledgeRepositoryServiceResponse) {}
+}
+message KnowledgeRepositoryServiceRequest {
+  oneof request{
+    KnowledgeRepositorySchemaServiceRequest knowledge_repository_schema_request = 1;
+    KnowledgeRepositoryNuggetServiceRequest knowledge_repository_nugget_request = 2;
+  }
+}
+
+message KnowledgeRepositoryServiceResponse {
+  oneof response{
+    KnowledgeRepositorySchemaServiceResponse knowledge_repository_schema_response = 1;
+    KnowledgeRepositoryNuggetServiceResponse knowledge_repository_nugget_response = 2;
+  }
+}
+
+
+message KnowledgeRepositoryNuggetServiceRequest {
+  oneof request{
+
+    CreateEntityRequest create_entity_request = 1;
+  }
+}
+
+message KnowledgeRepositorySchemaServiceRequest {
+  oneof request{
+    CreateEntitySchemaRequest create_entity_schema_request = 1;
+  }
+}
+
+
+// Create Entity type in the knowledge graph
+message CreateEntitySchemaRequest {
+  jio.brain.proto.entity.BrainEntitySchema brain_entity_schema = 1;
+}
+
+message CreateEntitySchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+
+// Create Entity in the knowledge graph
+message CreateEntityRequest {
+  jio.brain.proto.entity.BrainEntity brain_entity = 1;
+}
+message CreateEntityResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message KnowledgeRepositorySchemaServiceResponse {
+
+}
+
+message KnowledgeRepositoryNuggetServiceResponse {
+
+}

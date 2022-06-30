@@ -19,5 +19,6 @@ message ComputeInstance {
   enum FieldType {
       attribute=0;
       property=1;
+      feature=2;
   }
 }
