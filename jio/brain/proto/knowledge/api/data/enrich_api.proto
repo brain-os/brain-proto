@@ -27,30 +27,43 @@ message EnrichServiceResponse {
 }
 
 message EnrichAttributeRequest {
-  uint32 entity_type = 1;
+  string type = 1;
   repeated uint64 entity_ids = 2;
   repeated uint32 attributes = 3;
 }
 
 message EnrichPredicateRequest {
-  uint32 predicate_type = 1;
+  string type = 1;
   repeated uint64 entity_ids = 2;
-  repeated uint32 predicates = 3;
+  repeated string predicates = 3;
 }
 
 message EnrichAttributeResponse {
-  map<uint32, EntityAttribute> entity_id_attribute = 1; // key = customer
+  map<string, EntityAttribute> entity_id_attribute = 1; // key = customer
 }
 
 message EntityAttribute {
   map<uint64, AttributeValue> attribute_value = 1; // key = customer_id and value AttributeValue
 }
 message AttributeValue {
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> attribute_value = 1; //key = age, value = 30
+  map<uint32, DataValue> attribute_value = 1; //key = age, value = 30
+}
+
+message DataValue{
+  oneof data_is_one_of
+  {
+    double double_data = 1;
+    uint64 uint64_data = 2;
+    uint32 uint32_data = 3;
+    string string_data = 4;
+    bool boolean_data = 5;
+    sint64 sint64_data = 6;
+    sint32 sint32_data = 7;
+  }
 }
 
 message EnrichPredicateResponse {
-  map<uint32, EntityPredicate> subject_predicate = 1; // key = customer, value =EntityPredicate
+  map<string, EntityPredicate> subject_predicate = 1; // key = customer, value =EntityPredicate
 }
 
 message EntityPredicate {
@@ -58,12 +71,12 @@ message EntityPredicate {
 }
 
 message PredicateValue {
-  map<uint32, PredicateObject> predicate_value = 1; // key = study_at, value = PredicateObject
+  map<string, PredicateObject> predicate_value = 1; // key = study_at, value = PredicateObject
 }
 
 message PredicateObject {
   oneof predicate_object_is_one_of {
-    jio.brain.proto.quantity.BrainQuantity quantity = 1;
+    DataValue quantity = 1;
     jio.brain.proto.knowledge.base.Entity entity = 2;
   }
 }
