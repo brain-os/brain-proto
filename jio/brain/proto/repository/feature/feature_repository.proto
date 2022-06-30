@@ -25,6 +25,7 @@ message FeatureCreateCommand {
   google.protobuf.Timestamp window_time = 2; // get from brain event meta data
   jio.brain.proto.event.BrainEventKey event_key = 3; // get from brain event // at a common place brain event key entities in ascending order , uint64
   map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 4;
+  jio.brain.proto.base.BrainTimeWindowType window_time_type = 5;
   // todo do we need atomic quantity here??
   // todo brand profile
   // todo recommendation engine
@@ -57,12 +58,14 @@ service FeatureLakeService {
 message SpecificFeatureGetRequest {
   string feature_key = 1;
   repeated uint32 feature_name_set = 2;
-  jio.brain.proto.base.BrainTimeWindowType window_time = 3;
+  jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
 }
 
+//If no Window Time Consider Latest table
 message FeatureGetRequest {
   string brain_key = 1;
- repeated uint32 feature_key = 2;
+  uint32 feature_key = 2;
+  jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
 }
 
 //message FeatureGetTimeSeriesRequest {
@@ -82,9 +85,13 @@ message FeatureGetRequest {
 //  uint32 feature_key = 2;
 //
 //}
+message FeatureValue{
+  jio.brain.proto.quantity.BrainQuantity feature_value = 2;
+}
 message FeatureGetResponse {
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 1;
-  jio.brain.proto.base.BrainStatus brainStatus = 2;
+    uint32 feature_set = 1;
+    repeated jio.brain.proto.quantity.BrainQuantity feature_values = 2;
+    jio.brain.proto.base.BrainStatus brainStatus = 3;
 }
 message FeatureKeyRequest {
   jio.brain.proto.event.BrainEventKey event_key = 1;
