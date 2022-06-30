@@ -264,5 +264,6 @@ message ComputeInstanceProto {
   enum FieldTypeProto {
     attribute = 0;
     property = 1;
+    feature = 2;
   }
 }
