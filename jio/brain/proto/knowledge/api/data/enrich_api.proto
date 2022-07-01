@@ -34,8 +34,8 @@ message EnrichAttributeRequest {
 
 message EnrichPredicateRequest {
   string type = 1;
-  repeated uint64 entity_ids = 2;
-  repeated string predicates = 3;
+  repeated uint64 entity_ids = 2;  // cust-1, cust-2
+  repeated string predicates = 3;  // works_at, lives_in
 }
 
 message EnrichAttributeResponse {
@@ -74,9 +74,18 @@ message PredicateValue {
   map<string, PredicateObject> predicate_value = 1; // key = study_at, value = PredicateObject
 }
 
+//message PredicateObject {
+//  oneof predicate_object_is_one_of {
+//    DataValue quantity = 1;
+//    jio.brain.proto.knowledge.base.Entity entity = 2;
+//  }
+//}
+
 message PredicateObject {
-  oneof predicate_object_is_one_of {
-    DataValue quantity = 1;
-    jio.brain.proto.knowledge.base.Entity entity = 2;
-  }
+  repeated PredicateQualifier predicate_qualifier = 1;
+}
+
+message PredicateQualifier {
+  uint64 entity_id = 1;
+  map<uint64, DataValue> value = 2;
 }
