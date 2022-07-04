@@ -1,0 +1,194 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge;
+
+import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/base/status.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
+import "jio/brain/proto/process/enrich_config.proto";
+import "jio/brain/proto/types/set.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+
+
+service KnowledgeRepositoryService {
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
+  rpc CreateEntity(CreateEntityRequest) returns (CreateEntityResponse) {}
+  rpc CreateEntitySchema(CreateEntitySchemaRequest) returns (CreateEntitySchemaResponse) {}
+  rpc CreateAttribute(CreateAttributeRequest) returns (CreateAttributeResponse) {}
+  rpc CreateAttributeSchema(CreateAttributeSchemaRequest) returns (CreateAttributeSchemaResponse) {}
+  rpc DeleteEntitySchema(DeleteEntitySchemaRequest) returns (DeleteEntitySchemaResponse) {}
+  rpc DeleteAttribute(DeleteAttributeRequest) returns (DeleteAttributeResponse) {}
+  rpc MetadataLookup(MetadataLookupRequest) returns (MetadataLookupResponse) {}
+  rpc ReadAttribute(ReadAttributeRequest) returns (ReadAttributeResponse) {}
+  rpc ReadEntity(ReadEntityRequest) returns (ReadEntityResponse) {}
+  rpc EnrichService(EnrichServiceRequest) returns (EnrichServiceResponse) {}
+  // CreatePredicateSchema not implemented
+  rpc CreatePredicateSchema(CreatePredicateSchemaRequest) returns (CreatePredicateSchemaResponse) {}
+}
+
+message HealthCheckRequest {
+}
+message HealthCheckResponse{
+  string hello = 1;
+}
+
+// Create Entity schema in the knowledge graph
+message CreateEntitySchemaRequest {
+  jio.brain.proto.entity.BrainEntitySchema brain_entity_schema = 1;
+}
+message CreateEntitySchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+// Create Entity in the knowledge graph
+message CreateEntityRequest {
+  jio.brain.proto.entity.BrainEntity brain_entity = 1;
+}
+message CreateEntityResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message CreateAttributeRequest {
+  jio.brain.proto.entity.BrainAttribute brain_attribute = 1;
+  uint32 attribute_id = 2;
+  uint32 entity_type_id = 3; 
+  uint64 entity_id = 4; 
+}
+message CreateAttributeResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message CreateAttributeSchemaRequest {
+  jio.brain.proto.entity.BrainAttributeSchema brain_attribute_schema = 1;
+}
+message CreateAttributeSchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message DeleteEntitySchemaRequest {
+  jio.brain.proto.entity.BrainEntitySchema brain_entity_schema = 1;
+}
+message DeleteEntitySchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message CreatePredicateSchemaRequest {
+  jio.brain.proto.entity.BrainEntitySchema brain_entity_schema = 1;
+}
+message CreatePredicateSchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message DeleteAttributeRequest {
+  uint32 attribute_id = 1;
+  uint32 entity_type_id = 2; 
+  uint64 entity_id = 3; 
+}
+message DeleteAttributeResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message ReadAttributeRequest {
+  uint32 attribute_id = 1;
+  uint32 entity_type_id = 2; 
+  uint64 entity_id = 3; 
+}
+message ReadAttributeResponse {
+  DataValue attribute_value = 1; // 
+  jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
+}
+
+message ReadEntityRequest {
+  uint32 entity_type_id = 1; 
+  uint64 entity_id = 2; 
+}
+message ReadEntityResponse {
+  google.protobuf.Struct attribute_list = 1; //
+  jio.brain.proto.base.BrainStatus status = 2;
+}
+
+message MetadataLookupRequest {
+  string key = 1; 
+}
+
+message MetadataLookupResponse {
+  google.protobuf.Struct metadata = 1; //
+  jio.brain.proto.base.BrainStatus status = 2;
+}
+
+message DataValue{
+  oneof data_is_one_of
+  {
+    double double_data = 1;
+    uint64 uint64_data = 2;
+    uint32 uint32_data = 3;
+    string string_data = 4;
+    bool boolean_data = 5;
+    sint64 sint64_data = 6;
+    sint32 sint32_data = 7;
+  }
+}
+
+
+message EnrichServiceRequest {
+  repeated EnrichAttributeRequest enrich_attribute_request = 1;
+  repeated EnrichPredicateRequest enrich_predicate_request = 2;
+}
+
+message EnrichServiceResponse {
+  jio.brain.proto.base.BrainStatus status = 1; // OK
+  EnrichAttributeResponse enrich_attribute_response = 2;
+  EnrichPredicateResponse enrich_predicate_response = 3;
+}
+
+message EnrichAttributeRequest {
+  string type = 1;                    // /retail_customer or /entity/retail_customer
+  repeated uint64 entity_ids = 2;
+  repeated uint32 attributes = 3;
+}
+
+message EnrichPredicateRequest {
+  string type = 1;                 // student
+  repeated uint64 entity_ids = 2;  // st-1, st-2
+  repeated string predicates = 3;  // study_at, lives_in
+  bool fetch_qualifier = 4;
+}
+
+message EnrichAttributeResponse {
+  map<string, EntityAttribute> entity_id_attribute = 1; // key = customer
+}
+
+message EntityAttribute {
+  map<uint64, AttributeValue> attribute_value = 1; // key = customer_id and value AttributeValue
+}
+message AttributeValue {
+  map<uint32, DataValue> attribute_value = 1; //key = age, value = 30
+}
+
+
+message EnrichPredicateResponse {
+  map<string, EntityPredicate> subject_predicate = 1; // key = student, value =EntityPredicate
+}
+
+message EntityPredicate {
+  map<uint64, PredicateValue> entity_id_predicate = 1; // key = customer-id, value =PredicateValue
+}
+
+message PredicateValue {
+  map<string, PredicateObject> predicate_value = 1; // key = study_at, value = PredicateObject
+}
+
+//message PredicateObject {
+//  oneof predicate_object_is_one_of {
+//    DataValue quantity = 1;
+//    jio.brain.proto.knowledge.base.Entity entity = 2;
+//  }
+//}
+message PredicateObject {
+  repeated PredicateQualifier predicate_qualifier = 1;
+}
+
+message PredicateQualifier {
+  uint64 entity_id = 1;     // college-id
+  map<uint32, DataValue> qualifiers = 2; // course , start, end date
+}
