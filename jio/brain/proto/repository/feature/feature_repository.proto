@@ -56,8 +56,8 @@ service FeatureLakeService {
   rpc getFeatureList(MultipleFeatureGetRequest) returns (MultipleFeatureGetResponse);
 }
 message MultipleFeatureGetRequest {
-  string feature_key = 1;
-  repeated uint32 feature_name_set = 2;
+  string brain_key = 1;
+  repeated uint32 feature_key_set = 2;
   jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
   google.protobuf.Timestamp window_start_time = 4;
   google.protobuf.Timestamp window_end_time = 5;
@@ -68,7 +68,7 @@ message MultipleFeatureGetRequest {
 message FeatureGetRequest {
   string brain_key = 1;
   uint32 feature_key = 2;
-  jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
+  //jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
 }
 
 //message FeatureGetTimeSeriesRequest {
@@ -91,11 +91,13 @@ message FeatureGetRequest {
 message FeatureValue{
   jio.brain.proto.quantity.BrainQuantity feature_value = 2;
 }
+
+//latest only
 message FeatureGetResponse {
     uint32 feature_set = 1;
-    repeated jio.brain.proto.quantity.BrainQuantity feature_values = 2;
-    google.protobuf.Timestamp window_time = 3;
-    jio.brain.proto.base.BrainStatus brainStatus = 4;
+    jio.brain.proto.quantity.BrainQuantity feature_values = 2;
+    //google.protobuf.Timestamp window_time = 3;
+    jio.brain.proto.base.BrainStatus brainStatus = 3;
 }
 
 message MultipleFeatureGetResponse {
