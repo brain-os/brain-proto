@@ -51,7 +51,7 @@ message BrainFeatureFamily {
 //}
 
 message BrainFeatureSetSchema {
-  map<string, BrainEventFeatureSchema> feature_set = 1;
+  map<string, BrainFeatureSchema> feature_set = 1; //string --> Key Token to be used
   repeated BrainFeatureFamilySchema feature_family_set = 2;
 }
 
@@ -63,7 +63,7 @@ message BrainFeatureFamilySchema {
 //  map<string, BrainFeatureSetSchema> value = 1;
 //}
 
-message BrainEventFeatureSchema {
+message BrainFeatureSchema {
   jio.brain.proto.base.BrainToken token = 1;
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
   //bool is_time_series = 3;
@@ -106,3 +106,4 @@ message FeatureMetadataResponse {
 //  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
 //  optional jio.brain.proto.base.BrainToken unit = 3;
 //}
+

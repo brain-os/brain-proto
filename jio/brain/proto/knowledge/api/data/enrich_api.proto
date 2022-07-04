@@ -27,15 +27,16 @@ message EnrichServiceResponse {
 }
 
 message EnrichAttributeRequest {
-  string type = 1;
-  repeated string entity_ids = 2;
-  repeated string attributes = 3;
+  string type = 1;                    // /retail_customer or /entity/retail_customer
+  repeated uint64 entity_ids = 2;
+  repeated uint32 attributes = 3;
 }
 
 message EnrichPredicateRequest {
-  string type = 1;
-  repeated string entity_ids = 2;
-  repeated string predicates = 3;
+  string type = 1;                 // student
+  repeated uint64 entity_ids = 2;  // st-1, st-2
+  repeated string predicates = 3;  // study_at, lives_in
+  bool fetch_qualifier = 4;
 }
 
 message EnrichAttributeResponse {
@@ -43,27 +44,49 @@ message EnrichAttributeResponse {
 }
 
 message EntityAttribute {
-  map<string, AttributeValue> attribute_value = 1; // key = customer_id and value AttributeValue
+  map<uint64, AttributeValue> attribute_value = 1; // key = customer_id and value AttributeValue
 }
 message AttributeValue {
-  map<string, jio.brain.proto.quantity.BrainQuantity> attribute_value = 1; //key = age, value = 30
+  map<uint32, DataValue> attribute_value = 1; //key = age, value = 30
+}
+
+message DataValue{
+  oneof data_is_one_of
+  {
+    double double_data = 1;
+    uint64 uint64_data = 2;
+    uint32 uint32_data = 3;
+    string string_data = 4;
+    bool boolean_data = 5;
+    sint64 sint64_data = 6;
+    sint32 sint32_data = 7;
+  }
 }
 
 message EnrichPredicateResponse {
-  map<string, EntityPredicate> subject_predicate = 1; // key = customer, value =EntityPredicate
+  map<string, EntityPredicate> subject_predicate = 1; // key = student, value =EntityPredicate
 }
 
 message EntityPredicate {
-  map<string, PredicateValue> entity_id_predicate = 1; // key = customer-id, value =PredicateValue
+  map<uint64, PredicateValue> entity_id_predicate = 1; // key = customer-id, value =PredicateValue
 }
 
 message PredicateValue {
   map<string, PredicateObject> predicate_value = 1; // key = study_at, value = PredicateObject
 }
 
+//message PredicateObject {
+//  oneof predicate_object_is_one_of {
+//    DataValue quantity = 1;
+//    jio.brain.proto.knowledge.base.Entity entity = 2;
+//  }
+//}
+
 message PredicateObject {
-  oneof predicate_object_is_one_of {
-    jio.brain.proto.quantity.BrainQuantity quantity = 1;
-    jio.brain.proto.knowledge.base.Entity entity = 2;
-  }
+  repeated PredicateQualifier predicate_qualifier = 1;
+}
+
+message PredicateQualifier {
+  uint64 entity_id = 1;     // college-id
+  map<uint32, DataValue> qualifiers = 2; // course , start, end date
 }

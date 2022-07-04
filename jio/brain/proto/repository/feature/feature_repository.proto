@@ -5,6 +5,7 @@ package jio.brain.proto.repository.feature;
 option java_package = "com.jio.brain.proto.repository.feature";
 option java_multiple_files = true;
 
+import "jio/brain/proto/base/enums.proto";
 import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/quantity/quantity.proto";
@@ -20,16 +21,18 @@ message FeatureCommand {
   }
 }
 message FeatureCreateCommand {
-  google.protobuf.Timestamp window_end_time = 1; // get from brain event meta data
-  jio.brain.proto.event.BrainEventKey event_key = 2; // get from brain event
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3;
+  uint32 event_schema = 1; // for structure of brain_event_key
+  google.protobuf.Timestamp window_time = 2; // get from brain event meta data
+  jio.brain.proto.event.BrainEventKey event_key = 3; // get from brain event // at a common place brain event key entities in ascending order , uint64
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 4;
+  jio.brain.proto.base.BrainTimeWindowType window_time_type = 5;
   // todo do we need atomic quantity here??
   // todo brand profile
   // todo recommendation engine
   // todo time series
 }
 message FeatureUpdateCommand {
-  google.protobuf.Timestamp window_end_time = 1; // get from brain event meta data
+  google.protobuf.Timestamp window_time = 1; // get from brain event meta data
   jio.brain.proto.event.BrainEventKey event_key = 2; // get from brain event
   map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3;
 }
@@ -50,21 +53,68 @@ service FeatureLakeService {
   rpc key_components(FeatureKeyComponentsRequest) returns (FeatureKeyComponentResponse);
   rpc create(FeatureCrudRequest) returns (FeatureCrudResponse);
   rpc get(FeatureGetRequest) returns (FeatureGetResponse);
-  rpc getFeatureList(SpecificFeatureGetRequest) returns (FeatureGetResponse);
+  rpc getFeatureList(MultipleFeatureGetRequest) returns (MultipleFeatureGetResponse);
 }
-message SpecificFeatureGetRequest {
-  string feature_key = 1;
-  repeated uint32 feature_name_set = 2;
+message MultipleFeatureGetRequest {
+  string brain_key = 1;
+  repeated uint32 feature_key_set = 2;
+  jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
+  google.protobuf.Timestamp window_start_time = 4;
+  google.protobuf.Timestamp window_end_time = 5;
+  int32 count = 6;
 }
 
+//If no Window Time Consider Latest table
 message FeatureGetRequest {
-  string feature_key = 1;
+  string brain_key = 1;
+  uint32 feature_key = 2;
+  //jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
 }
+
+//message FeatureGetTimeSeriesRequest {
+//  string brain_key = 1;
+//   uint32 feature_key = 2;
+//
+//}
+//
+//message FeatureGetRangeTimeSeriesRequest {
+//  string brain_key = 1;
+//  uint32 feature_key = 2;
+//
+//}
+//
+//message FeatureGetCountRequest {
+//  string brain_key = 1;
+//  uint32 feature_key = 2;
+//
+//}
+message FeatureValue{
+  jio.brain.proto.quantity.BrainQuantity feature_value = 2;
+}
+
+//latest only
 message FeatureGetResponse {
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 1;
-  //jio.brain.proto.quantity.BrainQuantity feature_quantity = 1;
+    uint32 feature_set = 1;
+    jio.brain.proto.quantity.BrainQuantity feature_values = 2;
+    //google.protobuf.Timestamp window_time = 3;
+    jio.brain.proto.base.BrainStatus brainStatus = 3;
+}
+
+message MultipleFeatureGetResponse {
+  repeated FeaturesData feature_values = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
+
+message FeaturesData {
+  uint32 feature_key = 1;
+  repeated FeatureTimeSeriesValue feature_time_series_values = 2;
+}
+
+message FeatureTimeSeriesValue {
+  google.protobuf.Timestamp window_time = 1;
+  jio.brain.proto.quantity.BrainQuantity feature_value = 2;
+}
+
 message FeatureKeyRequest {
   jio.brain.proto.event.BrainEventKey event_key = 1;
 }
