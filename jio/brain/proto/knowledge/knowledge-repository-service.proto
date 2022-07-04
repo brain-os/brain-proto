@@ -1,0 +1,112 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge;
+
+import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/base/status.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
+
+service KnowledgeRepositoryService {
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
+  rpc CreateEntity(CreateEntityRequest) returns (CreateEntityResponse) {}
+  rpc CreateEntitySchema(CreateEntitySchemaRequest) returns (CreateEntitySchemaResponse) {}
+  rpc CreateAttribute(CreateAttributeRequest) returns (CreateAttributeResponse) {}
+  rpc CreateAttributeSchema(CreateAttributeSchemaRequest) returns (CreateAttributeSchemaResponse) {}
+  rpc DeleteEntitySchema(DeleteEntitySchemaRequest) returns (DeleteEntitySchemaResponse) {}
+  rpc DeleteAttribute(DeleteAttributeRequest) returns (DeleteAttributeResponse) {}
+  rpc MetadataLookup(MetadataLookupRequest) returns (MetadataLookupResponse) {}
+  rpc ReadAttribute(ReadAttributeRequest) returns (ReadAttributeResponse) {}
+  rpc ReadEntity(ReadEntityRequest) returns (ReadEntityResponse) {}
+  // CreatePredicateSchema not implemented
+  rpc CreatePredicateSchema(CreatePredicateSchemaRequest) returns (CreatePredicateSchemaResponse) {}
+}
+
+message HealthCheckRequest {
+}
+message HealthCheckResponse{
+  string hello = 1;
+}
+
+// Create Entity schema in the knowledge graph
+message CreateEntitySchemaRequest {
+  jio.brain.proto.entity.BrainEntitySchema brain_entity_schema = 1;
+}
+message CreateEntitySchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+// Create Entity in the knowledge graph
+message CreateEntityRequest {
+  jio.brain.proto.entity.BrainEntity brain_entity = 1;
+}
+message CreateEntityResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message CreateAttributeRequest {
+  jio.brain.proto.entity.BrainAttribute brain_attribute = 1;
+  uint32 attribute_id = 2;
+  uint32 entity_type_id = 3; 
+  uint64 entity_id = 4; 
+}
+message CreateAttributeResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message CreateAttributeSchemaRequest {
+  jio.brain.proto.entity.BrainAttributeSchema brain_attribute_schema = 1;
+}
+message CreateAttributeSchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message DeleteEntitySchemaRequest {
+  jio.brain.proto.entity.BrainEntitySchema brain_entity_schema = 1;
+}
+message DeleteEntitySchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message CreatePredicateSchemaRequest {
+  jio.brain.proto.entity.BrainEntitySchema brain_entity_schema = 1;
+}
+message CreatePredicateSchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message DeleteAttributeRequest {
+  uint32 attribute_id = 1;
+  uint32 entity_type_id = 2; 
+  uint64 entity_id = 3; 
+}
+message DeleteAttributeResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message ReadAttributeRequest {
+  uint32 attribute_id = 1;
+  uint32 entity_type_id = 2; 
+  uint64 entity_id = 3; 
+}
+message ReadAttributeResponse {
+  string value = 1; // 
+  jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
+}
+
+message ReadEntityRequest {
+  uint32 entity_type_id = 1; 
+  uint64 entity_id = 2; 
+}
+message ReadEntityResponse {
+  google.protobuf.Struct attribute_list = 1; //
+  jio.brain.proto.base.BrainStatus status = 2;
+}
+
+message MetadataLookupRequest {
+  string key = 1; 
+}
+
+message MetadataLookupResponse {
+  google.protobuf.Struct metadata = 1; //
+  jio.brain.proto.base.BrainStatus status = 2;
+}
