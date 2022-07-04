@@ -27,15 +27,16 @@ message EnrichServiceResponse {
 }
 
 message EnrichAttributeRequest {
-  string type = 1;
+  string type = 1;                    // /retail_customer or /entity/retail_customer
   repeated uint64 entity_ids = 2;
   repeated uint32 attributes = 3;
 }
 
 message EnrichPredicateRequest {
-  string type = 1;
-  repeated uint64 entity_ids = 2;  // cust-1, cust-2
-  repeated string predicates = 3;  // works_at, lives_in
+  string type = 1;                 // student
+  repeated uint64 entity_ids = 2;  // st-1, st-2
+  repeated string predicates = 3;  // study_at, lives_in
+  bool fetch_qualifier = 4;
 }
 
 message EnrichAttributeResponse {
@@ -63,7 +64,7 @@ message DataValue{
 }
 
 message EnrichPredicateResponse {
-  map<string, EntityPredicate> subject_predicate = 1; // key = customer, value =EntityPredicate
+  map<string, EntityPredicate> subject_predicate = 1; // key = student, value =EntityPredicate
 }
 
 message EntityPredicate {
@@ -86,6 +87,6 @@ message PredicateObject {
 }
 
 message PredicateQualifier {
-  uint64 entity_id = 1;
-  map<uint64, DataValue> value = 2;
+  uint64 entity_id = 1;     // college-id
+  map<uint32, DataValue> qualifiers = 2; // course , start, end date
 }
