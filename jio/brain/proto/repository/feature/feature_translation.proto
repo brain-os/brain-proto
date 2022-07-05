@@ -12,11 +12,12 @@ message BrainPersistenceDataValue {
   oneof data_is_one_of
   {
     double double_data = 1;
-    uint64 uint64_data = 2;
-    sint64 sint64_data = 3;
-    string string_data = 4;
-    bool boolean_data = 5;
-
+    uint32 uint32_data = 2;
+    sint64 sint32_data = 3;
+    uint64 uint64_data = 4;
+    sint64 sint64_data = 5;
+    string string_data = 6;
+    bool boolean_data = 7;
   }
 }
 
