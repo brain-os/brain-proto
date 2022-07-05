@@ -51,8 +51,8 @@ message BrainFeatureFamily {
 //}
 
 message BrainFeatureSetSchema {
-  map<string, BrainFeatureSchema> feature_set = 1; //string --> Key Token to be used
-  map<string,BrainFeatureFamilySchema>  feature_family_set = 2;
+  map<uint32, BrainFeatureSchema> feature_set = 1; //string --> Key Token to be used
+  map<uint32,BrainFeatureFamilySchema>  feature_family_set = 2;
 }
 
 message BrainFeatureFamilySchema {
