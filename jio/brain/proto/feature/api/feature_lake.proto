@@ -39,7 +39,8 @@ message KeyFunctionEventMap{
 
 message FunctionEvent{
   string function = 1;
-  jio.brain.proto.event.BrainEvent brainEvent = 2; //This can be changed to other
+  string topic = 2;
+  jio.brain.proto.event.BrainEvent brainEvent = 3; //This can be changed to other
 }
 
 //Read Feature request/response - uint32 key and string name is available
