@@ -39,7 +39,7 @@ message KeyFunctionEventMap{
 
 message FunctionEvent{
   string function = 1;
-  string topic = 2;
+  string topic_name = 2;
   jio.brain.proto.event.BrainEvent brainEvent = 3; //This can be changed to other
 }
 
