@@ -112,3 +112,8 @@ message FeatureKeyComponentResponse {
   jio.brain.proto.event.BrainEventKey event_key = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
+
+message BrainEventKeyShaMapping {
+  string sha_key = 1;
+  jio.brain.proto.event.BrainEventKey event_key = 2;
+}
