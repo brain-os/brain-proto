@@ -60,10 +60,25 @@ message MultipleFeatureGetRequest {
   string brain_key = 1;
   repeated uint32 feature_key_set = 2;
   jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
-  google.protobuf.Timestamp window_start_time = 4;
-  google.protobuf.Timestamp window_end_time = 5;
-  int32 count = 6;
+  oneof request_type {
+    TimeSeriesWindowRequest time_series_window = 4;
+    TimeSeriesCountRequest time_series_count = 5;
+    TimeSeriesStartWindowRequest time_series_start_window = 6;
+  }
   jio.brain.proto.base.BrainGetMultipleFeatureRequestType feature_request_type = 7;
+}
+
+message TimeSeriesCountRequest {
+  int32 count = 1;
+}
+
+message TimeSeriesWindowRequest {
+  google.protobuf.Timestamp window_start_time = 1;
+  google.protobuf.Timestamp window_end_time = 2;
+}
+
+message TimeSeriesStartWindowRequest {
+  google.protobuf.Timestamp window_start_time = 1;
 }
 
 //If no Window Time Consider Latest table
