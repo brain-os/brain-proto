@@ -13,12 +13,26 @@ message BrainFunctionProcessSchema {
   jio.brain.proto.base.BrainFunctionType function_type = 2;
   string input_topic = 3;
   string output_topic = 4;
-  FunctionParameterSet input = 5;
-  FunctionParameterSet output = 6;
+  map<uint32, string> input_features = 5; // key = index of array, value = feature or attribute
+  map<uint32, string> output_features = 6; // key = index of array, value = feature or attribute
   map<string, string> function_context = 9;
+  oneof function_is_one_of {
+    BrainModelSpecification machine_learning = 10;
+    BrainRuleSpecification rule_engine = 11;
+  }
 }
 
-message FunctionParameterSet {
-  repeated string features = 5;
-  repeated string knowledge_attributes = 6;
+message BrainModelSpecification {
+  string model_server_url = 1;
+  string model_id = 2;
 }
+
+message BrainRuleSpecification {
+  string host_url = 1;
+  string host_port = 2;
+  string rule_id = 3;
+}
+
+/**
+
+ */
