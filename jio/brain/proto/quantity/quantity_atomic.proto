@@ -42,7 +42,7 @@ message BrainAtomicQuantity {
 }
 message BrainNumericQuantity {
   jio.brain.proto.types.BrainNumber value = 1;
- // optional jio.brain.proto.types.BrainSymbol unit = 2;
+ //  jio.brain.proto.types.BrainSymbol unit = 2;
 }
 message BrainNumericQuantitySchema {
   jio.brain.proto.base.BrainNumberType numeric_type = 1;

@@ -115,24 +115,24 @@ message BrainTimeDuration {
 // schema
 
 message BrainSchemaDateLevel {
-  optional bool century = 1;
-  optional bool decade = 2;
-  optional bool year = 3;   // true
-  optional bool quarter = 4;
-  optional bool season = 5;
-  optional bool month = 6;   // true
-  optional bool week = 7;
-  optional bool day = 8;  // true
+   bool century = 1;
+   bool decade = 2;
+   bool year = 3;   // true
+   bool quarter = 4;
+   bool season = 5;
+   bool month = 6;   // true
+   bool week = 7;
+   bool day = 8;  // true
 }
 
 message BrainSchemaTimeLevel {
-  optional bool part = 1;    // 1 = morning, …, 4 = night
-  optional bool hour = 2;
-  optional bool quarter = 3;    // 15-min window
-  optional bool minute5 = 4;
-  optional bool minute = 5;
-  optional bool second = 6;
-  optional bool millisecond = 7;
+   bool part = 1;    // 1 = morning, …, 4 = night
+   bool hour = 2;
+   bool quarter = 3;    // 15-min window
+   bool minute5 = 4;
+   bool minute = 5;
+   bool second = 6;
+   bool millisecond = 7;
 }
 
 

@@ -91,6 +91,8 @@ message ReduceProto {
     string outputProperty = 2;
     string countProperty = 3;
     AggregateType type = 4;
+    AggregateOperator operator = 5;
+    string value = 6;
 
     enum AggregateType {
       BRAIN_AGGREGATION_SUM = 0;
@@ -105,6 +107,10 @@ message ReduceProto {
       BRAIN_AGGREGATION_P25 = 9;
       BRAIN_AGGREGATION_P50 = 10;
       BRAIN_AGGREGATION_P75 = 11;
+    }
+
+    enum AggregateOperator {
+      EQUALS = 0;
     }
   }
 

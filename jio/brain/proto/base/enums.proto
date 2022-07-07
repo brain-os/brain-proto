@@ -331,3 +331,13 @@ enum BrainPersistenceDataType {
     BRAIN_PERSISTENCE_DATA_TYPE_BOOLEAN = 6;
 
 }
+
+
+enum BrainGetMultipleFeatureRequestType {
+
+    BRAIN_GET_FEATURES_BETWEEN_TIME_RANGE = 0;
+    BRAIN_GET_FEATURES_BY_START_TIME = 1;
+    BRAIN_GET_TOP_FEATURES = 2;
+    BRAIN_GET_FEATURES_LATEST = 3;
+
+}
