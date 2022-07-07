@@ -1,0 +1,178 @@
+syntax = "proto3";
+
+package jio.brain.proto.expressions;
+
+option go_package="jio/brain/proto/expressions";
+option java_package = "com.jio.brain.proto.expressions";
+option java_multiple_files = true;
+
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/base/token.proto";
+// import "jio/brain/proto/event/event.proto";
+
+// message BrainExpressionTemplate {
+//     uint64 templateId = 1;
+//     oneof expression_is_one_of {
+//        BrainLiteral literal = 3;  // constant / variable
+//        BrainOperation operation = 4; // (a < b) or ((a < (b + c)) - d) or ()
+//     }
+// }
+
+// message BrainExpression1 {
+//     uint64 templateId = 1;
+//     uint64 configId = 2;
+//     string name = 3;
+// }
+
+// message BrainExpression2 {
+//     uint64 expressionId = 1;
+//     uint64 configId = 2;
+//     oneof expression_is_one_of {
+//        BrainLiteral literal = 3;  // constant / variable
+//        BrainOperation operation = 4; // (a < b) or ((a < (b + c)) - d) or ()
+//     }
+// }
+
+// chemical tempeart pressure, mass, 
+// (sq.root(a)/ln (a + b)) -> +ve / -ve -> 
+// (a + b) -> +ve -> true
+// (a - b) -> -ve -> false
+// (a < b) -> true
+// ((a + b) < c) -> true
+// (a && b) -> true
+message BrainExpression {
+    optional uint64 expressionId = 1;
+    optional uint64 configId = 2;
+    oneof expression_is_one_of {
+       BrainLiteral literal = 3;  // constant / variable
+       BrainOperation operation = 4; // (a < b) or ((a < (b + c)) - d) or ()
+    }
+}
+
+enum BrainOperationType {
+    BRAIN_OPERATION_ADD = 0;
+    BRAIN_OPERATION_SUB = 1;
+    BRAIN_OPERATION_MUL = 2;
+    BRAIN_OPERATION_DIV = 3;
+    BRAIN_OPERATION_POW = 4;
+    BRAIN_OPERATION_AND = 5;
+    BRAIN_OPERATION_OR = 6;
+    BRAIN_OPERATION_NOT = 7;
+    BRAIN_OPERATION_EQ = 8;
+    BRAIN_OPERATION_NE = 9;
+    BRAIN_OPERATION_GT = 10;
+    BRAIN_OPERATION_GE = 11;
+    BRAIN_OPERATION_LT = 12;
+    BRAIN_OPERATION_LE = 13;
+}
+
+
+// (a < b) -> (< a, b)
+// (a + b) -> (+ a, b)
+// ()
+message BrainOperation {
+    BrainOperationType type = 1; 
+    repeated BrainExpression argument = 2;
+}
+
+
+// (a < b) -> a - varibale
+// b -> quantity in our kg/feature/ (unit, value)
+// message BrainLiteral {
+//     oneof literal_is_one_of {
+//         quantity.BrainQuantity constant = 1; // quantity.BrainQuantity
+//         base.BrainToken variable = 2; // base.BrainToken
+//     }
+// }
+
+message BrainLiteral {
+    uint32 uid = 1;
+    BrainLiteralType type = 2;
+    oneof literal_is_one_of {
+        BrainConstantLiteral constant1 = 3;  // float
+        BrainVariableLiteral variable1 = 4;  // string
+    }
+}
+
+// length->cm, metre, mm, , area, surface area, density
+// TODO: add more types 
+message BrainLiteralType {
+    oneof literaltype_is_one_of {
+        BrainLiteralLengthType length = 1;
+        BrainLiteralAreaType area = 2;
+        BrainLiteralWeightType weight = 3;
+        // TODO: more brain literal types
+    }
+}
+
+message BrainLiteralLengthType {
+    BrainLiteralLengthUnit unit = 1; // cm, m
+}
+
+message BrainLiteralAreaType {
+    BrainLiteralAreaUnit unit = 1; // cm2, m2
+}
+
+message BrainLiteralWeightType {
+    BrainLiteralWeightUnit unit = 1; // gm, kg, ton
+}
+// length of object -> metre, length of object -> yard
+// (obj A (lenth) < obj B (length))
+// object:  type, unit, value
+
+// lenght (5 mile) > length (5 km) -> type are same -> unit -> bring to common or default unit ->
+
+// (farm length) > (5 miles)  ->  
+// (soil/nitrogen/value) > (1.0 ppm) -> farm -> soil/nitrogen/value -> 
+
+// type -> age, length, area
+// type -> length -> (units) metre, centimeters etc ->  value -> 1.0, 2.0
+// naming - type_unit -> length_centimeter
+// type -> unit -> value
+// source -> type -> unit -> value
+// lookup - > kg/feature -> 
+//  feature/qualifier/ 
+// TODO: Get from Schema service
+enum BrainLiteralLengthUnit {
+    BRAIN_VALUE_UNIT_LENGTH_DEFAULT_CENTIMETER = 0;
+    BRAIN_VALUE_UNIT_LENGTH_CENTIMETER = 1;
+    BRAIN_VALUE_UNIT_LENGTH_METRE = 2;
+    BRAIN_VALUE_UNIT_LENGTH_YARD = 3;
+    // TODO: more brain literal unit types
+}
+
+enum BrainLiteralAreaUnit {
+    BRAIN_VALUE_UNIT_AREA_DEFAULT_SQUARE_CENTIMETER = 0;
+    BRAIN_VALUE_UNIT_AREA_SQUARE_CENTIMETER = 1;
+    BRAIN_VALUE_UNIT_AREA_SQUARE_METER = 2;
+    // TODO: more brain literal unit types
+}
+
+enum BrainLiteralWeightUnit {
+    BRAIN_VALUE_UNIT_WEIGHT_DEFAULT_GRAM = 0;
+    BRAIN_VALUE_UNIT_WEIGHT_KILO_GRAM = 1;
+    BRAIN_VALUE_UNIT_WEIGHT_TON = 2;
+    // TODO: more brain literal unit types
+}
+
+message BrainConstantLiteral {
+    jio.brain.proto.quantity.BrainQuantity value = 1; //
+}
+
+// TODO: More brainstorm required with Krishna, Shailesh and team
+message BrainVariableLiteral {
+    jio.brain.proto.base.BrainToken variable = 1; // alias for kg entity/attribute/predicate/eventkey
+}
+
+// pressure/area -> surface tension -> type operation, unit operation, value operation
+// Nitin Satankar -> Numerical computation -> decode units and quantities
+// What expressions they need -> 
+// trignometry, differential, integration 
+// Focus: Type and Unit functionalites
+// BrainComputeEngine -> Validator, frequency , ratio
+
+message BrainExpressionConfig {
+    uint64 configId = 1;
+    // TODO: map to some unique key in either event/knowledge server/feature lake to get the value
+    map<uint32,  jio.brain.proto.base.BrainToken> expression_fields = 2; // uid of variable to value mapping value can be one of event/kg/fl data
+}

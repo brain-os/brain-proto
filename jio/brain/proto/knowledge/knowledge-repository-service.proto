@@ -8,7 +8,9 @@ import "google/protobuf/struct.proto";
 import "jio/brain/proto/process/enrich_config.proto";
 import "jio/brain/proto/types/set.proto";
 import "jio/brain/proto/quantity/quantity.proto";
-
+import "jio/brain/proto/knowledge/expression.proto";
+import "jio/brain/proto/types/primitive.proto";
+import "jio/brain/proto/types/vector.proto";
 
 service KnowledgeRepositoryService {
   rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
@@ -21,7 +23,7 @@ service KnowledgeRepositoryService {
   rpc MetadataLookup(MetadataLookupRequest) returns (MetadataLookupResponse) {}
   rpc ReadAttribute(ReadAttributeRequest) returns (ReadAttributeResponse) {}
   rpc ReadEntity(ReadEntityRequest) returns (ReadEntityResponse) {}
-  rpc EnrichService(EnrichServiceRequest) returns (EnrichServiceResponse) {}
+  rpc Enrich(EnrichServiceRequest) returns (EnrichServiceResponse) {}
   // CreatePredicateSchema not implemented
   rpc CreatePredicateSchema(CreatePredicateSchemaRequest) returns (CreatePredicateSchemaResponse) {}
 }
@@ -94,7 +96,7 @@ message ReadAttributeRequest {
   uint64 entity_id = 3; 
 }
 message ReadAttributeResponse {
-  DataValue attribute_value = 1; // 
+  jio.brain.proto.types.BrainPrimitiveDataValue attribute_value = 1; //
   jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
 }
 
@@ -116,20 +118,6 @@ message MetadataLookupResponse {
   jio.brain.proto.base.BrainStatus status = 2;
 }
 
-message DataValue{
-  oneof data_is_one_of
-  {
-    double double_data = 1;
-    uint64 uint64_data = 2;
-    uint32 uint32_data = 3;
-    string string_data = 4;
-    bool boolean_data = 5;
-    sint64 sint64_data = 6;
-    sint32 sint32_data = 7;
-  }
-}
-
-
 message EnrichServiceRequest {
   repeated EnrichAttributeRequest enrich_attribute_request = 1;
   repeated EnrichPredicateRequest enrich_predicate_request = 2;
@@ -145,13 +133,14 @@ message EnrichAttributeRequest {
   string type = 1;                    // /retail_customer or /entity/retail_customer
   repeated uint64 entity_ids = 2;
   repeated uint32 attributes = 3;
+  map<uint32, jio.brain.proto.expressions.BrainExpression> filter = 4;
 }
 
 message EnrichPredicateRequest {
   string type = 1;                 // student
   repeated uint64 entity_ids = 2;  // st-1, st-2
   repeated string predicates = 3;  // study_at, lives_in
-  bool fetch_qualifier = 4;
+  map<uint32, jio.brain.proto.expressions.BrainExpression> filter = 4;
 }
 
 message EnrichAttributeResponse {
@@ -162,7 +151,7 @@ message EntityAttribute {
   map<uint64, AttributeValue> attribute_value = 1; // key = customer_id and value AttributeValue
 }
 message AttributeValue {
-  map<uint32, DataValue> attribute_value = 1; //key = age, value = 30
+  map<uint32, jio.brain.proto.types.BrainPrimitiveDataValue> attribute_value = 1; //key = age, value = 30
 }
 
 
@@ -175,20 +164,5 @@ message EntityPredicate {
 }
 
 message PredicateValue {
-  map<string, PredicateObject> predicate_value = 1; // key = study_at, value = PredicateObject
-}
-
-//message PredicateObject {
-//  oneof predicate_object_is_one_of {
-//    DataValue quantity = 1;
-//    jio.brain.proto.knowledge.base.Entity entity = 2;
-//  }
-//}
-message PredicateObject {
-  repeated PredicateQualifier predicate_qualifier = 1;
-}
-
-message PredicateQualifier {
-  uint64 entity_id = 1;     // college-id
-  map<uint32, DataValue> qualifiers = 2; // course , start, end date
+  map<string, jio.brain.proto.types.BrainU64Vector> predicate_value = 1; // key = study_at, value = PredicateObject
 }
