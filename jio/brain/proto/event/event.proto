@@ -190,7 +190,7 @@ message BrainEventContextSchema {
 message BrainEventPropertySchema {
   jio.brain.proto.base.BrainToken token = 1;
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
-  optional jio.brain.proto.base.BrainToken unit = 3;
+   jio.brain.proto.base.BrainToken unit = 3;
 }
 
 

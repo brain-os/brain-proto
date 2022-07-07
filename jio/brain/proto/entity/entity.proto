@@ -202,7 +202,7 @@ message BrainAttributeSetSchema {
 
 message BrainAttributeSchema {
   jio.brain.proto.base.BrainToken attribute_token = 1; // contain information about brain entity
-  optional jio.brain.proto.base.BrainToken unit_token = 2;
+   jio.brain.proto.base.BrainToken unit_token = 2;
   oneof attribute_is_one_of {
     jio.brain.proto.quantity.BrainQuantitySchema absolute = 3;
     BrainQualifiedAttributeSchema qualifiers = 4;
@@ -216,7 +216,7 @@ message BrainQualifiedAttributeSchema {
 message BrainAttributeQualifierSchema {
   jio.brain.proto.base.BrainToken token = 1; // contain information about brain entity and attribute
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
-  optional jio.brain.proto.base.BrainToken unit = 3;
+   jio.brain.proto.base.BrainToken unit = 3;
 }
 
 message BrainPredicateSetSchema {
@@ -232,5 +232,5 @@ message BrainPredicateSchema {
 message BrainPredicateQualifierSchema {
   jio.brain.proto.base.BrainToken token = 1; // contain information about brain entity and predicate
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
-  optional jio.brain.proto.base.BrainToken unit = 3;
+   jio.brain.proto.base.BrainToken unit = 3;
 }
