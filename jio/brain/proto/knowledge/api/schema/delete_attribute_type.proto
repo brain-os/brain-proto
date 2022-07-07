@@ -6,7 +6,6 @@ option java_package = "com.jio.brain.proto.knowledge.api.schema";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/status.proto";
-import "google/protobuf/struct.proto";
 
 /*
 DeleteAttributeTypeService will help delete an attribute type from a collection, once this is done

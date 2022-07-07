@@ -3,11 +3,7 @@ package jio.brain.proto.knowledge;
 
 import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/base/status.proto";
-import "google/protobuf/empty.proto";
 import "google/protobuf/struct.proto";
-import "jio/brain/proto/process/enrich_config.proto";
-import "jio/brain/proto/types/set.proto";
-import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/knowledge/expression.proto";
 import "jio/brain/proto/types/primitive.proto";
 import "jio/brain/proto/types/vector.proto";
