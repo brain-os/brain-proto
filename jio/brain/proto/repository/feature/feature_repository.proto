@@ -58,14 +58,18 @@ service FeatureLakeService {
 
 message MultipleFeatureGetRequest {
   string brain_key = 1;
-  repeated uint32 feature_key_set = 2;
-  jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
+  repeated FeatureRequest feature_request_set = 2;
+}
+
+message FeatureRequest {
+  uint32 feature_key = 1;
+  jio.brain.proto.base.BrainTimeWindowType window_time_type = 2;
   oneof request_type {
-    TimeSeriesWindowRequest time_series_window = 4;
-    TimeSeriesCountRequest time_series_count = 5;
-    TimeSeriesStartWindowRequest time_series_start_window = 6;
+    TimeSeriesWindowRequest time_series_window = 3;
+    TimeSeriesCountRequest time_series_count = 4;
+    TimeSeriesStartWindowRequest time_series_start_window = 5;
   }
-  jio.brain.proto.base.BrainGetMultipleFeatureRequestType feature_request_type = 7;
+  jio.brain.proto.base.BrainGetMultipleFeatureRequestType feature_request_type = 6;
 }
 
 message TimeSeriesCountRequest {
