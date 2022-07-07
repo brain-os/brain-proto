@@ -6,10 +6,6 @@ option java_package = "com.jio.brain.proto.knowledge.api.data";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/status.proto";
-import "jio/brain/proto/process/enrich_config.proto";
-import "jio/brain/proto/types/set.proto";
-import "jio/brain/proto/quantity/quantity.proto";
-import "jio/brain/proto/knowledge/base/entity.proto";
 
 service EnrichService {
   rpc serve(EnrichServiceRequest) returns (EnrichServiceResponse) {}

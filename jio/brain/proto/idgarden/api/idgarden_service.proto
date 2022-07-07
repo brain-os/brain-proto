@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package jio.brain.proto.identity.api;
+package jio.brain.proto.idgarden.api;
 
-option java_package = "com.jio.brain.proto.identity.api";
+option java_package = "com.jio.brain.proto.idgarden.api";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/status.proto";
