@@ -91,8 +91,8 @@ message ReduceProto {
     string outputProperty = 2;
     string countProperty = 3;
     AggregateType type = 4;
-    optional AggregateOperator operator = 5;
-    optional string value = 6;
+    AggregateOperator operator = 5;
+    string value = 6;
 
     enum AggregateType {
       BRAIN_AGGREGATION_SUM = 0;
@@ -156,7 +156,7 @@ message ExcelColumnMappingProto {
     EntityPredicateQualifierProto entityPredicateQualifier = 7;
     PropertyProto excelColumnMappingProperty = 8;
   }
-  bool optional = 9;
+  bool = 9;
   string dateFormat = 10;
 
   message EntityAttributeProto {

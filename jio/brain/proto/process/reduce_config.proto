@@ -16,19 +16,19 @@ message ReduceInstance {
   repeated AggregateCondition aggregate_condition = 1;
   string output_topic = 2;
   string output_event_schema = 3;
-  optional jio.brain.proto.quantity.BrainTimeInstance start_time = 4;
-  optional jio.brain.proto.quantity.BrainTimeInstance end_time = 5;
+  jio.brain.proto.quantity.BrainTimeInstance start_time = 4;
+  jio.brain.proto.quantity.BrainTimeInstance end_time = 5;
   uint32 window_time_minutes = 6;  // 10-10:30  , 10:15-10:45
   jio.brain.proto.base.BrainTimeWindowType  time_window = 7;
 }
 
 message AggregateCondition {
-  optional string input_property = 1;
-  optional string output_property = 2;
-  optional string count_property = 3;
+  string input_property = 1;
+  string output_property = 2;
+  string count_property = 3;
   AggregateConditionType type = 4;
-  optional AggregateOperator operator = 5;
-  optional string value = 6;
+  AggregateOperator operator = 5;
+  string value = 6;
 
   enum AggregateConditionType {
     BRAIN_AGGREGATION_SUM = 0;

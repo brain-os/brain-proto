@@ -55,7 +55,7 @@ message FieldMapping {
   jio.brain.proto.base.BrainInputDataType input_data_type = 4; // data type of input - will always be string in case of csv
   string format = 5; // date format or number format in case of date or number
   FieldType field_type = 6;
-  bool is_optional = 7;
+  bool is_= 7;
   oneof element {
     BizIdField entity_biz_id = 8;
     AttributeField entity_attribute = 9;
