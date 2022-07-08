@@ -88,7 +88,7 @@ message DeleteEntitySchemaResponse {
 
 message CreatePredicateSchemaRequest {
   uint32 subject_type = 1;
-  jio.brain.proto.entity.BrainPredicateSchema brain_predicate_schema = 2;
+  jio.brain.proto.entity.BrainPredicateSetSchema brain_predicate_set_schema = 2;
 }
 
 message CreatePredicateSchemaResponse {
