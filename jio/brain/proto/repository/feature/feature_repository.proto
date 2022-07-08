@@ -89,7 +89,7 @@ message TimeSeriesStartWindowRequest {
 //If no Window Time Consider Latest table
 message FeatureGetRequest {
   string brain_key = 1;
-  uint32 feature_key = 2;
+  repeated uint32 feature_key = 2;
 }
 
 message FeatureValue{
@@ -98,9 +98,9 @@ message FeatureValue{
 
 //latest only
 message FeatureGetResponse {
-    uint32 feature_set = 1;
-    jio.brain.proto.quantity.BrainQuantity feature_values = 2;
-    jio.brain.proto.base.BrainStatus brainStatus = 3;
+//    uint32 feature_set = 1;
+    map<uint32,jio.brain.proto.quantity.BrainQuantity> latest_feature_values = 1;
+    jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
 message MultipleFeatureGetResponse {
