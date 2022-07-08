@@ -329,9 +329,7 @@ enum BrainPrimitiveDataType {
     BRAIN_PERSISTENCE_DATA_TYPE_SINT64 = 5;
     BRAIN_PERSISTENCE_DATA_TYPE_STRING = 6;
     BRAIN_PERSISTENCE_DATA_TYPE_BOOLEAN = 7;
-
 }
-
 
 enum BrainGetMultipleFeatureRequestType {
 
@@ -339,5 +337,13 @@ enum BrainGetMultipleFeatureRequestType {
     BRAIN_GET_FEATURES_BY_START_TIME = 1;
     BRAIN_GET_TOP_FEATURES = 2;
     BRAIN_GET_FEATURES_LATEST = 3;
+
+}
+
+enum BrainFeatureCrudRequestType {
+
+    BRAIN_FEATURE_CREATE_REQUEST = 0;
+    BRAIN_FEATURE_UPDATE_REQUEST = 1;
+    BRAIN_FEATURE_DELETE_REQUEST = 2;
 
 }

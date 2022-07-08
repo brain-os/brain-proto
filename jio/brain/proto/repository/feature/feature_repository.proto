@@ -19,6 +19,7 @@ message FeatureCommand {
     FeatureUpdateCommand update = 2; // TODO do we need it
     FeatureDeleteCommand delete = 3;
   }
+  jio.brain.proto.base.BrainFeatureCrudRequestType crud_request_type =4;
 }
 message FeatureCreateCommand {
   uint32 event_schema = 1; // for structure of brain_event_key
@@ -49,10 +50,10 @@ message FeatureCrudResponse {
 }
 
 service FeatureLakeService {
-  rpc generate_key(FeatureKeyRequest) returns (FeatureKeyResponse); // convert to sha256
+  rpc generateShaKey(FeatureKeyRequest) returns (FeatureKeyResponse);
   rpc key_components(FeatureKeyComponentsRequest) returns (FeatureKeyComponentResponse);
-  rpc create(FeatureCrudRequest) returns (FeatureCrudResponse);
-  rpc get(FeatureGetRequest) returns (FeatureGetResponse);
+  rpc crudRequest(FeatureCrudRequest) returns (FeatureCrudResponse);
+  rpc getLatestFeatureValue(FeatureGetRequest) returns (FeatureGetResponse);
   rpc getFeatureList(MultipleFeatureGetRequest) returns (MultipleFeatureGetResponse);
 }
 
@@ -88,7 +89,7 @@ message TimeSeriesStartWindowRequest {
 //If no Window Time Consider Latest table
 message FeatureGetRequest {
   string brain_key = 1;
-  uint32 feature_key = 2;
+  repeated uint32 feature_key = 2;
 }
 
 message FeatureValue{
@@ -97,9 +98,9 @@ message FeatureValue{
 
 //latest only
 message FeatureGetResponse {
-    uint32 feature_set = 1;
-    jio.brain.proto.quantity.BrainQuantity feature_values = 2;
-    jio.brain.proto.base.BrainStatus brainStatus = 3;
+//    uint32 feature_set = 1;
+    map<uint32,jio.brain.proto.quantity.BrainQuantity> latest_feature_values = 1;
+    jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
 message MultipleFeatureGetResponse {
