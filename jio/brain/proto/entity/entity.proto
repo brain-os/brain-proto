@@ -139,7 +139,7 @@ message BrainAttributeSet {
 }
 message BrainPredicateSet {
   // key = ID(/v/d/subject_type/predicate_name)
-  map<uint32, BrainPredicate> attributes = 3;
+  map<uint32, BrainPredicate> predicates = 3; //to change to predicates
 }
 message BrainAttribute {
   bool is_knowledge_attribute = 1;
