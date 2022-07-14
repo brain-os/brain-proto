@@ -50,7 +50,7 @@ message CreateEntityRequest {
 message CreateEntityResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
 }
-
+//for updation
 message CreateAttributeRequest {
   jio.brain.proto.entity.BrainAttribute brain_attribute = 1;
   uint32 attribute_id = 2;
@@ -144,21 +144,21 @@ message EnrichServiceResponse {
 }
 
 message EnrichAttributeRequest {
-  string type = 1;                    // /retail_customer or /entity/retail_customer
+  uint32 entity_type = 1;                    // /retail_customer or /entity/retail_customer
   repeated uint64 entity_ids = 2;
   repeated uint32 attributes = 3;
   map<uint32, jio.brain.proto.expressions.BrainExpression> filter = 4;
 }
 
 message EnrichPredicateRequest {
-  string type = 1;                 // student
-  repeated uint64 entity_ids = 2;  // st-1, st-2
-  repeated string predicates = 3;  // study_at, lives_in
+  uint32 subject_type = 1;                 // student
+  repeated uint64 entity_ids = 2;  // st-1, st-2 //subject_ids
+  repeated uint32 predicates = 3;  // study_at, lives_in
   map<uint32, jio.brain.proto.expressions.BrainExpression> filter = 4;
 }
 
 message EnrichAttributeResponse {
-  map<string, EntityAttribute> entity_id_attribute = 1; // key = customer
+  map<uint32, EntityAttribute> entity_id_attribute = 1; // key = customer
 }
 
 message EntityAttribute {
@@ -170,7 +170,7 @@ message AttributeValue {
 
 
 message EnrichPredicateResponse {
-  map<string, EntityPredicate> subject_predicate = 1; // key = student, value =EntityPredicate
+  map<uint32, EntityPredicate> subject_predicate = 1; // key = student, value =EntityPredicate
 }
 
 message EntityPredicate {
@@ -178,5 +178,5 @@ message EntityPredicate {
 }
 
 message PredicateValue {
-  map<string, jio.brain.proto.types.BrainU64Vector> predicate_value = 1; // key = study_at, value = PredicateObject
+  map<uint32, jio.brain.proto.types.BrainU64Vector> predicate_value = 1; // key = study_at, value = PredicateObject
 }
