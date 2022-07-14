@@ -94,8 +94,9 @@ message BrainEventValue {
 }
 
 message BrainEventFeatureKeyValue {
-  BrainEventKey feature_key = 1;
-  BrainEventFeatureValue feature_value = 2;
+  jio.brain.proto.base.BrainToken function = 1;
+  BrainEventKey feature_key = 2;
+  BrainEventFeatureValue feature_value = 3;
 }
 message BrainEventFeatureValue {
   jio.brain.proto.feature.BrainFeatureSet features = 1;
@@ -174,8 +175,9 @@ message BrainEventKeyValueSchema {
   BrainEventValueSchema value = 2;
 }
 message BrainEventFeatureKeyValueSchema {
-  BrainEventKeySchema key = 1;
-  BrainEventFeatureValueSchema value = 2;
+  jio.brain.proto.base.BrainToken function = 1;
+  BrainEventKeySchema key = 2;
+  BrainEventFeatureValueSchema value = 3;
 }
 
 message BrainEventFeatureValueSchema {

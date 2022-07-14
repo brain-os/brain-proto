@@ -9,30 +9,68 @@ import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/base/status.proto";
 import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/event/event.proto";
+import "jio/brain/proto/types/primitive.proto";
 
-message BrainFunctionSchema {
-  jio.brain.proto.base.BrainToken token = 1;
-  jio.brain.proto.base.FunctionCallType function_call_type = 2; // http, grpc, sdk
-}
-
-service FunctionMetadataService {
-  rpc getDependentFeatures(FunctionMetadataRequest) returns (FunctionMetadataResponse) {}
-}
-message FunctionMetadataRequest {
-  string function_name = 1;
-}
-message FunctionMetadataResponse {
-  jio.brain.proto.base.BrainStatus status = 1;
-  repeated string feature = 2;
-}
-
+/**
+  Execute remote functions - Rules and Remote ML
+ */
 service FunctionExecutionService {
-  rpc serve(ExecutionRequest) returns (ExecutionResponse) {}
+  rpc serve(BrainExecutionRequest) returns (BrainExecutionResponse) {}
 }
-message ExecutionRequest {
-  jio.brain.proto.event.BrainEvent input_event = 1;
+message BrainExecutionRequest {
+  jio.brain.proto.base.BrainToken function = 1;
+  map<uint32, jio.brain.proto.types.BrainPrimitiveData> data = 2;
 }
-message ExecutionResponse {
+message BrainExecutionResponse {
   jio.brain.proto.base.BrainStatus status = 1;
-  jio.brain.proto.event.BrainEvent output_event = 2;
+  map<uint32, jio.brain.proto.types.BrainPrimitiveData> data = 2;
+}
+
+/**
+  Update function to feature config in Config service API.
+  Will be called by rule engine and ML infra to add config of function in schema
+ */
+service FunctionMetadataConfigService {
+  rpc updateFunctionConfig(FunctionMetadataConfigRequest) returns (FunctionMetadataConfigResponse) {}
+}
+message FunctionMetadataConfigRequest {
+  jio.brain.proto.base.BrainToken function = 1;
+  repeated jio.brain.proto.base.BrainToken feature_set = 2;
+}
+message FunctionMetadataConfigResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+}
+
+/**
+  CURRENTLY IMPLEMENTED AS REST API
+
+  Get features from functions
+  Config service API. Used in feature lake
+ */
+service FunctionMetadataService {
+  rpc getDependentFeatures(BrainFunctionMetadataRequest) returns (BrainFunctionMetadataResponse) {}
+}
+message BrainFunctionMetadataRequest {
+  jio.brain.proto.base.BrainToken function = 1;
+}
+message BrainFunctionMetadataResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+  repeated jio.brain.proto.base.BrainToken feature_set = 2;
+}
+
+/**
+  CURRENTLY IMPLEMENTED AS REST API
+
+  Get functions from features
+  Config service API. Used in feature lake
+ */
+service FeatureMetadataService {
+  rpc getDependentFunctions(FeatureMetadataRequest) returns (FeatureMetadataResponse) {}
+}
+message FeatureMetadataRequest {
+  jio.brain.proto.base.BrainToken feature = 1;
+}
+message FeatureMetadataResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+  repeated jio.brain.proto.base.BrainToken function_set = 2;
 }
