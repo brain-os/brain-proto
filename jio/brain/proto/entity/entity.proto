@@ -139,24 +139,14 @@ message BrainAttributeSet {
 }
 message BrainPredicateSet {
   // key = ID(/v/d/subject_type/predicate_name)
-  map<uint32, BrainPredicate> attributes = 3;
+  map<uint32, BrainPredicate> predicates = 3; //to change to predicates
 }
 message BrainAttribute {
   bool is_knowledge_attribute = 1;
   jio.brain.proto.quantity.BrainQuantity absolute = 2;
   BrainAttributeQualifierSet qualifiers = 3;
-//  oneof attribute_is_one_of {
-//    jio.brain.proto.quantity.BrainQuantity absolute = 2;
-//    BrainQualifiedAttributeSet qualified = 3;
-//  }
 }
-//message BrainQualifiedAttributeSet {
-//  repeated BrainQualifiedAttribute attribute = 1; // time series data of closing stock price
-//}
-//message BrainQualifiedAttribute {
-//  jio.brain.proto.quantity.BrainQuantity value = 4;// time series data of closing stock price for particular day
-//  BrainAttributeQualifierSet qualifiers = 5;// date, volume traded, open price etc.
-//}
+
 message BrainAttributeQualifierSet {
   map<uint32, jio.brain.proto.quantity.BrainQuantity> qualifier = 1;// date, volume traded, open price etc.
 }
