@@ -11,6 +11,10 @@ import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/types/primitive.proto";
 
+
+message BrainFunctionConfig {
+  jio.brain.proto.base.BrainToken function = 1;
+}
 /**
   Execute remote functions - Rules and Remote ML
  */

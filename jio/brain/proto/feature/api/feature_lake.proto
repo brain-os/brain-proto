@@ -4,6 +4,7 @@ package jio.brain.proto.feature.api;
 
 import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/quantity/quantity.proto";
 
 option java_package = "com.jio.brain.proto.feature.api";
 option java_multiple_files = true;
@@ -40,17 +41,21 @@ message BrainExecutableFunctionSet{
 
 message BrainExecutableFunctionForKey{
   string sha_key = 1;
-  repeated BrainFunctionParameters function_parameters = 2;
+  repeated jio.brain.proto.event.BrainEvent feature_event = 2; // BrainEventFeatureKeyValue
 }
 /**
 Handle time series and latest
  */
-message BrainFunctionParameters {
-  jio.brain.proto.base.BrainToken function = 1;
-  map<uint32, >
-//  string topic_name = 2;
-//  jio.brain.proto.event.BrainEvent brainEvent = 3; //This can be changed to other
-}
+//message BrainFunctionParameterValue {
+//  jio.brain.proto.base.BrainToken function = 1;
+//  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_value_set = 2;//  key -> feature, attribute, context
+////  jio.brain.proto.event.BrainEvent brainEvent = 3; //This can be changed to other
+//}
+//
+//message BrainFunctionParameterSchema {
+//
+//}
+
 
 //Read Feature request/response - uint32 key and string name is available
 //Also for time series data what will be the input param(for how many steps we have to fetch the data)
