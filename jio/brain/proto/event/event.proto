@@ -215,19 +215,23 @@ message BrainIotSensorIp21EventSchema {
   //  repeated BrainIotRecord data = 3;
   map<uint64, jio.brain.proto.quantity.BrainQuantitySchema> data = 3; // key is brain id
 }
+
+message BrainIotRecordSchema {
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 1;
+}
 message BrainIotSensorIp21Event {
   google.protobuf.Timestamp from_time_stamp = 1;
   google.protobuf.Timestamp to_time_stamp = 2;
 //  repeated BrainIotRecord data = 3;
-  map<uint64, BrainIotRecord> data = 3; // key is brain id
+  map<string, BrainIotRecordSet> data = 3; // key is FIC2016, LIC2017
 }
-message BrainIotRecordSchema {
-  jio.brain.proto.quantity.BrainQuantitySchema quantity = 1;
+message BrainIotRecordSet {
+  repeated BrainIotRecord record_set = 1; // every row in excel
 }
 message BrainIotRecord {
-  google.protobuf.Timestamp time_stamp = 1;
-  bool is_good = 2;
-  jio.brain.proto.quantity.BrainQuantity quantity = 3;
+  google.protobuf.Timestamp time_stamp = 1; // column A
+  bool is_good = 2; // column D
+  jio.brain.proto.quantity.BrainQuantity quantity = 3; // Column C
 }
 //message BrainEventKeyMultiValueSchema {
 //  BrainEventKeySchema key = 1;
