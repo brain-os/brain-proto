@@ -28,6 +28,7 @@ message FeatureCreateCommand {
   map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 4;
   jio.brain.proto.base.BrainTimeWindowType window_time_type = 5;
   string sha256key = 6;
+  jio.brain.proto.base.BrainStatus brainStatus = 7;
   // todo do we need atomic quantity here??
   // todo brand profile
   // todo recommendation engine
