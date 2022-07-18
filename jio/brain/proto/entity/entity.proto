@@ -174,12 +174,16 @@ message BrainEntitySchema {
   repeated jio.brain.proto.base.BrainToken biz_type = 4;
   BrainAttributeSetSchema attribute = 5;
   BrainPredicateSetSchema predicate = 6;
-  repeated BrainAttributeFamilySchema attribute_family_set = 7;
+  BrainAttributeFamilySetSchema attribute_family_set = 7;
 }
 
 message BrainAttributeFamilySchema {
   jio.brain.proto.base.BrainToken token = 1;   // attribute_family_token common_profile, medical_profile
   repeated string attributes = 2;              // /common/person/attribute/age
+}
+
+message BrainAttributeFamilySetSchema {
+  map<string, BrainAttributeFamilySchema> family = 1;   // attribute family name
 }
 
 message BrainAttributeFamily {
@@ -194,11 +198,12 @@ message BrainAttributeSchema {
   jio.brain.proto.base.BrainToken attribute_token = 1; // contain information about brain entity
    jio.brain.proto.base.BrainToken unit_token = 2;
   oneof attribute_is_one_of {
-    jio.brain.proto.quantity.BrainQuantitySchema absolute = 3;
-    BrainQualifiedAttributeSchema qualifiers = 4;
+    jio.brain.proto.quantity.BrainQuantitySchema absolute = 3;  // arango
+    BrainQualifiedAttributeSchema qualifiers = 4;               // influx
   }
   bool is_knowledge_attribute = 5;
 }
+
 message BrainQualifiedAttributeSchema {
   jio.brain.proto.quantity.BrainQuantitySchema value = 1;
   map<string, BrainAttributeQualifierSchema> qualifiers = 2;
