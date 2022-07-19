@@ -41,8 +41,8 @@ import "jio/brain/proto/base/token.proto";
 // ((a + b) < c) -> true
 // (a && b) -> true
 message BrainExpression {
-    optional uint64 expressionId = 1;
-    optional uint64 configId = 2;
+    uint64 expressionId = 1;
+    uint64 configId = 2;
     oneof expression_is_one_of {
        BrainLiteral literal = 3;  // constant / variable
        BrainOperation operation = 4; // (a < b) or ((a < (b + c)) - d) or ()
