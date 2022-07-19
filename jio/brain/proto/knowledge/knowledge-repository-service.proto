@@ -168,7 +168,8 @@ message DeletePredicateResponse {
 }
 
 message CreateAttributeFamilySchemaRequest {
-  repeated jio.brain.proto.entity.BrainAttributeFamilySchema attribute_family_set = 1;
+  uint32 entity_type = 1;
+  jio.brain.proto.entity.BrainAttributeFamilySetSchema attribute_family_set = 2;
 }
 message CreateAttributeFamilySchemaResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
