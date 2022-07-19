@@ -78,6 +78,7 @@ enum BrainTokenType {
     BRAIN_EVENT_TOKEN = 12;
     BRAIN_PROCESS_TOKEN = 13;
     BRAIN_FEATURE_TOKEN = 14;
+    BRAIN_ATTRIBUTE_FAMILY_TOKEN = 15;
 }
 
 // Temporal
