@@ -67,8 +67,8 @@ message BrainFeatureSchema {
   jio.brain.proto.base.BrainToken token = 1;
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
   //bool is_time_series = 3;
-   jio.brain.proto.base.BrainToken unit = 4;
-  jio.brain.proto.base.BrainTimeWindowType time_window = 5;
+   jio.brain.proto.base.BrainToken unit = 3;
+  jio.brain.proto.base.BrainTimeWindowType time_window = 4;
 }
 
 service FeatureMetadataService {

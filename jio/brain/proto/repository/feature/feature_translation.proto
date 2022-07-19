@@ -12,5 +12,5 @@ import "jio/brain/proto/types/primitive.proto";
  */
 message BrainPersistenceData {
   jio.brain.proto.base.BrainPrimitiveDataType brain_persistence_data_type = 1;
-  jio.brain.proto.types.BrainPrimitiveDataValue brain_persistence_data_value = 2;
+  jio.brain.proto.types.BrainPrimitiveData brain_persistence_data_value = 2;
 }
