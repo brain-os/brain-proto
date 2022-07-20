@@ -19,6 +19,7 @@ message FeatureCommand {
     FeatureUpdateCommand update = 2; // TODO - NOT USED CURRENTLY - In future
     FeatureDeleteCommand delete = 3; // TODO - NOT USED CURRENTLY - In future
   }
+  jio.brain.proto.base.BrainFeatureCrudRequestType crud_request_type =4;
 }
 
 /**
@@ -30,6 +31,12 @@ message FeatureCreateCommand {
   jio.brain.proto.event.BrainEventKey event_key = 3; // get from brain event // at a common place brain event key entities in ascending order , uint64
   map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 4;
   jio.brain.proto.base.BrainTimeWindowType window_time_type = 5;
+  string sha256key = 6;
+  jio.brain.proto.base.BrainStatus brainStatus = 7;
+  // todo do we need atomic quantity here??
+  // todo brand profile
+  // todo recommendation engine
+  // todo time series
 }
 
 /**
@@ -57,23 +64,27 @@ message FeatureCrudResponse {
 }
 
 service FeatureLakeService {
-  rpc generate_key(FeatureKeyRequest) returns (FeatureKeyResponse); // convert to sha256
+  rpc generateShaKey(FeatureKeyRequest) returns (FeatureKeyResponse);
   rpc key_components(FeatureKeyComponentsRequest) returns (FeatureKeyComponentResponse);
-  rpc create(FeatureCrudRequest) returns (FeatureCrudResponse);
-  rpc get(FeatureGetRequest) returns (FeatureGetResponse);
+  rpc crudRequest(FeatureCrudRequest) returns (FeatureCrudResponse);
+  rpc getLatestFeatureValue(FeatureGetRequest) returns (FeatureGetResponse);
   rpc getFeatureList(MultipleFeatureGetRequest) returns (MultipleFeatureGetResponse);
 }
 
 message MultipleFeatureGetRequest {
   string brain_key = 1;
-  repeated uint32 feature_key_set = 2;
-  jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
+  repeated FeatureRequest feature_request_set = 2;
+}
+
+message FeatureRequest {
+  uint32 feature_key = 1;
+  jio.brain.proto.base.BrainTimeWindowType window_time_type = 2;
   oneof request_type {
-    TimeSeriesWindowRequest time_series_window = 4;
-    TimeSeriesCountRequest time_series_count = 5;
-    TimeSeriesStartWindowRequest time_series_start_window = 6;
+    TimeSeriesWindowRequest time_series_window = 3;
+    TimeSeriesCountRequest time_series_count = 4;
+    TimeSeriesStartWindowRequest time_series_start_window = 5;
   }
-  jio.brain.proto.base.BrainGetMultipleFeatureRequestType feature_request_type = 7;
+  jio.brain.proto.base.BrainGetMultipleFeatureRequestType feature_request_type = 6;
 }
 
 message TimeSeriesCountRequest {
@@ -92,7 +103,7 @@ message TimeSeriesStartWindowRequest {
 //If no Window Time Consider Latest table
 message FeatureGetRequest {
   string brain_key = 1;
-  uint32 feature_key = 2;
+  repeated uint32 feature_key = 2;
 }
 
 message FeatureValue{
@@ -101,9 +112,9 @@ message FeatureValue{
 
 //latest only
 message FeatureGetResponse {
-    uint32 feature_set = 1;
-    jio.brain.proto.quantity.BrainQuantity feature_values = 2;
-    jio.brain.proto.base.BrainStatus brainStatus = 3;
+//    uint32 feature_set = 1;
+    map<uint32,jio.brain.proto.quantity.BrainQuantity> latest_feature_values = 1;
+    jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
 message MultipleFeatureGetResponse {

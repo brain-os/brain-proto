@@ -9,7 +9,8 @@ import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/quantity/quantity_temporal.proto";
 
-message BrainFunctionProcessSchema {
+
+/*message BrainFunctionProcessSchema {
   jio.brain.proto.base.BrainToken function_token = 1;
   jio.brain.proto.base.BrainFunctionType function_type = 2;
   string input_topic = 3;
@@ -23,6 +24,37 @@ message BrainFunctionProcessSchema {
     BrainModelSpecification machine_learning = 10;
     BrainRuleSpecification rule_engine = 11;
   }
+}*/
+
+message BrainFunctionProcessSchema {
+  jio.brain.proto.base.BrainToken function_token = 1;
+  jio.brain.proto.base.BrainFunctionType function_type = 2;
+  string input_topic = 3;
+  string output_topic = 4;
+  map<uint32, BrainFunctionFeatureConfig> input_features = 5;
+  map<uint32, BrainFunctionFeatureConfig> output_features = 6;
+  map<string, string> function_context = 7;
+  oneof function_is_one_of {
+    BrainModelSpecification machine_learning = 8;
+    BrainRuleSpecification rule_engine = 9;
+  }
+}
+
+message BrainFunctionFeatureConfig {
+  uint32 feature_id = 1;
+  string feature_name = 2;
+  oneof feature_type_is_one_of {
+      BrainFeatureTimeRange brainFeatureTimeRange = 3;
+      BrainFeatureStepCount brainFeatureStepCount = 4;
+  }
+}
+
+message BrainFeatureTimeRange {
+  jio.brain.proto.quantity.BrainDateDuration duration = 1;
+}
+
+message BrainFeatureStepCount {
+  uint32 step_count = 1;
 }
 
 message BrianFeatureDataConfig {
