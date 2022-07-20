@@ -127,7 +127,7 @@ message ReadAttributeRequest {
   uint64 entity_id = 3; 
 }
 message ReadAttributeResponse {
-  jio.brain.proto.types.BrainPrimitiveDataValue attribute_value = 1; //
+  jio.brain.proto.types.BrainPrimitiveData attribute_value = 1; //
   jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
 }
 
@@ -254,7 +254,7 @@ message ReadAttributeFamilyRequest {
 }
 
 message ReadAttributeFamilyResponse {
-  map<uint32, jio.brain.proto.types.BrainPrimitiveDataValue> attribute_value =1;
+  map<uint32, jio.brain.proto.types.BrainPrimitiveData> attribute_value =1;
   jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
 }
 
@@ -292,7 +292,7 @@ message EntityAttribute {
   map<uint64, AttributeValue> attribute_value = 1; // key = customer_id and value AttributeValue
 }
 message AttributeValue {
-  map<uint32, jio.brain.proto.types.BrainPrimitiveDataValue> attribute_value = 1; //key = age, value = 30
+  map<uint32, jio.brain.proto.types.BrainPrimitiveData> attribute_value = 1; //key = age, value = 30
 }
 
 
