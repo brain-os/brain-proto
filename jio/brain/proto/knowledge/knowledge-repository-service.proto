@@ -36,6 +36,11 @@ service KnowledgeRepositoryService {
   rpc ReadAllDomain(ReadAllDomainRequest) returns (ReadAllDomainResponse) {}
   // gives all the predicates between subject and object
   rpc ReadAllPredicates(ReadAllPredicatesRequest) returns (ReadAllPredicatesResponse) {} 
+  rpc UpdateDomain(UpdateDomainRequest) returns (UpdateDomainResponse) {}
+  rpc DeleteDomain(DeleteDomainRequest) returns (DeleteDomainResponse) {}
+  rpc DeleteAttributeSchema(DeleteAttributeSchemaRequest) returns (DeleteAttributeSchemaResponse) {}
+  rpc CreatePredicateQualifierSchema(CreatePredicateQualifierSchemaRequest) returns (CreatePredicateQualifierSchemaResponse) {}
+  rpc ReadAttributeFamily(ReadAttributeFamilyRequest) returns (ReadAttributeFamilyResponse) {}
 }
 
 
@@ -191,6 +196,22 @@ message CreateDomainResponse{
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
 }
 
+message UpdateDomainRequest {
+  string old_domain =1;
+  string new_domain =2;
+}
+message UpdateDomainResponse{
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message DeleteDomainRequest {
+  string domain =1;
+}
+message DeleteDomainResponse{
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+
 message ReadAllDomainRequest {
 }
 message ReadAllDomainResponse{
@@ -208,6 +229,35 @@ message ReadAllPredicatesResponse{
   map<uint32, string> predicates =1;
   jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
 }
+
+message DeleteAttributeSchemaRequest {
+  uint32 entity_type = 1;
+  uint32 attribute_id = 2;
+}
+message DeleteAttributeSchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+
+message CreatePredicateQualifierSchemaRequest {
+  uint32 predicate_type = 1;
+  jio.brain.proto.entity.BrainPredicateQualifierSchema brain_predicate_qualifier_schema = 2;
+}
+
+message CreatePredicateQualifierSchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message ReadAttributeFamilyRequest {
+  uint32 attribute_family_id = 1;
+  uint64 entity_id =2;
+}
+
+message ReadAttributeFamilyResponse {
+  map<uint32, jio.brain.proto.types.BrainPrimitiveDataValue> attribute_value =1;
+  jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
+}
+
 
 message EnrichServiceRequest {
   repeated EnrichAttributeRequest enrich_attribute_request = 1;
