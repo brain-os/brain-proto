@@ -41,6 +41,10 @@ service KnowledgeRepositoryService {
   rpc DeleteAttributeSchema(DeleteAttributeSchemaRequest) returns (DeleteAttributeSchemaResponse) {}
   rpc CreatePredicateQualifierSchema(CreatePredicateQualifierSchemaRequest) returns (CreatePredicateQualifierSchemaResponse) {}
   rpc ReadAttributeFamily(ReadAttributeFamilyRequest) returns (ReadAttributeFamilyResponse) {}
+  rpc DeletePredicateSchema(DeletePredicateSchemaRequest) returns (DeletePredicateSchemaResponse) {}
+  rpc DeleteAttributeFamilySchema(DeleteAttributeFamilySchemaRequest) returns (DeleteAttributeFamilySchemaResponse) {}
+  rpc AddAttributeToAttributeFamilySchema(AddAttributeToAttributeFamilySchemaRequest) returns (AddAttributeToAttributeFamilySchemaResponse) {}
+  rpc DeleteAttributeToAttributeFamilySchema(DeleteAttributeToAttributeFamilySchemaRequest) returns (DeleteAttributeToAttributeFamilySchemaResponse) {}
 }
 
 
@@ -97,7 +101,7 @@ message CreateAttributeSchemaResponse {
 }
 
 message DeleteEntitySchemaRequest {
-  jio.brain.proto.entity.BrainEntitySchema brain_entity_schema = 1;
+  uint32 entity_type = 1;
 }
 message DeleteEntitySchemaResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
@@ -251,6 +255,7 @@ message CreatePredicateQualifierSchemaResponse {
 message ReadAttributeFamilyRequest {
   uint32 attribute_family_id = 1;
   uint64 entity_id =2;
+  uint32 entity_type = 3;  
 }
 
 message ReadAttributeFamilyResponse {
@@ -258,6 +263,42 @@ message ReadAttributeFamilyResponse {
   jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
 }
 
+
+
+message DeletePredicateSchemaRequest {
+  uint32 predicate_type = 1;
+}
+message DeletePredicateSchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message DeleteAttributeFamilySchemaRequest {
+  uint32 entity_type = 1;
+  uint32 attribute_family_id = 2;
+}
+message DeleteAttributeFamilySchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message AddAttributeToAttributeFamilySchemaRequest {
+  uint32 entity_type = 1;
+  uint32 attribute_family_id = 2;
+  uint32 attribute_id =3;
+}
+
+message AddAttributeToAttributeFamilySchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
+message DeleteAttributeToAttributeFamilySchemaRequest {
+  uint32 entity_type = 1;
+  uint32 attribute_family_id = 2;
+  uint32 attribute_id =3;
+}
+
+message DeleteAttributeToAttributeFamilySchemaResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
 
 message EnrichServiceRequest {
   repeated EnrichAttributeRequest enrich_attribute_request = 1;
