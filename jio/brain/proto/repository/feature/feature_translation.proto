@@ -11,6 +11,6 @@ import "jio/brain/proto/types/primitive.proto";
  TODO Deprecated
  */
 message BrainPersistenceData {
-  jio.brain.proto.base.BrainPrimitiveDataType brain_persistence_data_type = 1;
-  jio.brain.proto.types.BrainPrimitiveData brain_persistence_data_value = 2;
+  jio.brain.proto.base.BrainPrimitiveDataType primitive_data_type = 1;
+  jio.brain.proto.types.BrainPrimitiveDataValue primitive_data_value = 2;
 }

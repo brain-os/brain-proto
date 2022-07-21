@@ -23,11 +23,11 @@ service FunctionExecutionService {
 }
 message BrainExecutionRequest {
   jio.brain.proto.base.BrainToken function = 1;
-  map<uint32, jio.brain.proto.types.BrainPrimitiveData> data = 2;
+  map<uint32, jio.brain.proto.types.BrainPrimitiveDataValue> data = 2;
 }
 message BrainExecutionResponse {
   jio.brain.proto.base.BrainStatus status = 1;
-  map<uint32, jio.brain.proto.types.BrainPrimitiveData> data = 2;
+  map<uint32, jio.brain.proto.types.BrainPrimitiveDataValue> data = 2;
 }
 
 /**

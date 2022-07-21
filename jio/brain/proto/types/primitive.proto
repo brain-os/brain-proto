@@ -6,7 +6,7 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/base/enums.proto";
 
-message BrainPrimitiveData {
+message BrainPrimitiveDataValue {
   jio.brain.proto.base.BrainPrimitiveDataType data_type = 1;
   oneof data_is_one_of {
     BrainPrimitiveValue latest = 2;
