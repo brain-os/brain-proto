@@ -15,6 +15,7 @@ import "jio/brain/proto/types/vector.proto";
 service KnowledgeRepositoryService {
   rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
   rpc CreateEntity(CreateEntityRequest) returns (CreateEntityResponse) {}
+  rpc CreateEntities(CreateEntitiesRequest) returns (CreateEntitiesResponse) {}
   rpc CreateEntitySchema(CreateEntitySchemaRequest) returns (CreateEntitySchemaResponse) {}
   rpc CreateAttribute(CreateAttributeRequest) returns (CreateAttributeResponse) {}
   rpc CreatePredicate(CreatePredicateRequest) returns (CreatePredicateResponse) {}
@@ -66,6 +67,13 @@ message CreateEntityRequest {
 message CreateEntityResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
 }
+message CreateEntitiesRequest {
+  repeated jio.brain.proto.entity.BrainEntity brain_entity = 1;
+}
+message CreateEntitiesResponse {
+  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
+}
+
 //for updation
 message CreateAttributeRequest {
   jio.brain.proto.entity.BrainAttribute brain_attribute = 1;
