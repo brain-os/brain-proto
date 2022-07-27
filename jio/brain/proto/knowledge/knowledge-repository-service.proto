@@ -46,7 +46,7 @@ service KnowledgeRepositoryService {
   rpc DeleteAttributeFamilySchema(DeleteAttributeFamilySchemaRequest) returns (DeleteAttributeFamilySchemaResponse) {}
   rpc AddAttributeToAttributeFamilySchema(AddAttributeToAttributeFamilySchemaRequest) returns (AddAttributeToAttributeFamilySchemaResponse) {}
   rpc DeleteAttributeToAttributeFamilySchema(DeleteAttributeToAttributeFamilySchemaRequest) returns (DeleteAttributeToAttributeFamilySchemaResponse) {}
-  rpc GraphQuery(GraphQueryRequest) returns (GraphQueryResponse) {}
+  rpc SearchQuery(SearchQueryRequest) returns (SearchQueryResponse) {}
   rpc DeletePredicateQualifierSchema(DeletePredicateQualifierSchemaRequest) returns (DeletePredicateQualifierSchemaResponse) {}
   rpc HasEntity(HasEntityRequest) returns (HasEntityResponse) {}
 }
@@ -310,11 +310,11 @@ message DeleteAttributeToAttributeFamilySchemaResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
 }
 
-message GraphQueryRequest {
+message SearchQueryRequest {
   string query = 1;
 }
 
-message GraphQueryResponse {
+message SearchQueryResponse {
   string cursor = 1;
   jio.brain.proto.base.BrainStatus status = 2 ;
 }
