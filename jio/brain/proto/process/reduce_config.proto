@@ -19,7 +19,8 @@ message ReduceInstance {
    jio.brain.proto.quantity.BrainTimeInstance start_time = 4;
    jio.brain.proto.quantity.BrainTimeInstance end_time = 5;
   uint32 window_time_minutes = 6;  // 10-10:30  , 10:15-10:45
-  jio.brain.proto.base.BrainTimeWindowType  time_window = 7;
+  uint32 grace_time_minutes = 7;
+  jio.brain.proto.base.BrainTimeWindowType  time_window = 8;
 }
 
 message AggregateCondition {
