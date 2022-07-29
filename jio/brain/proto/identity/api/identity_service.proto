@@ -37,8 +37,7 @@ message IdentityCreateBrainIdWithPrimaryAndBizIdRequest {
     uint32 entity_type_id = 2;
   }
   map<string, string> secondary_biz_ids = 3;
-  string primary_biz_id = 4;
-  string primary_biz_id_type = 5;
+  PrimaryBizId primary_biz_id = 4;
 }
 
 message IdentityCreateBrainIdWithPrimaryAndBizIdResponse {
