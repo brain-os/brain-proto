@@ -72,7 +72,7 @@ message CreateEntityResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
 }
 message CreateEntitiesRequest {
-  repeated jio.brain.proto.entity.BrainEntity brain_entity = 1;
+  repeated jio.brain.proto.entity.BrainEntity brain_entities = 1;
 }
 message CreateEntitiesResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
