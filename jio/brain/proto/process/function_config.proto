@@ -12,19 +12,43 @@ import "jio/brain/proto/quantity/quantity_temporal.proto";
 message BrainFunctionProcessSchema {
   jio.brain.proto.base.BrainToken function_token = 1;
   jio.brain.proto.base.BrainFunctionType function_type = 2;
-  string input_topic = 3;
-  string input_event_schema = 4;
-  string output_topic = 5;
-  string output_event_schema = 6;
-  map<uint32, BrianFeatureDataConfig> input_features = 7; // key = index of array, value = feature or attribute
-  map<uint32, BrianFeatureDataConfig> output_features = 8; // key = index of array, value = feature or attribute
-  map<string, string> function_context = 9;
-  oneof function_is_one_of {
-    BrainModelSpecification machine_learning = 10;
-    BrainRuleSpecification rule_engine = 11;
+  oneof invocation_if_one_of {
+    BrainRemoteFunction remote = 3;
+    BrainInProcessFunction in_process = 4;
+  }
+  BrainModelSpecification model_spec = 5;
+  repeated BrainFunctionOutputSchema model_output_spec = 6;
+  map<string, string> function_context = 7; // todo - do we need it? which model to execute? AIX context
+}
+message BrainModelSpecification {
+  map<uint32, BrianModelDataConfig> model_input_spec = 1; // key = index of array, value = entity id, attribute, feature or property
+  map<uint32, BrianModelDataConfig> model_output_spec = 2; // key = index of array, value = entity id, attribute, feature or property
+}
+message BrianModelDataConfig {
+  oneof feature_is_one_of {
+    jio.brain.proto.base.BrainToken entity = 1; // crop id - do we allow multiple id's?
+    jio.brain.proto.base.BrainToken attribute = 2;
+    jio.brain.proto.base.BrainToken feature = 3;
+    jio.brain.proto.base.BrainToken property = 4; // image data
+    jio.brain.proto.base.BrainToken context = 5; // morning vs evening
   }
 }
+message BrainRemoteFunction {
+  string host_url = 1;
+  string host_port = 2;
+}
+// TODO deployment??
+message BrainInProcessFunction {
+  string model_url = 1; // model repository
+  string host_port = 2;
+}
+message BrainFunctionOutputSchema {
+  string name = 1; // optional in case of classification
+  string output_topic = 2;
+  string output_event_schema = 3;
+}
 
+// remove below
 message BrianFeatureDataConfig {
   oneof config_is_one_of {
     BrianFeatureConfig feature = 1;
@@ -44,15 +68,4 @@ message BrianTimeSeriesFeatureConfig {
     uint32 number_of = 3; //latest 15 records/latest 35 records
   }
   bool ignore_missing_value = 4;
-}
-
-message BrainModelSpecification {
-  string model_server_url = 1;
-  string model_id = 2;
-}
-
-message BrainRuleSpecification {
-  string host_url = 1;
-  string host_port = 2;
-  repeated string rule_id = 3;
 }

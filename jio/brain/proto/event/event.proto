@@ -11,6 +11,7 @@ import "jio/brain/proto/types/collection.proto";
 import "jio/brain/proto/types/number.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/event/ai-output-event.proto";
 import "jio/brain/proto/event/tracing.proto";
 import "jio/brain/proto/feature/feature.proto";
 import "google/protobuf/timestamp.proto";
@@ -51,6 +52,7 @@ message BrainEvent {
     BrainEventFeatureKeyValue feature_event = 6;
     BrainIotSensorEvent iot_event = 7;
     BrainIotSensorIp21Event iot_ip_51 = 8;
+    jio.brain.proto.event.BrainAiEvent ai_event = 9;
   }
 }
 

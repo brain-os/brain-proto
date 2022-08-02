@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package jio.brain.proto.event;
+
+option java_package = "com.jio.brain.proto.event";
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/types/collection.proto";
+import "jio/brain/proto/types/number.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/entity/entity.proto";
+import "jio/brain/proto/event/tracing.proto";
+import "jio/brain/proto/feature/feature.proto";
+import "google/protobuf/timestamp.proto";
+/**
+  How to model language translation, speech to text
+ */
+message BrainAiEvent {
+  uint32 function_id = 1;
+  oneof ai_event_is_one_of {
+    // supervised learning
+    BrainClassificationEvent classification_event = 2; // identify spam or not, language detection
+    BrainRegressionEvent regression_event = 3; // predict house prices based on sq ft area, number of bedroom, distance from metro
+    // unsupervised learning
+    BrainClusteringEvent cluster = 4; // market segmentation
+    BrainDimensionReductionEvent dimension_reduction = 5;
+    // Reinforcement learning
+    BrainReinforcementActionEvent reinforcement_action = 6;
+    // Others
+    BrainOutlierDetectionEvent outliers = 7;
+  }
+}
+
+/**
+CROP
+ crop <=> cotton
+DDHP
+ { disease = .76, pest = 0.30, deficiency = 0.2}
+PEST
+ pest <=> { milibug = .96, mildew = 0.30}
+DEFICIENCY
+ deficiency <=> { sulphur = .76, iron = 0.30}
+ */
+message BrainClassificationEvent {
+  map<uint64, double> classification = 1; // key is class (symbol or entity) and value is probability (between 0 and 1)
+}
+
+message BrainRegressionEvent {
+  map<uint32, double> regression_value = 1; // value of feature
+}
+
+message BrainClusteringEvent {
+  repeated BrainCluster cluster = 1;
+}
+
+message BrainCluster {
+  map<uint64, bool> symbols = 1;
+}
+
+message BrainDimensionReductionEvent {
+  repeated uint64 entities = 1; // list of entities - e.g. list of recommended movies in netflix or list of product recommendation
+}
+
+message BrainReinforcementActionEvent {
+  repeated uint64 actions = 1; // TODO
+}
+
+message BrainOutlierDetectionEvent {
+  map<uint64, bool> symbols = 1; // outliers
+}
