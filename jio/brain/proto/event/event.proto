@@ -57,6 +57,7 @@ message BrainEvent {
 message BrainEventMetadata {
   repeated BrainEventTrace trace = 1;
   google.protobuf.Timestamp created_time = 2;
+  google.protobuf.Timestamp end_time = 3;
 }
 
 message BrainIngestionEvent {
