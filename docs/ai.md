@@ -111,3 +111,12 @@ message BrainImageQuantitySchema {
   BrainPayloadType payload_type = 2;
 }
 ```
+
+1. Automated deployment as microservice
+2. Training
+3. Modeling - list of input raw feature, feature manipluation - pre processor and parameters (dag pipeline), call model, post processor
+
+## Content vs Quantity
+
+* With every model version dependent feature and attribute changes
+

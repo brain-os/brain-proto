@@ -46,16 +46,22 @@ message BrainEvent {
   BrainEventMetadata meta_data = 3;
   oneof event {
     BrainIngestionEvent ingestion_event = 4;
+    // TODO BrainTransactionEvent
     // BrainEventValueSchema value_event = 3;
     BrainEventKeyValue key_value_event = 5;
     // BrainEventKeyMultiValueSchema key_multi_value_event = 5;
     BrainEventFeatureKeyValue feature_event = 6;
     BrainIotSensorEvent iot_event = 7;
-    BrainIotSensorIp21Event iot_ip_51 = 8;
+    //BrainIotSensorIp21Event iot_ip_51 = 8; // subset of iot_event
     jio.brain.proto.event.BrainAiEvent ai_event = 9;
   }
 }
-
+message BrainContentEvent {
+  // image -> x-ray -> knee x-ray
+  // video
+  // audio
+  // text
+}
 message BrainEventMetadata {
   repeated BrainEventTrace trace = 1;
   google.protobuf.Timestamp created_time = 2;

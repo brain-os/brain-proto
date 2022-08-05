@@ -33,7 +33,7 @@ message BrainProcessSchema {
     BrainIngestProcessSchema ingest = 10;
     BrainQuantizeProcessSchema quantize = 11;
     BrainComputeProcessSchema compute = 12;
-    BrainFunctionProcessSchema function = 13;
+    BrainFunctionProcessSchema function = 13; // interpretation function, rule function, prediction, explanation, optimization, simulation, adaption
     BrainRepositoryProcessSchema repository = 14;
   }
 }
