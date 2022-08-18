@@ -4,6 +4,7 @@ package jio.brain.proto.types;
 option java_package = "com.jio.brain.proto.types";
 option java_multiple_files = true;
 
+import "jio/brain/proto/types/vector.proto";
 message BrainPrimitiveDataValue {
   oneof data_is_one_of {
     float float_data = 1;
@@ -14,5 +15,6 @@ message BrainPrimitiveDataValue {
     sint64 sint64_data = 6;
     string string_data = 7;
     bool boolean_data = 8;
+    jio.brain.proto.types.BrainVector vector_data = 9;
   }
 }
