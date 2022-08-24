@@ -36,6 +36,11 @@ message OutputTopic{
   repeated string output_topic = 1;
 }
 
+message RowEventData{
+  string rowData = 1;
+  int64 rowIndex = 2;
+}
+
 enum MessageService {
   rabbitMq = 0;
   kafka = 1;
