@@ -23,6 +23,7 @@ message BrainPrimitiveValue {
     sint64 sint64_data = 6;
     string string_data = 7;
     bool boolean_data = 8;
+    bytes bytes_data = 9;
   }
 }
 message BrainPrimitiveTimeSeriesValue {

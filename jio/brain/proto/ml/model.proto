@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package jio.brain.proto.event;
+
+option java_package = "com.jio.brain.proto.ml";
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+import "jio/brain/proto/base/enums.proto";
+import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/content/content.proto";
+import "jio/brain/proto/ml/image_pre_processor.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/quantity/quantity_temporal.proto";
+
+message BrainMultivariateEvent {
+  map<uint32, BrainMlDataCoordinateValue> feature_set = 1; // key = index, value = ?
+}
+
+message BrainMultivariateEventSchema {
+  map<uint32, BrainMlDataCoordinateSchema> feature_set = 1;
+}
+message BrainMlDataCoordinateSchema {
+  oneof feature_is_one_of {
+    jio.brain.proto.base.BrainToken collection = 1; // crop id - in case of entity or low, medium, high for collection
+    jio.brain.proto.base.BrainToken attribute = 2; // age of customer
+    jio.brain.proto.base.BrainToken feature = 3; // daily sales, monthly purchase
+    jio.brain.proto.base.BrainToken property = 4; // image data
+    jio.brain.proto.base.BrainToken context = 5; // morning vs evening
+    jio.brain.proto.base.BrainToken content = 6; // image, video, audio
+  }
+}
+message BrainMlDataCoordinateValue {
+  oneof value {
+    uint64 id = 1; // entity id or collection item
+    jio.brain.proto.quantity.BrainQuantity quantity = 2;
+    jio.brain.proto.content.BrainContent content = 3; // image data
+  }
+}
+
+// https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html
+// https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-training.html
+message BrainImageFunctionProcessSchema {
+  jio.brain.proto.base.BrainToken function_token = 1;
+  jio.brain.proto.base.BrainFunctionType function_type = 2;
+  BrainModelSpecification model_specification = 3;
+  string output_event_schema = 4;
+  string output_topic = 5;
+  jio.brain.proto.base.BrainToken model_token = 6;
+  jio.brain.proto.ml.BrainImagePreProcessorSet pre_processors = 7;
+}
+enum BrainFunctionType {
+  FUNCTION_TYPE_INTERPRETATION = 0;
+  FUNCTION_TYPE_DEEP_LEARNING = 1;
+  FUNCTION_TYPE_MACHINE_LEARNING = 2;
+  FUNCTION_TYPE_RULE_ENGINE = 3;
+  FUNCTION_TYPE_OPTIMIZATION = 4;
+}
+message BrainModelSpecification {
+  map<uint32, BrainMlDataCoordinateSchema> model_input_spec = 1; // key = index of array, value = entity id, attribute, feature or property
+  map<uint32, BrainMlDataCoordinateSchema> model_output_spec = 2; // key = index of array, value = entity id, attribute, feature or property
+}
+
+message BrainModelConfiguration {
+  uint32 version = 1;
+  BrainMlFrameworkType framework = 2;
+  BrainModelFileFormatType model_file_format = 3;
+}
+
+enum BrainMlFrameworkType {
+  BRAIN_ML_FRAMEWORK_TENSOR_FLOW = 0;
+  BRAIN_ML_FRAMEWORK_PYTORCH = 1;
+  BRAIN_ML_FRAMEWORK_KERAS = 2;
+  BRAIN_ML_FRAMEWORK_WEKA = 3;
+}
+
+enum BrainModelFileFormatType {
+  BRAIN_MODEL_FILE_FORMAT_PB = 0;
+  BRAIN_MODEL_FILE_FORMAT_H5 = 1;
+  BRAIN_MODEL_FILE_FORMAT_PKL = 2;
+  BRAIN_MODEL_FILE_FORMAT_PMML = 3;
+}
+
