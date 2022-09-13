@@ -18,7 +18,7 @@ import "jio/brain/proto/process/function_config.proto";
 import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/process/repository_config.proto";
 
-
+// function - enrich function
 message BrainProcessSchema {
   jio.brain.proto.base.BrainToken token = 1;
   string input_topic = 2;
@@ -33,6 +33,7 @@ message BrainProcessSchema {
     BrainIngestProcessSchema ingest = 10;
     BrainQuantizeProcessSchema quantize = 11;
     BrainComputeProcessSchema compute = 12;
+    // brain model TODO
     BrainFunctionProcessSchema function = 13; // interpretation function, rule function, prediction, explanation, optimization, simulation, adaption
     BrainRepositoryProcessSchema repository = 14;
   }

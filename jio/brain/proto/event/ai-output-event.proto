@@ -10,8 +10,10 @@ import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/types/collection.proto";
 import "jio/brain/proto/types/number.proto";
 import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/quantity/quantity_atomic.proto";
 import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/event/tracing.proto";
+import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/feature/feature.proto";
 import "google/protobuf/timestamp.proto";
 /**
@@ -44,13 +46,19 @@ DEFICIENCY
  deficiency <=> { sulphur = .76, iron = 0.30}
  */
 message BrainClassificationEvent {
-  map<uint64, double> classification = 1; // key is class (symbol or entity) and value is probability (between 0 and 1)
+  jio.brain.proto.event.BrainEventKey key = 1;
+  map<uint64, double> classification = 2; // key is class (symbol or entity) and value is probability (between 0 and 1)
 }
-
+message BrainClassificationEventSchema {
+  jio.brain.proto.event.BrainEventKeySchema key = 1;
+  jio.brain.proto.quantity.BrainSymbolicQuantitySchema symbolic = 2;
+}
 message BrainRegressionEvent {
   map<uint32, double> regression_value = 1; // value of feature
 }
-
+message BrainRegressionEventSchema {
+  map<uint32, double> regression_value = 1; // value of feature
+}
 message BrainClusteringEvent {
   repeated BrainCluster cluster = 1;
 }

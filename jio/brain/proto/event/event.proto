@@ -10,6 +10,7 @@ import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/types/collection.proto";
 import "jio/brain/proto/types/number.proto";
 import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/quantity/quantity_atomic.proto";
 import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/event/ai-output-event.proto";
 import "jio/brain/proto/event/tracing.proto";
@@ -249,5 +250,10 @@ message BrainIotEvent {
 
 }
 message BrainMultivariateEvent {
-
+  jio.brain.proto.event.BrainEventKey key = 1;
+  map<uint32, jio.brain.proto.quantity.BrainAtomicQuantity> feature_set = 1; // key = index in array, value = Atomic Quantity
+}
+message BrainMultivariateEventSchema {
+  jio.brain.proto.event.BrainEventKeySchema key = 1;
+  map<uint32, jio.brain.proto.feature.BrainFeatureSchema> feature_set = 2; // key = index in array, value = feature schema
 }
