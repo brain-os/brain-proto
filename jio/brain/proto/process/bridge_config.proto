@@ -9,34 +9,23 @@ import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/quantity/quantity_temporal.proto";
 
-message BrainFunctionProcessSchema {
+message BrainBridgeProcessSchema {
   jio.brain.proto.base.BrainToken function_token = 1;
-  jio.brain.proto.base.BrainFunctionType function_type = 2;
-  oneof invocation_if_one_of {
-    BrainRemoteFunction remote = 3;
-    BrainInProcessFunction in_process = 4;
-  }
-  BrainModelSpecification model_spec = 5;
-  repeated BrainFunctionOutputSchema model_output_spec = 6;
-  map<string, string> function_context = 7; // todo - do we need it? which model to execute? AIX context
+//  jio.brain.proto.base.BrainFunctionType function_type = 2; // ignore
+  map<uint32, string> function_input_spec = 2; // key = index of array, value = entity id, attribute, feature or property
+  map<uint32, string> function_output_spec = 3; // key = index of array, value = entity id, attribute, feature or property
+  string container_image = 4; // jioaicr.azurecr.io/brain-os/sentiment-analysis:0.30
+  uint32 function_port = 5;
+//  map<string, string> function_context = 6; // todo - do we need it? which model to execute? AIX context
 }
-message BrainModelSpecification {
-  map<uint32, BrianModelDataConfig> model_input_spec = 1; // key = index of array, value = entity id, attribute, feature or property
-  map<uint32, BrianModelDataConfig> model_output_spec = 2; // key = index of array, value = entity id, attribute, feature or property
-}
-message BrianModelDataConfig {
-  oneof feature_is_one_of {
-    jio.brain.proto.base.BrainToken entity = 1; // crop id - do we allow multiple id's?
-    jio.brain.proto.base.BrainToken attribute = 2;
-    jio.brain.proto.base.BrainToken feature = 3;
-    jio.brain.proto.base.BrainToken property = 4; // image data
-    jio.brain.proto.base.BrainToken context = 5; // morning vs evening
-  }
-}
-message BrainRemoteFunction {
-  string host_url = 1;
-  string host_port = 2;
-}
+//message BrainModelSpecification {
+//  map<uint32, string> model_input_spec = 1; // key = index of array, value = entity id, attribute, feature or property
+//  map<uint32, string> model_output_spec = 2; // key = index of array, value = entity id, attribute, feature or property
+//}
+//message BrainRemoteFunction {
+//  string host_url = 1;
+//  string host_port = 2;
+//}
 // TODO deployment??
 message BrainInProcessFunction {
   string model_url = 1; // model repository
