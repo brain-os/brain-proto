@@ -14,7 +14,7 @@ import "jio/brain/proto/process/filter_config.proto";
 import "jio/brain/proto/process/pivot_config.proto";
 import "jio/brain/proto/process/reduce_config.proto";
 import "jio/brain/proto/process/compute_config.proto";
-import "jio/brain/proto/process/bridge_config.proto";
+//import "jio/brain/proto/process/bridge_config.proto";
 import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/process/repository_config.proto";
 
@@ -34,7 +34,7 @@ message BrainProcessSchema {
     BrainQuantizeProcessSchema quantize = 11;
     BrainComputeProcessSchema compute = 12;
     // brain model TODO
-    BrainBridgeProcessSchema bridge = 13; // interpretation function, rule function, prediction, explanation, optimization, simulation, adaption
+//    BrainBridgeProcessSchema bridge = 13; // interpretation function, rule function, prediction, explanation, optimization, simulation, adaption
     BrainRepositoryProcessSchema repository = 14;
   }
 }

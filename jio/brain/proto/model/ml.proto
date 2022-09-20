@@ -19,91 +19,91 @@ import "google/protobuf/timestamp.proto";
 /**
   How to model language translation, speech to text
  */
-message BrainMultivariateInputEventSchema {
-  jio.brain.proto.event.BrainEventKey key = 1;
-  map<uint32, BrainFeatureSchema> feature_set = 2;
-  jio.brain.proto.base.BrainToken model_key = 3;
-}
-message BrainFeatureSchema {
-  oneof feature_is_one_of {
-    jio.brain.proto.base.BrainToken collection = 1; // crop id - in case of entity or low, medium, high for collection
-    jio.brain.proto.base.BrainToken attribute = 2; // age of customer
-    jio.brain.proto.base.BrainToken context = 3; // morning vs evening
-    jio.brain.proto.base.BrainToken primitive_feature = 4; // daily sales, monthly purchase
-    jio.brain.proto.base.BrainToken derived_feature = 5; // velocity
-  }
-}
-message BrainMultivariateInputEvent {
-  uint32 model_id = 1;
-  map<uint32, BrainFeature> indexed_value = 2;
-}
-
-message BrainFeature {
-  oneof value {
-    uint64 id = 1; // entity id or collection item
-    jio.brain.proto.quantity.BrainQuantity quantity = 2;
-  }
-}
-
-message BrainMultivariateOutputEventSchema {
-
-}
-message BrainMultivariateOutputEvent {
-  uint32 model_id = 1;
-  jio.brain.proto.event.BrainEventKey key = 2;
-  oneof output_event_is_one_of {
-    // supervised learning
-    BrainClassificationEvent classification_event = 3; // identify spam or not, language detection
-    BrainRegressionEvent regression_event = 4; // predict house prices based on sq ft area, number of bedroom, distance from metro
-    // unsupervised learning
-    BrainClusteringEvent cluster = 5; // market segmentation
-    BrainDimensionReductionEvent dimension_reduction = 6;
-    // Reinforcement learning
-    BrainReinforcementActionEvent reinforcement_action = 7;
-    // Others
-    BrainOutlierDetectionEvent outliers = 8;
-  }
-}
-
-/**
-CROP
- crop <=> cotton
-DDHP
- { disease = .76, pest = 0.30, deficiency = 0.2}
-PEST
- pest <=> { milibug = .96, mildew = 0.30}
-DEFICIENCY
- deficiency <=> { sulphur = .76, iron = 0.30}
- */
-message BrainClassificationEvent {
-  map<uint64, double> classification = 1; // key is class (symbol or entity) and value is probability (between 0 and 1)
-}
-message BrainClassificationEventSchema {
-  jio.brain.proto.quantity.BrainSymbolicQuantitySchema symbolic = 2;
-}
-message BrainRegressionEvent {
-  map<uint32, double> regression_value = 1; // value of feature
-}
-message BrainRegressionEventSchema {
-  repeated BrainToken feature_set = 1;
-}
-// TODO - Ignore below
-message BrainClusteringEvent {
-  repeated BrainCluster cluster = 1;
-}
-
-message BrainCluster {
-  map<uint64, bool> symbols = 1;
-}
-
-message BrainDimensionReductionEvent {
-  repeated uint64 entities = 1; // list of entities - e.g. list of recommended movies in netflix or list of product recommendation
-}
-
-message BrainReinforcementActionEvent {
-  repeated uint64 actions = 1; // TODO
-}
-
-message BrainOutlierDetectionEvent {
-  map<uint64, bool> symbols = 1; // outliers
-}
+//message BrainMultivariateInputEventSchema {
+//  jio.brain.proto.event.BrainEventKey key = 1;
+//  map<uint32, BrainFeatureSchema> feature_set = 2;
+//  jio.brain.proto.base.BrainToken model_key = 3;
+//}
+//message BrainFeatureSchema {
+//  oneof feature_is_one_of {
+//    jio.brain.proto.base.BrainToken collection = 1; // crop id - in case of entity or low, medium, high for collection
+//    jio.brain.proto.base.BrainToken attribute = 2; // age of customer
+//    jio.brain.proto.base.BrainToken context = 3; // morning vs evening
+//    jio.brain.proto.base.BrainToken primitive_feature = 4; // daily sales, monthly purchase
+//    jio.brain.proto.base.BrainToken derived_feature = 5; // velocity
+//  }
+//}
+//message BrainMultivariateInputEvent {
+//  uint32 model_id = 1;
+//  map<uint32, BrainFeature> indexed_value = 2;
+//}
+//
+//message BrainFeature {
+//  oneof value {
+//    uint64 id = 1; // entity id or collection item
+//    jio.brain.proto.quantity.BrainQuantity quantity = 2;
+//  }
+//}
+//
+//message BrainMultivariateOutputEventSchema {
+//
+//}
+//message BrainMultivariateOutputEvent {
+//  uint32 model_id = 1;
+//  jio.brain.proto.event.BrainEventKey key = 2;
+//  oneof output_event_is_one_of {
+//    // supervised learning
+//    BrainClassificationEvent classification_event = 3; // identify spam or not, language detection
+//    BrainRegressionEvent regression_event = 4; // predict house prices based on sq ft area, number of bedroom, distance from metro
+//    // unsupervised learning
+//    BrainClusteringEvent cluster = 5; // market segmentation
+//    BrainDimensionReductionEvent dimension_reduction = 6;
+//    // Reinforcement learning
+//    BrainReinforcementActionEvent reinforcement_action = 7;
+//    // Others
+//    BrainOutlierDetectionEvent outliers = 8;
+//  }
+//}
+//
+///**
+//CROP
+// crop <=> cotton
+//DDHP
+// { disease = .76, pest = 0.30, deficiency = 0.2}
+//PEST
+// pest <=> { milibug = .96, mildew = 0.30}
+//DEFICIENCY
+// deficiency <=> { sulphur = .76, iron = 0.30}
+// */
+//message BrainClassificationEvent {
+//  map<uint64, double> classification = 1; // key is class (symbol or entity) and value is probability (between 0 and 1)
+//}
+//message BrainClassificationEventSchema {
+//  jio.brain.proto.quantity.BrainSymbolicQuantitySchema symbolic = 2;
+//}
+//message BrainRegressionEvent {
+//  map<uint32, double> regression_value = 1; // value of feature
+//}
+//message BrainRegressionEventSchema {
+//  repeated BrainToken feature_set = 1;
+//}
+//// TODO - Ignore below
+//message BrainClusteringEvent {
+//  repeated BrainCluster cluster = 1;
+//}
+//
+//message BrainCluster {
+//  map<uint64, bool> symbols = 1;
+//}
+//
+//message BrainDimensionReductionEvent {
+//  repeated uint64 entities = 1; // list of entities - e.g. list of recommended movies in netflix or list of product recommendation
+//}
+//
+//message BrainReinforcementActionEvent {
+//  repeated uint64 actions = 1; // TODO
+//}
+//
+//message BrainOutlierDetectionEvent {
+//  map<uint64, bool> symbols = 1; // outliers
+//}

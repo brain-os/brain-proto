@@ -5,11 +5,11 @@ package jio.brain.proto.ml;
 option java_package = "com.jio.brain.proto.ml";
 option java_multiple_files = true;
 
-import "google/protobuf/any.proto";
-import "jio/brain/proto/base/enums.proto";
-import "jio/brain/proto/base/token.proto";
-import "jio/brain/proto/content/content.proto";
-import "jio/brain/proto/quantity/quantity.proto";
+//import "google/protobuf/any.proto";
+//import "jio/brain/proto/base/enums.proto";
+//import "jio/brain/proto/base/token.proto";
+//import "jio/brain/proto/content/content.proto";
+//import "jio/brain/proto/quantity/quantity.proto";
 
 message BrainImagePreProcessorSet {
   repeated BrainImagePreProcessor pre_processor_set = 1;
@@ -41,7 +41,7 @@ enum BrainImageColorConversionType {
   BRAIN_IMAGE_COLOR_TYPE_GRAY_SCALE = 1;
   BRAIN_IMAGE_COLOR_TYPE_HSV = 2;
   BRAIN_IMAGE_COLOR_TYPE_YIQ = 3;
-  BRAIN_IMAGE_COLOR_TYPE_YUV = 3;
+  BRAIN_IMAGE_COLOR_TYPE_YUV = 4;
 }
 
 message BrainImageCropping {
