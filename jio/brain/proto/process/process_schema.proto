@@ -35,7 +35,7 @@ message BrainProcessSchema {
     BrainComputeProcessSchema compute = 12;
     // brain model TODO
 //    BrainBridgeProcessSchema bridge = 13; // interpretation function, rule function, prediction, explanation, optimization, simulation, adaption
-    BrainRepositoryProcessSchema repository = 14;
+    BrainRepositoryProcessSchema repository = 13;
   }
 }
 // TODO - output event schema in enrich vs quantization is different. Make it consistent.

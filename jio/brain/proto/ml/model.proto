@@ -5,13 +5,13 @@ package jio.brain.proto.event;
 option java_package = "com.jio.brain.proto.ml";
 option java_multiple_files = true;
 
-import "google/protobuf/any.proto";
-import "jio/brain/proto/base/enums.proto";
-import "jio/brain/proto/base/token.proto";
-import "jio/brain/proto/content/content.proto";
-import "jio/brain/proto/ml/image_pre_processor.proto";
-import "jio/brain/proto/quantity/quantity.proto";
-import "jio/brain/proto/quantity/quantity_temporal.proto";
+//import "google/protobuf/any.proto";
+//import "jio/brain/proto/base/enums.proto";
+//import "jio/brain/proto/base/token.proto";
+//import "jio/brain/proto/content/content.proto";
+//import "jio/brain/proto/ml/image_pre_processor.proto";
+//import "jio/brain/proto/quantity/quantity.proto";
+//import "jio/brain/proto/quantity/quantity_temporal.proto";
 
 //message BrainMultivariateEvent {
 //  map<uint32, BrainMlDataCoordinateValue> feature_set = 1; // key = index, value = ?

@@ -4,7 +4,7 @@ package jio.brain.proto.feature.api;
 
 import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/base/token.proto";
-import "jio/brain/proto/quantity/quantity.proto";
+//import "jio/brain/proto/quantity/quantity.proto";
 
 option java_package = "com.jio.brain.proto.feature.api";
 option java_multiple_files = true;
