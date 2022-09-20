@@ -7,6 +7,7 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/quantity/quantity_temporal.proto";
 import "jio/brain/proto/base/enums.proto";
+import "jio/brain/proto/event/event.proto";
 
 message BrainJoinerProcessSchema {
   repeated JoinerInstance joiner_instance = 1;
@@ -22,7 +23,7 @@ message BrainJoinerProcessSchema {
 
 message JoinerInstance {
   string input_topic = 1;
-  string input_event_schema = 2;
+  jio.brain.proto.event.BrainEventSchema input_event_schema = 2;
   map<string,string> input_output_property_mapping = 3;
 }
 
