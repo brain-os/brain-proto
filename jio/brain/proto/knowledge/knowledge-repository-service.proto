@@ -49,6 +49,7 @@ service KnowledgeRepositoryService {
   rpc SearchQuery(SearchQueryRequest) returns (SearchQueryResponse) {}
   rpc DeletePredicateQualifierSchema(DeletePredicateQualifierSchemaRequest) returns (DeletePredicateQualifierSchemaResponse) {}
   rpc HasEntity(HasEntityRequest) returns (HasEntityResponse) {}
+  rpc ReadMultipleAttribute(ReadMultipleAttributeRequest) returns (ReadMultipleAttributeResponse) {}
 }
 
 
@@ -384,4 +385,25 @@ message EntityPredicate {
 
 message PredicateValue {
   map<uint32, jio.brain.proto.types.BrainU64Vector> predicate_value = 1; // key = study_at, value = PredicateObject
+}
+
+message ReadMultipleAttributeRequest{
+  map<uint32, EntityId> entity_type = 1; // key= entity_type, ex: customer
+}
+
+message EntityId{
+  map<uint64, EntityIdAttributes> entity_id_attributes = 1; // key= entity_id, ex: customer_id
+}
+
+message EntityIdAttributes{
+  repeated uint32 attribute_id = 2;
+}
+
+message ReadMultipleAttributeResponse{
+  jio.brain.proto.base.BrainStatus status = 1;
+  MultipleAttributes multiple_attributes = 2; // todo: or should use EnrichAttributeResponse instead ?
+}
+
+message MultipleAttributes{
+  map<uint32, EntityAttribute> entity_type = 1; // key = entity-type, ex: customer
 }
