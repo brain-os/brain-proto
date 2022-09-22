@@ -5,6 +5,8 @@ package jio.brain.proto.content;
 option java_package = "com.jio.brain.proto.image";
 option java_multiple_files = true;
 
+// INCORPORATED
+
 //import "jio/brain/proto/event/event.proto";
 
 //message BrainImageEvent {

@@ -6,6 +6,7 @@ option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/process/ingestion_config.proto";
 import "jio/brain/proto/process/quantization_config.proto";
@@ -14,15 +15,17 @@ import "jio/brain/proto/process/filter_config.proto";
 import "jio/brain/proto/process/pivot_config.proto";
 import "jio/brain/proto/process/reduce_config.proto";
 import "jio/brain/proto/process/compute_config.proto";
+import "jio/brain/proto/process/joinner_config.proto";
+import "jio/brain/proto/process/phase_correction_config.proto";
+import "jio/brain/proto/process/multivariate_config.proto";
+import "jio/brain/proto/process/image_config.proto";
 //import "jio/brain/proto/process/bridge_config.proto";
-import "jio/brain/proto/base/enums.proto";
-import "jio/brain/proto/process/repository_config.proto";
+//import "jio/brain/proto/process/repository_config.proto";
 
 // function - enrich function
 message BrainProcessSchema {
   jio.brain.proto.base.BrainToken token = 1;
-  string input_topic = 2;
-  jio.brain.proto.event.BrainEventSchema input_event_schema = 3;
+  map<string, jio.brain.proto.event.BrainEventSchema> input_event_schema = 2;
   map<string, jio.brain.proto.event.BrainEventSchema> output_event_schema = 4; // key = output_topic, value = event key in dictionary
   jio.brain.proto.base.BrainProcessType brain_process_type = 5;
   oneof config {
@@ -33,9 +36,8 @@ message BrainProcessSchema {
     BrainIngestProcessSchema ingest = 10;
     BrainQuantizeProcessSchema quantize = 11;
     BrainComputeProcessSchema compute = 12;
-    // brain model TODO
-//    BrainBridgeProcessSchema bridge = 13; // interpretation function, rule function, prediction, explanation, optimization, simulation, adaption
-    BrainRepositoryProcessSchema repository = 13;
+    BrainMultivariateProcessSchema multivariate = 13;
+    BrainImageProcessSchema image = 14;
   }
 }
 // TODO - output event schema in enrich vs quantization is different. Make it consistent.
