@@ -10,8 +10,11 @@ import "jio/brain/proto/base/status.proto";
 
 message PrimaryBizId {
   string primary_biz_id = 1;
-  string primary_biz_id_type = 2;
-  map<string,LanguageSpecificNamesAliases> name_aliases = 3;
+  oneof primary_biz_id_type{
+    string primary_biz_id_String_type = 2;
+    uint32 primary_biz_id_int_type = 3;
+  }
+  map<string,LanguageSpecificNamesAliases> name_aliases = 4;
 }
 
 message LanguageSpecificNamesAliases {
