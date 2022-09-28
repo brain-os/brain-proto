@@ -128,7 +128,7 @@ message FeatureKeyResponse {
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 message FeatureKeyComponentsRequest {
-  string feature_key = 1;
+  string brain_sha_key = 1;
 }
 message FeatureKeyComponentResponse {
   jio.brain.proto.event.BrainEventKey event_key = 1;
