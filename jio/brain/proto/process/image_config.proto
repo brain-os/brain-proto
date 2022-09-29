@@ -7,7 +7,7 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/base/token.proto";
 
-message BrainImageProcessSchema {
+message BrainImageFunctionSchema {
   jio.brain.proto.base.BrainToken model_token = 1;
   string model_docker_image = 2; // MLFlow generated docker image for image classification
   uint32 port = 3;

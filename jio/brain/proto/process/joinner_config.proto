@@ -6,6 +6,6 @@ option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
 
-message BrainJoinerProcessSchema {
+message BrainJoinerFunctionSchema {
 
 }
