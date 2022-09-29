@@ -81,9 +81,10 @@ message ReduceProto {
   string outputTopic = 1;
   string outputSchema = 2;
   int32 windowTimeMinutes = 3;
-  repeated AggregateConditionProto aggregateCondition = 4;
-  TimeInstanceProto startTime = 5;
-  TimeInstanceProto endTime = 6;
+  int32 graceTimeMinutes = 4;
+  repeated AggregateConditionProto aggregateCondition = 5;
+  TimeInstanceProto startTime = 6;
+  TimeInstanceProto endTime = 7;
 
 
   message AggregateConditionProto {
