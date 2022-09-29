@@ -12,7 +12,13 @@ option java_multiple_files = true;
 import "jio/brain/proto/base/token.proto";
 
 message BrainBridgeFunctionSchema {
-
+  string model_key = 1;              // telecom/model/anomaly_model_241325
+  string output_topic = 2;
+  string output_event_schema = 3;
+  map<uint32, string> function_input_spec = 4;       // key = index of array, value = entity id, attribute, feature or property. How to handle time-series config ?
+  map<uint32, string> function_output_spec = 5;
+  string model_docker_image = 6;
+  uint32 model_port = 7;
 }
 
 // Used for ML Model as well as Rule Engine
