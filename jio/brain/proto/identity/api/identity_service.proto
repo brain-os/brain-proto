@@ -9,10 +9,10 @@ import "jio/brain/proto/base/id.proto";
 import "jio/brain/proto/base/status.proto";
 
 message PrimaryBizId {
-  string primary_biz_id = 1;
-  oneof primary_biz_id_type{
-    string primary_biz_id_String_type = 2;
-    uint32 primary_biz_id_int_type = 3;
+  string value = 1;
+  oneof primary_biz_id_type {
+    string type_name = 2;                 // adhaar_card
+    uint32 type_id = 3;                   // brainid of adhar card
   }
   map<string,LanguageSpecificNamesAliases> name_aliases = 4;
 }
