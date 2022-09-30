@@ -3,54 +3,28 @@ package jio.brain.proto.knowledge;
 
 import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/base/status.proto";
-import "google/protobuf/empty.proto";
+//import "google/protobuf/empty.proto";
 import "google/protobuf/struct.proto";
-import "jio/brain/proto/process/enrich_config.proto";
-import "jio/brain/proto/types/set.proto";
-import "jio/brain/proto/quantity/quantity.proto";
-import "jio/brain/proto/knowledge/expression.proto";
-import "jio/brain/proto/types/primitive.proto";
-import "jio/brain/proto/types/vector.proto";
+//import "jio/brain/proto/process/enrich_config.proto";
+//import "jio/brain/proto/types/set.proto";
+//import "jio/brain/proto/quantity/quantity.proto";
+
 
 service KnowledgeRepositoryService {
   rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
   rpc CreateEntity(CreateEntityRequest) returns (CreateEntityResponse) {}
-  rpc CreateEntities(CreateEntitiesRequest) returns (CreateEntitiesResponse) {}
   rpc CreateEntitySchema(CreateEntitySchemaRequest) returns (CreateEntitySchemaResponse) {}
   rpc CreateAttribute(CreateAttributeRequest) returns (CreateAttributeResponse) {}
-  rpc CreatePredicate(CreatePredicateRequest) returns (CreatePredicateResponse) {}
   rpc CreateAttributeSchema(CreateAttributeSchemaRequest) returns (CreateAttributeSchemaResponse) {}
   rpc DeleteEntitySchema(DeleteEntitySchemaRequest) returns (DeleteEntitySchemaResponse) {}
   rpc DeleteAttribute(DeleteAttributeRequest) returns (DeleteAttributeResponse) {}
   rpc MetadataLookup(MetadataLookupRequest) returns (MetadataLookupResponse) {}
   rpc ReadAttribute(ReadAttributeRequest) returns (ReadAttributeResponse) {}
   rpc ReadEntity(ReadEntityRequest) returns (ReadEntityResponse) {}
-  rpc Enrich(EnrichServiceRequest) returns (EnrichServiceResponse) {}
+  rpc EnrichService(EnrichServiceRequest) returns (EnrichServiceResponse) {}
+  // CreatePredicateSchema not implemented
   rpc CreatePredicateSchema(CreatePredicateSchemaRequest) returns (CreatePredicateSchemaResponse) {}
-  rpc DeletePredicate(DeletePredicateRequest) returns (DeletePredicateResponse) {}
-  rpc ReadPredicate(ReadPredicateRequest) returns (ReadPredicateResponse) {}
-  rpc DeleteEntity(DeleteEntityRequest) returns (DeleteEntityResponse) {}
-  rpc CreateAttributeFamilySchema(CreateAttributeFamilySchemaRequest) returns (CreateAttributeFamilySchemaResponse) {}
-  // adds a domain in KG
-  rpc CreateDomain(CreateDomainRequest) returns (CreateDomainResponse) {}
-  // gives all the domains present in KG
-  rpc ReadAllDomain(ReadAllDomainRequest) returns (ReadAllDomainResponse) {}
-  // gives all the predicates between subject and object
-  rpc ReadAllPredicates(ReadAllPredicatesRequest) returns (ReadAllPredicatesResponse) {} 
-  rpc UpdateDomain(UpdateDomainRequest) returns (UpdateDomainResponse) {}
-  rpc DeleteDomain(DeleteDomainRequest) returns (DeleteDomainResponse) {}
-  rpc DeleteAttributeSchema(DeleteAttributeSchemaRequest) returns (DeleteAttributeSchemaResponse) {}
-  rpc CreatePredicateQualifierSchema(CreatePredicateQualifierSchemaRequest) returns (CreatePredicateQualifierSchemaResponse) {}
-  rpc ReadAttributeFamily(ReadAttributeFamilyRequest) returns (ReadAttributeFamilyResponse) {}
-  rpc DeletePredicateSchema(DeletePredicateSchemaRequest) returns (DeletePredicateSchemaResponse) {}
-  rpc DeleteAttributeFamilySchema(DeleteAttributeFamilySchemaRequest) returns (DeleteAttributeFamilySchemaResponse) {}
-  rpc AddAttributeToAttributeFamilySchema(AddAttributeToAttributeFamilySchemaRequest) returns (AddAttributeToAttributeFamilySchemaResponse) {}
-  rpc DeleteAttributeToAttributeFamilySchema(DeleteAttributeToAttributeFamilySchemaRequest) returns (DeleteAttributeToAttributeFamilySchemaResponse) {}
-  rpc SearchQuery(SearchQueryRequest) returns (SearchQueryResponse) {}
-  rpc DeletePredicateQualifierSchema(DeletePredicateQualifierSchemaRequest) returns (DeletePredicateQualifierSchemaResponse) {}
-  rpc HasEntity(HasEntityRequest) returns (HasEntityResponse) {}
 }
-
 
 message HealthCheckRequest {
 }
@@ -73,14 +47,7 @@ message CreateEntityRequest {
 message CreateEntityResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
 }
-message CreateEntitiesRequest {
-  repeated jio.brain.proto.entity.BrainEntity brain_entities = 1;
-}
-message CreateEntitiesResponse {
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
 
-//for updation
 message CreateAttributeRequest {
   jio.brain.proto.entity.BrainAttribute brain_attribute = 1;
   uint32 attribute_id = 2;
@@ -90,38 +57,24 @@ message CreateAttributeRequest {
 message CreateAttributeResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
 }
-message CreatePredicateRequest {
-  uint32 predicate_type = 1; //
-  uint32 subject_type = 2;
-  uint64 subject_id = 3;
-  uint32 object_type = 4;
-  uint64 object_id = 5;
-  map<uint32,jio.brain.proto.quantity.BrainQuantity> qualifiers = 6;
-}
-message CreatePredicateResponse {
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
 
 message CreateAttributeSchemaRequest {
-  uint32 entity_type = 1;
-  jio.brain.proto.entity.BrainAttributeSchema brain_attribute_schema = 2;
+  jio.brain.proto.entity.BrainAttributeSchema brain_attribute_schema = 1;
 }
 message CreateAttributeSchemaResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
 }
 
 message DeleteEntitySchemaRequest {
-  uint32 entity_type = 1;
+  jio.brain.proto.entity.BrainEntitySchema brain_entity_schema = 1;
 }
 message DeleteEntitySchemaResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
 }
 
 message CreatePredicateSchemaRequest {
-  uint32 subject_type = 1;
-  jio.brain.proto.entity.BrainPredicateSetSchema brain_predicate_set_schema = 2;
+  jio.brain.proto.entity.BrainEntitySchema brain_entity_schema = 1;
 }
-
 message CreatePredicateSchemaResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
 }
@@ -141,7 +94,7 @@ message ReadAttributeRequest {
   uint64 entity_id = 3; 
 }
 message ReadAttributeResponse {
-  jio.brain.proto.types.BrainPrimitiveDataValue attribute_value = 1; //
+  DataValue attribute_value = 1; // 
   jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
 }
 
@@ -163,179 +116,19 @@ message MetadataLookupResponse {
   jio.brain.proto.base.BrainStatus status = 2;
 }
 
-message ReadPredicateRequest {
-  uint32 predicate_type = 1; //
-  uint32 subject_type = 2;
-  uint64 subject_id = 3;
-  uint32 object_type = 4;
-  uint64 object_id = 5;
-}
-message ReadPredicateResponse {
-  google.protobuf.Struct predicate = 1; //
-  jio.brain.proto.base.BrainStatus status = 2;
-}
-
-message DeletePredicateRequest {
-  uint32 predicate_type = 1; //
-  uint32 subject_type = 2;
-  uint64 subject_id = 3;
-  uint32 object_type = 4;
-  uint64 object_id = 5;
-}
-message DeletePredicateResponse {
-  jio.brain.proto.base.BrainStatus status = 1;
+message DataValue{
+  oneof data_is_one_of
+  {
+    double double_data = 1;
+    uint64 uint64_data = 2;
+    uint32 uint32_data = 3;
+    string string_data = 4;
+    bool boolean_data = 5;
+    sint64 sint64_data = 6;
+    sint32 sint32_data = 7;
+  }
 }
 
-message CreateAttributeFamilySchemaRequest {
-  uint32 entity_type = 1;
-  jio.brain.proto.entity.BrainAttributeFamilySetSchema attribute_family_set = 2;
-}
-message CreateAttributeFamilySchemaResponse {
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-
-message DeleteEntityRequest {
-  uint32 entity_type = 1; 
-  uint64 entity_id = 2; 
-}
-message DeleteEntityResponse {
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-message CreateDomainRequest {
-  string domain =1;
-}
-message CreateDomainResponse{
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-message UpdateDomainRequest {
-  string old_domain =1;
-  string new_domain =2;
-}
-message UpdateDomainResponse{
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-message DeleteDomainRequest {
-  string domain =1;
-}
-message DeleteDomainResponse{
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-
-message ReadAllDomainRequest {
-}
-message ReadAllDomainResponse{
-  repeated string domains = 1;
-  jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
-}
-
-message ReadAllPredicatesRequest {
-  uint32 subject_type = 1;
-  uint64 subject_id = 2;
-  uint32 object_type = 3;
-  uint64 object_id = 4;
-}
-message ReadAllPredicatesResponse{
-  map<uint32, string> predicates =1;
-  jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
-}
-
-message DeleteAttributeSchemaRequest {
-  uint32 entity_type = 1;
-  uint32 attribute_id = 2;
-}
-message DeleteAttributeSchemaResponse {
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-
-message CreatePredicateQualifierSchemaRequest {
-  uint32 predicate_type = 1;
-  jio.brain.proto.entity.BrainPredicateQualifierSchema brain_predicate_qualifier_schema = 2;
-}
-
-message CreatePredicateQualifierSchemaResponse {
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-message ReadAttributeFamilyRequest {
-  uint32 attribute_family_id = 1;
-  uint64 entity_id =2;
-  uint32 entity_type = 3;  
-}
-
-message ReadAttributeFamilyResponse {
-  map<uint32, jio.brain.proto.types.BrainPrimitiveDataValue> attribute_value =1;
-  jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
-}
-
-
-
-message DeletePredicateSchemaRequest {
-  uint32 predicate_type = 1;
-}
-message DeletePredicateSchemaResponse {
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-message DeleteAttributeFamilySchemaRequest {
-  uint32 entity_type = 1;
-  uint32 attribute_family_id = 2;
-}
-message DeleteAttributeFamilySchemaResponse {
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-message AddAttributeToAttributeFamilySchemaRequest {
-  uint32 entity_type = 1;
-  uint32 attribute_family_id = 2;
-  uint32 attribute_id =3;
-}
-
-message AddAttributeToAttributeFamilySchemaResponse {
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-message DeleteAttributeToAttributeFamilySchemaRequest {
-  uint32 entity_type = 1;
-  uint32 attribute_family_id = 2;
-  uint32 attribute_id =3;
-}
-
-message DeleteAttributeToAttributeFamilySchemaResponse {
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-message SearchQueryRequest {
-  string query = 1;
-}
-
-message SearchQueryResponse {
-  string cursor = 1;
-  jio.brain.proto.base.BrainStatus status = 2 ;
-}
-
-message DeletePredicateQualifierSchemaRequest {
-  uint32 predicate_type = 1;
-  uint32 qualifier_id = 2;
-}
-message DeletePredicateQualifierSchemaResponse {
-  jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
-}
-
-message HasEntityRequest {
-  uint32 entity_type = 1; 
-  uint64 entity_id =2;
-}
-
-message HasEntityResponse {
-  bool is_present =1;
-  jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
-}
 
 message EnrichServiceRequest {
   repeated EnrichAttributeRequest enrich_attribute_request = 1;
@@ -349,33 +142,32 @@ message EnrichServiceResponse {
 }
 
 message EnrichAttributeRequest {
-  uint32 entity_type = 1;                    // /retail_customer or /entity/retail_customer
+  string type = 1;                    // /retail_customer or /entity/retail_customer
   repeated uint64 entity_ids = 2;
   repeated uint32 attributes = 3;
-  map<uint32, jio.brain.proto.expressions.BrainExpression> filter = 4;
 }
 
 message EnrichPredicateRequest {
-  uint32 subject_type = 1;                 // student
-  repeated uint64 entity_ids = 2;  // st-1, st-2 //subject_ids
-  repeated uint32 predicates = 3;  // study_at, lives_in
-  map<uint32, jio.brain.proto.expressions.BrainExpression> filter = 4;
+  string type = 1;                 // student
+  repeated uint64 entity_ids = 2;  // st-1, st-2
+  repeated string predicates = 3;  // study_at, lives_in
+  bool fetch_qualifier = 4;
 }
 
 message EnrichAttributeResponse {
-  map<uint32, EntityAttribute> entity_id_attribute = 1; // key = customer
+  map<string, EntityAttribute> entity_id_attribute = 1; // key = customer
 }
 
 message EntityAttribute {
   map<uint64, AttributeValue> attribute_value = 1; // key = customer_id and value AttributeValue
 }
 message AttributeValue {
-  map<uint32, jio.brain.proto.types.BrainPrimitiveDataValue> attribute_value = 1; //key = age, value = 30
+  map<uint32, DataValue> attribute_value = 1; //key = age, value = 30
 }
 
 
 message EnrichPredicateResponse {
-  map<uint32, EntityPredicate> subject_predicate = 1; // key = student, value =EntityPredicate
+  map<string, EntityPredicate> subject_predicate = 1; // key = student, value =EntityPredicate
 }
 
 message EntityPredicate {
@@ -383,5 +175,20 @@ message EntityPredicate {
 }
 
 message PredicateValue {
-  map<uint32, jio.brain.proto.types.BrainU64Vector> predicate_value = 1; // key = study_at, value = PredicateObject
+  map<string, PredicateObject> predicate_value = 1; // key = study_at, value = PredicateObject
+}
+
+//message PredicateObject {
+//  oneof predicate_object_is_one_of {
+//    DataValue quantity = 1;
+//    jio.brain.proto.knowledge.base.Entity entity = 2;
+//  }
+//}
+message PredicateObject {
+  repeated PredicateQualifier predicate_qualifier = 1;
+}
+
+message PredicateQualifier {
+  uint64 entity_id = 1;     // college-id
+  map<uint32, DataValue> qualifiers = 2; // course , start, end date
 }

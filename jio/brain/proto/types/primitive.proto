@@ -4,8 +4,16 @@ package jio.brain.proto.types;
 option java_package = "com.jio.brain.proto.types";
 option java_multiple_files = true;
 
-import "jio/brain/proto/types/vector.proto";
-message BrainPrimitiveDataValue {
+import "jio/brain/proto/base/enums.proto";
+
+message BrainPrimitiveData {
+  jio.brain.proto.base.BrainPrimitiveDataType data_type = 1;
+  oneof data_is_one_of {
+    BrainPrimitiveValue latest = 2;
+    BrainPrimitiveTimeSeriesValue time_series = 3;
+  }
+}
+message BrainPrimitiveValue {
   oneof data_is_one_of {
     float float_data = 1;
     double double_data = 2;
@@ -15,6 +23,10 @@ message BrainPrimitiveDataValue {
     sint64 sint64_data = 6;
     string string_data = 7;
     bool boolean_data = 8;
-    jio.brain.proto.types.BrainVector vector_data = 9;
+    bytes bytes_data = 9;
   }
+}
+message BrainPrimitiveTimeSeriesValue {
+  bool time_ascending = 1; // default is latest first
+  repeated BrainPrimitiveValue time_series = 2;
 }

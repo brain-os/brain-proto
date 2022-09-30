@@ -1,0 +1,68 @@
+//syntax = "proto3";
+//
+//package jio.brain.proto.event;
+//
+//option java_package = "com.jio.brain.proto.event";
+//option java_multiple_files = true;
+//
+//import "jio/brain/proto/quantity/quantity_atomic.proto";
+//
+////message BrainImageEvent {
+////  oneof image_event_is_one_of {
+////      BrainInputImageEvent input_image_event = 1;
+////  }
+////}
+//message BrainImageEventSchema {
+//  oneof image_event_is_one_of {
+//    BrainInputImageEventSchema input_image_event = 1;
+//  }
+//}
+//message BrainInputImageEvent {
+//  jio.brain.proto.event.BrainEventKey key = 1;
+//  string source_uri = 2; // can be url or path on hard disk of original image
+//  oneof payload_is_one_of {
+//    string uri = 3; // can be url or path on hard disk of processed image
+//    Bytes bytes = 4;
+//    string base64 = 5; // base64 image
+//  }
+//}
+//message Bytes {
+//  repeated bytes value = 1;
+//  string content_type = 2;
+//}
+//message BrainInputImageEventSchema {
+//  jio.brain.proto.event.BrainEventKeySchema key = 1;
+//  BrainImagePayloadType payload_type = 2;
+//  map<string, string> meta_data = 3; // type =  (x-ray, ct-scan, mri, spectral) , sub type = (knee, shoulder, etc)
+//}
+//enum BrainImagePayloadType {
+//  BRAIN_IMAGE_PAYLOAD_TYPE_URI = 0;
+//  BRAIN_IMAGE_PAYLOAD_TYPE_BYTES = 1;
+//  BRAIN_IMAGE_PAYLOAD_TYPE_BASE64 = 2;
+//}
+//message BrainImageClassificationEvent {
+//  jio.brain.proto.event.BrainEventKey key = 1;
+//  repeated BrainImageLabel image_label_set = 2; // key is class (symbol or entity) and value is probability (between 0 and 1)
+//  string source_uri = 3; // can be url or path on hard disk of original image
+//  oneof payload_is_one_of {
+//    string uri = 4; // can be url or path on hard disk of processed image
+//    Bytes bytes = 5;
+//    string base64 = 6; // base64 image
+//  }
+//}
+//message BrainImageLabel {
+//  uint64 entity_id  = 1;
+//  uint32 x = 2;
+//  uint32 y = 3;
+//  uint32 length = 4;
+//  uint32 width = 5;
+//}
+//message BrainImageClassificationEventSchema {
+//  jio.brain.proto.event.BrainEventKeySchema key = 1;
+//  repeated BrainImageLabelSchema image_label_set = 2;
+//  BrainImagePayloadType payload_type = 3;
+//  map<string, string> meta_data = 4; // type =  (x-ray, ct-scan, mri, spectral) , sub type = (knee, shoulder, etc)
+//}
+//message BrainImageLabelSchema {
+//  jio.brain.proto.quantity.BrainSymbolicQuantitySchema symbolic = 2;
+//}

@@ -13,16 +13,16 @@ message EntityCommand {
   google.protobuf.Timestamp created_time = 1;
   uint32 entity_type = 2;
   oneof command_is_one_of {
-    NewEntityCommand new_entity = 4;
-    DeleteEntityCommand delete_entity = 5;
-    AddOrUpdateAttributeCommand attribute_set= 6;
-    DeleteAttributeCommand delete_attribute = 7;
-    AddOrUpdateAttributeQualifierCommand add_or_update_attribute_qualifier = 8;
-    DeleteAttributeQualifierCommand delete_attribute_qualifier = 9;
-    NewEntityPredicateCommand new_predicate = 10;
-    DeleteEntityPredicateCommand delete_predicate = 11;
-    AddOrUpdatePredicateQualifierCommand add_or_update_predicate_qualifier = 12;
-    DeletePredicateQualifierCommand delete_predicate_qualifier = 13;
+    NewEntityCommand new_entity = 3;
+    DeleteEntityCommand delete_entity = 4;
+    AddOrUpdateAttributeCommand attribute_set= 5;
+    DeleteAttributeCommand delete_attribute = 6;
+    AddOrUpdateAttributeQualifierCommand add_or_update_attribute_qualifier = 7;
+    DeleteAttributeQualifierCommand delete_attribute_qualifier = 8;
+    NewEntityPredicateCommand new_predicate = 9;
+    DeleteEntityPredicateCommand delete_predicate = 10;
+    AddOrUpdatePredicateQualifierCommand add_or_update_predicate_qualifier = 11;
+    DeletePredicateQualifierCommand delete_predicate_qualifier = 12;
   }
 }
 message NewEntityCommand {
@@ -37,7 +37,7 @@ message AddOrUpdateAttributeCommand {
 }
 message DeleteAttributeCommand {
   uint64 entity_id = 1;
-  repeated uint32 attribute_type = 5;
+  repeated uint32 attribute_type = 2;
 }
 message AddOrUpdateAttributeQualifierCommand {
   uint64 entity_id = 1;

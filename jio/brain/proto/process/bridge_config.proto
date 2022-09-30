@@ -5,12 +5,80 @@ package jio.brain.proto.process;
 option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
-message BrainBridgeProcessSchema {
+//import "jio/brain/proto/base/enums.proto";
+//import "jio/brain/proto/base/token.proto";
+//import "jio/brain/proto/quantity/quantity_temporal.proto";
+
+import "jio/brain/proto/base/token.proto";
+
+message BrainBridgeFunctionSchema {
   string model_key = 1;              // telecom/model/anomaly_model_241325
   string output_topic = 2;
   string output_event_schema = 3;
   map<uint32, string> function_input_spec = 4;       // key = index of array, value = entity id, attribute, feature or property. How to handle time-series config ?
   map<uint32, string> function_output_spec = 5;
-  string container_image = 6;
-  uint32 function_port = 7;
+  string model_docker_image = 6;
+  uint32 model_port = 7;
 }
+
+// Used for ML Model as well as Rule Engine
+message BrainMultivariateFunctionSchema {
+  jio.brain.proto.base.BrainToken model_token = 1;
+  // value below should be present in input/output event
+  // input feature can be normal features or derived features (z-score or max-min)
+  map<uint32, string> model_input_spec = 2; // key = index of array, value = key of entity id, attribute, feature or property
+  map<uint32, string> model_output_spec = 3; // key = index of array, value = key of entity id, attribute, feature or property
+  string model_docker_image = 4; // MlFlow image e.g. jioaicr.azurecr.io/brain-os/sentiment-analysis:0.30
+  uint32 model_port = 5;
+  // TODO : assuming output transformation is not needed.
+}
+
+//message BrainBridgeProcessSchema {
+//  jio.brain.proto.base.BrainToken function_token = 1;
+////  jio.brain.proto.base.BrainFunctionType function_type = 2; // ignore
+//  map<uint32, string> function_input_spec = 2; // key = index of array, value = entity id, attribute, feature or property
+//  map<uint32, string> function_output_spec = 3; // key = index of array, value = entity id, attribute, feature or property
+//  string container_image = 4; // jioaicr.azurecr.io/brain-os/sentiment-analysis:0.30
+//  uint32 function_port = 5;
+////  map<string, string> function_context = 6; // todo - do we need it? which model to execute? AIX context
+//}
+////message BrainModelSpecification {
+////  map<uint32, string> model_input_spec = 1; // key = index of array, value = entity id, attribute, feature or property
+////  map<uint32, string> model_output_spec = 2; // key = index of array, value = entity id, attribute, feature or property
+////}
+////message BrainRemoteFunction {
+////  string host_url = 1;
+////  string host_port = 2;
+////}
+//// TODO deployment??
+//message BrainInProcessFunction {
+//  string model_url = 1; // model repository
+//  string host_port = 2;
+//}
+//message BrainFunctionOutputSchema {
+//  string name = 1; // optional in case of classification
+//  string output_topic = 2;
+//  string output_event_schema = 3;
+//}
+//
+//// remove below
+//message BrianFeatureDataConfig {
+//  oneof config_is_one_of {
+//    BrianFeatureConfig feature = 1;
+//    BrianTimeSeriesFeatureConfig time_series_feature = 2;
+//  }
+//}
+//message BrianFeatureConfig {
+//  oneof feature {
+//    jio.brain.proto.base.BrainToken feature_name = 1;
+//    jio.brain.proto.base.BrainToken attribute_name = 2;
+//  }
+//}
+//message BrianTimeSeriesFeatureConfig {
+//  jio.brain.proto.base.BrainToken feature_name = 1;
+//  oneof feature_type {
+//    jio.brain.proto.quantity.BrainTemporalDurationQuantity brainTemporalDurationQuantity = 2; //ex - Last year/last month/last 15 days
+//    uint32 number_of = 3; //latest 15 records/latest 35 records
+//  }
+//  bool ignore_missing_value = 4;
+//}

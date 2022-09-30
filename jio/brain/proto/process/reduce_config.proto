@@ -8,7 +8,7 @@ option java_multiple_files = true;
 import "jio/brain/proto/quantity/quantity_temporal.proto";
 import "jio/brain/proto/base/enums.proto";
 
-message BrainReduceProcessSchema {
+message BrainReduceFunctionSchema {
   repeated ReduceInstance instances = 1;
 }
 
@@ -16,8 +16,8 @@ message ReduceInstance {
   repeated AggregateCondition aggregate_condition = 1;
   string output_topic = 2;
   string output_event_schema = 3;
-   jio.brain.proto.quantity.BrainTimeInstance start_time = 4;
-   jio.brain.proto.quantity.BrainTimeInstance end_time = 5;
+  jio.brain.proto.quantity.BrainTimeInstance start_time = 4;
+  jio.brain.proto.quantity.BrainTimeInstance end_time = 5;
   uint32 window_time_minutes = 6;  // 10-10:30  , 10:15-10:45
   uint32 grace_time_minutes = 7;
   jio.brain.proto.base.BrainTimeWindowType  time_window = 8;
