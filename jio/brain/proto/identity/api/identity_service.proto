@@ -9,9 +9,12 @@ import "jio/brain/proto/base/id.proto";
 import "jio/brain/proto/base/status.proto";
 
 message PrimaryBizId {
-  string primary_biz_id = 1;
-  string primary_biz_id_type = 2;
-  map<string,LanguageSpecificNamesAliases> name_aliases = 3;
+  string value = 1;
+  oneof primary_biz_id_type {
+    string type_name = 2;                 // adhaar_card
+    uint32 type_id = 3;                   // brainid of adhar card
+  }
+  map<string,LanguageSpecificNamesAliases> name_aliases = 4;
 }
 
 message LanguageSpecificNamesAliases {
@@ -37,8 +40,7 @@ message IdentityCreateBrainIdWithPrimaryAndBizIdRequest {
     uint32 entity_type_id = 2;
   }
   map<string, string> secondary_biz_ids = 3;
-  string primary_biz_id = 4;
-  string primary_biz_id_type = 5;
+  PrimaryBizId primary_biz_id = 4;
 }
 
 message IdentityCreateBrainIdWithPrimaryAndBizIdResponse {
