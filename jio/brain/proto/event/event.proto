@@ -16,7 +16,6 @@ import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/event/tracing.proto";
 import "jio/brain/proto/feature/feature.proto";
 import "google/protobuf/timestamp.proto";
-
 /**
 {
   "id" : 12345, // 12345 (generated) from schema <=> /telecom/network/event/lsr - will same for all LSR events
@@ -49,10 +48,12 @@ message BrainEvent {
     BrainIngestionEvent ingestion_event = 4;
     BrainTransactionEvent transaction_event = 5;
     BrainKeyValueEvent key_value_event = 6;
-    BrainMultivariateEvent feature_event = 7;
-    BrainIotEvent iot_event = 8;
-//    BrainContentEvent content_event = 9;
-//    BrainClassificationEvent ai_event = 10;
+    BrainEventFeatureKeyValue feature_event = 7;
+    BrainMultivariateEvent multivariate_event = 8;
+    BrainIotEvent iot_event = 9;
+    BrainImageEvent image_event = 10;
+    //    BrainContentEvent content_event = 9;
+    //    BrainClassificationEvent ai_event = 10;
   }
 }
 //message BrainContentEvent {
@@ -61,6 +62,67 @@ message BrainEvent {
 //  // audio
 //  // text
 //}
+message BrainImageEvent {
+  oneof image_event_is_one_of {
+    BrainInputImageEvent input_image_event = 1;
+  }
+}
+
+message BrainImageEventSchema {
+  oneof image_event_is_one_of {
+    BrainInputImageEventSchema input_image_event = 1;
+  }
+}
+message BrainInputImageEvent {
+  jio.brain.proto.event.BrainEventKey key = 1;
+  string source_uri = 2; // can be url or path on hard disk of original image
+  oneof payload_is_one_of {
+    string uri = 3; // can be url or path on hard disk of processed image
+    Bytes bytes = 4;
+    string base64 = 5; // base64 image
+  }
+}
+message Bytes {
+  repeated bytes value = 1;
+  string content_type = 2;
+}
+message BrainInputImageEventSchema {
+  jio.brain.proto.event.BrainEventKeySchema key = 1;
+  BrainImagePayloadType payload_type = 2;
+  map<string, string> meta_data = 3; // type =  (x-ray, ct-scan, mri, spectral) , sub type = (knee, shoulder, etc)
+}
+enum BrainImagePayloadType {
+  BRAIN_IMAGE_PAYLOAD_TYPE_URI = 0;
+  BRAIN_IMAGE_PAYLOAD_TYPE_BYTES = 1;
+  BRAIN_IMAGE_PAYLOAD_TYPE_BASE64 = 2;
+}
+message BrainImageClassificationEvent {
+  jio.brain.proto.event.BrainEventKey key = 1;
+  repeated BrainImageLabel image_label_set = 2; // key is class (symbol or entity) and value is probability (between 0 and 1)
+  string source_uri = 3; // can be url or path on hard disk of original image
+  oneof payload_is_one_of {
+    string uri = 4; // can be url or path on hard disk of processed image
+    Bytes bytes = 5;
+    string base64 = 6; // base64 image
+  }
+}
+message BrainImageLabel {
+  uint64 entity_id  = 1;
+  uint32 x = 2;
+  uint32 y = 3;
+  uint32 length = 4;
+  uint32 width = 5;
+}
+message BrainImageClassificationEventSchema {
+  jio.brain.proto.event.BrainEventKeySchema key = 1;
+  repeated BrainImageLabelSchema image_label_set = 2;
+  BrainImagePayloadType payload_type = 3;
+  map<string, string> meta_data = 4; // type =  (x-ray, ct-scan, mri, spectral) , sub type = (knee, shoulder, etc)
+}
+message BrainImageLabelSchema {
+  jio.brain.proto.quantity.BrainSymbolicQuantitySchema symbolic = 2;
+}
+
 message BrainEventMetadata {
   repeated BrainEventTrace trace = 1;
   google.protobuf.Timestamp created_time = 2;
@@ -205,7 +267,7 @@ message BrainEventContextSchema {
 message BrainEventPropertySchema {
   jio.brain.proto.base.BrainToken token = 1;
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
-   jio.brain.proto.base.BrainToken unit = 3;
+  jio.brain.proto.base.BrainToken unit = 3;
 }
 
 message BrainIotSensorEventSchema {
@@ -227,7 +289,7 @@ message BrainIotSensorIp21EventSchema {
 message BrainIotSensorIp21Event {
   google.protobuf.Timestamp from_time_stamp = 1;
   google.protobuf.Timestamp to_time_stamp = 2;
-//  repeated BrainIotRecord data = 3;
+  //  repeated BrainIotRecord data = 3;
   map<uint64, BrainIotRecord> data = 3; // key is brain id
 }
 message BrainIotRecordSchema {
@@ -243,7 +305,7 @@ message BrainIotRecord {
 //  repeated BrainEventValueSchema value = 2;
 //}
 message BrainTransactionEvent {
-
+  BrainEventValue value = 1;
 }
 
 message BrainIotEvent {
@@ -251,8 +313,19 @@ message BrainIotEvent {
 }
 message BrainMultivariateEvent {
   jio.brain.proto.event.BrainEventKey key = 1;
-  map<uint32, jio.brain.proto.quantity.BrainAtomicQuantity> feature_set = 2; // key = index in array, value = Atomic Quantity
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3; // can be attributes or features
 }
+
+// f1  -> key-> cell-id * morning, features-> x1, x2, x3
+/** function_config ->
+name -> casualty_model_bridge_config,
+input_event_schema -> key-value
+ouput_event_schema -> key-value
+
+input -> x1,x2,x3 , a1, c1, e1
+ouput -> x4,x5
+ */
+
 message BrainMultivariateEventSchema {
   jio.brain.proto.event.BrainEventKeySchema key = 1;
   map<uint32, jio.brain.proto.feature.BrainFeatureSchema> feature_set = 2; // key = index in array, value = feature schema
