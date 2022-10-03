@@ -5,7 +5,7 @@ package jio.brain.proto.process;
 option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
-message BrainRepositoryProcessSchema {
+message BrainRepositoryFunctionSchema {
   BrainEventUseCase brain_event_use_case = 1;
   DatabaseType database_type = 2;
   string host_name = 3;
