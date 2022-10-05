@@ -18,7 +18,7 @@ import "jio/brain/proto/process/compute_config.proto";
 import "jio/brain/proto/process/joinner_config.proto";
 import "jio/brain/proto/process/image_config.proto";
 import "jio/brain/proto/process/bridge_config.proto";
-import "jio/brain/proto/process/repositoryconfig.proto";
+import "jio/brain/proto/process/repository_config.proto";
 
 // function - enrich function
 message BrainFunctionSchema {
