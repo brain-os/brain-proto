@@ -407,3 +407,7 @@ message ReadMultipleAttributeResponse{
 message MultipleAttributes{
   map<uint32, EntityAttribute> entity_type = 1; // key = entity-type, ex: customer
 }
+
+message BrainAttributeQuantitySchema{
+  map<uint32, jio.brain.proto.quantity.BrainQuantitySchema> quantitySchema = 1;
+}
