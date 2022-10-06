@@ -48,10 +48,10 @@ message BrainEvent {
     BrainKeyValueEvent key_value_event = 6;
     BrainEventFeatureKeyValue feature_event = 7;
     BrainMultivariateEvent multivariate_event = 8;
-    BrainMultivariateInferenceEvent multivariate_inference_event = 8;
-    BrainIotEvent iot_event = 9;
-    BrainImageEvent image_event = 10;
-    BrainImageClassificationEvent image_classification = 11;
+    BrainMultivariateInferenceEvent multivariate_inference_event = 9;
+    BrainIotEvent iot_event = 10;
+    BrainImageEvent image_event = 11;
+    BrainImageClassificationEvent image_classification = 12;
   }
 }
 message BrainImageEvent {
@@ -65,6 +65,7 @@ message BrainImageEvent {
   uint64 image_source = 6; // farmer id
   BrainQuantityStore property_store = 7; // location and time
 }
+
 message Bytes {
   repeated bytes value = 1;
   string content_type = 2;
@@ -146,7 +147,7 @@ message BrainEventFeatureKeyValue {
   BrainEventFeatureValue feature_value = 2;
 }
 message BrainEventFeatureValue {
-  jio.brain.proto.feature.BrainFeatureSet features = 1;
+  jio.brain.proto.feature.BrainFeatureSet features = 1; // TODO need to change
  // BrainAttributeStore attribute_store = 2;
 }
 
@@ -323,7 +324,8 @@ ouput -> x4,x5
 
 message BrainMultivariateEventSchema {
   jio.brain.proto.event.BrainEventKeySchema key = 1;
-  map<uint32, jio.brain.proto.feature.BrainFeatureSchema> feature_set = 2; // key = index in array, value = feature schema
+  repeated jio.brain.proto.feature.BrainFeatureSchema feature_set = 2;
+  // map<uint32, jio.brain.proto.feature.BrainFeatureSchema> feature_set = 2; // key = index in array, value = feature schema
 }
 
 message BrainMultivariateInferenceEvent {

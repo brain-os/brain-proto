@@ -12,36 +12,44 @@ import "jio/brain/proto/quantity/quantity_compound_range.proto";
 
 import "jio/brain/proto/base/token.proto";
 
-message BrainBridgeFunctionSchema {
+message BrainInferFunctionSchema {
  oneof bridge_type {
-     BrainMultivariateBridgeFunctionSchema multivariate_bridge = 1;
-     BrainImageBridgeFunctionSchema image_bridge = 2;
+     BrainMultivariateInferFunctionSchema multivariate_bridge = 1;
+     BrainImageInferFunctionSchema image_bridge = 2;
  }
 }
 
-message BrainMultivariateBridgeFunctionSchema {
-  string model_key = 1;              // /telecom/model/anomaly_model_241325
+message BrainMultivariateInferFunctionSchema {
+  string api_id = 1;              // /telecom/model/anomaly_model_241325
   string output_topic = 2;
   string output_event_schema = 3;    // input event -> /telecom/event/multi_variate/cell_event    ouput event -> /telecom/event/multi_variate/cell_event
-  map<uint32, string> function_input_spec = 4;       // key = index of array, value = entity id, attribute, feature or property. How to handle time-series config ?
+  // 0 : /attribute/health/patient/age
+  // 1 : /attribute/health/patient/sex
+  map<uint32, string> function_input_spec = 4;       // /retail/sales/hourly key = index of array, value = entity id, attribute, feature or property. How to handle time-series config ?
   map<uint32, string> function_output_spec = 5;
   oneof deployment_type_is_one_of {
     LocalDeployment local = 6; // MLFlow generated docker image for image classification
     RemoteDeployment remote = 7; // include port
   }
 }
-
-// Used for ML Model as well as Rule Engine
-message BrainMultivariateFunctionSchema {
-  jio.brain.proto.base.BrainToken model_token = 1;
-  // value below should be present in input/output event
-  // input feature can be normal features or derived features (z-score or max-min)
-  map<uint32, string> model_input_spec = 2; // key = index of array, value = key of entity id, attribute, feature or property
-  map<uint32, string> model_output_spec = 3; // key = index of array, value = key of entity id, attribute, feature or property
-  string model_docker_image = 4; // MlFlow image e.g. jioaicr.azurecr.io/brain-os/sentiment-analysis:0.30
-  uint32 model_port = 5;
-  // TODO : assuming output transformation is not needed.
+message LocalDeployment {
+  string model_docker_image = 1; // MLFlow generated docker image for image classification
+  string end_point = 2; // include port
 }
+message RemoteDeployment {
+  string end_point = 1; // include port
+}
+// Used for ML Model as well as Rule Engine
+//message BrainMultivariateFunctionSchema {
+//  jio.brain.proto.base.BrainToken model_token = 1;
+//  // value below should be present in input/output event
+//  // input feature can be normal features or derived features (z-score or max-min)
+//  map<uint32, string> model_input_spec = 2; // key = index of array, value = key of entity id, attribute, feature or property
+//  map<uint32, string> model_output_spec = 3; // key = index of array, value = key of entity id, attribute, feature or property
+//  string model_docker_image = 4; // MlFlow image e.g. jioaicr.azurecr.io/brain-os/sentiment-analysis:0.30
+//  uint32 model_port = 5;
+//  // TODO : assuming output transformation is not needed.
+//}
 
 //message BrainBridgeProcessSchema {
 //  jio.brain.proto.base.BrainToken function_token = 1;
@@ -93,7 +101,7 @@ message BrainMultivariateFunctionSchema {
 //  bool ignore_missing_value = 4;
 //}
 
-message BrainImageBridgeFunctionSchema {
+message BrainImageInferFunctionSchema {
   string output_topic = 1;
   string output_event_schema = 2; // image classification
   string model_key = 3; // Delete local images if this is last model
@@ -106,13 +114,7 @@ message BrainImageBridgeFunctionSchema {
   BrainImagePostProcessorConfig post_processor_config = 8;
   string local_path = 9; // path to keep intermediate image data
 }
-message LocalDeployment {
-  string model_docker_image = 1; // MLFlow generated docker image for image classification
-  string end_point = 2; // include port
-}
-message RemoteDeployment {
-  string end_point = 1; // include port
-}
+
 message BrainImagePreprocessorConfig {
   map<uint32, BrainImagePreProcessor> pre_processor_steps = 1; // key is step number, value is non repeatable BrainImagePreProcessor
 }

@@ -34,8 +34,8 @@ message BrainFunctionSchema {
     BrainIngestFunctionSchema ingest = 10;
     BrainQuantizeFunctionSchema quantize = 11;
     BrainComputeFunctionSchema compute = 12;
-    BrainJoinerFunctionSchema joiner = 13;
-    BrainBridgeFunctionSchema bridge = 14;
+    BrainJoinerFunctionSchema join = 13;
+    BrainInferFunctionSchema infer = 14;
   }
 }
 // TODO - output event schema in enrich vs quantization is different. Make it consistent.
