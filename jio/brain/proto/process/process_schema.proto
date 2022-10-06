@@ -16,7 +16,7 @@ import "jio/brain/proto/process/pivot_config.proto";
 import "jio/brain/proto/process/reduce_config.proto";
 import "jio/brain/proto/process/compute_config.proto";
 import "jio/brain/proto/process/joinner_config.proto";
-import "jio/brain/proto/process/image_config.proto";
+import "jio/brain/proto/process/dl_image_config.proto";
 import "jio/brain/proto/process/bridge_config.proto";
 //import "jio/brain/proto/process/repository_config.proto";
 
@@ -34,8 +34,8 @@ message BrainFunctionSchema {
     BrainIngestFunctionSchema ingest = 10;
     BrainQuantizeFunctionSchema quantize = 11;
     BrainComputeFunctionSchema compute = 12;
-    BrainJoinerFunctionSchema joiner = 13;
-    BrainBridgeFunctionSchema bridge = 14;
+    BrainJoinerFunctionSchema join = 13;
+    BrainInferFunctionSchema infer = 14;
   }
 }
 // TODO - output event schema in enrich vs quantization is different. Make it consistent.
