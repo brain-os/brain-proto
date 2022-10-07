@@ -388,14 +388,14 @@ message PredicateValue {
 }
 
 message ReadMultipleAttributeRequest{
-  map<uint32, EntityId> entity_type = 1; // key= entity_type, ex: customer
+  map<uint32, EntityAttributeMap> entity_type = 1; // key= entity_type, ex: customer
 }
 
-message EntityId{
-  map<uint64, EntityIdAttributes> entity_id_attributes = 1; // key= entity_id, ex: customer_id
+message EntityAttributeMap{
+  map<uint64, AttributeSet> entity_id_attributes = 1; // key= entity_id, ex: customer_id
 }
 
-message EntityIdAttributes{
+message AttributeSet{
   repeated uint32 attribute_id = 2;
 }
 
