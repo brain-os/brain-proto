@@ -135,8 +135,9 @@ message BrainIngestionEvent {
     string excel_file_path = 2;
     string json_file_path = 3;
     google.protobuf.Any message = 4;
+    string image_file_path = 5;
   }
-  uint32 startReadingLineNumber = 5;
+  uint32 startReadingLineNumber = 6;
 }
 
 message BrainKeyValueEvent {
