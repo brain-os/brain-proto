@@ -59,9 +59,10 @@ message BrainFeatureFamilySchema {
 
 message BrainInference {
   uint32 id = 1;    // /telecom/inference/regression/customer/churn_score  , /telecom/inference/classification/crop_id
-  jio.brain.proto.event.BrainRecordKey record_key = 2; // optional brain id of feature - e.g. "/telecom/feature/call_experience/hourly" <=> 1234, "/healthcare/patient/heart_beat_rate" <=> 5748
-  google.protobuf.Timestamp created_time = 3;
-  BrainFunctionParameter inference = 4; // either entity_id or numeric quantity
+  uint32 model_id = 2;  // TODO this should come to function config ?? @Rajan
+  jio.brain.proto.event.BrainRecordKey record_key = 3; // optional brain id of feature - e.g. "/telecom/feature/call_experience/hourly" <=> 1234, "/healthcare/patient/heart_beat_rate" <=> 5748
+  google.protobuf.Timestamp created_time = 4;
+  BrainFunctionParameter value = 5; // either entity_id or numeric quantity
 }
 
 message BrainFunctionParameter {
@@ -71,11 +72,14 @@ message BrainFunctionParameter {
 message BrainInferenceSchema {
   jio.brain.proto.base.BrainToken token = 1;
   jio.brain.proto.event.BrainRecordKeySchema record_key = 2;
-  BrainFunctionParameterSchema schema = 3;
+  BrainFunctionParameterSchema value = 3;
 }
 
 message BrainFunctionParameterSchema {
-  jio.brain.proto.quantity.BrainQuantitySchema atomic = 1;
+  oneof params {
+    jio.brain.proto.quantity.BrainQuantitySchema atomic = 1;
+    jio.brain.proto.base.BrainToken entity_type = 2;
+  }
 }
 
 //message BrainMultivariateEvent {

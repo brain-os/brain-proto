@@ -39,6 +39,25 @@ message FeatureCommand {
 //  // todo time series
 //} feature -> event
 
+
+// TODO do we event schema id, sha256key here
+message FeatureCreateCommand {
+    jio.brain.proto.event.BrainEvent brain_feature_event = 1;   // of type feature_key_valye
+    jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
+    jio.brain.proto.base.BrainStatus brainStatus = 4;
+}
+
+//
+//message BrainFeatureEvent {
+//  BrainRecordKey record_key = 1; // optional brain id of feature - e.g. "/telecom/feature/call_experience/hourly" <=> 1234, "/healthcare/patient/heart_beat_rate" <=> 5748
+//  repeated BrainFeatureValue features = 2;
+//}
+//
+//message BrainFeatureValue {
+//  uint32 id = 1; // which feature?
+//  google.protobuf.Timestamp created_time = 3;
+//  jio.brain.proto.quantity.BrainQuantity quantity = 4;
+//}
 /**
   TODO - NOT USED
  */

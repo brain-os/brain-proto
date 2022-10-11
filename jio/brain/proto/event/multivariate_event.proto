@@ -13,7 +13,7 @@ import "jio/brain/proto/base/token.proto";
 
 message BrainMultivariateEvent {
   BrainRecordKey key = 1; // entity ids and contexts
-  // key is feature key, attribute key, entity type, collection type
+  // key is feature key, attribute key, entity type, inference type
   map<uint32, BrainFunctionParameter> parameter_set = 2; // all BrainModelFeature will have same key
 }
 
@@ -66,10 +66,12 @@ message BrainClassificationEventSchema {
   BrainRecordKeySchema key = 1;
  // jio.brain.proto.quantity.BrainQuantitySchema symbolic = 2;   // entity_id
   string collection_type = 2;     //  /agriculture/entity/crop or /agriculture/quantity/symbolic/disease
+  // TODO should map to inference schema ??
 }
+
 message BrainRegressionEvent {
   BrainRecordKey key = 1; // entity ids and contexts
-  // key - brain feature schema
+  // key - brain inference schema
   map<uint32, jio.brain.proto.quantity.BrainQuantity> inference_set = 2; // key -> inference_id , multi value regression
 }
 message BrainRegressionEventSchema {

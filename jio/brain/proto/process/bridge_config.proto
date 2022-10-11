@@ -19,19 +19,23 @@ message BrainInferFunctionSchema {
  }
 }
 
+// TODO
+//  1. Input param type for models can be different and of quantity
+//  2. Scheduler for trigger -> real-time OR cron-job OR all input_params arrived
 message BrainMultivariateInferFunctionSchema {
-  string api_id = 1;              // /telecom/model/anomaly_model_241325
+  string model_id = 1;              // /telecom/model/anomaly_model_241325
   string output_topic = 2;
   string output_event_schema = 3;    // input event -> /telecom/event/multi_variate/cell_event    ouput event -> /telecom/event/multi_variate/cell_event
   // 0 : /attribute/health/patient/age
   // 1 : /attribute/health/patient/sex
-  map<uint32, string> function_input_spec = 4;       // /retail/sales/hourly key = index of array, value = entity id, attribute, feature or property. How to handle time-series config ?
-  map<uint32, string> function_output_spec = 5;
+  repeated string function_input_spec = 4;       // /retail/feature/sales_hourly key = index of array, value = entity id, attribute, feature or property. How to handle time-series config ?
+  repeated string function_output_spec = 5;
   oneof deployment_type_is_one_of {
     LocalDeployment local = 6; // MLFlow generated docker image for image classification
     RemoteDeployment remote = 7; // include port
   }
 }
+
 message LocalDeployment {
   string model_docker_image = 1; // MLFlow generated docker image for image classification
   string end_point = 2; // include port
