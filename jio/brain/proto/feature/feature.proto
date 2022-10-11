@@ -12,7 +12,7 @@ import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/quantity/quantity_atomic.proto";
 import "jio/brain/proto/event/event.proto";
 import "google/protobuf/timestamp.proto";
-import "jio/brain/proto/content/content.proto";
+import "jio/brain/proto/event/event_common.proto";
 //import "google/protobuf/any.proto";
 
 // IMPORTANT - Feature lake will extract Features from BrainEvent (BrainKeyValueBrain and BrainTransactionEvent)
@@ -22,75 +22,76 @@ import "jio/brain/proto/content/content.proto";
 // SPO2 level of blood sugar of patient
 
 // for event this key should not be populated. TODO remove after this discussion if we agreed
+
 message BrainFeature {
   uint32 id = 1; // which feature?
-  BrainRecordKey record_key = 2; // optional brain id of feature - e.g. "/telecom/feature/call_experience/hourly" <=> 1234, "/healthcare/patient/heart_beat_rate" <=> 5748
+  jio.brain.proto.event.BrainRecordKey record_key = 2; // optional brain id of feature - e.g. "/telecom/feature/call_experience/hourly" <=> 1234, "/healthcare/patient/heart_beat_rate" <=> 5748
   google.protobuf.Timestamp created_time = 3;
   jio.brain.proto.quantity.BrainQuantity quantity = 4;
 }
-message BrainRecordKey {
-  jio.brain.proto.event.BrainEntityStore entity_store = 1;   //  /telecom/entity/cell
-  jio.brain.proto.event.BrainQuantityStore context_store = 2; //  /telecom/context/day_hours/morning
-}
+
 message BrainFeatureSchema {
   jio.brain.proto.base.BrainToken token = 1;
-  BrainRecordKeySchema record_key = 2;
+  jio.brain.proto.event.BrainRecordKeySchema record_key = 2;
   oneof feature_is_one_of {
     BrainWindowedFeatureSchema windowed_feature = 3;
     BrainAsyncFeatureSchema async_feature = 4;
   }
 }
-// Same as event key schema
-message BrainRecordKeySchema {
-  jio.brain.proto.event.BrainEntityStoreSchema entity = 1;
-  // key = mid(/m/<vertical>/<domain>/<event>/<context>) - // do we need event in definition
-  map<string, jio.brain.proto.event.BrainEventContextSchema> context = 2;
-}
+
 message BrainWindowedFeatureSchema {
   jio.brain.proto.quantity.BrainNumericQuantitySchema numeric = 1;
-//  jio.brain.proto.base.BrainToken unit = 3; // units are part of definition of quantity schema
+ //  jio.brain.proto.base.BrainToken unit = 3; // units are part of definition of quantity schema
   jio.brain.proto.base.BrainTimeWindowType time_window = 2;
 }
+
 message BrainAsyncFeatureSchema {
-  jio.brain.proto.quantity.BrainAtomicQuantity atomic = 1;
+  jio.brain.proto.quantity.BrainAtomicQuantitySchema atomic = 1;
 }
+
 message BrainFeatureFamilySchema {
   jio.brain.proto.base.BrainToken token = 1;
   repeated BrainFeatureSchema feature_set = 2;
 }
+
+
+/////////////////////////////// INFERENCE /////////////////////////////////////////////////
+
+message BrainInference {
+  uint32 id = 1;    // /telecom/inference/regression/customer/churn_score  , /telecom/inference/classification/crop_id
+  jio.brain.proto.event.BrainRecordKey record_key = 2; // optional brain id of feature - e.g. "/telecom/feature/call_experience/hourly" <=> 1234, "/healthcare/patient/heart_beat_rate" <=> 5748
+  google.protobuf.Timestamp created_time = 3;
+  BrainFunctionParameter inference = 4; // either entity_id or numeric quantity
+}
+
 message BrainFunctionParameter {
   jio.brain.proto.quantity.BrainQuantity quantity = 1; // current scope of quantities => symbolic quantity (entity ids, collection item ids), location, temporal, or numeric quantities
 }
-message BrainFunctionParameterSchema {
-  oneof inout_is_one_of {
-    string feature = 1;
-    string inference = 2;
-    string attribute = 3;
-    string context = 4;
-    string entity_type = 5;
-  }
-}
 
-message BrainInference {
-  BrainRecordKey record_key = 1; // optional brain id of feature - e.g. "/telecom/feature/call_experience/hourly" <=> 1234, "/healthcare/patient/heart_beat_rate" <=> 5748
-  repeated BrainFunctionParameter output = 2;
-}
-// TODO remove after this discussion if we agreed
 message BrainInferenceSchema {
   jio.brain.proto.base.BrainToken token = 1;
-  BrainRecordKeySchema record_key = 2;
-  BrainFunctionParameterSchema parameter = 3;
+  jio.brain.proto.event.BrainRecordKeySchema record_key = 2;
+  BrainFunctionParameterSchema schema = 3;
 }
-message BrainMultivariateEvent {
-  BrainRecordKey key = 1; // entity ids and contexts
-  // key is feature key, attribute key, entity type, collection type
-  map<uint32, BrainFunctionParameter> parameter_set = 2; // all BrainModelFeature will have same key
+
+message BrainFunctionParameterSchema {
+  jio.brain.proto.quantity.BrainQuantitySchema atomic = 1;
 }
-message BrainMultivariateEventSchema {
-  BrainRecordKeySchema key = 1;
-  map<string, BrainFunctionParameterSchema> feature_set = 2;
-}
-message BrainMultivariateInferenceEvent {
+
+//message BrainMultivariateEvent {
+//  BrainRecordKey key = 1; // entity ids and contexts
+//  // key is feature key, attribute key, entity type, collection type
+//  map<uint32, BrainFunctionParameter> parameter_set = 2; // all BrainModelFeature will have same key
+//}
+//
+//message BrainMultivariateEventSchema {
+//    BrainRecordKeySchema key = 1;
+//  // map<string, BrainFunctionParameterSchema> feature_set = 2;  // what is key here ?
+//  // repeated BrainFunctionParameterSchema features= 2; // OR
+//    map<string, bool> feature_set = 3;
+//}
+
+/*message BrainMultivariateInferenceEvent {
   oneof inference_is_one_of {
     BrainClassificationEvent classification = 1;
     BrainRegressionEvent regression = 2;
@@ -112,58 +113,59 @@ message BrainRegressionEvent {
 }
 message BrainRegressionEventSchema {
   repeated BrainFeatureSchema inference_set = 1; // multi value regression
-}
-message BrainImageEvent {
-  BrainRecordKey key = 1;
-  string source_uri = 2;
-  BrainContent payload = 3;
-  string processed_payload = 4; // file path on local disk of pre processed image or persistent volume. Its name will be generated using pre processor and image id
-  map<uint32, BrainFunctionParameter> parameter_set = 5; // all BrainModelFeature will have same key
-}
-message BrainContent {
-  oneof payload_is_one_of {
-    string url = 1; // Url of content stored in bucket
-    string file_path = 2;
-    Bytes bytes = 3;
-    string base64 = 4; // base64 image
-  }
-}
-message Bytes {
-  repeated bytes value = 1;
-}
-enum BrainContentPayloadType {
-  BRAIN_CONTENT_PAYLOAD_TYPE_URL = 0;
-  BRAIN_CONTENT_PAYLOAD_TYPE_FILE = 1;
-  BRAIN_CONTENT_PAYLOAD_TYPE_BYTES = 2;
-  BRAIN_CONTENT_PAYLOAD_TYPE_BASE64 = 3;
-}
-message BrainImageEventSchema {
-  BrainRecordKeySchema key = 1;
-  BrainContentPayloadType payload_type = 2;
-  map<string, BrainFunctionParameterSchema> feature_set = 3;
-}
+}*/
 
-message BrainImageClassificationEvent {
-  uint32 model_id = 1; // identify it is inference of which model
-  BrainImageEvent source_event = 2; // input event
-  repeated BrainImageLabel image_label_set = 3; // key is class (symbol or entity) and value is probability (between 0 and 1)
-}
-message BrainImageLabel {
-  uint64 brain_id  = 1; // entity id, or symbol id
-  uint32 x = 2;
-  uint32 y = 3;
-  uint32 length = 4;
-  uint32 width = 5;
-  double probability = 6;
-}
-message BrainImageClassificationEventSchema {
-  BrainImageEventSchema source_event_schema = 1;
-  repeated BrainImageLabelSchema image_label_set = 2;
-  map<string, string> meta_data = 3; // type =  (x-ray, ct-scan, mri, spectral) , sub type = (knee, shoulder, etc)
-}
-message BrainImageLabelSchema {
-  jio.brain.proto.quantity.BrainSymbolicQuantitySchema symbolic = 2;
-}
+//message BrainImageEvent {
+//  BrainRecordKey key = 1;
+//  string source_uri = 2;
+//  BrainContent payload = 3;
+//  string processed_payload = 4; // file path on local disk of pre processed image or persistent volume. Its name will be generated using pre processor and image id
+//  map<uint32, BrainFunctionParameter> parameter_set = 5; // all BrainModelFeature will have same key
+//}
+//message BrainContent {
+//  oneof payload_is_one_of {
+//    string url = 1; // Url of content stored in bucket
+//    string file_path = 2;
+//    Bytes bytes = 3;
+//    string base64 = 4; // base64 image
+//  }
+//}
+//message Bytes {
+//  repeated bytes value = 1;
+//}
+//enum BrainContentPayloadType {
+//  BRAIN_CONTENT_PAYLOAD_TYPE_URL = 0;
+//  BRAIN_CONTENT_PAYLOAD_TYPE_FILE = 1;
+//  BRAIN_CONTENT_PAYLOAD_TYPE_BYTES = 2;
+//  BRAIN_CONTENT_PAYLOAD_TYPE_BASE64 = 3;
+//}
+//message BrainImageEventSchema {
+//  BrainRecordKeySchema key = 1;
+//  BrainContentPayloadType payload_type = 2;
+//  map<string, BrainFunctionParameterSchema> feature_set = 3;
+//}
+//
+//message BrainImageClassificationEvent {
+//  uint32 model_id = 1; // identify it is inference of which model
+//  BrainImageEvent source_event = 2; // input event
+//  repeated BrainImageLabel image_label_set = 3; // key is class (symbol or entity) and value is probability (between 0 and 1)
+//}
+//message BrainImageLabel {
+//  uint64 brain_id  = 1; // entity id, or symbol id
+//  uint32 x = 2;
+//  uint32 y = 3;
+//  uint32 length = 4;
+//  uint32 width = 5;
+//  double probability = 6;
+//}
+//message BrainImageClassificationEventSchema {
+//  BrainImageEventSchema source_event_schema = 1;
+//  repeated BrainImageLabelSchema image_label_set = 2;
+//  map<string, string> meta_data = 3; // type =  (x-ray, ct-scan, mri, spectral) , sub type = (knee, shoulder, etc)
+//}
+//message BrainImageLabelSchema {
+//  jio.brain.proto.quantity.BrainSymbolicQuantitySchema symbolic = 2;
+//}
 /*
   TODO : Should below schema should be part of BrainProcessSchema (BrainFunctionSchema new name)????
 
@@ -198,6 +200,13 @@ message BrainDeepLearningFunctionSchema {
     RemoteDeployment remote = 10; // include port
   }
 }
+enum BrainContentPayloadType{
+  BRAIN_CONTENT_PAYLOAD_TYPE_URL = 0;
+  BRAIN_CONTENT_PAYLOAD_TYPE_FILE = 1;
+  BRAIN_CONTENT_PAYLOAD_TYPE_BYTES = 2;
+  BRAIN_CONTENT_PAYLOAD_TYPE_BASE64 = 3;
+}
+
 message LocalDeployment {
   string model_docker_image = 1; // MLFlow generated docker image for image classification
   string end_point = 2; // include port
