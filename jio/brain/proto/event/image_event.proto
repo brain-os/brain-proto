@@ -40,15 +40,15 @@ message Bytes {
 
 
 message BrainImageEventSchema {
-  BrainRecordKeySchema key_schema = 1;
+  BrainRecordKeySchema key_schema = 1;  // crop_id
   BrainImagePayloadType payload_type = 2;
   map<string, BrainImageParameterSchema> parameter_set = 3; // key = mid(/m/<vertical>/<domain>/<event>/<property>)
 }
 
 message BrainImageParameterSchema {
   oneof params {
-    jio.brain.proto.base.BrainToken entity_token = 1;
-    jio.brain.proto.quantity.BrainQuantitySchema property = 2;
+    jio.brain.proto.base.BrainToken entity_token = 1;        //  /agriculture/entity/crop
+    jio.brain.proto.quantity.BrainQuantitySchema collection = 2;  //  /agriculture/quantity/symbolic/crop_diseases
   }
 }
 

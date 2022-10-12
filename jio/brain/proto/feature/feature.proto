@@ -10,7 +10,7 @@ import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/quantity/quantity_atomic.proto";
-import "jio/brain/proto/event/event.proto";
+//import "jio/brain/proto/event/event.proto";
 import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/event/event_common.proto";
 //import "google/protobuf/any.proto";
@@ -180,9 +180,9 @@ message BrainRegressionEventSchema {
 message BrainMachineLearningFunctionSchema {
   jio.brain.proto.base.BrainToken token = 1;
   string input_topic = 2;
-  jio.brain.proto.event.BrainEventSchema input_event_schema = 3;
+ // jio.brain.proto.event.BrainEventSchema input_event_schema = 3;
   string output_topic = 4;
-  jio.brain.proto.event.BrainEventSchema output_event_schema = 5;
+ // jio.brain.proto.event.BrainEventSchema output_event_schema = 5;
   map<uint32, BrainFunctionParameterSchema> input_spec = 6;       // /retail/sales/hourly key = index of array, value = entity id, attribute, feature or property. How to handle time-series config ?
   map<uint32, BrainFunctionParameterSchema> output_spec = 7;
   oneof deployment_type_is_one_of {
@@ -193,9 +193,9 @@ message BrainMachineLearningFunctionSchema {
 message BrainDeepLearningFunctionSchema {
   jio.brain.proto.base.BrainToken token = 1;
   string input_topic = 2;
-  jio.brain.proto.event.BrainEventSchema input_event_schema = 3;
+ // jio.brain.proto.event.BrainEventSchema input_event_schema = 3;
   string output_topic = 4;
-  jio.brain.proto.event.BrainEventSchema output_event_schema = 5;
+ // jio.brain.proto.event.BrainEventSchema output_event_schema = 5;
   BrainContentPayloadType payload_type = 6;
   map<uint32, BrainFunctionParameterSchema> input_spec = 7;
   map<uint32, BrainFunctionParameterSchema> output_spec = 8;
@@ -260,7 +260,7 @@ message BrainFeatureSetSchema {
   map<uint32,BrainFeatureFamilySchema>  feature_family_set = 2;
 }
 message BrainFeatureSet {
-  map<uint32, BrainFeature> value = 1;
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
 }
 // TODO  ************ REMOVE ABOVE ***************** TODO
 //

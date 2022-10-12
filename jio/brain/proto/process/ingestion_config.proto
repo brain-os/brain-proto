@@ -43,10 +43,7 @@ message BlobStorageTransport {
   string azure_connection_string = 2;
   string prefix = 3;
   string suffix = 4;
-  oneof ingest_config {
-     FieldMapping mappings = 5;
-
-  }
+  repeated FieldMapping mappings = 5;
 }
 
 message JsonFileTransport {
