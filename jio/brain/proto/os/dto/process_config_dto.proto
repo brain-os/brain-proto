@@ -131,6 +131,8 @@ message IngestProto {
   string outputTopic = 5;
   string outputSchema = 6;
   int32 readingStartPoint = 7;
+  string bucketName = 8;
+  string storageQueue = 9;
 }
 
 message IngestionExcelColumnProto{
