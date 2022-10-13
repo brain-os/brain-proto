@@ -7,6 +7,7 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/event/event_common.proto";
 import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/quantity/quantity_atomic.proto";
 import "jio/brain/proto/feature/feature.proto";
 import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/base/token.proto";
@@ -57,9 +58,10 @@ message BrainMultivariateInferenceEvent {
     BrainRegressionEvent regression = 3;
   }
 }
+//Name service call from Bridge
 message BrainClassificationEvent {
   BrainRecordKey key = 1; // entity ids and contexts
-  map<uint64, bool> classification = 2; // key is class (symbol or entity) and value is probability (between 0 and 1)
+  repeated jio.brain.proto.quantity.BrainSymbolicQuantity classification = 2; // key is class (symbol or entity) and value is probability (between 0 and 1)
   map<uint64, double> probabilities = 3;
 }
 message BrainClassificationEventSchema {

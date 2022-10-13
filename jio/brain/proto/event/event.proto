@@ -17,6 +17,12 @@ import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/event/multivariate_event.proto";
 import "jio/brain/proto/event/image_event.proto";
 import "jio/brain/proto/event/event_common.proto";
+import "jio/brain/proto/os/deployment.proto";
+import "jio/brain/proto/repository/feature/feature_repository.proto";
+import "jio/brain/proto/repository/inference/inference_repository.proto";
+import "jio/brain/proto/repository/knowledge/command.proto";
+import "jio/brain/proto/feature/api/repository_route.proto";
+import "jio/brain/proto/feature/api/feature_lake.proto";
 
 /**
 {
@@ -56,6 +62,7 @@ message BrainEvent {
     BrainIotEvent iot_event = 10;
     BrainImageEvent image_event = 11;
     BrainImageClassificationEvent image_classification = 12;
+    BrainInfraEvent infra_event = 13;
   }
 }
 
@@ -266,6 +273,19 @@ message BrainTransactionEvent {
 message BrainIotEvent {
 
 }
+
+message BrainInfraEvent {
+  oneof infra_event_is_one_of {
+    BrainIngestionEvent ingestion_event = 1;
+    jio.brain.proto.os.DeploymentRequest deployment_request = 2;
+    jio.brain.proto.repository.feature.FeatureCommand feature_command = 3;
+    jio.brain.proto.repository.inference.InferenceCommand inference_command = 4;
+    jio.brain.proto.repository.knowledge.EntityCommand entity_command = 5;
+    jio.brain.proto.feature.api.RepositoryRouterTopics repository_router_topic = 6;
+    jio.brain.proto.feature.api.BrainFunctionNameSet brain_function_name_set = 7;
+  }
+}
+
 //message BrainMultivariateEvent {
 //  jio.brain.proto.event.BrainEventKey key = 1;                         // entity ids and contexts
 //  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3; // can be attributes or features or inference
