@@ -7,20 +7,24 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/base/enums.proto";
 import "google/protobuf/timestamp.proto";
-import "jio/brain/proto/entity/entity.proto";
+//import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/event/event.proto";
-import "jio/brain/proto/quantity/quantity_temporal.proto";
+//import "jio/brain/proto/quantity/quantity_temporal.proto";
 import "jio/brain/proto/base/status.proto";
 
 message FeatureCommand {
   oneof command_is_one_of {
     FeatureCreateCommand create = 1;
-    FeatureUpdateCommand update = 2; // TODO do we need it
-    FeatureDeleteCommand delete = 3;
+    FeatureUpdateCommand update = 2; // TODO - NOT USED CURRENTLY - In future
+    FeatureDeleteCommand delete = 3; // TODO - NOT USED CURRENTLY - In future
   }
   jio.brain.proto.base.BrainFeatureCrudRequestType crud_request_type =4;
 }
+
+/**
+  TODO - IMPLEMENTED ONLY FOR ATOMIC QUANTITY
+ */
 message FeatureCreateCommand {
   uint32 event_schema = 1; // for structure of brain_event_key
   google.protobuf.Timestamp window_time = 2; // get from brain event meta data
@@ -34,11 +38,19 @@ message FeatureCreateCommand {
   // todo recommendation engine
   // todo time series
 }
+
+/**
+  TODO - NOT USED
+ */
 message FeatureUpdateCommand {
   google.protobuf.Timestamp window_time = 1; // get from brain event meta data
   jio.brain.proto.event.BrainEventKey event_key = 2; // get from brain event
   map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3;
 }
+
+/**
+  TODO - NOT USED
+ */
 message FeatureDeleteCommand {
   jio.brain.proto.event.BrainEventKey event_key = 1;
   repeated uint32 id_set = 2;
@@ -128,7 +140,7 @@ message FeatureKeyResponse {
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 message FeatureKeyComponentsRequest {
-  string feature_key = 1;
+  string brain_sha_key = 1;
 }
 message FeatureKeyComponentResponse {
   jio.brain.proto.event.BrainEventKey event_key = 1;

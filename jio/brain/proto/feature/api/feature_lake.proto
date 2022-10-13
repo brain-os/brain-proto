@@ -3,45 +3,59 @@ syntax = "proto3";
 package jio.brain.proto.feature.api;
 
 import "jio/brain/proto/event/event.proto";
+import "jio/brain/proto/base/token.proto";
+//import "jio/brain/proto/quantity/quantity.proto";
 
 option java_package = "com.jio.brain.proto.feature.api";
 option java_multiple_files = true;
 
 //Input of Delta Cache Service
-message DeltaCacheInput {
-  string key = 1;
-  repeated uint32 name = 2;
-}
+//message DeltaCacheInput {
+//  string key = 1;
+//  repeated uint32 name = 2;
+//}
 
 //Input of Feature Resolver
-message KeyFunction{
-  repeated KeyFunctionMap keyFunctionMap = 1;
+message BrainFunctionNameSet {
+  repeated BrainFunctionNameSetForKey function_set_for_key = 1;
 }
 
-message KeyFunctionMap {
-  string key = 1;
-  repeated string function_name = 2;
+//message KeyFunctionMap {
+//  string sha_key = 1;
+//  repeated string function_name = 2;
+//}
+
+message BrainFunctionNameSetForKey {
+  string sha_key = 1;
+  repeated jio.brain.proto.base.BrainToken function_set = 2;
 }
 
 //Input of Function Executor service
-message KeyFunctionEventSet{ // todo:wrong :delete it
-  repeated KeyFunctionEventSet keyFunctionEventSet = 1;
+//message KeyFunctionEventSet{ // todo:wrong :delete it
+//  repeated KeyFunctionEventSet keyFunctionEventSet = 1;
+//}
+
+message BrainExecutableFunctionSet{
+  repeated BrainExecutableFunctionForKey function_set = 1;
 }
 
-message KeyFunctionEvent{
-  repeated KeyFunctionEventMap keyFunctionEventMap=1;
+message BrainExecutableFunctionForKey{
+  string sha_key = 1;
+  repeated jio.brain.proto.event.BrainEvent feature_event = 2; // BrainEventFeatureKeyValue
 }
+/**
+Handle time series and latest
+ */
+//message BrainFunctionParameterValue {
+//  jio.brain.proto.base.BrainToken function = 1;
+//  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_value_set = 2;//  key -> feature, attribute, context
+////  jio.brain.proto.event.BrainEvent brainEvent = 3; //This can be changed to other
+//}
+//
+//message BrainFunctionParameterSchema {
+//
+//}
 
-message KeyFunctionEventMap{
-  string key = 1;
-  repeated FunctionEvent functionEvent = 2;
-}
-
-message FunctionEvent{
-  string function = 1;
-  string topic_name = 2;
-  jio.brain.proto.event.BrainEvent brainEvent = 3; //This can be changed to other
-}
 
 //Read Feature request/response - uint32 key and string name is available
 //Also for time series data what will be the input param(for how many steps we have to fetch the data)

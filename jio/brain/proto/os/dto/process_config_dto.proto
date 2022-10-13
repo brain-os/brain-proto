@@ -6,7 +6,7 @@ option java_package = "com.jio.brain.proto.os.dto";
 option java_multiple_files = true;
 
 import "jio/brain/proto/os/enums/vertical.proto";
-import "jio/brain/proto/os/deployment.proto";
+//import "jio/brain/proto/os/deployment.proto";
 import "jio/brain/proto/base/enums.proto";
 
 message ProcessProtoList{
@@ -155,6 +155,8 @@ message IngestProto {
   string outputTopic = 5;
   string outputSchema = 6;
   int32 readingStartPoint = 7;
+  string bucketName = 8;
+  string storageQueue = 9;
 }
 
 message IngestionExcelColumnProto{

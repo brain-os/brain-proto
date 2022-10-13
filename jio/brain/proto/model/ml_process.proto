@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package jio.brain.proto.model;
+
+option java_package = "com.jio.brain.proto.model";
+option java_multiple_files = true;
+
+//import "jio/brain/proto/base/enums.proto";
+//import "google/protobuf/any.proto";
+//import "jio/brain/proto/base/token.proto";
+//import "jio/brain/proto/types/collection.proto";
+//import "jio/brain/proto/types/number.proto";
+//import "jio/brain/proto/quantity/quantity.proto";
+//import "jio/brain/proto/quantity/quantity_atomic.proto";
+//import "jio/brain/proto/entity/entity.proto";
+//import "jio/brain/proto/event/tracing.proto";
+//import "jio/brain/proto/event/event.proto";
+//import "jio/brain/proto/feature/feature.proto";
+//import "jio/brain/proto/quantity/quantity_temporal.proto";
+//import "google/protobuf/timestamp.proto";
+//import "jio/brain/proto/model/ml.proto";
+
+//message BrainFunctionProcessSchema {
+//  jio.brain.proto.base.BrainToken function_token = 1;
+//  BrainMlFunctionSchema function_schema = 2;
+//  oneof invocation_if_one_of {
+//    BrainRemoteFunction remote = 3;
+//    BrainInProcessFunction in_process = 4;
+//  }
+//  BrainModelSpecification model_spec = 5;
+//  repeated BrainFunctionOutputSchema model_output_spec = 6;
+//  map<string, string> function_context = 7; // todo - do we need it? which model to execute? AIX context
+//}
+//message BrainMlFunctionSchema {
+//  oneof ml_function_is_one_of {
+//      BrainClassificationFunctionSchema classification = 1;
+//  }
+//}
+//message BrainClassificationFunctionSchema {
+//
+//}
+//message BrainRegressionFunctionSchema {
+//
+//}
+//message BrainModelSpecification {
+//  map<uint32, jio.brain.proto.event.ml.BrainFeatureSchema> model_input_spec = 1; // key = index of array, value = entity id, attribute, feature or property
+//  map<uint32, jio.brain.proto.event.ml.BrainFeatureSchema> model_output_spec = 2; // key = index of array, value = entity id, attribute, feature or property
+//}
+//message BrainRemoteFunction {
+//  string host_url = 1;
+//  string host_port = 2;
+//}
+//message BrainInProcessFunction {
+//  string model_url = 1; // model repository
+//  string host_port = 2;
+//}
+//message BrainFunctionOutputSchema {
+//  string name = 1; // optional in case of classification
+//  string output_topic = 2;
+//  string output_event_schema = 3;
+//}
+//
+//// remove below
+//message BrianFeatureDataConfig {
+//  oneof config_is_one_of {
+//    BrianFeatureConfig feature = 1;
+//    BrianTimeSeriesFeatureConfig time_series_feature = 2;
+//  }
+//}
+//message BrianFeatureConfig {
+//  oneof feature {
+//    jio.brain.proto.base.BrainToken feature_name = 1;
+//    jio.brain.proto.base.BrainToken attribute_name = 2;
+//  }
+//}
+//message BrianTimeSeriesFeatureConfig {
+//  jio.brain.proto.base.BrainToken feature_name = 1;
+//  oneof feature_type {
+//    jio.brain.proto.quantity.BrainTemporalDurationQuantity brainTemporalDurationQuantity = 2; //ex - Last year/last month/last 15 days
+//    uint32 number_of = 3; //latest 15 records/latest 35 records
+//  }
+//  bool ignore_missing_value = 4;
+//}

@@ -207,6 +207,7 @@ enum BrainProcessType {
     REDUCE = 6;
     REPOSITORY = 7;
     JOINER = 8;
+    AZURE = 9;
 }
 
 enum BrainAudioFormat {
