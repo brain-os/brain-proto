@@ -114,12 +114,36 @@ message ReduceProto {
       EQUALS = 0;
     }
   }
-
   message TimeInstanceProto {
     int32 hour = 1;
     int32 minute = 2;
   }
 }
+message JoinerProto{
+  repeated JoinerInstance joiner_instance = 1;
+  string output_topic = 2;
+  string output_event_schema = 3;
+  TimeInstanceProto start_time = 4;
+  TimeInstanceProto end_time = 5;
+  uint32 window_time_minutes = 6;  // 10-10:30  , 10:15-10:45
+  uint32 grace_time_minutes = 7;
+  JoinerType joiner_type = 9;
+
+  message JoinerInstance {
+    string input_topic = 1;
+    string input_event_schema = 2;
+    map<string,string> input_output_property_mapping = 3;
+  }
+  enum JoinerType {
+    INNER = 0;
+    OUTER = 1;
+  }
+  message TimeInstanceProto {
+    int32 hour = 1;
+    int32 minute = 2;
+  }
+}
+
 
 message IngestProto {
   SourceTypeProto sourceType = 1;
