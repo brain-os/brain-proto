@@ -70,15 +70,15 @@ message BrainFunctionParameter {
 }
 
 message BrainInferenceSchema {
-  jio.brain.proto.base.BrainToken token = 1;
-  jio.brain.proto.event.BrainRecordKeySchema record_key = 2;
+  jio.brain.proto.base.BrainToken token = 1;               // name
+  jio.brain.proto.event.BrainRecordKeySchema record_key = 2;   // not always requires
   BrainFunctionParameterSchema value = 3;
 }
 
 message BrainFunctionParameterSchema {
   oneof params {
-    jio.brain.proto.quantity.BrainQuantitySchema atomic = 1;
-    jio.brain.proto.base.BrainToken entity_type = 2;
+    jio.brain.proto.quantity.BrainQuantitySchema atomic = 1;    // only numeric
+    //jio.brain.proto.base.BrainToken entity_type = 2;
   }
 }
 

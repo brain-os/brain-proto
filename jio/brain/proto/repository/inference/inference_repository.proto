@@ -10,6 +10,7 @@ import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/event/event_common.proto";
 
 message InferenceCommand {
   oneof command_is_one_of {

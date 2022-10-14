@@ -10,6 +10,7 @@ import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/entity/entity.proto";
 import "jio/brain/proto/base/token.proto";
 
+
 message BrainEntityStore {
   // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
   // Value = A Set of entities of key type
