@@ -33,25 +33,28 @@ message BrainFeature {
 message BrainFeatureSchema {
   jio.brain.proto.base.BrainToken token = 1;
   jio.brain.proto.event.BrainRecordKeySchema record_key = 2;
-  oneof feature_is_one_of {
-    BrainWindowedFeatureSchema windowed_feature = 3;
-    BrainAsyncFeatureSchema async_feature = 4;
-  }
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 3;
+  jio.brain.proto.base.BrainTimeWindowType time_window = 4;
+
+//  oneof feature_is_one_of {
+//    BrainWindowedFeatureSchema windowed_feature = 3;
+//    BrainAsyncFeatureSchema async_feature = 4;
+//  }
 }
 
-message BrainWindowedFeatureSchema {
-  jio.brain.proto.quantity.BrainNumericQuantitySchema numeric = 1;
- //  jio.brain.proto.base.BrainToken unit = 3; // units are part of definition of quantity schema
-  jio.brain.proto.base.BrainTimeWindowType time_window = 2;
-}
-
-message BrainAsyncFeatureSchema {
-  jio.brain.proto.quantity.BrainAtomicQuantitySchema atomic = 1;
-}
+//message BrainWindowedFeatureSchema {
+//  jio.brain.proto.quantity.BrainQuantitySchema quantity = 1;
+// //  jio.brain.proto.base.BrainToken unit = 3; // units are part of definition of quantity schema
+//  jio.brain.proto.base.BrainTimeWindowType time_window = 2;
+//}
+//
+//message BrainAsyncFeatureSchema {
+//  jio.brain.proto.quantity.BrainQuantitySchema quantity = 1;
+//}
 
 message BrainFeatureFamilySchema {
   jio.brain.proto.base.BrainToken token = 1;
-  repeated BrainFeatureSchema feature_set = 2;
+  repeated string feature_set = 2;
 }
 
 
