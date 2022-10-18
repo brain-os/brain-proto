@@ -8,14 +8,19 @@ option java_multiple_files = true;
 import "google/protobuf/any.proto";
 import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/types/collection.proto";
-//import "jio/brain/proto/types/number.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/quantity/quantity_atomic.proto";
 import "jio/brain/proto/entity/entity.proto";
-//import "jio/brain/proto/event/ai-output-event.proto";
 import "jio/brain/proto/event/tracing.proto";
 import "jio/brain/proto/feature/feature.proto";
 import "google/protobuf/timestamp.proto";
+import "jio/brain/proto/event/multivariate_event.proto";
+import "jio/brain/proto/event/image_event.proto";
+import "jio/brain/proto/event/event_common.proto";
+import "jio/brain/proto/os/deployment.proto";
+import "jio/brain/proto/repository/knowledge/command.proto";
+import "jio/brain/proto/feature/api/repository_route.proto";
+
 /**
 {
   "id" : 12345, // 12345 (generated) from schema <=> /telecom/network/event/lsr - will same for all LSR events
@@ -48,85 +53,14 @@ message BrainEvent {
     BrainIngestionEvent ingestion_event = 4;
     BrainTransactionEvent transaction_event = 5;
     BrainKeyValueEvent key_value_event = 6;
-    BrainEventFeatureKeyValue feature_event = 7;
+    BrainFeatureKeyValueEvent feature_event = 7;
     BrainMultivariateEvent multivariate_event = 8;
-    BrainIotEvent iot_event = 9;
-    BrainImageEvent image_event = 10;
-    //    BrainContentEvent content_event = 9;
-    //    BrainClassificationEvent ai_event = 10;
+    BrainMultivariateInferenceEvent multivariate_inference_event = 9;
+    BrainIotEvent iot_event = 10;
+    BrainImageEvent image_event = 11;
+    BrainImageClassificationEvent image_classification = 12;
+   // BrainInfraEvent infra_event = 13;
   }
-}
-//message BrainContentEvent {
-//  // image -> x-ray -> knee x-ray
-//  // video
-//  // audio
-//  // text
-//}
-message BrainImageEvent {
-  oneof image_event_is_one_of {
-    BrainInputImageEvent input_image_event = 1;
-  }
-}
-
-message BrainImageEventSchema {
-  oneof image_event_is_one_of {
-    BrainInputImageEventSchema input_image_event = 1;
-  }
-}
-message BrainInputImageEvent {
-  jio.brain.proto.event.BrainEventKey key = 1;
-  string source_uri = 2; // can be url or path on hard disk of original image
-  oneof payload_is_one_of {
-    string uri = 3; // can be url or path on hard disk of processed image
-    Bytes bytes = 4;
-    string base64 = 5; // base64 image
-  }
-}
-message Bytes {
-  repeated bytes value = 1;
-  string content_type = 2;
-}
-message BrainInputImageEventSchema {
-  jio.brain.proto.event.BrainEventKeySchema key = 1;
-  BrainImagePayloadType payload_type = 2;
-  map<string, string> meta_data = 3; // type =  (x-ray, ct-scan, mri, spectral) , sub type = (knee, shoulder, etc)
-}
-enum BrainImagePayloadType {
-  BRAIN_IMAGE_PAYLOAD_TYPE_URI = 0;
-  BRAIN_IMAGE_PAYLOAD_TYPE_BYTES = 1;
-  BRAIN_IMAGE_PAYLOAD_TYPE_BASE64 = 2;
-}
-message BrainImageClassificationEvent {
-  jio.brain.proto.event.BrainEventKey key = 1;
-  repeated BrainImageLabel image_label_set = 2; // key is class (symbol or entity) and value is probability (between 0 and 1)
-  string source_uri = 3; // can be url or path on hard disk of original image
-  oneof payload_is_one_of {
-    string uri = 4; // can be url or path on hard disk of processed image
-    Bytes bytes = 5;
-    string base64 = 6; // base64 image
-  }
-}
-message BrainImageLabel {
-  uint64 entity_id  = 1;
-  uint32 x = 2;
-  uint32 y = 3;
-  uint32 length = 4;
-  uint32 width = 5;
-}
-message BrainImageClassificationEventSchema {
-  jio.brain.proto.event.BrainEventKeySchema key = 1;
-  repeated BrainImageLabelSchema image_label_set = 2;
-  BrainImagePayloadType payload_type = 3;
-  map<string, string> meta_data = 4; // type =  (x-ray, ct-scan, mri, spectral) , sub type = (knee, shoulder, etc)
-}
-message BrainImageLabelSchema {
-  jio.brain.proto.quantity.BrainSymbolicQuantitySchema symbolic = 2;
-}
-
-message BrainEventMetadata {
-  repeated BrainEventTrace trace = 1;
-  google.protobuf.Timestamp created_time = 2;
-  google.protobuf.Timestamp end_time = 3;
 }
 
 message BrainIngestionEvent {
@@ -140,6 +74,13 @@ message BrainIngestionEvent {
   uint32 startReadingLineNumber = 6;
 }
 
+
+message BrainEventMetadata {
+  repeated BrainEventTrace trace = 1;
+  google.protobuf.Timestamp created_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+}
+
 message BrainKeyValueEvent {
   BrainEventKey key = 1;
   BrainEventValue value = 2;
@@ -150,49 +91,28 @@ message BrainEventKeyMultiValue {
   repeated BrainEventValue values = 2;
 }
 
-message BrainEventKey {
-  BrainEntityStore entity_store = 1;
-  BrainQuantityStore context_store = 2;
-  BrainAttributeStore attribute_store = 3;
-  BrainEntityPredicateStore predicate_store = 4;
-}
-
 message BrainEventValue {
   BrainEntityStore entity_store = 1;
   BrainQuantityStore property_store = 2;
   BrainAttributeStore attribute_store = 3;
   BrainEntityPredicateStore predicate_store = 4;
+  BrainEventFeatureValue feature_store = 5;
 }
 
-message BrainEventFeatureKeyValue {
+message BrainFeatureKeyValueEvent {
   BrainEventKey feature_key = 1;
   BrainEventFeatureValue feature_value = 2;
 }
 message BrainEventFeatureValue {
-  jio.brain.proto.feature.BrainFeatureSet features = 1;
-  BrainAttributeStore attribute_store = 2;
-}
-
-message BrainFeatureSetStore {
-  oneof feature {
-    jio.brain.proto.feature.BrainFeatureSet features = 1;
-    jio.brain.proto.feature.BrainFeatureFamily  feature_family = 2;   // TBD for usage in feature lake
-  }
-}
-
-message BrainEntityStore {
-  // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
-  // Value = A Set of entities of key type
-  // entities[<entity-type>].elements[<entity-id>] = true
-  map<uint32, jio.brain.proto.types.BrainEntitySet> entities = 1;
-}
-message BrainQuantityStore {
-  // key = machine_id for whatever role it is playing
-  // Note: This is NOT quantity type but the role_type
-  // e.g. context, property,
-  // e.g. attribute, attribute_qualifier,
-  // e.g. predicate, predicate_qualifier
   map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
+  // BrainAttributeStore attribute_store = 2;
+}
+
+message BrainEventKey {
+  BrainEntityStore entity_store = 1;
+  BrainQuantityStore context_store = 2;
+  BrainAttributeStore attribute_store = 3;
+  BrainEntityPredicateStore predicate_store = 4;
 }
 
 message BrainAttributeStore {
@@ -212,16 +132,49 @@ message BrainEntityPredicateStore {
   map<uint64, jio.brain.proto.entity.BrainPredicateSet> predicate = 1;
 }
 
+//message BrainFeatureSetStore {
+//  oneof feature {
+//    jio.brain.proto.feature.BrainFeatureSet features = 1;
+//    jio.brain.proto.feature.BrainFeatureFamily  feature_family = 2;   // TBD for usage in feature lake
+//  }
+//}
+
+//message BrainEntityStore {
+//  // Key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
+//  // Value = A Set of entities of key type
+//  // entities[<entity-type>].elements[<entity-id>] = true
+//  map<uint32, jio.brain.proto.types.BrainEntitySet> entities = 1;
+//}
+//message BrainQuantityStore {
+//  // key = machine_id for whatever role it is playing
+//  // Note: This is NOT quantity type but the role_type
+//  // e.g. context, property,
+//  // e.g. attribute, attribute_qualifier,
+//  // e.g. predicate, predicate_qualifier
+//  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
+//}
+
+/*
+BrainIngestionEvent ingestion_event = 4;
+    BrainTransactionEvent transaction_event = 5;
+    BrainKeyValueEvent key_value_event = 6;
+    BrainEventFeatureKeyValue feature_event = 7;
+    BrainMultivariateEvent multivariate_event = 8;
+    BrainIotEvent iot_event = 9;
+    BrainImageEvent image_event = 10;
+    BrainImageClassificationEvent image_classification = 11;
+ */
 message BrainEventSchema {
   jio.brain.proto.base.BrainToken token = 1;
   oneof event_schema {
     BrainIngestionEventSchema ingestion_event = 2;
-    // BrainEventValueSchema value_event = 3;
-    BrainEventKeyValueSchema key_value_event = 3;
-    // BrainEventKeyMultiValueSchema key_multi_value_event = 5;
-    BrainEventFeatureKeyValueSchema feature_event = 4;
-    BrainIotSensorEventSchema iot_event = 5;
-    BrainIotSensorIp21EventSchema iot_ip_51 = 6;
+    BrainTransactionEventSchema transaction_event = 3;
+    BrainEventKeyValueSchema key_value_event = 4;
+    BrainEventFeatureKeyValueSchema feature_event = 5;
+    BrainMultivariateEventSchema multivariate_event = 6;
+    BrainIotEventSchema iot_event = 7;
+    BrainImageEventSchema image_event = 8;
+    BrainImageClassificationEventSchema image_classification_event = 9;
   }
 }
 message BrainIngestionEventSchema {
@@ -252,29 +205,29 @@ message BrainEventFeatureKeyValueSchema {
 message BrainEventFeatureValueSchema {
   // key = mid(/m/<vertical>/<domain>/<event>/<property>)
   jio.brain.proto.feature.BrainFeatureSetSchema features = 1;
-  jio.brain.proto.entity.BrainAttributeSetSchema attribute_schema = 2; // TODO remove schema
+  //jio.brain.proto.entity.BrainAttributeSetSchema attribute_schema = 2; // TODO remove schema
 }
 
-message BrainEntityStoreSchema {
-  // key = mid(/m/<vertical>/<domain>/entity/<entity-type>)
-  map<string, jio.brain.proto.entity.BrainEntitySchema> entity = 1;
-}
-message BrainEventContextSchema {
-  jio.brain.proto.base.BrainToken token = 1;
-  jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
-  // BrainToken unit = 3;
-}
 message BrainEventPropertySchema {
   jio.brain.proto.base.BrainToken token = 1;
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 2;
   jio.brain.proto.base.BrainToken unit = 3;
 }
+message BrainTransactionEventSchema {
 
+}
+message BrainIotEventSchema {
+  oneof iot_event_is_one_of {
+    BrainIotSensorEventSchema sensor = 1;
+    BrainIotSensorIp21EventSchema ip21 = 2;
+  }
+}
 message BrainIotSensorEventSchema {
   BrainEntityStoreSchema entity = 1; // information about sensor id
   google.protobuf.Timestamp time_stamp = 2;
   map<string, jio.brain.proto.quantity.BrainQuantitySchema> property = 3;
 }
+
 message BrainIotSensorEvent {
   BrainEntityStoreSchema entity = 1; // information about sensor id
   google.protobuf.Timestamp time_stamp = 2;
@@ -300,33 +253,11 @@ message BrainIotRecord {
   bool is_good = 2;
   jio.brain.proto.quantity.BrainQuantity quantity = 3;
 }
-//message BrainEventKeyMultiValueSchema {
-//  BrainEventKeySchema key = 1;
-//  repeated BrainEventValueSchema value = 2;
-//}
+
 message BrainTransactionEvent {
   BrainEventValue value = 1;
 }
 
 message BrainIotEvent {
 
-}
-message BrainMultivariateEvent {
-  jio.brain.proto.event.BrainEventKey key = 1;
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 3; // can be attributes or features
-}
-
-// f1  -> key-> cell-id * morning, features-> x1, x2, x3
-/** function_config ->
-name -> casualty_model_bridge_config,
-input_event_schema -> key-value
-ouput_event_schema -> key-value
-
-input -> x1,x2,x3 , a1, c1, e1
-ouput -> x4,x5
- */
-
-message BrainMultivariateEventSchema {
-  jio.brain.proto.event.BrainEventKeySchema key = 1;
-  map<uint32, jio.brain.proto.feature.BrainFeatureSchema> feature_set = 2; // key = index in array, value = feature schema
 }
