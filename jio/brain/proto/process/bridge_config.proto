@@ -8,30 +8,52 @@ option java_multiple_files = true;
 //import "jio/brain/proto/base/enums.proto";
 //import "jio/brain/proto/base/token.proto";
 //import "jio/brain/proto/quantity/quantity_temporal.proto";
+import "jio/brain/proto/quantity/quantity_compound_range.proto";
 
 import "jio/brain/proto/base/token.proto";
 
-message BrainBridgeFunctionSchema {
-  string model_key = 1;              // telecom/model/anomaly_model_241325
-  string output_topic = 2;
-  string output_event_schema = 3;
-  map<uint32, string> function_input_spec = 4;       // key = index of array, value = entity id, attribute, feature or property. How to handle time-series config ?
-  map<uint32, string> function_output_spec = 5;
-  string model_docker_image = 6;
-  uint32 model_port = 7;
+message BrainInferFunctionSchema {
+ oneof bridge_type {
+     BrainMultivariateInferFunctionSchema multivariate_bridge = 1;
+     BrainImageInferFunctionSchema image_bridge = 2;
+ }
 }
 
-// Used for ML Model as well as Rule Engine
-message BrainMultivariateFunctionSchema {
-  jio.brain.proto.base.BrainToken model_token = 1;
-  // value below should be present in input/output event
-  // input feature can be normal features or derived features (z-score or max-min)
-  map<uint32, string> model_input_spec = 2; // key = index of array, value = key of entity id, attribute, feature or property
-  map<uint32, string> model_output_spec = 3; // key = index of array, value = key of entity id, attribute, feature or property
-  string model_docker_image = 4; // MlFlow image e.g. jioaicr.azurecr.io/brain-os/sentiment-analysis:0.30
-  uint32 model_port = 5;
-  // TODO : assuming output transformation is not needed.
+// TODO
+//  1. Input param type for models can be different and of quantity
+//  2. Scheduler for trigger -> real-time OR cron-job OR all input_params arrived
+message BrainMultivariateInferFunctionSchema {
+  string model_id = 1;              // /telecom/model/anomaly_model_241325
+  string output_topic = 2;
+  string output_event_schema = 3;    // input event -> /telecom/event/multi_variate/cell_event    ouput event -> /telecom/event/multi_variate/cell_event
+  // 0 : /attribute/health/patient/age
+  // 1 : /attribute/health/patient/sex
+  repeated string function_input_spec = 4;       // /retail/feature/sales_hourly key = index of array, value = entity id, attribute, feature or property. How to handle time-series config ?
+  repeated string function_output_spec = 5;
+  oneof deployment_type_is_one_of {
+    LocalDeployment local = 6; // MLFlow generated docker image for image classification
+    RemoteDeployment remote = 7; // include port
+  }
 }
+
+message LocalDeployment {
+  string model_docker_image = 1; // MLFlow generated docker image for image classification
+  string end_point = 2; // include port
+}
+message RemoteDeployment {
+  string end_point = 1; // include port
+}
+// Used for ML Model as well as Rule Engine
+//message BrainMultivariateFunctionSchema {
+//  jio.brain.proto.base.BrainToken model_token = 1;
+//  // value below should be present in input/output event
+//  // input feature can be normal features or derived features (z-score or max-min)
+//  map<uint32, string> model_input_spec = 2; // key = index of array, value = key of entity id, attribute, feature or property
+//  map<uint32, string> model_output_spec = 3; // key = index of array, value = key of entity id, attribute, feature or property
+//  string model_docker_image = 4; // MlFlow image e.g. jioaicr.azurecr.io/brain-os/sentiment-analysis:0.30
+//  uint32 model_port = 5;
+//  // TODO : assuming output transformation is not needed.
+//}
 
 //message BrainBridgeProcessSchema {
 //  jio.brain.proto.base.BrainToken function_token = 1;
@@ -82,3 +104,78 @@ message BrainMultivariateFunctionSchema {
 //  }
 //  bool ignore_missing_value = 4;
 //}
+
+message BrainImageInferFunctionSchema {
+  string output_topic = 1;
+  string output_event_schema = 2; // image classification
+  string model_key = 3; // Delete local images if this is last model
+  string pre_requisite_model_token = 4; // help creating model DAG. If present, this function will be called only if pre requisite model is called.
+  oneof deployment_type_is_one_of {
+    LocalDeployment local = 5; // MLFlow generated docker image for image classification
+    RemoteDeployment remote = 6; // include port
+  }
+  BrainImagePreprocessorConfig image_pre_processor_config = 7;
+  BrainImagePostProcessorConfig post_processor_config = 8;
+  string local_path = 9; // path to keep intermediate image data
+}
+
+message BrainImagePreprocessorConfig {
+  map<uint32, BrainImagePreProcessor> pre_processor_steps = 1; // key is step number, value is non repeatable BrainImagePreProcessor
+}
+message BrainImagePreProcessor {
+  oneof pre_processor {
+    BrainImageResizer resizer = 1;
+    BrainImageColorConversion color_conversion = 2;
+    BrainImageCropping cropping = 3;
+    BrainImageAdjustment adjustment = 4;
+    BrainImageTranspose transpose = 5;
+  }
+}
+message BrainImageResizer {
+  uint32 height = 1;
+  uint32 width = 2;
+  uint32 padding = 3;
+}
+message BrainImageColorConversion {
+  BrainImageColorConversionType source = 1;
+  BrainImageColorConversionType target = 2;
+}
+enum BrainImageColorConversionType {
+  BRAIN_IMAGE_COLOR_TYPE_RGB = 0;
+  BRAIN_IMAGE_COLOR_TYPE_GRAY_SCALE = 1;
+  BRAIN_IMAGE_COLOR_TYPE_HSV = 2;
+  BRAIN_IMAGE_COLOR_TYPE_YIQ = 3;
+  BRAIN_IMAGE_COLOR_TYPE_YUV = 4;
+}
+message BrainImageCropping {
+  uint32 x_coordinate = 1;
+  uint32 y_coordinate = 2;
+  uint32 height = 3;
+  uint32 width = 4;
+}
+message BrainImageAdjustment {
+  // TBD
+}
+message BrainImageTranspose {
+  // TBD
+}
+
+// https://machinelearningmastery.com/applications-of-deep-learning-for-computer-vision/
+message BrainImagePostProcessorConfig {
+  oneof post_processor_is_one_of {
+    BrainImageClassificationPostProcessorConfig classification_post_processor = 1;
+  }
+}
+/*
+Labeling an x-ray as cancer or not (binary classification).
+Classifying a handwritten digit (multiclass classification).
+Assigning a name to a photograph of a face (multiclass classification).
+ */
+message BrainImageClassificationPostProcessorConfig {
+  string entity_type = 1;
+  repeated BrainImageLabel image_label_set = 2;
+}
+message BrainImageLabel {
+  uint64 brain_id = 1;
+  jio.brain.proto.quantity.BrainRangeQuantity range = 2;
+}
