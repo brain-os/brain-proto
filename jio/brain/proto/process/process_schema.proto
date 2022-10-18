@@ -17,7 +17,7 @@ import "jio/brain/proto/process/reduce_config.proto";
 import "jio/brain/proto/process/compute_config.proto";
 import "jio/brain/proto/process/image_config.proto";
 import "jio/brain/proto/process/bridge_config.proto";
-import "jio/brain/proto/process/repository_config.proto";
+import "jio/brain/proto/process/repositoryconfig.proto";
 import "jio/brain/proto/process/joinerconfig.proto";
 
 // function - enrich function
