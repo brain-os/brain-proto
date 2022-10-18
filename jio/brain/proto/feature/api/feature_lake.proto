@@ -28,7 +28,7 @@ message BrainFunctionNameSet {
 
 message BrainFunctionNameSetForKey {
   string sha_key = 1;
-  repeated jio.brain.proto.base.BrainToken function_set = 2;//todo change it to string or uint32
+  repeated jio.brain.proto.base.BrainToken function_set = 2;
 }
 
 //Input of Function Executor service
