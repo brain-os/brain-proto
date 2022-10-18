@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package jio.brain.proto.schema.api;
+
+option java_package = "com.jio.brain.proto.schema.api";
+option java_multiple_files = true;
+
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/base/status.proto";
+
+
+message QuantitySchemaParameter{ // quntityschemaparameter
+  oneof quantity{
+    string quantity_type = 1; // /telecom/quantity/start_time
+    uint32 quantity_id = 2; // 15000002L
+  }
+}
+
+message QuantitySchemaRequest{ //quantity_schema_request
+  repeated QuantitySchemaParameter quantity_type  = 1;
+}
+
+
+message MultipleQuantitySchemaResponse { //
+  map<string, jio.brain.proto.quantity.BrainQuantitySchema> brain_quantity_schema = 1;
+  jio.brain.proto.base.BrainStatus brain_status = 2;
+}
+
+message QuantitySchemaResponse{
+  jio.brain.proto.quantity.BrainQuantitySchema brain_quantity_schema = 1;
+  jio.brain.proto.base.BrainStatus brain_status = 2;
+}
+
+service QuantitySchemaService {
+  rpc getQuantitySchema(QuantitySchemaParameter) returns (QuantitySchemaResponse);
+  rpc getMultipleQuantitySchema(QuantitySchemaRequest) returns (MultipleQuantitySchemaResponse);
+}
