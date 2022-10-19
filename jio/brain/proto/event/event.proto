@@ -96,7 +96,7 @@ message BrainEventValue {
   BrainQuantityStore property_store = 2;
   BrainAttributeStore attribute_store = 3;
   BrainEntityPredicateStore predicate_store = 4;
-  BrainEventFeatureValue feature_store = 5;
+  //BrainEventFeatureValue feature_store = 5;
 }
 
 message BrainFeatureKeyValueEvent {
