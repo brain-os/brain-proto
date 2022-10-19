@@ -4,6 +4,7 @@ package jio.brain.proto.feature.api;
 
 import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/quantity/quantity.proto";
 //import "jio/brain/proto/quantity/quantity.proto";
 
 option java_package = "com.jio.brain.proto.feature.api";
@@ -43,6 +44,10 @@ message BrainExecutableFunctionForKey{
   string sha_key = 1;
   repeated jio.brain.proto.event.BrainEvent feature_event = 2; // BrainEventFeatureKeyValue
 }
+message BrainAttributeQuantitySchema{
+  map<uint32, jio.brain.proto.quantity.BrainQuantitySchema> quantitySchema = 1;
+}
+
 /**
 Handle time series and latest
  */
