@@ -35,7 +35,7 @@ message BrainFunctionParameterSchema {
 
 message BrainMultivariateInferenceEventSchema {
   BrainRecordKeySchema key = 1;
-  map<string, BrainFunctionParameterSchema> feature_set = 3;
+  map<string, jio.brain.proto.feature.BrainInferenceSchema> inference_set = 3;
 }
 
 message BrainFunctionParameterSchemaType {
@@ -61,7 +61,7 @@ message BrainMultivariateInferenceEvent {
 //Name service call from Bridge
 message BrainClassificationEvent {
   BrainRecordKey key = 1; // entity ids and contexts
-  repeated jio.brain.proto.quantity.BrainSymbolicQuantity classification = 2; // key is class (symbol or entity) and value is probability (between 0 and 1)
+  repeated jio.brain.proto.quantity.BrainAtomicQuantity classification = 2; // key is class (symbol or entity) and value is probability (between 0 and 1)
   map<uint64, double> probabilities = 3;
 }
 message BrainClassificationEventSchema {
