@@ -172,9 +172,10 @@ message BrainEventSchema {
     BrainEventKeyValueSchema key_value_event = 4;
     BrainEventFeatureKeyValueSchema feature_event = 5;
     BrainMultivariateEventSchema multivariate_event = 6;
-    BrainIotEventSchema iot_event = 7;
-    BrainImageEventSchema image_event = 8;
-    BrainImageClassificationEventSchema image_classification_event = 9;
+    BrainMultivariateInferenceEventSchema inference_event = 7;
+    BrainIotEventSchema iot_event = 8;
+    BrainImageEventSchema image_event = 9;
+    BrainImageClassificationEventSchema image_classification_event = 10;
   }
 }
 message BrainIngestionEventSchema {
@@ -214,8 +215,9 @@ message BrainEventPropertySchema {
   jio.brain.proto.base.BrainToken unit = 3;
 }
 message BrainTransactionEventSchema {
-
+  BrainEventValueSchema value = 1;
 }
+
 message BrainIotEventSchema {
   oneof iot_event_is_one_of {
     BrainIotSensorEventSchema sensor = 1;
