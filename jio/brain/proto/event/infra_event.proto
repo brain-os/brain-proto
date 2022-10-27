@@ -23,6 +23,13 @@ message BrainInfraEvent {
     jio.brain.proto.repository.knowledge.EntityCommand entity_command = 5;
     jio.brain.proto.feature.api.RepositoryRouterTopics repository_router_topic = 6;
     jio.brain.proto.feature.api.BrainFunctionNameSet brain_function_name_set = 7;
-    jio.brain.proto.feature.BrainFeatureSetSchema brain_feature_set_schema = 8;
+    BrainSchemaCacheService cache_brain_schema = 8;
+  }
+}
+
+message BrainSchemaCacheService{
+  oneof brain_schema_is_one_of {
+//    jio.brain.proto.feature.BrainInferenceSetSchema brain_inference_set_schema = 1;
+    jio.brain.proto.feature.BrainFeatureSetSchema brain_feature_set_schema = 2;
   }
 }

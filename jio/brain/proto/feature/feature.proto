@@ -78,6 +78,10 @@ message BrainInferenceSchema {
   BrainFunctionParameterSchema value = 3;
 }
 
+//message BrainInferenceSetSchma{
+//  map<string,BrainInferenceSchema> inference_schema = 1;
+//}
+
 message BrainFunctionParameterSchema {
   oneof params {
     jio.brain.proto.quantity.BrainQuantitySchema atomic = 1;    // only numeric
