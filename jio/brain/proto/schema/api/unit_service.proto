@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package jio.brain.proto.schema.api;
+
+option java_package = "com.jio.brain.proto.schema.api";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/quantity/quantity_atomic.proto";
+
+message UnitSchemaParameter {
+    uint32 unit_config_id = 1;
+    uint32 unit_id = 2;
+
+}
+
+message UnitSchemaResponse {
+  jio.brain.proto.quantity.BrainUnitSchema unit_schema = 1;
+  jio.brain.proto.base.BrainStatus brain_status = 2;
+}
+
+
+service UnitSchemaService {
+  rpc getUnitSchema(UnitSchemaParameter) returns (UnitSchemaResponse);
+}
