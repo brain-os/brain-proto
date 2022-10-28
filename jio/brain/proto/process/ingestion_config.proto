@@ -37,6 +37,7 @@ message FileTransport {
   string folder_to_watch = 1;
   uint32 readingStartPoint = 2;
   repeated FieldMapping mappings = 3;
+  bool readMultiRows = 4;
 }
 message BlobStorageTransport {
   string bucket_name = 1;
