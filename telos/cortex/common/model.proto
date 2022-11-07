@@ -1,0 +1,237 @@
+syntax = "proto3";
+
+package telos.cortex.common;
+option java_package = "telos.cortex.common";
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+import "telos/cortex/inference/api.proto";
+
+message CortexModel {
+  CortexModelIdentity model_id = 1 ;
+  CortexModelSchema model_schema = 2 ;
+  CortexModelStatus status = 3;  // Current status of ``model_status``
+  CortexModelTag tags = 4;  // Tags: Additional metadata key-value pairs for this ``model_version``.
+  string run_id = 5;
+  CortexModelDeploymentUnit deployment_unit = 6;
+  CortexModelMetrics metrics = 7;
+  int64 created_on = 8; // Timestamp recorded when this ``model_version`` was created.
+  int64 last_updated_on = 9; // Timestamp recorded when metadata for this ``model_version`` was last updated.
+}
+message CortexModelIdentity {
+  uint64 model_mid = 1 ;  // generated internally
+  string model_hid = 2 ;
+  string model_name = 3;
+  string description = 4;  // Description of this ``model``.
+  CortexApiIdentity api_id = 5;    // which API this model is associated with
+  string provider_id = 6;  // who developed this model instance
+  string design_variant_name = 7;  // provide may use different variants
+  float design_version_number = 8;  // within a variant, which version
+  string deployed_instance = 9;    // production instance by say date of build
+  string model_version = 10; // Model's version number
+  CortexModelDeploymentStage deployment_stage = 11;
+}
+
+enum CortexModelDeploymentStage {
+  CORTEX_MODEL_DEPLOYMENT_STAGE_DEVELOPMENT = 0; // still under development
+  CORTEX_MODEL_DEPLOYMENT_STAGE_TRUST = 1; // privacy and fairness review pending
+  CORTEX_MODEL_DEPLOYMENT_STAGE_BENCHMARKING = 2;  // on benchmark data
+  CORTEX_MODEL_DEPLOYMENT_STAGE_CHALLENGER = 3;// partial traffic coming to this
+  CORTEX_MODEL_DEPLOYMENT_STAGE_PRODUCTION = 4;// full traffic coming to this
+}
+
+message CortexModelSchema {
+  CortexApiSchema api_schema = 1;      // copy instead of looking up every time
+  CortexModelAlgorithm model_algorithm = 2;   // e.g. decision trees, SVM’s, etc.
+  CortexModelInputs model_inputs=3;
+  CortexModelPreprocessor model_preprocessors= 4 ;
+  CortexModelConfig config = 5;
+  // TODO:  model_post_processors
+}
+// A Specific algorithm used such that it has a unique set of hyper-parameters
+enum CortexModelAlgorithm {
+  CORTEX_MODEL_ALGORITHM_ML_DECISION_TREE =0;
+  CORTEX_MODEL_ALGORITHM_ML_RANDOM_FORREST =1;
+  CORTEX_MODEL_ALGORITHM_ML_SUPPORT_VECTOR_MACHINES =2;
+}
+// Keeping it generic and not BrainOS centric
+message   CortexModelInputs {
+  repeated string model_input = 1;
+}
+
+// This is a function of CortexApiInputType
+message CortexModelPreprocessor {
+  oneof preprocessor{
+    CortexModelMultiVariatePreprocessor multi_variate = 1 ;
+    CortexModelTimeSeriesPreprocessor time_series = 2 ;
+    CortexModelTextTweetPreprocessor text_tweet = 3 ;
+  }
+}
+
+// TODO
+message CortexModelPostprocessor {
+  // any post processing functions
+}
+
+// Multi-variate
+message CortexModelMultiVariatePreprocessor {
+  BrainExpressionProgram transformations = 1 ;
+}
+//Todo
+message CortexModelTimeSeriesPreprocessor {
+  BrainExpressionProgram transformations = 1 ;
+}
+
+//Todo
+message CortexModelTextTweetPreprocessor {
+  BrainExpressionProgram transformations = 1 ;
+}
+
+// this is part of the core which is common to brain and cortex
+
+message CortexModelConfig {
+  repeated  CortexModelHyperParameters model_hyper_parameters= 1;
+  CortexModelSignature signature = 2;
+}
+
+// These are set at the design stage and used again and again to train the next instance
+message CortexModelHyperParameters {
+  oneof hyper_parameters{
+    CortexModelDecisionTreesHyperParameters decision_trees =1;
+    CortexModelRandomForrestHyperParameters random_forrest =2;
+    CortexModelSupportVectorMachinesHyperParameters support_vector_machines =3;
+  }
+}
+//Todo
+message CortexModelDecisionTreesHyperParameters {
+  CortexModelParameter parameters =1;
+}
+
+//Todo
+message CortexModelRandomForrestHyperParameters {
+  CortexModelParameter parameters =1;
+}
+
+//Todo
+message CortexModelSupportVectorMachinesHyperParameters {
+  CortexModelParameter parameters =1;
+}
+
+// The Model signature defines the schema of a model’s inputs and outputs.
+// Model inputs and outputs can be either column-based or tensor-based.
+message CortexModelSignature {
+  // TODO hack solution to capture order of input fields
+  // {"feature.weight": "1", "kg.age": "0", "kg.height": "2"}
+  // {"feature.weight": "160", "kg.age": "60", "kg.height": "5.11"}
+  map<string, string> input_feature_to_data_mapping = 1;
+  // [160, 40, 5.10]
+  repeated CortexModelFeatures input_schema = 2;
+  CortexApiOutput output_schema = 3;
+}
+
+// Final inputs that actually go into the model
+message CortexModelFeatures {
+  oneof model_feature{
+    BrainFeature feature = 1; // Rajan's team feature proto
+    BrainAttributeStore attribute = 2; // Krishna's team KG object types
+    BrainEvent event = 3; // Todo
+    // TODO: support for image(2D, 3D), video, text, audio, timeseries
+  }
+}
+message CortexApiOutput {
+  oneof api_output {
+    ClassificationModelOutput classification_output = 1;
+    RegressionModelOutput regression_output = 2;
+    //..
+  }
+}
+
+message ClassificationModelOutput {
+  map<string, double> class_prob = 1; // string = class this we need to standarize
+}
+
+message RegressionModelOutput {
+  double value = 1;
+}
+message CortexModelParameter {
+  string key = 1;
+  string value = 2;
+}
+enum CortexModelStatus {
+  MODEL_STATUS_PENDING_REGISTRATION = 0;  // Request to register a new model version is pending as server performs background tasks.
+  MODEL_STATUS_FAILED_REGISTRATION = 1;   // Request to register a new model version has failed.
+  MODEL_STATUS_READY = 2;  // The tag value.
+}
+
+message CortexModelTag {
+  repeated string tags = 1;
+}
+
+message CortexModelDeploymentUnit {
+  CortexModelSource model_source = 1;  //variant name(MODEL_FRAMEWORK_SKLEARN) & variantVersion(0.24.2)
+  CortexModelSerializationFormat serialize_format = 2; //lib(MODEL_SERIALIZATION_PICKLE) and version("4.0")
+  CortexModelArtifact model_artifact = 3;// Artifact Information
+  CortexModelDependencies dependencies = 4;
+  CortexModelCompute compute_dependencies = 5;
+}
+
+message CortexModelSource {
+  CortexModelFramework model_framework = 1; // "scikit-learn"
+  string framework_version = 2; //0.24.2
+}
+
+enum CortexModelFramework {
+  MODEL_FRAMEWORK_SKLEARN_DEFAULT = 0;
+  MODEL_FRAMEWORK_SKLEARN = 1;
+  MODEL_FRAMEWORK_TENSORFLOW = 2;
+  MODEL_FRAMEWORK_PYTORCH = 3;
+  MODEL_FRAMEWORK_MXNET = 4;
+  MODEL_FRAMEWORK_CAFFE = 5;
+}
+
+message CortexModelSerializationFormat {
+  CortexModelSerialization serialization_lib = 1; //pickle
+  string serialization_lib_version = 2; //pickle 1.0
+}
+
+enum CortexModelSerialization{
+  MODEL_SERIALIZATION_PICKLE_DEFAULT = 0;
+  MODEL_SERIALIZATION_PICKLE = 1;
+  MODEL_SERIALIZATION_JOB_LIB = 2;
+  MODEL_SERIALIZATION_H5 = 3;
+}
+message CortexModelDependencies {
+  string name      = 1;
+  string version   = 2;
+}
+
+message CortexModelCompute {
+  // TODO discuss with team
+  oneof compute_type {
+    CortexModelCPUCompute cpu = 1;
+    CortexModelGPUCompute gpu = 2;
+  }
+}
+
+message CortexModelCPUCompute {
+  // TODO discuss with team
+  int32 no_of_cores = 1;
+  float ram = 2;
+
+}
+
+enum CortexGPUTypes {
+  CORTEX_GPU_TYPE_NVIDIA_DEFAULT =0;
+  CORTEX_GPU_TYPE_NVIDIA =1;
+  CORTEX_GPU_TYPE_AMD =2;
+}
+
+message CortexModelGPUCompute {
+  // TODO discuss with team
+  CortexGPUTypes gpu_type = 1;
+}
+
+message CortexModelMetrics{
+  string key = 1;
+  string value = 2;
+}
