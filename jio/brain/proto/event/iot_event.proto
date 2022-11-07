@@ -103,3 +103,7 @@ message BrainIotRecord {
   bool is_good = 2;
   jio.brain.proto.quantity.BrainQuantity quantity = 3;
 }
+
+message BrainSensorData {
+
+}
