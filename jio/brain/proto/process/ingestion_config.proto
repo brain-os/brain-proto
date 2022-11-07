@@ -8,7 +8,7 @@ option java_multiple_files = true;
 import "jio/brain/proto/base/enums.proto";
 
 // TODO - transaction, sensor, media, online (Crawl Internet)
-message BrainIngestProcessSchema {
+message BrainIngestFunctionSchema {
   oneof source {
     KafkaTransport kafka_transport = 2;
     FileTransport file_transport = 3;
@@ -37,21 +37,27 @@ message FileTransport {
   string folder_to_watch = 1;
   uint32 readingStartPoint = 2;
   repeated FieldMapping mappings = 3;
-  bool readMultiRows = 4;
+  string bucket_name = 4;
+  bool readMultiRows = 5;
 }
 message BlobStorageTransport {
   string bucket_name = 1;
-  string prefix = 2;
-  string suffix = 3;
+  string azure_connection_string = 2;
+  string prefix = 3;
+  string suffix = 4;
+  repeated FieldMapping mappings = 5;
 }
+
 message JsonFileTransport {
   string folder_to_watch = 1;
   repeated FieldMapping mappings = 2;
 }
 
 message FieldMapping {
-  uint32 field_index = 1; // column index in case of csv or excel
-  string field_name = 2; // key name in case of kafka
+  oneof field_key {
+    uint32 field_index = 1; // column index in case of csv or excel
+    string field_name = 2; // key name in case of kafka
+  }
   string column_unit = 3; // unit of this column
   jio.brain.proto.base.BrainInputDataType input_data_type = 4; // data type of input - will always be string in case of csv
   string format = 5; // date format or number format in case of date or number

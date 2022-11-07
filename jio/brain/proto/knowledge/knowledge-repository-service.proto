@@ -36,7 +36,7 @@ service KnowledgeRepositoryService {
   // gives all the domains present in KG
   rpc ReadAllDomain(ReadAllDomainRequest) returns (ReadAllDomainResponse) {}
   // gives all the predicates between subject and object
-  rpc ReadAllPredicates(ReadAllPredicatesRequest) returns (ReadAllPredicatesResponse) {} 
+  rpc ReadAllPredicates(ReadAllPredicatesRequest) returns (ReadAllPredicatesResponse) {}
   rpc UpdateDomain(UpdateDomainRequest) returns (UpdateDomainResponse) {}
   rpc DeleteDomain(DeleteDomainRequest) returns (DeleteDomainResponse) {}
   rpc DeleteAttributeSchema(DeleteAttributeSchemaRequest) returns (DeleteAttributeSchemaResponse) {}
@@ -49,6 +49,8 @@ service KnowledgeRepositoryService {
   rpc SearchQuery(SearchQueryRequest) returns (SearchQueryResponse) {}
   rpc DeletePredicateQualifierSchema(DeletePredicateQualifierSchemaRequest) returns (DeletePredicateQualifierSchemaResponse) {}
   rpc HasEntity(HasEntityRequest) returns (HasEntityResponse) {}
+  rpc GetEntitiesGivenEntityType(GetEntitiesGivenEntityTypeRequest) returns (GetEntitiesGivenEntityTypeResponse) {}
+  rpc RangeFilter(RangeFilterRequest) returns (RangeFilterResponse) {}
 }
 
 
@@ -57,6 +59,7 @@ message HealthCheckRequest {
 message HealthCheckResponse{
   string hello = 1;
 }
+
 
 // Create Entity schema in the knowledge graph
 message CreateEntitySchemaRequest {
@@ -141,7 +144,7 @@ message ReadAttributeRequest {
   uint64 entity_id = 3; 
 }
 message ReadAttributeResponse {
-  jio.brain.proto.types.BrainPrimitiveDataValue attribute_value = 1; //
+  jio.brain.proto.types.BrainPrimitiveData attribute_value = 1; //
   jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
 }
 
@@ -196,8 +199,8 @@ message CreateAttributeFamilySchemaResponse {
 
 
 message DeleteEntityRequest {
-  uint32 entity_type = 1; 
-  uint64 entity_id = 2; 
+  uint32 entity_type = 1;
+  uint64 entity_id = 2;
 }
 message DeleteEntityResponse {
   jio.brain.proto.base.BrainStatus status = 1 ; //Brain status response
@@ -265,11 +268,11 @@ message CreatePredicateQualifierSchemaResponse {
 message ReadAttributeFamilyRequest {
   uint32 attribute_family_id = 1;
   uint64 entity_id =2;
-  uint32 entity_type = 3;  
+  uint32 entity_type = 3;
 }
 
 message ReadAttributeFamilyResponse {
-  map<uint32, jio.brain.proto.types.BrainPrimitiveDataValue> attribute_value =1;
+  map<uint32, jio.brain.proto.types.BrainPrimitiveData> attribute_value =1;
   jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
 }
 
@@ -328,7 +331,7 @@ message DeletePredicateQualifierSchemaResponse {
 }
 
 message HasEntityRequest {
-  uint32 entity_type = 1; 
+  uint32 entity_type = 1;
   uint64 entity_id =2;
 }
 
@@ -336,6 +339,49 @@ message HasEntityResponse {
   bool is_present =1;
   jio.brain.proto.base.BrainStatus status = 2 ; //Brain status response
 }
+
+message GetEntitiesGivenEntityTypeRequest {
+  uint32 entity_type_id = 1;
+  Limit limit = 2;
+  Sort_By sort_by_attribute = 3;
+}
+
+message Limit {
+  uint32 start_limit = 1; // should be greater than 0
+  uint32 end_limit = 2; // limit should be less than 1000
+}
+
+message Sort_By {
+  uint32 attribute_id =1;
+  BrainOperationType brain_operation_type = 2;
+    enum BrainOperationType {
+      ASCENDING = 0;
+      DESCENDING = 1;
+  }
+}
+
+message GetEntitiesGivenEntityTypeResponse{
+  repeated uint64 entity_ids = 1;
+  jio.brain.proto.base.BrainStatus status = 2;
+}
+
+
+message RangeFilterRequest{
+  uint32 entity_type = 1;
+  uint32 attribute_id = 2;
+  double upper_value = 3;
+  double lower_value = 4;
+  bool upper_included = 5;
+  bool lower_included = 6;
+
+}
+
+message RangeFilterResponse{
+  repeated uint64 entity_ids = 1;
+  jio.brain.proto.base.BrainStatus status = 2;
+
+}
+
 
 message EnrichServiceRequest {
   repeated EnrichAttributeRequest enrich_attribute_request = 1;
@@ -370,7 +416,7 @@ message EntityAttribute {
   map<uint64, AttributeValue> attribute_value = 1; // key = customer_id and value AttributeValue
 }
 message AttributeValue {
-  map<uint32, jio.brain.proto.types.BrainPrimitiveDataValue> attribute_value = 1; //key = age, value = 30
+  map<uint32, jio.brain.proto.types.BrainPrimitiveData> attribute_value = 1; //key = age, value = 30
 }
 
 

@@ -6,7 +6,7 @@ option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 import "jio/brain/proto/types/vector.proto";
 
-message BrainEnrichProcessSchema {
+message BrainEnrichFunctionSchema {
   string output_topic = 1;
   EnrichAttributesInstance attribute = 2;
   EnrichPredicateInstance predicate = 3;

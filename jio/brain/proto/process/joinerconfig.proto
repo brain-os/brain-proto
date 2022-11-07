@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package jio.brain.proto.process;
+
+option java_package = "com.jio.brain.proto.process";
+option java_multiple_files = true;
+
+import "jio/brain/proto/quantity/quantity_temporal.proto";
+import "jio/brain/proto/base/enums.proto";
+import "jio/brain/proto/event/event.proto";
+
+message BrainJoinerFunctionSchema {
+  repeated JoinerInstance joiner_instance = 1;
+  string output_topic = 2;
+  jio.brain.proto.event.BrainEventSchema output_event_schema = 3;
+  jio.brain.proto.quantity.BrainTimeInstance start_time = 4;
+  jio.brain.proto.quantity.BrainTimeInstance end_time = 5;
+  uint32 window_time_minutes = 6;  // 10-10:30  , 10:15-10:45
+  uint32 grace_time_minutes = 7;
+  jio.brain.proto.base.BrainTimeWindowType  time_window = 8;
+  JoinerType joiner_type = 9;
+  InputTopicType input_topic_type = 10;
+}
+
+message JoinerInstance {
+  string input_topic = 1;
+  jio.brain.proto.event.BrainEventSchema input_event_schema = 2;
+  map<string,string> input_output_property_mapping = 3;
+}
+enum InputTopicType {
+  SINGLE = 0;
+  MULTIPLE = 1;
+}
+enum JoinerType {
+  INNER = 0;
+  OUTER = 1;
+}

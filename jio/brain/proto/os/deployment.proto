@@ -35,6 +35,12 @@ message Process {
 message OutputTopic{
   repeated string output_topic = 1;
 }
+message AzureKafkaData{
+  oneof azure_kafka_one_of {
+    RowEventList row_event_list = 1;
+    FileDetails file_details = 2;
+  }
+}
 message RowEventList{
   repeated RowEventData rowEvents= 1;
 }
@@ -42,7 +48,14 @@ message RowEventData{
   string rowData = 1;
   int64 rowIndex = 2;
 }
-
+message FileDetails{
+  string file_uri = 1;
+  string file_name = 2;
+  map<string, string> file_meta_data = 3;
+  string file_path = 4;
+  string file_type = 5;
+  string file_data = 6;
+}
 enum MessageService {
   rabbitMq = 0;
   kafka = 1;

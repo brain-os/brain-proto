@@ -6,6 +6,7 @@ option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/process/ingestion_config.proto";
 import "jio/brain/proto/process/quantization_config.proto";
@@ -14,27 +15,28 @@ import "jio/brain/proto/process/filter_config.proto";
 import "jio/brain/proto/process/pivot_config.proto";
 import "jio/brain/proto/process/reduce_config.proto";
 import "jio/brain/proto/process/compute_config.proto";
-import "jio/brain/proto/process/function_config.proto";
-import "jio/brain/proto/base/enums.proto";
-import "jio/brain/proto/process/repository_config.proto";
+import "jio/brain/proto/process/joinerconfig.proto";
+import "jio/brain/proto/process/dl_image_config.proto";
+import "jio/brain/proto/process/bridge_config.proto";
+import "jio/brain/proto/process/repositoryconfig.proto";
 
-
-message BrainProcessSchema {
+// function - enrich function
+message BrainFunctionSchema {
   jio.brain.proto.base.BrainToken token = 1;
-  string input_topic = 2;
-  jio.brain.proto.event.BrainEventSchema input_event_schema = 3;
+  map<string, jio.brain.proto.event.BrainEventSchema> input_event_schema = 2;
   map<string, jio.brain.proto.event.BrainEventSchema> output_event_schema = 4; // key = output_topic, value = event key in dictionary
   jio.brain.proto.base.BrainProcessType brain_process_type = 5;
   oneof config {
-    BrainEnrichProcessSchema enrich = 6;
-    BrainFilterProcessSchema filter = 7;
-    BrainPivotProcessSchema pivot = 8;
-    BrainReduceProcessSchema reduce = 9;
-    BrainIngestProcessSchema ingest = 10;
-    BrainQuantizeProcessSchema quantize = 11;
-    BrainComputeProcessSchema compute = 12;
-    BrainFunctionProcessSchema function = 13;
-    BrainRepositoryProcessSchema repository = 14;
+    BrainEnrichFunctionSchema enrich = 6;
+    BrainFilterFunctionSchema filter = 7;
+    BrainPivotFunctionSchema pivot = 8;
+    BrainReduceFunctionSchema reduce = 9;
+    BrainIngestFunctionSchema ingest = 10;
+    BrainQuantizeFunctionSchema quantize = 11;
+    BrainComputeFunctionSchema compute = 12;
+    BrainRepositoryFunctionSchema repository = 13;
+    BrainJoinerFunctionSchema join = 14;
+    BrainInferFunctionSchema infer = 15;
   }
 }
 // TODO - output event schema in enrich vs quantization is different. Make it consistent.
