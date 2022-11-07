@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package telos.cortex.common;
+option java_package = "telos.cortex.common";
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+//import "telos/cortex/common/model.proto";
+
+message CortexApi {
+  CortexApiIdentity api_id = 1;
+  CortexApiSchema api_schema = 2;
+//  repeated CortexModel model = 3;  // various models associated with this API
+}
+
+// Allow search, browse, storage directory, string-key creation etc. based on…
+message CortexApiIdentity {
+  uint32 api_id = 1 ;   // generated internally
+  string domain = 2 ;   // e.g. medical
+  string sub_domain = 3 ; // e.g. cardiac
+  string subject = 4 ;  // e.g. heart
+  string api_name = 5 ;   // e.g. risk
+  string record_type = 6; // `entity/healthcare/patients`
+  string model_sub_type = 7; // binary_classifier
+  string model_type = 8;  // classifier
+}
+message CortexApiSchema {
+  CortexApiInputType input = 1 ;
+  CortexApiOutputType output = 2 ;
+}
+// TODO:  Include all the input types
+enum CortexApiInputType {
+  CORTEX_API_INPUT_TYPE_MULTIVARIATE=0;
+  CORTEX_API_INPUT_TYPE_TIME_SERIES=1;
+  CORTEX_API_INPUT_TYPE_TEXT_TWEET=2;
+  CORTEX_API_INPUT_TYPE_TEXT_NEWS=3;
+  CORTEX_API_INPUT_TYPE_IMAGE_NORMAL=4;
+  CORTEX_API_INPUT_TYPE_IMAGE_XRAY_CHEST_FRONT=5;
+  CORTEX_API_INPUT_TYPE_FACE=6;
+  CORTEX_API_INPUT_TYPE_REMOTE_SENSING_HYPER_SPECTRAL=7;
+  CORTEX_API_INPUT_TYPE_VIDEO_NORMAL=8;
+  CORTEX_API_INPUT_TYPE_VIDEO_THERMAL=9;
+}
+
+// TODO: Include all the output types
+enum CortexApiOutputType {
+  CORTEX_API_OUTPUT_TYPE_PROJECTION_PCA = 0;
+  CORTEX_API_OUTPUT_TYPE_PROJECTION_FISHER =1;
+  CORTEX_API_OUTPUT_TYPE_PROJECTION_MDS =3;
+  CORTEX_API_OUTPUT_TYPE_PROJECTION_SOM =4;
+  CORTEX_API_OUTPUT_TYPE_CLUSTERING_PARTITION=5;
+  CORTEX_API_OUTPUT_TYPE_CLUSTERING_SPECTRAL=6;
+  CORTEX_API_OUTPUT_TYPE_CLUSTERING_HIERARCHICAL=7;
+  CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_BINARY=8;
+  CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_MULTI_CLASS=9;
+  CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_MULTI_LABEL=10;
+  CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_EXTREME=11;
+  CORTEX_API_OUTPUT_TYPE_RECOMMENDATION=12;
+  CORTEX_API_OUTPUT_TYPE_FORECASTING=13;
+  CORTEX_API_OUTPUT_TYPE_ANOMALY=14;
+  CORTEX_API_OUTPUT_TYPE_OPTIMIZATION=15;
+}

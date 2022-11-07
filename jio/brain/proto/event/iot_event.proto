@@ -21,6 +21,35 @@ import "jio/brain/proto/os/deployment.proto";
 import "jio/brain/proto/repository/knowledge/command.proto";
 import "jio/brain/proto/feature/api/repository_route.proto";
 
+enum BrainDataValueStatus {
+  BRAIN_SENSOR_DATA_VALUE_STATUS_UNKNOWN = 0;
+  BRAIN_SENSOR_DATA_VALUE_STATUS_GOOD = 1;
+  BRAIN_SENSOR_DATA_VALUE_STATUS_BAD = 2;
+}
+message BrainSensorInstanceData {
+  google.protobuf.Timestamp time_stamp = 1;
+  jio.brain.proto.quantity.BrainNumericQuantity quantity = 2;
+  BrainDataValueStatus status = 3;
+}
+message BrainSensorMultiInstanceData {
+  repeated BrainSensorInstanceData instance_set = 1;
+}
+message BrainSingleSensorEvent {
+  uint64 sensor_id = 1; // temperature sensor id
+  BrainSensorInstanceData data = 2; // /property/o2c/temperature
+}
+message BrainMultiSensorEvent {
+  uint64 sensor_id = 1; // sensor id - electricity meter id
+  map<uint32, BrainSensorInstanceData> property = 2; // key is property - e.g. /property/o2c/equipment/current or  /property/o2c/equipment/voltage or /property/o2c/equipment/temperature
+}
+/*
+  Example Record in IP21 Query
+ || Sensor Id || Timestamp || State || Value ||
+ */
+message BrainIp21Event {
+  map<uint64, BrainSensorMultiInstanceData> sensor_data = 1; // key sensor id
+}
+
 message BrainIotEventSchema {
   oneof iot_event_is_one_of {
     BrainIotSensorEventSchema sensor = 1;
@@ -65,10 +94,10 @@ message BrainIotSensorIp21Event {
 message BrainIotRecordSchema {
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 1;
 }
-message BrainSensorData {
-  uint64 sensor_id = 1;
-  repeated BrainIotRecord iot_record = 2;
-}
+//message BrainSensorData {
+//  uint64 sensor_id = 1;
+//  repeated BrainIotRecord iot_record = 2;
+//}
 message BrainIotRecord {
   google.protobuf.Timestamp time_stamp = 1;
   bool is_good = 2;
