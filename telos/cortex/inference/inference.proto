@@ -9,6 +9,7 @@ import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/event/event_common.proto";
 import "jio/brain/proto/quantity/quantity_compound.proto";
 import "telos/cortex/common/api.proto";
+import "telos/cortex/common/model.proto";
 
 service InferenceService {
   rpc infer(InferenceRequest) returns (InferenceResponse);
@@ -16,6 +17,7 @@ service InferenceService {
 
 message InferenceRequest {
     CortexApiInput input = 1;
+    CortexModelPreprocessor preprocessor = 2;
 }
 
 message InferenceResponse {

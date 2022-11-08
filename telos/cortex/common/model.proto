@@ -31,11 +31,14 @@ message CortexModelSchema {
 
 // This is a function of CortexApiInputType
 message CortexModelPreprocessor {
-  BrainExpressionProgram transformations = 1;
+  oneof preprocessor {
+    BrainExpressionProgram transformations = 1;
+    CortexModelImagePreprocessor image = 2;
+  }
 }
 
 message CortexModelImagePreprocessor {
-  oneof pre_processor {
+  oneof image_pre_processor {
     BrainImageResizer resizer = 1;
     BrainImageColorConversion color_conversion = 2;
     BrainImageCropping cropping = 3;
