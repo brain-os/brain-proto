@@ -20,7 +20,7 @@ CortexApiSchema is define by SME
 message CortexApiSchema {
   // Allow search, browse, storage directory, string-key creation etc. based on…
   CortexApiType api_type = 1;
-  RecordKeySchema record = 2; // `entity/healthcare/patients`, cell X customer
+  jio.brain.proto.event.BrainRecordKey record = 2; // `entity/healthcare/patients`, cell X customer
   CortexApiInputSchema input_schema = 3 ;
   CortexApiOutputSchema output_schema = 4 ;
 }
@@ -35,17 +35,18 @@ enum CortexApiType {
 /*
 CortexRecordKeySchema list the record type on which CortexAPI will work
  */
-message RecordKeySchema {
-  jio.brain.proto.event.BrainEntityStore entity = 1; // cell X customer
-  jio.brain.proto.event.BrainQuantityStore context_store = 2;
-  jio.brain.proto.event.BrainAttributeStore attribute_store = 3;
-  jio.brain.proto.event.BrainEntityPredicateStore predicate_store = 4;
-}
+//message RecordKeySchema {
+//  jio.brain.proto.event.BrainEntityStore entity = 1; // cell X customer
+//  jio.brain.proto.event.BrainQuantityStore context_store = 2;
+//  jio.brain.proto.event.BrainAttributeStore attribute_store = 3;
+//  jio.brain.proto.event.BrainEntityPredicateStore predicate_store = 4;
+//}
 
 message CortexApiInputSchema {
   CortexApiInputType input_type = 1;
   oneof input_schema {
     CortexApiMultivariateInputSchema multivariate_input_schema = 2;
+    CortexApiImageInputSchema image_input_schema = 3;
     // add others based on CortexApiInputType
   }
 }
@@ -54,6 +55,10 @@ message CortexApiMultivariateInputSchema {
   repeated jio.brain.proto.base.BrainToken input = 2; // it can be a raw features, attribute and inference
   // ex. /healthcare/patient/attribute/age, /healthcare/patient/feature/sugar_level /healthcare/patient/inference/is_diabetic
   // token to key, key to token
+}
+
+message CortexApiImageInputSchema {
+
 }
 
 message CortexApiOutputSchema {
