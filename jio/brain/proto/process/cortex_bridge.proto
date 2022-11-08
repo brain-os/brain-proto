@@ -11,4 +11,15 @@ import "telos/cortex/common/api.proto";
 message BrainCortexBridgeFunctionSchema {
   telos.cortex.common.CortexApi cortex_api = 1;
   jio.brain.proto.base.BrainToken model_id = 2;
+  oneof deployment_type_is_one_of {
+    LocalDeployment local = 3; // MLFlow generated docker image for image classification
+    RemoteDeployment remote = 4; // include port
+  }
+}
+message LocalDeployment {
+  string model_docker_image = 1; // MLFlow generated docker image for image classification
+  string end_point = 2; // include port
+}
+message RemoteDeployment {
+  string end_point = 1; // include port
 }
