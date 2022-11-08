@@ -57,18 +57,18 @@ message CortexApiInputSchema {
 message CortexApiInput {
   CortexApiInputType input_type = 1;
   oneof input {
-      CortexApiMultivariateInput multivariate = 2;
-      CortexApiImageInput image = 3;
+    CortexApiMultivariateInput multivariate = 2;
+    CortexApiImageInput image = 3;
   }
 }
 message CortexApiMultivariateInputSchema {
-  repeated jio.brain.proto.base.BrainToken input = 2; // it can be a raw features, attribute and inference
+  repeated jio.brain.proto.base.BrainToken input = 2; // it can be a raw features, attribute, inference, entities and context
   // ex. /healthcare/patient/attribute/age, /healthcare/patient/feature/sugar_level /healthcare/patient/inference/is_diabetic
   // token to key, key to token
 }
 message CortexApiMultivariateInput {
   // key is feature key, attribute key, entity type, inference type
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> parameter_set = 1; // all BrainModelFeature will have same key
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> parameter_set = 1; // numeric, symbolic, binary
 }
 message CortexApiImageInputSchema {
   jio.brain.proto.event.BrainImagePayloadType payload_type = 2;
@@ -80,9 +80,10 @@ message CortexApiOutputSchema {
   CortexApiOutputType output_type = 1;
   oneof output_schema {
     // CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_BINARY
-    CortexApiOutputBinaryClassificationSchema binary_classification_schema = 2;
+    CortexApiOutputBinaryClassificationSchema binary_classification = 2;
     //CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_MULTI_CLASS
-    CortexApiOutputMultiClassClassificationSchema multiclass_classification_schema = 3;
+    CortexApiOutputMultiClassClassificationSchema multiclass_classification = 3;
+    CortexApiOutputRegressionSchema regression = 4;
     // CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_MULTI_LABEL
 
     // CORTEX_API_OUTPUT_TYPE_REGRESSION, CORTEX_API_OUTPUT_TYPE_REGRESSION_MSE, CORTEX_API_OUTPUT_TYPE_REGRESSION_SSE, CORTEX_API_OUTPUT_TYPE_REGRESSION_R2
@@ -96,13 +97,13 @@ message CortexApiOutputSchema {
  */
 message CortexApiOutputBinaryClassificationSchema {
   //TODO How to save only positive class value
-  jio.brain.proto.quantity.BrainBinaryQuantitySchema class = 1; // set of class labels possible
+  jio.brain.proto.quantity.BrainQuantitySchema binary = 1; // BrainBinaryQuantitySchema - set of class labels possible
   // /common/quantity/numeric/probability 0-1 // Distribution
   // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]
 }
 
 message CortexApiOutputMultiClassClassificationSchema {
-  jio.brain.proto.quantity.BrainSymbolicQuantitySchema class_set = 1; // set of class labels possible
+  jio.brain.proto.quantity.BrainQuantitySchema symbol_set = 1; // BrainSymbolicQuantitySchema set of class labels possible
   // /common/quantity/numeric/probability 0-1 // Distribution
   // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]
 }
@@ -110,26 +111,30 @@ message CortexApiOutputMultiClassClassificationSchema {
 message CortexApiOutput {
   CortexApiOutputType output_type = 1;
   oneof output {
-      CortexApiOutputBinaryClassification binary = 2;
-      CortexApiOutputMultiClassClassification multi_class = 3;
+    CortexApiOutputBinaryClassification binary_classification = 2;
+    CortexApiOutputMultiClassClassification multiclass_classification = 3;
+    CortexApiOutputRegression regression = 4;
   }
 }
 message CortexApiOutputBinaryClassification {
-  jio.brain.proto.types.BrainSymbol symbol = 1;
+  jio.brain.proto.quantity.BrainBinaryQuantity symbol = 1; // jio.brain.proto.quantity.BrainBinaryQuantity
   double probability = 2;
 }
 
 message CortexApiOutputMultiClassClassification {
   jio.brain.proto.types.BrainSymbol symbol = 1;
-  jio.brain.proto.quantity.BrainDistributionQuantity class_probability = 2; // set of class labels possible
+  jio.brain.proto.quantity.BrainQuantity probability_distribution = 2; // BrainDistributionQuantity set of class labels possible
   // /common/quantity/numeric/probability 0-1 // Distribution
   // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]
 }
-//message RegressionSchema {
-//  string predicted_variable = 2; // target_variable
-//  QuantityNumericSchema regression_value_schema = 1; // /common/quantity/numeric/score
-//}
-
+message CortexApiOutputRegressionSchema {
+  string predicted_variable = 2; // target_variable
+  jio.brain.proto.quantity.BrainQuantitySchema regression_value_schema = 1; // QuantityNumericSchema /common/quantity/numeric/score
+}
+message CortexApiOutputRegression {
+  uint32 predicted_variable = 1; // target_variable
+  jio.brain.proto.quantity.BrainQuantity regression_value = 2; // QuantityNumeric /common/quantity/numeric/score
+}
 // TODO:  Include all the input types
 enum CortexApiInputType {
   CORTEX_API_INPUT_TYPE_MULTIVARIATE = 0;

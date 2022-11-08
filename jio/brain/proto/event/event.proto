@@ -55,11 +55,11 @@ message BrainEvent {
     BrainTransactionEvent transaction_event = 5;
     BrainKeyValueEvent key_value_event = 6;
     BrainFeatureKeyValueEvent feature_event = 7;
-    BrainMultivariateEvent multivariate_event = 8;
-    BrainMultivariateInferenceEvent multivariate_inference_event = 9;
+    BrainMultivariateEvent multivariate_event = 8; // input
+    BrainMultivariateInferenceEvent multivariate_inference_event = 9; // output - used by repository resolver
     BrainIotEvent iot_event = 10;
-    BrainImageEvent image_event = 11;
-    BrainImageClassificationEvent image_classification = 12;
+    BrainImageEvent image_event = 11; // input
+    BrainImageClassificationEvent image_classification = 12; //output - used by repository resolver
    // BrainInfraEvent infra_event = 13;
   }
 }

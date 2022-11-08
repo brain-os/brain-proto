@@ -16,8 +16,9 @@ service InferenceService {
 }
 
 message InferenceRequest {
-    CortexApiInput input = 1;
-    CortexModelPreprocessor preprocessor = 2;
+    uint32 model_id = 1;
+    CortexApiInput input = 2;
+    CortexModelPreprocessor preprocessor = 3;
 }
 
 message InferenceResponse {
