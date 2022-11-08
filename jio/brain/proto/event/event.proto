@@ -20,6 +20,7 @@ import "jio/brain/proto/event/event_common.proto";
 import "jio/brain/proto/os/deployment.proto";
 import "jio/brain/proto/repository/knowledge/command.proto";
 import "jio/brain/proto/feature/api/repository_route.proto";
+import "jio/brain/proto/quantity/quantity.proto";
 
 /**
 {
@@ -59,8 +60,17 @@ message BrainEvent {
     BrainIotEvent iot_event = 10;
     BrainImageEvent image_event = 11;
     BrainImageClassificationEvent image_classification = 12;
+    BrainInferenceEvent inference_event = 13;
    // BrainInfraEvent infra_event = 13;
   }
+}
+
+message BrainInferenceEvent{
+  uint32 inference_key = 1;
+  uint32 model_id = 2;
+  string brain_record_key = 3;
+  jio.brain.proto.quantity.BrainQuantity inference_value = 4;
+  string stats_meta_data = 5;
 }
 
 message BrainIngestionEvent {

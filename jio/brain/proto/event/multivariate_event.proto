@@ -60,9 +60,9 @@ message BrainMultivariateInferenceEvent {
 }
 //Name service call from Bridge
 message BrainClassificationEvent {
-  BrainRecordKey key = 1; // entity ids and contexts
+  BrainRecordKey key = 1; // entity ids and contexts // to be saved as sha256
   repeated jio.brain.proto.quantity.BrainAtomicQuantity classification = 2; // key is class (symbol or entity) and value is probability (between 0 and 1)
-  map<uint64, double> probabilities = 3;
+  map<uint64, double> probabilities = 3; // to be saved as stats_meta_data
 }
 message BrainClassificationEventSchema {
   BrainRecordKeySchema key = 1;
@@ -74,7 +74,7 @@ message BrainClassificationEventSchema {
 message BrainRegressionEvent {
   BrainRecordKey key = 1; // entity ids and contexts
   // key - brain inference schema
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> inference_set = 2; // key -> inference_id , multi value regression
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> inference_set = 2; // key -> inference_id , multi value regression // BrainQuantity is value
 }
 message BrainRegressionEventSchema {
   BrainRecordKeySchema key = 1;

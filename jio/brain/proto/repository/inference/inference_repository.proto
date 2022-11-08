@@ -26,13 +26,6 @@ message InferenceCreateCommand {
   jio.brain.proto.base.BrainStatus brainStatus = 3;
 }
 
-message FeatureUpdateEvent {
-  uint32 event_schema = 1;
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 2;   // of type feature_key_valye
-  string sha256key = 3;
-  jio.brain.proto.base.BrainStatus brainStatus = 4;
-}
-
 /**
   TODO - NOT USED
  */
@@ -96,8 +89,9 @@ message TimeSeriesStartWindowRequest {
 
 //If no Window Time Consider Latest table
 message InferenceGetRequest {
-  string brain_key = 1;
-  repeated uint32 inference_key = 2;
+  string brain_record_key = 1;
+  uint32 model_id = 2;
+  repeated uint32 inference_key = 3;
 }
 
 message InferenceValue{
@@ -130,7 +124,7 @@ message InferenceKeyRequest {
   jio.brain.proto.event.BrainEventKey event_key = 1;
 }
 message InferenceKeyResponse {
-  string inference_key = 1;
+  uint32 inference_key = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 message InferenceKeyComponentsRequest {
