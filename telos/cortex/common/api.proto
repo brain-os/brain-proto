@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package telos.cortex.common;
+option java_package = "com.telos.cortex.common";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/event/event.proto";
+import "jio/brain/proto/event/event_common.proto";
+import "jio/brain/proto/quantity/quantity_compound.proto";
+
+message CortexApi {
+  jio.brain.proto.base.BrainToken api_id = 1; // /healthcare/patient/heart/risk-prediction --> 1
+  CortexApiSchema api_schema = 2;
+}
+
+/*
+CortexApiSchema is define by SME
+ */
+message CortexApiSchema {
+  // Allow search, browse, storage directory, string-key creation etc. based on…
+  CortexApiType api_type = 1;
+  jio.brain.proto.event.BrainRecordKey record = 2; // `entity/healthcare/patients`, cell X customer
+  CortexApiInputSchema input_schema = 3 ;
+  CortexApiOutputSchema output_schema = 4 ;
+}
+
+enum CortexApiType {
+  CORTEX_API_TYPE_CLASSIFICATION = 0;
+  CORTEX_API_TYPE_CLASSIFICATION_BINARY = 1;
+  CORTEX_API_TYPE_CLASSIFICATION_MULTIVARIATE = 2;
+  CORTEX_API_TYPE_REGRESSION = 3;
+}
+
+/*
+CortexRecordKeySchema list the record type on which CortexAPI will work
+ */
+//message RecordKeySchema {
+//  jio.brain.proto.event.BrainEntityStore entity = 1; // cell X customer
+//  jio.brain.proto.event.BrainQuantityStore context_store = 2;
+//  jio.brain.proto.event.BrainAttributeStore attribute_store = 3;
+//  jio.brain.proto.event.BrainEntityPredicateStore predicate_store = 4;
+//}
+
+message CortexApiInputSchema {
+  CortexApiInputType input_type = 1;
+  oneof input_schema {
+    CortexApiMultivariateInputSchema multivariate_input_schema = 2;
+    CortexApiImageInputSchema image_input_schema = 3;
+    // add others based on CortexApiInputType
+  }
+}
+
+message CortexApiMultivariateInputSchema {
+  repeated jio.brain.proto.base.BrainToken input = 2; // it can be a raw features, attribute and inference
+  // ex. /healthcare/patient/attribute/age, /healthcare/patient/feature/sugar_level /healthcare/patient/inference/is_diabetic
+  // token to key, key to token
+}
+
+message CortexApiImageInputSchema {
+
+}
+
+message CortexApiOutputSchema {
+  CortexApiOutputType output_type = 1;
+  oneof output_schema {
+    // CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_BINARY
+    CortexApiOutputBinaryClassificationSchema binary_classification_schema = 2;
+    //CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_MULTI_CLASS
+    CortexApiOutputMultiClassClassificationSchema multiclass_classification_schema = 3;
+    // CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_MULTI_LABEL
+
+    // CORTEX_API_OUTPUT_TYPE_REGRESSION, CORTEX_API_OUTPUT_TYPE_REGRESSION_MSE, CORTEX_API_OUTPUT_TYPE_REGRESSION_SSE, CORTEX_API_OUTPUT_TYPE_REGRESSION_R2
+    // CortexRegressionSchema regression_schema = 4;
+    // TODO - add other type of output type schema based on each CortexApiInputType
+  }
+}
+
+/*
+"BrainQuantitySymbolicSchema", "BrainQuantitySchema" ==> /common/quantity/numeric/probability
+ */
+message CortexApiOutputBinaryClassificationSchema {
+  //TODO How to save only positive class value
+  jio.brain.proto.quantity.BrainDistributionQuantity class_probability = 1; // set of class labels possible
+  // /common/quantity/numeric/probability 0-1 // Distribution
+  // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]
+}
+
+message CortexApiOutputMultiClassClassificationSchema {
+  jio.brain.proto.quantity.BrainDistributionQuantity class_probability = 1; // set of class labels possible
+  // /common/quantity/numeric/probability 0-1 // Distribution
+  // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]
+}
+
+//message RegressionSchema {
+//  string predicted_variable = 2; // target_variable
+//  QuantityNumericSchema regression_value_schema = 1; // /common/quantity/numeric/score
+//}
+
+// TODO:  Include all the input types
+enum CortexApiInputType {
+  CORTEX_API_INPUT_TYPE_MULTIVARIATE = 0;
+  CORTEX_API_INPUT_TYPE_TIME_SERIES = 1;
+  CORTEX_API_INPUT_TYPE_TEXT_TWEET = 2;
+  CORTEX_API_INPUT_TYPE_TEXT_NEWS = 3;
+  CORTEX_API_INPUT_TYPE_IMAGE_NORMAL = 4;
+  CORTEX_API_INPUT_TYPE_IMAGE_XRAY_CHEST_FRONT = 5;
+  CORTEX_API_INPUT_TYPE_FACE = 6;
+  CORTEX_API_INPUT_TYPE_REMOTE_SENSING_HYPER_SPECTRAL = 7;
+  CORTEX_API_INPUT_TYPE_VIDEO_NORMAL = 8;
+  CORTEX_API_INPUT_TYPE_VIDEO_THERMAL = 9;
+}
+
+// TODO: Include all the output types
+enum CortexApiOutputType {
+  CORTEX_API_OUTPUT_TYPE_PROJECTION_PCA = 0;
+  CORTEX_API_OUTPUT_TYPE_PROJECTION_FISHER = 1;
+  CORTEX_API_OUTPUT_TYPE_PROJECTION_MDS = 3;
+  CORTEX_API_OUTPUT_TYPE_PROJECTION_SOM = 4;
+  CORTEX_API_OUTPUT_TYPE_CLUSTERING_PARTITION = 5;
+  CORTEX_API_OUTPUT_TYPE_CLUSTERING_SPECTRAL = 6;
+  CORTEX_API_OUTPUT_TYPE_CLUSTERING_HIERARCHICAL = 7;
+  CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_BINARY = 8;
+  CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_MULTI_CLASS = 9;
+  CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_MULTI_LABEL = 10;
+  CORTEX_API_OUTPUT_TYPE_CLASSIFICATION_EXTREME = 11;
+  CORTEX_API_OUTPUT_TYPE_RECOMMENDATION = 12;
+  CORTEX_API_OUTPUT_TYPE_FORECASTING = 13;
+  CORTEX_API_OUTPUT_TYPE_ANOMALY = 14;
+  CORTEX_API_OUTPUT_TYPE_OPTIMIZATION = 15;
+  CORTEX_API_OUTPUT_TYPE_REGRESSION = 16;
+  CORTEX_API_OUTPUT_TYPE_REGRESSION_MSE = 17;
+  CORTEX_API_OUTPUT_TYPE_REGRESSION_SSE = 18;
+  CORTEX_API_OUTPUT_TYPE_REGRESSION_R2 = 19;
+}

@@ -16,6 +16,7 @@ import "jio/brain/proto/feature/feature.proto";
 import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/event/multivariate_event.proto";
 import "jio/brain/proto/event/image_event.proto";
+import "jio/brain/proto/event/iot_event.proto";
 import "jio/brain/proto/event/event_common.proto";
 import "jio/brain/proto/os/deployment.proto";
 import "jio/brain/proto/repository/knowledge/command.proto";
@@ -228,48 +229,37 @@ message BrainTransactionEventSchema {
   BrainEventValueSchema value = 1;
 }
 
-message BrainIotEventSchema {
-  oneof iot_event_is_one_of {
-    BrainIotSensorEventSchema sensor = 1;
-    BrainIotSensorIp21EventSchema ip21 = 2;
-  }
-}
-message BrainIotSensorEventSchema {
-  BrainEntityStoreSchema entity = 1; // information about sensor id
-  google.protobuf.Timestamp time_stamp = 2;
-  map<string, jio.brain.proto.quantity.BrainQuantitySchema> property = 3;
-}
-
-message BrainIotSensorEvent {
-  BrainEntityStoreSchema entity = 1; // information about sensor id
-  google.protobuf.Timestamp time_stamp = 2;
-  map<string, jio.brain.proto.quantity.BrainQuantity> property = 3;
-}
-message BrainIotSensorIp21EventSchema {
-  google.protobuf.Timestamp from_time_stamp = 1;
-  google.protobuf.Timestamp to_time_stamp = 2;
-  //  repeated BrainIotRecord data = 3;
-  map<uint64, jio.brain.proto.quantity.BrainQuantitySchema> data = 3; // key is brain id
-}
-message BrainIotSensorIp21Event {
-  google.protobuf.Timestamp from_time_stamp = 1;
-  google.protobuf.Timestamp to_time_stamp = 2;
-  //  repeated BrainIotRecord data = 3;
-  map<uint64, BrainIotRecord> data = 3; // key is brain id
-}
-message BrainIotRecordSchema {
-  jio.brain.proto.quantity.BrainQuantitySchema quantity = 1;
-}
-message BrainIotRecord {
-  google.protobuf.Timestamp time_stamp = 1;
-  bool is_good = 2;
-  jio.brain.proto.quantity.BrainQuantity quantity = 3;
-}
 
 message BrainTransactionEvent {
   BrainEventValue value = 1;
 }
 
-message BrainIotEvent {
+message BrainTimeSeriesEventSchema {
+  oneof series_is_one_of {
+    BrainEqualIntervalTimeSeriesEventSchema equal_interval = 1;
+    BrainRandomIntervalTimeSeriesEventSchema random_interval = 2;
+  }
+}
 
+message BrainEqualIntervalTimeSeriesEventSchema {
+  jio.brain.proto.quantity.BrainQuantity quantity = 1;
+}
+
+message BrainRandomIntervalTimeSeriesEventSchema {
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 1;
+}
+
+message BrainTimeSeriesEvent {
+  oneof series_is_one_of {
+    BrainEqualIntervalTimeSeriesEvent equal_interval = 1;
+    BrainRandomIntervalTimeSeriesEvent random_interval = 2;
+  }
+}
+
+message BrainEqualIntervalTimeSeriesEvent {
+  jio.brain.proto.quantity.BrainQuantity quantity = 1;
+}
+
+message BrainRandomIntervalTimeSeriesEvent {
+  jio.brain.proto.quantity.BrainQuantitySchema quantity = 1;
 }

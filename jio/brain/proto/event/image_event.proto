@@ -7,14 +7,17 @@ option java_multiple_files = true;
 
 import "jio/brain/proto/event/event_common.proto";
 import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/quantity/quantity_compound.proto";
 import "jio/brain/proto/base/token.proto";
 
 message BrainImageEvent {
   BrainRecordKey key = 1;
   string source_uri = 2;
-  BrainContent payload = 3;
-  string processed_payload = 4; // file path on local disk of pre processed image or persistent volume. Its name will be generated using pre processor and image id
-  map<uint32, BrainImageEventParameter> parameter_set = 5; // entity id or properties
+  BrainPayload payload = 3;
+  BrainPayload processed_payload = 4; // file path on local disk of pre processed image or persistent volume. Its name will be generated using pre processor and image id
+  BrainImagePayloadType processed_payload_type = 5;
+  // TODO - ignore below for hackathon
+  map<uint32, BrainImageEventParameter> parameter_set = 6; // entity id or properties
 }
 
 message BrainImageEventParameter {
@@ -24,39 +27,41 @@ message BrainImageEventParameter {
   }
 }
 
-message BrainContent {
-  oneof payload_is_one_of {
-    string url = 1; // Url of content stored in bucket
-    string file_path = 2;
-    Bytes bytes = 3;
-    string base64 = 4; // base64 image
-  }
-}
-
-message Bytes {
-  repeated bytes value = 1;
-  string content_type = 2;
-}
+//message BrainContent {
+//  oneof payload_is_one_of {
+//    string url = 1; // Url of content stored in bucket
+//    string file_path = 2;
+//    Bytes bytes = 3;
+//    string base64 = 4; // base64 image
+//  }
+//}
+//
+//message Bytes {
+//  repeated bytes value = 1;
+//  string content_type = 2;
+//}
 
 
 message BrainImageEventSchema {
   BrainRecordKeySchema key_schema = 1;  // crop_id
   BrainImagePayloadType payload_type = 2;
+  // TODO - ignore below for hackathon
   map<string, BrainImageParameterSchema> parameter_set = 3; // key = mid(/m/<vertical>/<domain>/<event>/<property>)
 }
 
 message BrainImageParameterSchema {
   oneof params {
     jio.brain.proto.base.BrainToken entity_token = 1;        //  /agriculture/entity/crop
-    jio.brain.proto.quantity.BrainQuantitySchema collection = 2;  //  /agriculture/quantity/symbolic/crop_diseases
+    jio.brain.proto.quantity.BrainQuantitySchema symbolic = 2;  //  /agriculture/quantity/symbolic/crop_diseases
   }
 }
 
 enum BrainImagePayloadType {
-  BRAIN_CONTENT_PAYLOAD_TYPE_URL = 0;
-  BRAIN_CONTENT_PAYLOAD_TYPE_FILE = 1;
-  BRAIN_CONTENT_PAYLOAD_TYPE_BYTES = 2;
-  BRAIN_CONTENT_PAYLOAD_TYPE_BASE64 = 3;
+  BRAIN_CONTENT_PAYLOAD_TYPE_NONE = 0;
+  BRAIN_CONTENT_PAYLOAD_TYPE_URL = 1;
+  BRAIN_CONTENT_PAYLOAD_TYPE_FILE = 2;
+  BRAIN_CONTENT_PAYLOAD_TYPE_BYTES = 3;
+  BRAIN_CONTENT_PAYLOAD_TYPE_BASE64 = 4;
 }
 
 
@@ -64,6 +69,7 @@ message BrainImageClassificationEvent {
   uint32 model_id = 1; // identify it is inference of which model
   BrainImageEvent source_event = 2; // input event
   repeated BrainImageLabel image_label_set = 3; // key is class (symbol or entity) and value is probability (between 0 and 1)
+  jio.brain.proto.quantity.BrainDistributionQuantity class_probability = 4;
 }
 
 message BrainImageLabel {
@@ -78,6 +84,7 @@ message BrainImageLabel {
 message BrainImageClassificationEventSchema {
   BrainImageEventSchema source_event_schema = 1;
   repeated BrainImageLabelSchema image_label_set = 2;
+  // TODO - ignore below for hackathon
   map<string, string> meta_data = 3; // type =  (x-ray, ct-scan, mri, spectral) , sub type = (knee, shoulder, etc)
 }
 message BrainImageLabelSchema {

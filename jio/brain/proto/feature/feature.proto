@@ -21,13 +21,13 @@ import "jio/brain/proto/event/event_common.proto";
 // hourly throughput of cell - Result of Aggregation DAG - in that case it is numeric quantity
 // SPO2 level of blood sugar of patient
 
-// for event this key should not be populated. TODO remove after this discussion if we agreed
+// for event this key should not be populated.
 
 message BrainFeature {
   uint32 id = 1; // which feature?
   jio.brain.proto.event.BrainRecordKey record_key = 2; // optional brain id of feature - e.g. "/telecom/feature/call_experience/hourly" <=> 1234, "/healthcare/patient/heart_beat_rate" <=> 5748
-  google.protobuf.Timestamp created_time = 3;
-  jio.brain.proto.quantity.BrainQuantity quantity = 4;
+  jio.brain.proto.quantity.BrainQuantity quantity = 3;
+  google.protobuf.Timestamp created_time = 4;
 }
 
 message BrainFeatureSchema {
@@ -35,22 +35,8 @@ message BrainFeatureSchema {
   jio.brain.proto.event.BrainRecordKeySchema record_key = 2;
   jio.brain.proto.quantity.BrainQuantitySchema quantity = 3;
   jio.brain.proto.base.BrainTimeWindowType time_window = 4;
-
-//  oneof feature_is_one_of {
-//    BrainWindowedFeatureSchema windowed_feature = 3;
-//    BrainAsyncFeatureSchema async_feature = 4;
-//  }
 }
 
-//message BrainWindowedFeatureSchema {
-//  jio.brain.proto.quantity.BrainQuantitySchema quantity = 1;
-// //  jio.brain.proto.base.BrainToken unit = 3; // units are part of definition of quantity schema
-//  jio.brain.proto.base.BrainTimeWindowType time_window = 2;
-//}
-//
-//message BrainAsyncFeatureSchema {
-//  jio.brain.proto.quantity.BrainQuantitySchema quantity = 1;
-//}
 
 message BrainFeatureFamilySchema {
   jio.brain.proto.base.BrainToken token = 1;
