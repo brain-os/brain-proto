@@ -222,9 +222,9 @@ enum BrainAudioFormat {
 
 enum BrainImageFormat {
     BRAIN_UNKNOWN_IMAGE_FORMAT = 0;
-    BRAIN_IMAGE_JPEG_FORMAT = 1; // define semantics - chest xray, knee chest
-    BRAIN_IMAGE_PNG_FORMAT = 2;
-    BRAIN_IMAGE_GIF_FORMAT = 3;
+    BRAIN_IMAGE_JPEG_FORMAT = 1; // jpg, jpeg
+    BRAIN_IMAGE_PNG_FORMAT = 2; // png
+    BRAIN_IMAGE_GIF_FORMAT = 3; // gif
 }
 
 enum BrainVideoFormat {

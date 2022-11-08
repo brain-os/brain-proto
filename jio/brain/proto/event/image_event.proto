@@ -16,16 +16,15 @@ message BrainImageEvent {
   BrainPayload payload = 3;
   BrainPayload processed_payload = 4; // file path on local disk of pre processed image or persistent volume. Its name will be generated using pre processor and image id
   BrainImagePayloadType processed_payload_type = 5;
-  // TODO - ignore below for hackathon
-  map<uint32, BrainImageEventParameter> parameter_set = 6; // entity id or properties
+//  map<uint32, BrainImageEventParameter> parameter_set = 6; // entity id or properties
 }
 
-message BrainImageEventParameter {
-  oneof params {
-    uint64 entity_id = 1;
-    jio.brain.proto.quantity.BrainQuantity quantity = 2;
-  }
-}
+//message BrainImageEventParameter {
+//  oneof params {
+//    uint64 entity_id = 1;
+//    jio.brain.proto.quantity.BrainQuantity quantity = 2;
+//  }
+//}
 
 //message BrainContent {
 //  oneof payload_is_one_of {
