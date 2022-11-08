@@ -5,8 +5,12 @@ option java_package = "com.telos.cortex.common";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/token.proto";
+import  "jio/brain/proto/types/symbol.proto";
 import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/event/event_common.proto";
+import "jio/brain/proto/event/image_event.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/quantity/quantity_atomic.proto";
 import "jio/brain/proto/quantity/quantity_compound.proto";
 
 message CortexApi {
@@ -20,7 +24,7 @@ CortexApiSchema is define by SME
 message CortexApiSchema {
   // Allow search, browse, storage directory, string-key creation etc. based on…
   CortexApiType api_type = 1;
-  jio.brain.proto.event.BrainRecordKey record = 2; // `entity/healthcare/patients`, cell X customer
+  jio.brain.proto.event.BrainRecordKeySchema record = 2; // `entity/healthcare/patients`, cell X customer
   CortexApiInputSchema input_schema = 3 ;
   CortexApiOutputSchema output_schema = 4 ;
 }
@@ -50,17 +54,28 @@ message CortexApiInputSchema {
     // add others based on CortexApiInputType
   }
 }
-
+message CortexApiInput {
+  CortexApiInputType input_type = 1;
+  oneof input {
+      CortexApiMultivariateInput multivariate = 2;
+      CortexApiImageInput image = 3;
+  }
+}
 message CortexApiMultivariateInputSchema {
   repeated jio.brain.proto.base.BrainToken input = 2; // it can be a raw features, attribute and inference
   // ex. /healthcare/patient/attribute/age, /healthcare/patient/feature/sugar_level /healthcare/patient/inference/is_diabetic
   // token to key, key to token
 }
-
-message CortexApiImageInputSchema {
-
+message CortexApiMultivariateInput {
+  // key is feature key, attribute key, entity type, inference type
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> parameter_set = 1; // all BrainModelFeature will have same key
 }
-
+message CortexApiImageInputSchema {
+  jio.brain.proto.event.BrainImagePayloadType payload_type = 2;
+}
+message CortexApiImageInput {
+  jio.brain.proto.event.BrainPayload payload = 1;
+}
 message CortexApiOutputSchema {
   CortexApiOutputType output_type = 1;
   oneof output_schema {
@@ -81,17 +96,35 @@ message CortexApiOutputSchema {
  */
 message CortexApiOutputBinaryClassificationSchema {
   //TODO How to save only positive class value
-  jio.brain.proto.quantity.BrainDistributionQuantity class_probability = 1; // set of class labels possible
+  jio.brain.proto.quantity.BrainBinaryQuantitySchema class = 1; // set of class labels possible
   // /common/quantity/numeric/probability 0-1 // Distribution
   // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]
 }
 
 message CortexApiOutputMultiClassClassificationSchema {
-  jio.brain.proto.quantity.BrainDistributionQuantity class_probability = 1; // set of class labels possible
+  jio.brain.proto.quantity.BrainSymbolicQuantitySchema class_set = 1; // set of class labels possible
   // /common/quantity/numeric/probability 0-1 // Distribution
   // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]
 }
 
+message CortexApiOutput {
+  CortexApiOutputType output_type = 1;
+  oneof output {
+      CortexApiOutputBinaryClassification binary = 2;
+      CortexApiOutputMultiClassClassification multi_class = 3;
+  }
+}
+message CortexApiOutputBinaryClassification {
+  jio.brain.proto.types.BrainSymbol symbol = 1;
+  double probability = 2;
+}
+
+message CortexApiOutputMultiClassClassification {
+  jio.brain.proto.types.BrainSymbol symbol = 1;
+  jio.brain.proto.quantity.BrainDistributionQuantity class_probability = 2; // set of class labels possible
+  // /common/quantity/numeric/probability 0-1 // Distribution
+  // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]
+}
 //message RegressionSchema {
 //  string predicted_variable = 2; // target_variable
 //  QuantityNumericSchema regression_value_schema = 1; // /common/quantity/numeric/score
