@@ -60,12 +60,12 @@ message BrainEvent {
     BrainIotEvent iot_event = 10;
     BrainImageEvent image_event = 11;
     BrainImageClassificationEvent image_classification = 12;
-    BrainInferenceEvent inference_event = 13;
+    BrainInferenceLakeEvent inference_lake_event = 13;
    // BrainInfraEvent infra_event = 13;
   }
 }
 
-message BrainInferenceEvent{
+message BrainInferenceLakeEvent{
   uint32 inference_key = 1;
   uint32 model_id = 2;
   string brain_record_key = 3;
