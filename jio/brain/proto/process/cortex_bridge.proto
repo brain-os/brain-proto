@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package jio.brain.proto.process;
+
+option java_package = "com.jio.brain.proto.process";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/token.proto";
+import "telos/cortex/common/api.proto";
+
+message BrainCortexBridgeFunctionSchema {
+  telos.cortex.common.CortexApi cortex_api = 1;
+  jio.brain.proto.base.BrainToken model_id = 2;
+}

@@ -8,84 +8,84 @@ option java_multiple_files = true;
 import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/quantity/quantity_compound_range.proto";
 
-message BrainImageFunctionSchema {
-  string output_topic = 1;
-  string output_event_schema = 2; // image classification
-  string model_key = 3; // Delete local images if this is last model
-  string pre_requisite_model_token = 4; // help creating model DAG. If present, this function will be called only if pre requisite model is called.
-  oneof deployment_type_is_one_of {
-    LocalDeployment local = 5; // MLFlow generated docker image for image classification
-    RemoteDeployment remote = 6; // include port
-  }
-  uint32 port = 7; // model api port
-  BrainImagePreprocessorConfig image_pre_processor_config = 8;
-  BrainImagePostProcessorConfig post_processor_config = 9;
-  string local_path = 10; // path to keep intermediate image data
-}
-message LocalDeployment {
-  string model_docker_image = 1; // MLFlow generated docker image for image classification
-  string end_point = 2; // include port
-}
-message RemoteDeployment {
-  string end_point = 1; // include port
-}
-message BrainImagePreprocessorConfig {
-  map<uint32, BrainImagePreProcessor> pre_processor_steps = 1; // key is step number, value is non repeatable BrainImagePreProcessor
-}
-message BrainImagePreProcessor {
-  oneof pre_processor {
-    BrainImageResizer resizer = 1;
-    BrainImageColorConversion color_conversion = 2;
-    BrainImageCropping cropping = 3;
-    BrainImageAdjustment adjustment = 4;
-    BrainImageTranspose transpose = 5;
-  }
-}
-message BrainImageResizer {
-  uint32 height = 1;
-  uint32 width = 2;
-  uint32 padding = 3;
-}
-message BrainImageColorConversion {
-  BrainImageColorConversionType source = 1;
-  BrainImageColorConversionType target = 2;
-}
-enum BrainImageColorConversionType {
-  BRAIN_IMAGE_COLOR_TYPE_RGB = 0;
-  BRAIN_IMAGE_COLOR_TYPE_GRAY_SCALE = 1;
-  BRAIN_IMAGE_COLOR_TYPE_HSV = 2;
-  BRAIN_IMAGE_COLOR_TYPE_YIQ = 3;
-  BRAIN_IMAGE_COLOR_TYPE_YUV = 4;
-}
-message BrainImageCropping {
-  uint32 x_coordinate = 1;
-  uint32 y_coordinate = 2;
-  uint32 height = 3;
-  uint32 width = 4;
-}
-message BrainImageAdjustment {
-  // TBD
-}
-message BrainImageTranspose {
-  // TBD
-}
-
-// https://machinelearningmastery.com/applications-of-deep-learning-for-computer-vision/
-message BrainImagePostProcessorConfig {
-  oneof post_processor_is_one_of {
-      BrainImageClassificationPostProcessorConfig classification_post_processor = 1;
-  }
-}
-/*
-Labeling an x-ray as cancer or not (binary classification).
-Classifying a handwritten digit (multiclass classification).
-Assigning a name to a photograph of a face (multiclass classification).
- */
-message BrainImageClassificationPostProcessorConfig {
-  string entity_type = 1;
-  repeated BrainImageLabel image_label_set = 2;
-}
-message BrainImageLabel {
-  uint64 brain_id = 1;
-  jio.brain.proto.quantity.BrainRangeQuantity range = 2;
-}
+//message BrainImageFunctionSchema {
+//  string output_topic = 1;
+//  string output_event_schema = 2; // image classification
+//  string model_key = 3; // Delete local images if this is last model
+//  string pre_requisite_model_token = 4; // help creating model DAG. If present, this function will be called only if pre requisite model is called.
+//  oneof deployment_type_is_one_of {
+//    LocalDeployment local = 5; // MLFlow generated docker image for image classification
+//    RemoteDeployment remote = 6; // include port
+//  }
+//  uint32 port = 7; // model api port
+//  BrainImagePreprocessorConfig image_pre_processor_config = 8;
+//  BrainImagePostProcessorConfig post_processor_config = 9;
+//  string local_path = 10; // path to keep intermediate image data
+//}
+//message LocalDeployment {
+//  string model_docker_image = 1; // MLFlow generated docker image for image classification
+//  string end_point = 2; // include port
+//}
+//message RemoteDeployment {
+//  string end_point = 1; // include port
+//}
+//message BrainImagePreprocessorConfig {
+//  map<uint32, BrainImagePreProcessor> pre_processor_steps = 1; // key is step number, value is non repeatable BrainImagePreProcessor
+//}
+//message BrainImagePreProcessor {
+//  oneof pre_processor {
+//    BrainImageResizer resizer = 1;
+//    BrainImageColorConversion color_conversion = 2;
+//    BrainImageCropping cropping = 3;
+//    BrainImageAdjustment adjustment = 4;
+//    BrainImageTranspose transpose = 5;
+//  }
+//}
+//message BrainImageResizer {
+//  uint32 height = 1;
+//  uint32 width = 2;
+//  uint32 padding = 3;
+//}
+//message BrainImageColorConversion {
+//  BrainImageColorConversionType source = 1;
+//  BrainImageColorConversionType target = 2;
+//}
+//enum BrainImageColorConversionType {
+//  BRAIN_IMAGE_COLOR_TYPE_RGB = 0;
+//  BRAIN_IMAGE_COLOR_TYPE_GRAY_SCALE = 1;
+//  BRAIN_IMAGE_COLOR_TYPE_HSV = 2;
+//  BRAIN_IMAGE_COLOR_TYPE_YIQ = 3;
+//  BRAIN_IMAGE_COLOR_TYPE_YUV = 4;
+//}
+//message BrainImageCropping {
+//  uint32 x_coordinate = 1;
+//  uint32 y_coordinate = 2;
+//  uint32 height = 3;
+//  uint32 width = 4;
+//}
+//message BrainImageAdjustment {
+//  // TBD
+//}
+//message BrainImageTranspose {
+//  // TBD
+//}
+//
+//// https://machinelearningmastery.com/applications-of-deep-learning-for-computer-vision/
+//message BrainImagePostProcessorConfig {
+//  oneof post_processor_is_one_of {
+//      BrainImageClassificationPostProcessorConfig classification_post_processor = 1;
+//  }
+//}
+///*
+//Labeling an x-ray as cancer or not (binary classification).
+//Classifying a handwritten digit (multiclass classification).
+//Assigning a name to a photograph of a face (multiclass classification).
+// */
+//message BrainImageClassificationPostProcessorConfig {
+//  string entity_type = 1;
+//  repeated BrainImageLabel image_label_set = 2;
+//}
+//message BrainImageLabel {
+//  uint64 brain_id = 1;
+//  jio.brain.proto.quantity.BrainRangeQuantity range = 2;
+//}

@@ -5,6 +5,7 @@ option java_package = "com.telos.cortex.common";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/token.proto";
+import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/event/event_common.proto";
 import "jio/brain/proto/quantity/quantity_compound.proto";
 
@@ -36,8 +37,9 @@ CortexRecordKeySchema list the record type on which CortexAPI will work
  */
 message RecordKeySchema {
   jio.brain.proto.event.BrainEntityStore entity = 1; // cell X customer
-  // key = mid(/m/<vertical>/<domain>/<event>/<context>) - // do we need event in definition
-  map<string, jio.brain.proto.event.BrainEventContextSchema> context = 2;
+  jio.brain.proto.event.BrainQuantityStore context_store = 2;
+  jio.brain.proto.event.BrainAttributeStore attribute_store = 3;
+  jio.brain.proto.event.BrainEntityPredicateStore predicate_store = 4;
 }
 
 message CortexApiInputSchema {
