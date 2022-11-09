@@ -16,7 +16,9 @@ message BrainAzureStorageConnector {
   string prefix = 3;
   string suffix = 4;
   BrainAzureStorageFileType file_type = 5;
-  FileParserSet parser_set = 6;
+  string storage_queue = 6;
+  string output_topic = 7;
+  //FileParserSet parser_set = 8;
 }
 
 enum BrainAzureStorageFileType {
