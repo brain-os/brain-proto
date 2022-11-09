@@ -6,6 +6,7 @@ option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/enums.proto";
+import "jio/brain/proto/process/ingestion_config.proto";
 /*
 Image -> BrainAzureStorageConnector -> BrainImageEvent
 CSV -> BrainAzureStorageConnector -> BrainStringEvent -> BrainTransactionEvent
@@ -48,59 +49,9 @@ message MultipleCsvFileParser {
 
 message FileMapper {
   string file_name_regex = 1;
-  repeated FieldMapping mappings = 2;
+  repeated jio.brain.proto.process.FieldMapping mappings = 2;
 }
 
 message MultipleExcelFileParser {
   repeated FileMapper xls_parser = 1;
-}
-
-message FieldMapping {
-  oneof field_key {
-    uint32 field_index = 1; // column index in case of csv or excel
-    string field_name = 2; // key name in case of kafka
-  }
-  string column_unit = 3; // unit of this column
-  jio.brain.proto.base.BrainInputDataType input_data_type = 4; // data type of input - will always be string in case of csv
-  string format = 5; // date format or number format in case of date or number
-  FieldType field_type = 6;
-  bool is_optional = 7;
-  oneof element {
-    BizIdField entity_biz_id = 8;
-    AttributeField entity_attribute = 9;
-    AttributeQualifierField entity_attribute_qualifier = 10;
-    PropertyField property = 11;
-  }
-}
-message BizIdField {
-  string entity_meta_key = 1;
-  string bizId_meta_key = 2;
-}
-
-message AttributeField {
-  string entity_meta_key = 1;
-  uint32 entity_field_index = 2;
-  string attribute_meta_key = 3;
-  bool is_latitude = 4;
-  bool is_longitude = 5;
-}
-message AttributeQualifierField {
-  string entity_meta_key = 1;
-  uint32 entity_field_index = 2;
-  string attribute_meta_key = 3;
-  uint32 attribute_field_index = 4;
-  string qualifier_meta_key = 5;
-}
-message PropertyField {
-  string property_meta_key = 1;
-  bool is_latitude = 2;
-  bool is_longitude = 3;
-}
-enum FieldType {
-  FIELD_TYPE_UNKNOWN = 0;
-  FIELD_TYPE_ENTITY_BIZ_ID = 1;
-  FIELD_TYPE_ENTITY_ATTRIBUTE = 2;
-  FIELD_TYPE_ENTITY_ATTRIBUTE_QUALIFIER = 3;
-  FIELD_TYPE_ENTITY_PREDICATE_QUALIFIER = 4;
-  FIELD_TYPE_PROPERTY = 5;
 }
