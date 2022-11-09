@@ -113,9 +113,9 @@ message CortexApiOutput {
   CortexApiOutputType output_type = 1;
   uint32 model_id = 2;
   oneof output {
-    CortexApiOutputBinaryClassification binary_classification = 2;
-    CortexApiOutputMultiClassClassification multiclass_classification = 3;
-    CortexApiOutputRegression regression = 4;
+    CortexApiOutputBinaryClassification binary_classification = 3;
+    CortexApiOutputMultiClassClassification multiclass_classification = 4;
+    CortexApiOutputRegression regression = 5;
   }
 }
 message CortexApiOutputBinaryClassification {
