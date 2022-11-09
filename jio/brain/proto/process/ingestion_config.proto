@@ -18,9 +18,9 @@ message BrainIngestFunctionSchema {
 }
 message TextTransport{
   oneof source{
-    string twitter = 1;
-    string linked_in = 2;
-    string facebook = 3;
+    string twit = 1;
+    string chat = 2;
+    string review = 3;
   }
 }
 message KafkaTransport {
@@ -32,23 +32,18 @@ message JsonFileTransport {
   repeated FieldMapping mappings = 2;
 }
 message StorageTransport {
-  string bucket_name = 1;
-  string azure_connection_string = 2;
-  string prefix = 3;
-  string suffix = 4;
   oneof transport_one_of {
-    FileTransport file_transport = 5;
-    MediaTransport media_transport = 6;
+    FileTransport file_transport = 1;
+    MediaTransport media_transport = 2;
   }
 }
 message FileTransport {
-  string folder_to_watch = 1;
   uint32 readingStartPoint = 2;
   repeated FieldMapping mappings = 3;
   bool readMultiRows = 4;
 }
 message MediaTransport {
-  string media_type = 1;    //audio , video
+  MediaType media_type = 1;    //audio , video, image
 }
 message BrainMediaIngestionProcessSchema {
   oneof data_transport {
@@ -104,4 +99,11 @@ enum FieldType {
   FIELD_TYPE_ENTITY_ATTRIBUTE_QUALIFIER = 3;
   FIELD_TYPE_ENTITY_PREDICATE_QUALIFIER = 4;
   FIELD_TYPE_PROPERTY = 5;
+}
+
+enum MediaType{
+  MEDIA_TYPE_UNKNOWN = 0;
+  MEDIA_TYPE_AUDIO = 1;
+  MEDIA_TYPE_VIDEO = 2;
+  MEDIA_TYPE_IMAGE = 3;
 }
