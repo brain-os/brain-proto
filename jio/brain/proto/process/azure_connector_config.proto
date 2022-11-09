@@ -37,7 +37,7 @@ message StorageKafkaData{
 }
 message RowDataList{
   string file_name = 1;
-  repeated RowData rowEvents= 2;
+  repeated RowData row_data= 2;
 }
 message RowData{
   string row_data = 1;
