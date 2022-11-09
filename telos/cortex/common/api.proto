@@ -16,6 +16,7 @@ import "jio/brain/proto/quantity/quantity_compound.proto";
 message CortexApi {
   jio.brain.proto.base.BrainToken api_id = 1; // /healthcare/patient/heart/risk-prediction --> 1
   CortexApiSchema api_schema = 2;
+  jio.brain.proto.base.BrainToken model_id = 3;
 }
 
 /*
@@ -110,6 +111,7 @@ message CortexApiOutputMultiClassClassificationSchema {
 
 message CortexApiOutput {
   CortexApiOutputType output_type = 1;
+  uint32 model_id = 2;
   oneof output {
     CortexApiOutputBinaryClassification binary_classification = 2;
     CortexApiOutputMultiClassClassification multiclass_classification = 3;
@@ -128,7 +130,7 @@ message CortexApiOutputMultiClassClassification {
   // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]
 }
 message CortexApiOutputRegressionSchema {
-  string predicted_variable = 2; // target_variable
+  string inference_variable = 2; // target_variable
   jio.brain.proto.quantity.BrainQuantitySchema regression_value_schema = 1; // QuantityNumericSchema /common/quantity/numeric/score
 }
 message CortexApiOutputRegression {
