@@ -51,7 +51,8 @@ message BrainInference {
   uint32 model_id = 2;  // TODO this should come to function config ?? @Rajan
   jio.brain.proto.event.BrainRecordKey record_key = 3; // optional brain id of feature - e.g. "/telecom/feature/call_experience/hourly" <=> 1234, "/healthcare/patient/heart_beat_rate" <=> 5748
   google.protobuf.Timestamp created_time = 4;
-  BrainFunctionParameter value = 5; // either entity_id or numeric quantity
+  jio.brain.proto.quantity.BrainQuantity value = 5; // either entity_id or numeric quantity
+  string stats_meta_data = 6;
 }
 
 message BrainFunctionParameter {
@@ -59,14 +60,15 @@ message BrainFunctionParameter {
 }
 
 message BrainInferenceSchema {
-  jio.brain.proto.base.BrainToken token = 1;               // name
-  jio.brain.proto.event.BrainRecordKeySchema record_key = 2;   // not always requires
-  BrainFunctionParameterSchema value = 3;
+  jio.brain.proto.base.BrainToken token = 1;
+  uint32 model_id = 3;
+//  jio.brain.proto.event.BrainRecordKeySchema record_key = 1;
+  jio.brain.proto.quantity.BrainQuantitySchema value = 2;
 }
 
-//message BrainInferenceSetSchma{
-//  map<string,BrainInferenceSchema> inference_schema = 1;
-//}
+message BrainInferenceSetSchema{
+  map<string,BrainInferenceSchema> inference_schema = 1;
+}
 
 message BrainFunctionParameterSchema {
   oneof params {

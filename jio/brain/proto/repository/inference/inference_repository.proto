@@ -22,8 +22,9 @@ message InferenceCommand {
 
 message InferenceCreateCommand {
   jio.brain.proto.event.BrainEvent brain_inference_event = 1;   // of type Inference_key_value
-  string sha256key = 2; //can be removed
-  jio.brain.proto.base.BrainStatus brainStatus = 3;
+  uint32 event_schema = 2;
+  string sha256key = 3; //can be removed
+  jio.brain.proto.base.BrainStatus brainStatus = 4;
 }
 
 /**
@@ -57,6 +58,8 @@ service InferenceLakeService {
   rpc getLatestInferenceValue(InferenceGetRequest) returns (InferenceGetResponse);
   //rpc getInferenceList(MultipleInferenceGetRequest) returns (MultipleInferenceGetResponse);
 }
+
+
 
 /*message MultipleInferenceGetRequest {
   string brain_key = 1;
@@ -100,38 +103,37 @@ message InferenceValue{
 
 //latest only
 message InferenceGetResponse {
-//    uint32 Inference_set = 1;
     map<uint32,jio.brain.proto.quantity.BrainQuantity> latest_inference_values = 1;
     jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
-message MultipleInferenceGetResponse {
-  repeated InferencesData inference_values = 1;
-  jio.brain.proto.base.BrainStatus brainStatus = 2;
-}
+//message MultipleInferenceGetResponse {
+//  repeated InferencesData inference_values = 1;
+//  jio.brain.proto.base.BrainStatus brainStatus = 2;
+//}
 
-message InferencesData {
-  uint32 inference_key = 1;
-  repeated InferenceTimeSeriesValue inference_time_series_values = 2;
-}
+//message InferencesData {
+//  uint32 inference_key = 1;
+//  repeated InferenceTimeSeriesValue inference_time_series_values = 2;
+//}
 
-message InferenceTimeSeriesValue {
-  google.protobuf.Timestamp window_time = 1;
-  jio.brain.proto.quantity.BrainQuantity inference_value = 2;
-}
+//message InferenceTimeSeriesValue {
+//  google.protobuf.Timestamp window_time = 1;
+//  jio.brain.proto.quantity.BrainQuantity inference_value = 2;
+//}
 
 message InferenceKeyRequest {
-  jio.brain.proto.event.BrainEventKey event_key = 1;
+  jio.brain.proto.event.BrainRecordKey brain_record_key = 1;
 }
 message InferenceKeyResponse {
-  uint32 inference_key = 1;
+  string inference_key = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 message InferenceKeyComponentsRequest {
   string brain_sha_key = 1;
 }
 message InferenceKeyComponentResponse {
-  jio.brain.proto.event.BrainEventKey event_key = 1;
+  jio.brain.proto.event.BrainRecordKey record_key = 1;
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 

@@ -64,13 +64,15 @@ message BrainEvent {
    // BrainInfraEvent infra_event = 13;
   }
 }
-
 message BrainInferenceLakeEvent{
-  uint32 inference_key = 1;
+  BrainRecordKey inference_key = 1;
   uint32 model_id = 2;
-  string brain_record_key = 3;
-  jio.brain.proto.quantity.BrainQuantity inference_value = 4;
-  string stats_meta_data = 5;
+  BrainEventInferenceValue inference_value = 3;
+}
+
+message BrainEventInferenceValue{
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
+  map<uint32, string> stats_meta_data = 2;
 }
 
 message BrainIngestionEvent {

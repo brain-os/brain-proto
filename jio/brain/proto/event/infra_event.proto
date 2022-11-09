@@ -29,7 +29,7 @@ message BrainInfraEvent {
 
 message BrainSchemaCacheService{
   oneof brain_schema_is_one_of {
-//    jio.brain.proto.feature.BrainInferenceSetSchema brain_inference_set_schema = 1;
+    jio.brain.proto.feature.BrainInferenceSetSchema brain_inference_set_schema = 1;
     jio.brain.proto.feature.BrainFeatureSetSchema brain_feature_set_schema = 2;
   }
 }
