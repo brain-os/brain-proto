@@ -10,49 +10,47 @@ import "jio/brain/proto/base/enums.proto";
 // TODO - transaction, sensor, media, online (Crawl Internet)
 message BrainIngestFunctionSchema {
   oneof source {
+    TextTransport text_transport = 1;
     KafkaTransport kafka_transport = 2;
-    FileTransport file_transport = 3;
-    JsonFileTransport json_transport = 4;
-    BlobStorageTransport blob_transport = 5;
+    JsonFileTransport json_transport = 3;
+    StorageTransport storage_transport = 4;
   }
 }
-message BrainDataIngestionProcessSchema {
-  oneof data_transport {
-    KafkaTransport kafka_transport = 2;
-    FileTransport file_transport = 3;
-    JsonFileTransport json_transport = 4;
-  }
-}
-message BrainMediaIngestionProcessSchema {
-  oneof data_transport {
-    KafkaTransport kafka_transport = 2;
-    BlobStorageTransport blob_transport = 3;
+message TextTransport{
+  oneof source{
+    string twit = 1;
+    string chat = 2;
+    string review = 3;
   }
 }
 message KafkaTransport {
   string input_topic = 1;
+  repeated FieldMapping mappings = 2;
 }
-
-message FileTransport {
-  string folder_to_watch = 1;
-  uint32 readingStartPoint = 2;
-  repeated FieldMapping mappings = 3;
-  string bucket_name = 4;
-  bool readMultiRows = 5;
-}
-message BlobStorageTransport {
-  string bucket_name = 1;
-  string azure_connection_string = 2;
-  string prefix = 3;
-  string suffix = 4;
-  repeated FieldMapping mappings = 5;
-}
-
 message JsonFileTransport {
   string folder_to_watch = 1;
   repeated FieldMapping mappings = 2;
 }
-
+message StorageTransport {
+  oneof transport_one_of {
+    FileTransport file_transport = 1;
+    MediaTransport media_transport = 2;
+  }
+}
+message FileTransport {
+  uint32 readingStartPoint = 2;
+  repeated FieldMapping mappings = 3;
+  bool readMultiRows = 4;
+}
+message MediaTransport {
+  MediaType media_type = 1;    //audio , video, image
+}
+message BrainMediaIngestionProcessSchema {
+  oneof data_transport {
+    KafkaTransport kafka_transport = 2;
+    StorageTransport blob_transport = 3;
+  }
+}
 message FieldMapping {
   oneof field_key {
     uint32 field_index = 1; // column index in case of csv or excel
@@ -101,4 +99,11 @@ enum FieldType {
   FIELD_TYPE_ENTITY_ATTRIBUTE_QUALIFIER = 3;
   FIELD_TYPE_ENTITY_PREDICATE_QUALIFIER = 4;
   FIELD_TYPE_PROPERTY = 5;
+}
+
+enum MediaType{
+  MEDIA_TYPE_UNKNOWN = 0;
+  MEDIA_TYPE_AUDIO = 1;
+  MEDIA_TYPE_VIDEO = 2;
+  MEDIA_TYPE_IMAGE = 3;
 }
