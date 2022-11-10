@@ -14,9 +14,9 @@ import "jio/brain/proto/quantity/quantity_atomic.proto";
 import "jio/brain/proto/quantity/quantity_compound.proto";
 
 message CortexApi {
-  jio.brain.proto.base.BrainToken api_id = 1; // /healthcare/patient/heart/risk-prediction --> 1
+  jio.brain.proto.base.BrainToken api_id = 1; // /inference-api/healthcare/patient/heart/risk-prediction --> 1
   CortexApiSchema api_schema = 2;
-  jio.brain.proto.base.BrainToken model_id = 3;
+  jio.brain.proto.base.BrainToken model_id = 3; // /model/healthcare/patient/heart/risk-prediction --> 1
 }
 
 /*
@@ -24,8 +24,8 @@ CortexApiSchema is define by SME
  */
 message CortexApiSchema {
   // Allow search, browse, storage directory, string-key creation etc. based on…
-  CortexApiType api_type = 1;
-  jio.brain.proto.event.BrainRecordKeySchema record = 2; // `entity/healthcare/patients`, cell X customer
+  CortexApiType api_type = 1; // dropdown
+  jio.brain.proto.event.BrainRecordKeySchema record = 2; // same as event key schema
   CortexApiInputSchema input_schema = 3 ;
   CortexApiOutputSchema output_schema = 4 ;
 }
@@ -48,7 +48,7 @@ CortexRecordKeySchema list the record type on which CortexAPI will work
 //}
 
 message CortexApiInputSchema {
-  CortexApiInputType input_type = 1;
+  CortexApiInputType input_type = 1; // dropdown
   oneof input_schema {
     CortexApiMultivariateInputSchema multivariate_input_schema = 2;
     CortexApiImageInputSchema image_input_schema = 3;
@@ -130,7 +130,7 @@ message CortexApiOutputMultiClassClassification {
   // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]
 }
 message CortexApiOutputRegressionSchema {
-  string inference_variable = 2; // target_variable
+  jio.brain.proto.base.BrainToken inference = 2; // /inference/healthcare/heart_risk/probability
   jio.brain.proto.quantity.BrainQuantitySchema regression_value_schema = 1; // QuantityNumericSchema /common/quantity/numeric/score
 }
 message CortexApiOutputRegression {
