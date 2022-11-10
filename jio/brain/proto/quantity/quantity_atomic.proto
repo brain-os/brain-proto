@@ -28,6 +28,7 @@ message BrainAtomicQuantitySchema {
     BrainOrdinalQuantitySchema ordinal_schema = 4;
     BrainBinnedQuantitySchema binned_schema = 5;
     BrainBinaryQuantitySchema binary_schema = 6;
+    BrainUriQuantitySchema uri_schema = 7;
   }
 }
 
@@ -38,6 +39,7 @@ message BrainAtomicQuantity {
     BrainOrdinalQuantity ordinal = 3;
     BrainBinnedQuantity binned = 4;
     BrainBinaryQuantity binary = 5;
+    BrainUriQuantity uri_schema = 6;
   }
 }
 message BrainNumericQuantity {
@@ -123,6 +125,21 @@ enum BrainBinaryQuantitySchema {
 
 message BrainBinaryQuantity {
   bool value = 1;
+}
+
+message BrainUriQuantitySchema {
+  BrainUriType uri_type = 1;
+}
+enum BrainUriType {
+  BRAIN_URI_TYPE_HTTP = 0;
+  BRAIN_URI_TYPE_HTTPS = 1;
+  BRAIN_URI_TYPE_LDAP = 2;
+  BRAIN_URI_TYPE_NEWS = 3;
+  BRAIN_URI_TYPE_TEL=4;
+  BRAIN_URI_TYPE_TELNET = 5;
+}
+message BrainUriQuantity {
+  string uri = 1;
 }
 message BrainUnitSchema {
   jio.brain.proto.base.BrainToken token = 1;
