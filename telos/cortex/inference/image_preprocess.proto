@@ -11,15 +11,15 @@ import "jio/brain/proto/quantity/quantity_compound.proto";
 import "telos/cortex/common/api.proto";
 import "telos/cortex/common/model.proto";
 
-service InferenceService {
-  rpc infer(InferenceRequest) returns (InferenceResponse);
+service ImagePreprocessService {
+  rpc preprocess(ImagePreprocessRequest) returns (ImagePreprocessResponse);
 }
 
-message InferenceRequest {
-    uint32 model_id = 1;
-    CortexApiInput input = 2;
+message ImagePreprocessRequest {
+  repeated CortexModelImagePreprocessor preprocessor = 1; // list for preprocessor
+  string url = 2;
 }
 
-message InferenceResponse {
-    CortexApiOutput output = 2;
+message ImagePreprocessResponse {
+  string processed_url = 1;
 }

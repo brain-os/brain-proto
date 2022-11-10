@@ -36,31 +36,75 @@ message CortexModelPreprocessor {
     CortexModelImagePreprocessor image = 2;
   }
 }
-
+// https://telecomstore2.blob.core.windows.net/raw-data/zxcvv.png
+// IMPORTANT - verify image first before pre processing
+/*
+try:
+    img.verify()
+    print('Valid image')
+except Exception:
+    print('Invalid image')
+ */
 message CortexModelImagePreprocessor {
   oneof image_pre_processor {
     BrainImageResizer resizer = 1;
     BrainImageColorConversion color_conversion = 2;
-    BrainImageCropping cropping = 3;
-    BrainImageAdjustment adjustment = 4;
-    BrainImageTranspose transpose = 5;
+    BrainImageDynamicConversion dynamic_conversion = 3;
+    BrainImageCropping cropping = 4;
+    BrainImageAdjustment adjustment = 5;
+    BrainImageTranspose transpose = 6;
   }
 }
 message BrainImageResizer {
-  uint32 height = 1;
-  uint32 width = 2;
-  uint32 padding = 3;
+  oneof resize {
+    BrainImageSizeToAbsolute size = 1;
+    BrainImageSizeToAspect aspect = 2;
+  }
 }
+message BrainImageSizeToAbsolute {
+  // left top corner distance
+  uint32 start_x = 1;
+  uint32 start_y = 2;
+
+  uint32 width = 3;
+  uint32 height = 4;
+
+  uint32 padding = 5;
+  bool antialias = 6;
+  BrainImageResizeMethod resize_method = 7;
+}
+enum BrainImageResizeMethod {
+    BRAIN_IMAGE_RESIZE_BILINEAR = 0;
+    // ... add 5-6 mpre
+}
+message BrainImageSizeToAspect {
+  BrainImageResizeMethod aspect = 1;
+  oneof height_width {
+    uint32 width = 2;
+    uint32 height = 3;
+  }
+}
+enum BrainImageAspectRatio {
+  BRAIN_IMAGE_ASPECT_RATIO_10_9 = 0;
+  //other ration
+}
+
 message BrainImageColorConversion {
-  BrainImageColorConversionType source = 1;
-  BrainImageColorConversionType target = 2;
+  BrainImageColorConversionType type = 1;
 }
 enum BrainImageColorConversionType {
-  BRAIN_IMAGE_COLOR_TYPE_RGB = 0;
-  BRAIN_IMAGE_COLOR_TYPE_GRAY_SCALE = 1;
-  BRAIN_IMAGE_COLOR_TYPE_HSV = 2;
-  BRAIN_IMAGE_COLOR_TYPE_YIQ = 3;
-  BRAIN_IMAGE_COLOR_TYPE_YUV = 4;
+  BRAIN_IMAGE_COLOR_TYPE_RGB_TO_GRAY_SCALE = 0;
+  BRAIN_IMAGE_COLOR_TYPE_GRAY_SCALE_TO_RGB = 1;
+  // TODO Ashu - complete other
+}
+
+message BrainImageDynamicConversion {
+  bool saturate = 1;
+  BrainImageDtype dtype = 2;
+}
+enum BrainImageDtype {
+  BRAIN_IMAGE_DTYPE_FLOAT = 0;
+  // TODO Ashu complete
 }
 message BrainImageCropping {
   uint32 x_coordinate = 1;
