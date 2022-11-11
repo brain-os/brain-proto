@@ -38,10 +38,6 @@ message BrainEventContextSchema {
   // BrainToken unit = 3;
 }
 
-message BrainFunctionParameter {
-  jio.brain.proto.quantity.BrainQuantity quantity = 1; // current scope of quantities => symbolic quantity (entity ids, collection item ids), location, temporal, or numeric quantities
-}
-
 message BrainRecordKey {
   jio.brain.proto.event.BrainEntityStore entity_store = 1;   //  /telecom/entity/cell
   jio.brain.proto.event.BrainQuantityStore context_store = 2; //  /telecom/context/day_hours/morning

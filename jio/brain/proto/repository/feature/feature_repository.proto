@@ -8,7 +8,6 @@ option java_multiple_files = true;
 import "jio/brain/proto/base/enums.proto";
 import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/quantity/quantity.proto";
-import "jio/brain/proto/event/multivariate_event.proto";
 import "jio/brain/proto/base/status.proto";
 import "jio/brain/proto/event/event.proto";
 

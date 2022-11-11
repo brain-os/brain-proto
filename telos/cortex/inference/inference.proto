@@ -4,12 +4,7 @@ package telos.cortex.common;
 option java_package = "com.telos.cortex.inference";
 option java_multiple_files = true;
 
-import "jio/brain/proto/base/token.proto";
-import "jio/brain/proto/event/event.proto";
-import "jio/brain/proto/event/event_common.proto";
-import "jio/brain/proto/quantity/quantity_compound.proto";
 import "telos/cortex/common/api.proto";
-import "telos/cortex/common/model.proto";
 
 service InferenceService {
   rpc infer(InferenceRequest) returns (InferenceResponse);

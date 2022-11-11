@@ -9,11 +9,8 @@ import "jio/brain/proto/base/status.proto";
 import "jio/brain/proto/base/enums.proto";
 import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/quantity/quantity.proto";
-import "jio/brain/proto/quantity/quantity_atomic.proto";
-//import "jio/brain/proto/event/event.proto";
 import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/event/event_common.proto";
-//import "google/protobuf/any.proto";
 
 // IMPORTANT - Feature lake will extract Features from BrainEvent (BrainKeyValueBrain and BrainTransactionEvent)
 // There is mapping needed in feature lake

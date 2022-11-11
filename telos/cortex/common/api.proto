@@ -5,13 +5,10 @@ option java_package = "com.telos.cortex.common";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/token.proto";
-import  "jio/brain/proto/types/symbol.proto";
-import "jio/brain/proto/event/event.proto";
+import "jio/brain/proto/event/model_input.proto";
 import "jio/brain/proto/event/event_common.proto";
-import "jio/brain/proto/event/image_event.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/quantity/quantity_atomic.proto";
-import "jio/brain/proto/quantity/quantity_compound.proto";
 
 message CortexApi {
   jio.brain.proto.base.BrainToken api_id = 1; // /inference-api/healthcare/patient/heart/risk-prediction --> 1
@@ -124,8 +121,8 @@ message CortexApiOutputBinaryClassification {
 }
 
 message CortexApiOutputMultiClassClassification {
-  jio.brain.proto.types.BrainSymbol symbol = 1;
-  jio.brain.proto.quantity.BrainQuantity probability_distribution = 2; // BrainDistributionQuantity set of class labels possible
+  jio.brain.proto.quantity.BrainAtomicQuantity classification = 1; // will always be symbolic
+  jio.brain.proto.quantity.BrainQuantity probability_distribution = 2; // BrainDistributionQuantity set of class labels possible and their probabilities
   // /common/quantity/numeric/probability 0-1 // Distribution
   // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]
 }
