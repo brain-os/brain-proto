@@ -14,23 +14,6 @@ import "jio/brain/proto/base/token.proto";
 import "google/protobuf/timestamp.proto";
 
 /*
-  Used in Inference Lake
- */
-message BrainInferenceSchema {
-  jio.brain.proto.base.BrainToken inference_id = 1;
-  jio.brain.proto.base.BrainToken model_id = 2;
-  BrainRecordKeySchema key = 3;
-  jio.brain.proto.quantity.BrainQuantitySchema inference  = 4;
-}
-message BrainInference {
-  uint32 inference_id = 1;
-  uint32 model_id = 2;
-  BrainRecordKey key = 3;
-  jio.brain.proto.quantity.BrainQuantity inference  = 4;
-  google.protobuf.Timestamp inference_time = 5;
-}
-
-/*
   Used in event
  */
 message BrainInferenceEventSchema {

@@ -50,8 +50,8 @@ message BrainEvent {
     BrainKeyValueEvent key_value_event = 6;
     BrainFeatureKeyValueEvent feature_event = 7;
     BrainIotEvent iot_event = 8;
-    BrainModelInputEventSchema model_input_event = 9;
-    BrainInferenceSchema inference_event = 10;
+    BrainModelInputEvent model_input_event = 9;
+    BrainInferenceEvent inference_event = 10;
 //    BrainImageClassificationEvent image_classification = 12; //output - used by repository resolver
    // BrainInfraEvent infra_event = 13;
   }
@@ -167,7 +167,7 @@ message BrainEventSchema {
     BrainEventFeatureKeyValueSchema feature_event = 5;
     BrainIotEventSchema iot_event = 6;
     BrainModelInputEventSchema model_input_event = 7;
-    BrainInferenceSchema inference_event = 8;
+    BrainInferenceEventSchema inference_event = 8;
   }
 }
 message BrainIngestionEventSchema {
