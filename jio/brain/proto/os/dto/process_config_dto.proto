@@ -156,14 +156,15 @@ message IngestProto {
   oneof ingestion_column_mapping_is_one_of{
     IngestionExcelColumnProto ingestionExcelColumnProto=3;
     IngestionJsonProto ingestionJsonProto=4;
+    IngestionMediaProto ingestion_media_proto = 5;
   }
-  string outputTopic = 5;
-  string outputSchema = 6;
-  int32 readingStartPoint = 7;
-  string bucketName = 8;
-  string storageQueue = 9;
-  int32 colNumber = 10;
-  bool readMultiRows = 11;
+  string outputTopic = 6;
+  string outputSchema = 7;
+  int32 readingStartPoint = 8;
+  string bucketName = 9;
+  string storageQueue = 10;
+  int32 colNumber = 11;
+  bool readMultiRows = 12;
 }
 
 message IngestionExcelColumnProto{
@@ -171,6 +172,9 @@ message IngestionExcelColumnProto{
 }
 message IngestionJsonProto{
   repeated  JsonMappingProto jsonMapping = 1;
+}
+message IngestionMediaProto{
+  repeated string meta_data =1;
 }
 
 enum SourceTypeProto {

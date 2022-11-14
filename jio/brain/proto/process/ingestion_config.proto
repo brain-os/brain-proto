@@ -43,7 +43,8 @@ message FileTransport {
   bool readMultiRows = 4;
 }
 message MediaTransport {
-  MediaType media_type = 1;    //audio , video, image
+  repeated string file_meta_data = 1;
+
 }
 message BrainMediaIngestionProcessSchema {
   oneof data_transport {
