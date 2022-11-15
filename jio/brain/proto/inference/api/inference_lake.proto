@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package jio.brain.proto.inference.api;
+
+import "jio/brain/proto/event/event.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/event/model_input.proto";
+import "jio/brain/proto/event/event_common.proto";
+//import "jio/brain/proto/quantity/quantity.proto";
+
+option java_package = "com.jio.brain.proto.inference.api";
+option java_multiple_files = true;
+
+message BrainInferenceRepositoryEvent {
+  jio.brain.proto.event.BrainEventMetadata brain_event_meta_data = 1;
+  uint32 model_id = 2;
+  jio.brain.proto.event.BrainRecordKey inference_key = 3;
+  map<uint32, BrainInferenceRepositoryEventValue> inference_value = 4; // key - inference_id
+  map<uint32, string> inference_meta_data = 5; // key - inference_id
+  jio.brain.proto.event.BrainModelInputEvent input_event = 6;
+}
+
+message BrainInferenceRepositoryEventValue {
+  repeated jio.brain.proto.quantity.BrainQuantity inference  = 1; // multiple person in image
+}
+
+/*message BrainInferenceRepositoryEventMetaValue {
+  repeated jio.brain.proto.quantity.BrainQuantity inference  = 1; // multiple person in image
+}*/

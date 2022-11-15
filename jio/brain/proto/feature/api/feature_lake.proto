@@ -10,6 +10,15 @@ import "jio/brain/proto/quantity/quantity.proto";
 option java_package = "com.jio.brain.proto.feature.api";
 option java_multiple_files = true;
 
+message BrainFeatureRepositoryEvent {
+  jio.brain.proto.event.BrainEventMetadata brain_event_meta_data = 1;
+  jio.brain.proto.event.BrainEventKey feature_key = 2;
+  BrainEventFeatureValue feature_value = 3;
+}
+message BrainEventFeatureValue {
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
+}
+
 //Input of Delta Cache Service
 //message DeltaCacheInput {
 //  string key = 1;

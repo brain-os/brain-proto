@@ -8,6 +8,7 @@ option java_multiple_files = true;
 import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/event/event.proto";
+import "jio/brain/proto/inference/api/inference_lake.proto";
 import "jio/brain/proto/base/status.proto";
 
 message InferenceCommand {
@@ -19,17 +20,18 @@ message InferenceCommand {
 }
 
 message InferenceCreateCommand {
-  jio.brain.proto.event.BrainEvent brain_inference_event = 1;   // of type Inference_key_value
+  jio.brain.proto.inference.api.BrainInferenceRepositoryEvent brain_inference_event = 1;   // of type Inference_key_value
   string sha256key = 2; //can be removed
-  jio.brain.proto.base.BrainStatus brainStatus = 3;
+  uint32 event_schema = 3;
+  jio.brain.proto.base.BrainStatus brainStatus = 4;
 }
 
-message FeatureUpdateEvent {
+/*message InferenceUpdateEvent {
   uint32 event_schema = 1;
   map<uint32, jio.brain.proto.quantity.BrainQuantity> feature_set = 2;   // of type feature_key_valye
   string sha256key = 3;
   jio.brain.proto.base.BrainStatus brainStatus = 4;
-}
+}*/
 
 /**
   TODO - NOT USED

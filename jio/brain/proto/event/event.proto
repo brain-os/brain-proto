@@ -48,10 +48,10 @@ message BrainEvent {
     BrainIngestionEvent ingestion_event = 4;
     BrainTransactionEvent transaction_event = 5;
     BrainKeyValueEvent key_value_event = 6;
-    BrainFeatureKeyValueEvent feature_event = 7;
-    BrainIotEvent iot_event = 8;
-    BrainModelInputEvent model_input_event = 9;
-    BrainInferenceEvent inference_event = 10;
+    //BrainFeatureKeyValueEvent feature_event = 7;
+    BrainIotEvent iot_event = 7;
+    BrainModelInputEvent model_input_event = 8;
+    BrainInferenceEvent inference_event = 9;
 //    BrainImageClassificationEvent image_classification = 12; //output - used by repository resolver
    // BrainInfraEvent infra_event = 13;
   }
@@ -93,14 +93,7 @@ message BrainEventValue {
   //BrainEventFeatureValue feature_store = 5;
 }
 
-message BrainFeatureKeyValueEvent {
-  BrainEventKey feature_key = 1;
-  BrainEventFeatureValue feature_value = 2;
-}
-message BrainEventFeatureValue {
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
-  // BrainAttributeStore attribute_store = 2;
-}
+
 
 message BrainEventKey {
   BrainEntityStore entity_store = 1;
