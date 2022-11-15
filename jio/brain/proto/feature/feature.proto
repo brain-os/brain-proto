@@ -38,9 +38,9 @@ message BrainFeatureFamilySchema {
   jio.brain.proto.base.BrainToken token = 1;
   repeated string feature_set = 2;
 }
-message BrainFeatureSetSchema {
+message BrainFeatureSetSchema { // TODO
   map<string, BrainFeatureSchema> feature_set = 1; //string --> Key Token to be used
-  map<uint32,BrainFeatureFamilySchema>  feature_family_set = 2;
+  map<uint32,BrainFeatureFamilySchema>  feature_family_set = 2; // TODO
 }
 message BrainFeatureSet {
   map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;

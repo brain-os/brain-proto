@@ -23,6 +23,7 @@ message BrainInference {
   uint32 inference_id = 1;
   uint32 model_id = 2;
   jio.brain.proto.event.BrainRecordKey key = 3;
-  jio.brain.proto.quantity.BrainQuantity inference  = 4;
+  repeated jio.brain.proto.quantity.BrainQuantity inference  = 4; // multiple person in image
   google.protobuf.Timestamp inference_time = 5;
+  // todo add probability and input event
 }
