@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package telos.cortex.common;
+option java_package = "com.telos.cortex.inference";
+option java_multiple_files = true;
+
+import "telos/cortex/common/model.proto";
+
+service ImagePreprocessService {
+  rpc preprocess(ImagePreprocessRequest) returns (ImagePreprocessResponse);
+}
+
+message ImagePreprocessRequest {
+  repeated CortexModelImagePreprocessor preprocessor = 1; // list for preprocessor
+  string url = 2;
+}
+
+message ImagePreprocessResponse {
+  string processed_url = 1;
+}

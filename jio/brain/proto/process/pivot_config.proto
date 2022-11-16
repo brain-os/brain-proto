@@ -22,7 +22,7 @@ message BrainPivotKeyConfig {
   repeated string entities = 1;
   repeated string attributes = 2;
   map<string, string> contexts = 3;     // key -> context_name and value -> property_name
-                                        // key : common/context/window_15 , value : common/property/invoice_event/window_15
+  repeated string predicates = 4;                                  // key : common/context/window_15 , value : common/property/invoice_event/window_15
 }
 
 message BrainPivotValueConfig {

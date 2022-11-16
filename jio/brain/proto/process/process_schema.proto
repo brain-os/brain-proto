@@ -16,8 +16,6 @@ import "jio/brain/proto/process/pivot_config.proto";
 import "jio/brain/proto/process/reduce_config.proto";
 import "jio/brain/proto/process/compute_config.proto";
 import "jio/brain/proto/process/joinerconfig.proto";
-import "jio/brain/proto/process/dl_image_config.proto";
-import "jio/brain/proto/process/bridge_config.proto";
 import "jio/brain/proto/process/cortex_bridge.proto";
 import "jio/brain/proto/process/repositoryconfig.proto";
 

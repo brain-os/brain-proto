@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package telos.cortex.common;
+option java_package = "com.telos.cortex.inference";
+option java_multiple_files = true;
+
+import "telos/cortex/common/api.proto";
+
+service InferenceService {
+  rpc infer(InferenceRequest) returns (InferenceResponse);
+}
+
+message InferenceRequest {
+    uint32 model_id = 1;
+    CortexApiInput input = 2;
+}
+
+message InferenceResponse {
+    CortexApiOutput output = 2;
+}

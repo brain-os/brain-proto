@@ -5,21 +5,10 @@ package jio.brain.proto.event;
 option java_package = "com.jio.brain.proto.event";
 option java_multiple_files = true;
 
-import "google/protobuf/any.proto";
-import "jio/brain/proto/base/token.proto";
-import "jio/brain/proto/types/collection.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/quantity/quantity_atomic.proto";
-import "jio/brain/proto/entity/entity.proto";
-import "jio/brain/proto/event/tracing.proto";
-import "jio/brain/proto/feature/feature.proto";
 import "google/protobuf/timestamp.proto";
-import "jio/brain/proto/event/multivariate_event.proto";
-import "jio/brain/proto/event/image_event.proto";
 import "jio/brain/proto/event/event_common.proto";
-import "jio/brain/proto/os/deployment.proto";
-import "jio/brain/proto/repository/knowledge/command.proto";
-import "jio/brain/proto/feature/api/repository_route.proto";
 
 enum BrainDataValueStatus {
   BRAIN_SENSOR_DATA_VALUE_STATUS_UNKNOWN = 0;

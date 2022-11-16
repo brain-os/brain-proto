@@ -7,21 +7,15 @@ option java_multiple_files = true;
 
 import "google/protobuf/any.proto";
 import "jio/brain/proto/base/token.proto";
-import "jio/brain/proto/types/collection.proto";
 import "jio/brain/proto/quantity/quantity.proto";
-import "jio/brain/proto/quantity/quantity_atomic.proto";
 import "jio/brain/proto/entity/entity.proto";
-import "jio/brain/proto/event/tracing.proto";
 import "jio/brain/proto/feature/feature.proto";
 import "google/protobuf/timestamp.proto";
-import "jio/brain/proto/event/multivariate_event.proto";
-import "jio/brain/proto/event/image_event.proto";
 import "jio/brain/proto/event/iot_event.proto";
+import "jio/brain/proto/event/model_inference.proto";
+import "jio/brain/proto/event/model_input.proto";
+import "jio/brain/proto/event/tracing.proto";
 import "jio/brain/proto/event/event_common.proto";
-import "jio/brain/proto/os/deployment.proto";
-import "jio/brain/proto/repository/knowledge/command.proto";
-import "jio/brain/proto/feature/api/repository_route.proto";
-
 /**
 {
   "id" : 12345, // 12345 (generated) from schema <=> /telecom/network/event/lsr - will same for all LSR events
@@ -54,25 +48,13 @@ message BrainEvent {
     BrainIngestionEvent ingestion_event = 4;
     BrainTransactionEvent transaction_event = 5;
     BrainKeyValueEvent key_value_event = 6;
-    BrainFeatureKeyValueEvent feature_event = 7;
-    BrainMultivariateEvent multivariate_event = 8;
-    BrainMultivariateInferenceEvent multivariate_inference_event = 9;
-    BrainIotEvent iot_event = 10;
-    BrainImageEvent image_event = 11;
-    BrainImageClassificationEvent image_classification = 12;
-    BrainInferenceLakeEvent inference_lake_event = 13;
-   // BrainInfraEvent infra_event = 13;
+    //BrainFeatureKeyValueEvent feature_event = 7;
+    BrainIotEvent iot_event = 7;
+    BrainModelInputEvent model_input_event = 8;
+    BrainInferenceEvent inference_event = 9;
+    //    BrainImageClassificationEvent image_classification = 12; //output - used by repository resolver
+    // BrainInfraEvent infra_event = 13;
   }
-}
-message BrainInferenceLakeEvent{
-  BrainRecordKey inference_key = 1;
-  uint32 model_id = 2;
-  BrainEventInferenceValue inference_value = 3;
-}
-
-message BrainEventInferenceValue{
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
-  map<uint32, string> stats_meta_data = 2;
 }
 
 message BrainIngestionEvent {
@@ -111,14 +93,7 @@ message BrainEventValue {
   //BrainEventFeatureValue feature_store = 5;
 }
 
-message BrainFeatureKeyValueEvent {
-  BrainEventKey feature_key = 1;
-  BrainEventFeatureValue feature_value = 2;
-}
-message BrainEventFeatureValue {
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
-  // BrainAttributeStore attribute_store = 2;
-}
+
 
 message BrainEventKey {
   BrainEntityStore entity_store = 1;
@@ -183,11 +158,9 @@ message BrainEventSchema {
     BrainTransactionEventSchema transaction_event = 3;
     BrainEventKeyValueSchema key_value_event = 4;
     BrainEventFeatureKeyValueSchema feature_event = 5;
-    BrainMultivariateEventSchema multivariate_event = 6;
-    BrainMultivariateInferenceEventSchema inference_event = 7;
-    BrainIotEventSchema iot_event = 8;
-    BrainImageEventSchema image_event = 9;
-    BrainImageClassificationEventSchema image_classification_event = 10;
+    BrainIotEventSchema iot_event = 6;
+    BrainModelInputEventSchema model_input_event = 7;
+    BrainInferenceEventSchema inference_event = 8;
   }
 }
 message BrainIngestionEventSchema {

@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package jio.brain.proto.event;
+
+option java_package = "com.jio.brain.proto.event";
+option java_multiple_files = true;
+
+import "jio/brain/proto/event/model_input.proto";
+import "jio/brain/proto/event/event_common.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/quantity/quantity_atomic.proto";
+import "jio/brain/proto/inference/inference.proto";
+import "jio/brain/proto/base/token.proto";
+
+/*
+  Used in event
+ */
+message BrainInferenceEventSchema {
+  jio.brain.proto.base.BrainToken model_id = 1;
+  BrainRecordKeySchema key = 2; // patient id (for heart risk prediction model)
+  oneof inference_is_one_of {
+    BrainMultivariateClassificationEventSchema multivariate_classification = 3;
+    BrainImageClassificationEventSchema image_classification = 4;
+    BrainRegressionEventSchema regression = 5;
+  }
+}
+
+message BrainInferenceEvent {
+  uint32 model_id = 1;
+  BrainRecordKey key = 2;
+  oneof inference_is_one_of {
+    BrainMultivariateClassificationEvent multivariate_classification = 3;
+    BrainImageClassificationEvent image_classification = 4;
+    BrainRegressionEvent regression = 5;
+  }
+  // input to this inference. It will also have record key
+  BrainModelInputEvent input_event = 6;
+}
+
+message BrainMultivariateClassificationEvent {
+  // binary quantity (positive) in case of binary classification
+  // symbolic quantity in case of multi class classification
+  jio.brain.proto.quantity.BrainQuantity class_label = 1;
+  // distribution quantity - probability of each class
+  jio.brain.proto.quantity.BrainQuantity probability_distribution = 2;
+}
+message BrainMultivariateClassificationEventSchema {
+  oneof classification_is_one_of {
+    jio.brain.proto.quantity.BrainBinaryQuantitySchema binary = 1;
+    jio.brain.proto.quantity.BrainQuantitySchema label_basket = 2; // basket quantity
+  }
+}
+
+message BrainImageClassificationEventSchema {
+  jio.brain.proto.quantity.BrainQuantitySchema label_basket = 1; // basket quantity
+}
+
+message BrainImageClassificationEvent {
+  repeated BrainImageLabel image_label_set = 3;
+}
+
+message BrainImageLabel {
+  jio.brain.proto.quantity.BrainQuantity label  = 1; // Symbolic Quantity - crop id or person id in image
+  uint32 x = 2;
+  uint32 y = 3;
+  uint32 length = 4;
+  uint32 width = 5;
+  double probability = 6;
+}
+
+message BrainRegressionEvent {
+  BrainRecordKey key = 1; // entity ids and contexts
+  // key - brain inference schema
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> inference_set = 2; // key -> inference_id , multi value regression
+}
+message BrainRegressionEventSchema {
+  BrainRecordKeySchema key = 1;
+  map<string, jio.brain.proto.inference.BrainInferenceSchema> inference = 2; // multi value regression
+}

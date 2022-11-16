@@ -5,12 +5,12 @@ package jio.brain.proto.repository.inference;
 option java_package = "com.jio.brain.proto.repository.inference";
 option java_multiple_files = true;
 
-import "jio/brain/proto/base/enums.proto";
 import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/event/event.proto";
-import "jio/brain/proto/base/status.proto";
 import "jio/brain/proto/event/event_common.proto";
+import "jio/brain/proto/inference/api/inference_lake.proto";
+import "jio/brain/proto/base/status.proto";
 
 message InferenceCommand {
   oneof command_is_one_of {
@@ -21,9 +21,9 @@ message InferenceCommand {
 }
 
 message InferenceCreateCommand {
-  jio.brain.proto.event.BrainEvent brain_inference_event = 1;   // of type Inference_key_value
-  uint32 event_schema = 2;
-  string sha256key = 3; //can be removed
+  jio.brain.proto.inference.api.BrainInferenceRepositoryEvent brain_inference_event = 1;   // of type Inference_key_value
+  string sha256key = 2; //can be removed
+  uint32 event_schema = 3;
   jio.brain.proto.base.BrainStatus brainStatus = 4;
 }
 
@@ -57,39 +57,7 @@ service InferenceLakeService {
   rpc crudRequest(InferenceCrudRequest) returns (InferenceCrudResponse);
   rpc getLatestInferenceValue(InferenceGetRequest) returns (InferenceGetResponse);
   rpc getInferencesForModel(InferencesForModelRequest) returns (InferencesForModelResponse);
-  //rpc getInferenceList(MultipleInferenceGetRequest) returns (MultipleInferenceGetResponse);
 }
-
-
-
-/*message MultipleInferenceGetRequest {
-  string brain_key = 1;
-  repeated InferenceRequest inference_request_set = 2;
-}
-
-message InferenceRequest {
-  uint32 inference_key = 1;
-  jio.brain.proto.base.BrainTimeWindowType window_time_type = 2;
-  oneof request_type {
-    TimeSeriesWindowRequest time_series_window = 3;
-    TimeSeriesCountRequest time_series_count = 4;
-    TimeSeriesStartWindowRequest time_series_start_window = 5;
-  }
-  jio.brain.proto.base.BrainGetMultipleInferenceRequestType inference_request_type = 6;
-}
-
-message TimeSeriesCountRequest {
-  int32 count = 1;
-}
-
-message TimeSeriesWindowRequest {
-  google.protobuf.Timestamp window_start_time = 1;
-  google.protobuf.Timestamp window_end_time = 2;
-}
-
-message TimeSeriesStartWindowRequest {
-  google.protobuf.Timestamp window_start_time = 1;
-}*/
 
 message InferencesForModelRequest{
   string brain_record_key = 1;
@@ -101,7 +69,6 @@ message InferencesForModelResponse {
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
-//If no Window Time Consider Latest table
 message InferenceGetRequest {
   string brain_record_key = 1;
   uint32 model_id = 2;
@@ -117,21 +84,6 @@ message InferenceGetResponse {
     map<uint32,jio.brain.proto.quantity.BrainQuantity> latest_inference_values = 1;
     jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
-
-//message MultipleInferenceGetResponse {
-//  repeated InferencesData inference_values = 1;
-//  jio.brain.proto.base.BrainStatus brainStatus = 2;
-//}
-
-//message InferencesData {
-//  uint32 inference_key = 1;
-//  repeated InferenceTimeSeriesValue inference_time_series_values = 2;
-//}
-
-//message InferenceTimeSeriesValue {
-//  google.protobuf.Timestamp window_time = 1;
-//  jio.brain.proto.quantity.BrainQuantity inference_value = 2;
-//}
 
 message InferenceKeyRequest {
   jio.brain.proto.event.BrainRecordKey brain_record_key = 1;

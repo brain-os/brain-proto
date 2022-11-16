@@ -8,9 +8,9 @@ option java_multiple_files = true;
 import "jio/brain/proto/base/enums.proto";
 import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/quantity/quantity.proto";
-import "jio/brain/proto/event/multivariate_event.proto";
 import "jio/brain/proto/base/status.proto";
 import "jio/brain/proto/event/event.proto";
+import "jio/brain/proto/feature/api/feature_lake.proto";
 
 message FeatureCommand {
   oneof command_is_one_of {
@@ -41,7 +41,7 @@ message FeatureCommand {
 
 // TODO do we event schema id, sha256key here
 message FeatureCreateCommand {
-    jio.brain.proto.event.BrainEvent brain_feature_event = 1;   // of type feature_key_valye
+    jio.brain.proto.feature.api.BrainFeatureRepositoryEvent brain_feature_event = 1;   // of type feature_key_valye
     uint32 event_schema = 2;
     jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
     string sha256key = 4;

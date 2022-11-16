@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package jio.brain.proto.event;
+
+option java_package = "com.jio.brain.proto.event";
+option java_multiple_files = true;
+
+import "jio/brain/proto/event/event_common.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/base/token.proto";
+
+message BrainModelInputEventSchema {
+  jio.brain.proto.base.BrainToken model_id = 1;
+  BrainRecordKeySchema key = 2; // patient id (for heart risk prediction model)
+  oneof inference_is_one_of {
+    BrainMultivariateEventSchema multivariate = 3;
+    BrainImageEventSchema image = 4;
+  }
+}
+
+message BrainModelInputEvent {
+  jio.brain.proto.base.BrainToken model_id = 1;
+  BrainRecordKey key = 2;
+  oneof inference_is_one_of {
+    BrainMultivariateEvent multivariate = 3;
+    BrainImageEvent image = 4;
+  }
+}
+
+message BrainMultivariateEventSchema {
+  // key is feature/attribute/inference key
+  // value is actual schema
+  map<string, BrainFunctionParameterSchema> input_set = 3;
+}
+
+message BrainFunctionParameterSchema {
+  oneof schema {
+    jio.brain.proto.base.BrainToken feature = 1;
+    jio.brain.proto.base.BrainToken attribute = 2;
+    jio.brain.proto.base.BrainToken inference = 3;
+    jio.brain.proto.base.BrainToken context = 4;
+  }
+}
+
+message BrainMultivariateEvent {
+  // key is feature key, attribute key, entity type, inference type
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> parameter_set = 2; // all BrainModelFeature will have same key
+}
+
+message BrainImageEventSchema {
+  BrainRecordKeySchema key_schema = 1;  // crop_id
+  BrainImagePayloadType payload_type = 2;
+  map<string, BrainFunctionParameterSchema> input_set = 3; // TODO for hackathon
+}
+
+enum BrainImagePayloadType {
+  BRAIN_CONTENT_PAYLOAD_TYPE_NONE = 0;
+  BRAIN_CONTENT_PAYLOAD_TYPE_URL = 1;
+  BRAIN_CONTENT_PAYLOAD_TYPE_FILE = 2;
+  BRAIN_CONTENT_PAYLOAD_TYPE_BYTES = 3;
+  BRAIN_CONTENT_PAYLOAD_TYPE_BASE64 = 4;
+}
+
+message BrainImageEvent {
+  BrainRecordKey key = 1;
+  string source_uri = 2;
+  BrainPayload payload = 3;
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> parameter_set = 4; // TODO for hackathon
+}
