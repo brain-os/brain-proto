@@ -56,6 +56,8 @@ service InferenceLakeService {
   rpc key_components(InferenceKeyComponentsRequest) returns (InferenceKeyComponentResponse);
   rpc crudRequest(InferenceCrudRequest) returns (InferenceCrudResponse);
   rpc getLatestInferenceValue(InferenceGetRequest) returns (InferenceGetResponse);
+  // latest inference
+  // time based fetch
   rpc getInferencesForModel(InferencesForModelRequest) returns (InferencesForModelResponse);
 }
 
@@ -70,18 +72,18 @@ message InferencesForModelResponse {
 }
 
 message InferenceGetRequest {
-  string brain_record_key = 1;
+  string inference_key = 1;
   uint32 model_id = 2;
-  repeated uint32 inference_key = 3;
+  repeated uint32 inference_id = 3;
 }
 
 message InferenceValue{
-  jio.brain.proto.quantity.BrainQuantity inference_value = 2;
+ repeated jio.brain.proto.quantity.BrainQuantity inference_value = 2;
 }
 
 //latest only
 message InferenceGetResponse {
-    map<uint32,jio.brain.proto.quantity.BrainQuantity> latest_inference_values = 1;
+    map<uint32,InferenceValue> latest_inference_values = 1;
     jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
