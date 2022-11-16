@@ -27,3 +27,7 @@ message BrainInference {
   google.protobuf.Timestamp inference_time = 5;
   // todo add probability and input event
 }
+
+message BrainInferenceSetSchema { // TODO
+  map<string, BrainInferenceSchema> inference_set = 1; //string --> Key Token to be used
+}
