@@ -69,11 +69,11 @@ message BrainImageLabel {
 }
 
 message BrainRegressionEvent {
-  BrainRecordKey key = 1; // entity ids and contexts
+  //BrainRecordKey key = 1; // entity ids and contexts
   // key - brain inference schema
   map<uint32, jio.brain.proto.quantity.BrainQuantity> inference_set = 2; // key -> inference_id , multi value regression
 }
 message BrainRegressionEventSchema {
-  BrainRecordKeySchema key = 1;
+  //BrainRecordKeySchema key = 1;
   map<string, jio.brain.proto.inference.BrainInferenceSchema> inference = 2; // multi value regression
 }
