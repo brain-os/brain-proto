@@ -56,14 +56,13 @@ service InferenceLakeService {
   rpc key_components(InferenceKeyComponentsRequest) returns (InferenceKeyComponentResponse);
   rpc crudRequest(InferenceCrudRequest) returns (InferenceCrudResponse);
   rpc getLatestInferenceValue(InferenceGetRequest) returns (InferenceGetResponse);
-  // latest inference
-  // time based fetch
   rpc getInferencesForModel(InferencesForModelRequest) returns (InferencesForModelResponse);
 }
 
 message InferencesForModelRequest{
-  string brain_record_key = 1;
+  string inference_key = 1;
   uint32 model_id = 2;
+  google.protobuf.Timestamp created_time = 3;
 }
 
 message InferencesForModelResponse {
@@ -75,6 +74,7 @@ message InferenceGetRequest {
   string inference_key = 1;
   uint32 model_id = 2;
   repeated uint32 inference_id = 3;
+  google.protobuf.Timestamp created_time = 4;
 }
 
 message InferenceValue{
