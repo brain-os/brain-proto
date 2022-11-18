@@ -6,7 +6,7 @@ option java_package = "com.jio.brain.proto.process";
 option java_multiple_files = true;
 
 import "jio/brain/proto/base/enums.proto";
-
+import "jio/brain/proto/event/model_input.proto";
 // TODO - transaction, sensor, media, online (Crawl Internet)
 message BrainIngestFunctionSchema {
   oneof source {
@@ -38,13 +38,13 @@ message StorageTransport {
   }
 }
 message FileTransport {
-  uint32 readingStartPoint = 2;
-  repeated FieldMapping mappings = 3;
-  bool readMultiRows = 4;
+  uint32 readingStartPoint = 1;
+  repeated FieldMapping mappings = 2;
+  bool readMultiRows = 3;
 }
 message MediaTransport {
-  repeated string file_meta_data = 1;
-
+  jio.brain.proto.event.BrainImagePayloadType payload_type = 1;
+  repeated FieldMapping mappings = 2;
 }
 message BrainMediaIngestionProcessSchema {
   oneof data_transport {
