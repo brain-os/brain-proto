@@ -44,8 +44,15 @@ message IdentityCreateBrainIdWithPrimaryAndBizIdRequest {
 }
 
 message IdentityCreateBrainIdWithPrimaryAndBizIdResponse {
-  jio.brain.proto.base.BrainId brain_id = 1;
-  jio.brain.proto.base.BrainStatus brainStatus = 2;
+  PrimaryBizId primary_biz_id =1;
+  jio.brain.proto.base.BrainId brain_id = 2;
+  jio.brain.proto.base.BrainStatus brainStatus = 3;
+}
+message IdentityCreateBrainIdsWithPrimaryAndBizIdRequest {
+  repeated IdentityCreateBrainIdWithPrimaryAndBizIdRequest request =1;
+}
+message IdentityCreateBrainIdsWithPrimaryAndBizIdResponse {
+ repeated IdentityCreateBrainIdWithPrimaryAndBizIdResponse response= 1;
 }
 
 message IdentityAddSecondaryBizIdsWithEntityIdRequest {
@@ -96,6 +103,7 @@ message FuzzyNamesResponse {
 service EntityIdService {
   rpc getBrainIdForEntity(IdentityRequest) returns (IdentityResponse);
   rpc createEntityWithPrimaryAndSecondaryIds(IdentityCreateBrainIdWithPrimaryAndBizIdRequest) returns (IdentityCreateBrainIdWithPrimaryAndBizIdResponse);
+  rpc createEntitiesWithPrimaryAndSecondaryIds(IdentityCreateBrainIdsWithPrimaryAndBizIdRequest) returns (IdentityCreateBrainIdsWithPrimaryAndBizIdResponse);
   rpc updateSecondaryBizIds(IdentityAddSecondaryBizIdsWithEntityIdRequest) returns (IdentityAddSecondaryBizIdsWithEntityIdResponse);
   rpc updateSecondaryBizIdsWithEntityType(IdentityAddSecondaryBizIdsWithPrimaryBizIdAndEntityTypeRequest) returns (IdentityAddSecondaryBizIdsWithPrimaryBizIdAndEntityTypeResponse);
   rpc addNameAliases(IdentityAddNameAliases) returns(IdentityNameAliases);
