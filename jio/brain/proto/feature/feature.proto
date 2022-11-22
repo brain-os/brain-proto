@@ -45,4 +45,3 @@ message BrainFeatureSetSchema { // TODO
 message BrainFeatureSet {
   map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
 }
-

@@ -52,8 +52,8 @@ message BrainEvent {
     BrainIotEvent iot_event = 7;
     BrainModelInputEvent model_input_event = 8;
     BrainInferenceEvent inference_event = 9;
-//    BrainImageClassificationEvent image_classification = 12; //output - used by repository resolver
-   // BrainInfraEvent infra_event = 13;
+    //    BrainImageClassificationEvent image_classification = 12; //output - used by repository resolver
+    // BrainInfraEvent infra_event = 13;
   }
 }
 

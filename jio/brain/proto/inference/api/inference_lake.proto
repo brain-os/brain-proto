@@ -16,8 +16,8 @@ message BrainInferenceRepositoryEvent {
   uint32 model_id = 2;
   jio.brain.proto.event.BrainRecordKey inference_key = 3;
   map<uint32, BrainInferenceRepositoryEventValue> inference_value = 4; // key - inference_id
-  map<uint32, string> inference_meta_data = 5; // key - inference_id
-  jio.brain.proto.event.BrainModelInputEvent input_event = 6;
+  map<uint32, string> inference_meta_data = 5; // key - inference_id // TBD
+  jio.brain.proto.event.BrainModelInputEvent input_event = 6; //
 }
 
 message BrainInferenceRepositoryEventValue {

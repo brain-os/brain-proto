@@ -12,6 +12,7 @@ import "jio/brain/proto/repository/knowledge/command.proto";
 import "jio/brain/proto/feature/api/repository_route.proto";
 import "jio/brain/proto/feature/api/feature_lake.proto";
 import  "jio/brain/proto/feature/feature.proto";
+import  "jio/brain/proto/inference/inference.proto";
 
 message BrainInfraEvent {
   oneof infra_event_is_one_of {
@@ -28,7 +29,7 @@ message BrainInfraEvent {
 
 message BrainSchemaCacheService{
   oneof brain_schema_is_one_of {
-    //    jio.brain.proto.feature.BrainInferenceSetSchema brain_inference_set_schema = 1;
+    jio.brain.proto.inference.BrainInferenceSetSchema brain_inference_set_schema = 1;
     jio.brain.proto.feature.BrainFeatureSetSchema brain_feature_set_schema = 2;
   }
 }
