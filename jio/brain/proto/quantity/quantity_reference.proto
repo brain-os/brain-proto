@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package jio.brain.proto.quantity;
+
+option java_package = "com.jio.brain.proto.quantity";
+option java_multiple_files = true;
+
+/*import "jio/brain/proto/types/collection.proto";
+import "jio/brain/proto/types/vector.proto";
+import "jio/brain/proto/types/number.proto";
+import "jio/brain/proto/types/symbol.proto";
+import "jio/brain/proto/base/token.proto";*/
+
+message BrainReferenceQuantitySchema {
+  BrainReferenceType uri_type = 1;
+}
+enum BrainReferenceType {
+  BRAIN_URI_TYPE_HTTP = 0;
+  BRAIN_URI_TYPE_HTTPS = 1;
+  BRAIN_URI_TYPE_LDAP = 2;
+  BRAIN_URI_TYPE_NEWS = 3;
+  BRAIN_URI_TYPE_TEL = 4;
+  BRAIN_URI_TYPE_TELNET = 5;
+}
+message BrainReferenceQuantity {
+  string uri = 1;
+}
