@@ -20,6 +20,8 @@ message BrainAzureStorageConnector {
   string storage_queue = 6;
   string output_topic = 7;
   //FileParserSet parser_set = 8;
+  bool readMultiRows = 9;
+  int32 readRowsCount = 10;
 }
 
 enum BrainAzureStorageFileType {
