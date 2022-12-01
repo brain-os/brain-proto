@@ -18,7 +18,7 @@ message BrainPrimitiveValue {
     float float_data = 1;
     double double_data = 2;
     uint32 uint32_data = 3;
-    sint64 sint32_data = 4;
+    sint32 sint32_data = 4;
     uint64 uint64_data = 5;
     sint64 sint64_data = 6;
     string string_data = 7;
