@@ -61,5 +61,5 @@ message BrainPayload {
 
 message BrainBytesPayload {
   repeated bytes value = 1;
-  string content_type = 2;
+ // string content_type = 2;
 }

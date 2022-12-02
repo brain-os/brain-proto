@@ -121,7 +121,7 @@ message CortexApiOutputBinaryClassification {
 }
 
 message CortexApiOutputMultiClassClassification {
-  jio.brain.proto.quantity.BrainAtomicQuantity classification = 1; // will always be symbolic
+  jio.brain.proto.quantity.BrainQuantity classification = 1; // will always be symbolic
   jio.brain.proto.quantity.BrainQuantity probability_distribution = 2; // BrainDistributionQuantity set of class labels possible and their probabilities
   // /common/quantity/numeric/probability 0-1 // Distribution
   // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]

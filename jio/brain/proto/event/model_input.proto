@@ -21,7 +21,7 @@ message BrainModelInputEventSchema {
 message BrainModelInputEvent {
   jio.brain.proto.base.BrainToken model_id = 1;
   BrainRecordKey key = 2;
-  oneof inference_is_one_of {
+  oneof input_is_one_of {
     BrainMultivariateEvent multivariate = 3;
     BrainImageEvent image = 4;
   }
