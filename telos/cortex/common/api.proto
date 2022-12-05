@@ -13,7 +13,6 @@ import "jio/brain/proto/quantity/quantity_atomic.proto";
 message CortexApi {
   jio.brain.proto.base.BrainToken api_id = 1; // /inference-api/healthcare/patient/heart/risk-prediction --> 1
   CortexApiSchema api_schema = 2;
-  jio.brain.proto.base.BrainToken model_id = 3; // /model/healthcare/patient/heart/risk-prediction --> 1
 }
 
 /*
@@ -121,7 +120,7 @@ message CortexApiOutputBinaryClassification {
 }
 
 message CortexApiOutputMultiClassClassification {
-  jio.brain.proto.quantity.BrainQuantity classification = 1; // will always be symbolic
+  jio.brain.proto.quantity.BrainQuantity dominant_class = 1; // will always be symbolic
   jio.brain.proto.quantity.BrainQuantity probability_distribution = 2; // BrainDistributionQuantity set of class labels possible and their probabilities
   // /common/quantity/numeric/probability 0-1 // Distribution
   // /common/quantity/symbolic/heart_risk_class [YES, NO, UNKNOWN]

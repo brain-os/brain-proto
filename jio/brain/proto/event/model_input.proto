@@ -30,7 +30,7 @@ message BrainModelInputEvent {
 message BrainMultivariateEventSchema {
   // key is feature/attribute/inference key
   // value is actual schema
-  map<string, BrainFunctionParameterSchema> input_set = 3;
+  map<string, BrainFunctionParameterSchema> input_set = 1;
 }
 
 message BrainFunctionParameterSchema {
@@ -44,13 +44,11 @@ message BrainFunctionParameterSchema {
 
 message BrainMultivariateEvent {
   // key is feature key, attribute key, entity type, inference type
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> parameter_set = 2; // all BrainModelFeature will have same key
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> input_set = 1; // all BrainModelFeature will have same key
 }
 
 message BrainImageEventSchema {
-  BrainRecordKeySchema key_schema = 1;  // crop_id
-  BrainImagePayloadType payload_type = 2;
-  map<string, BrainFunctionParameterSchema> input_set = 3; // TODO for hackathon
+  map<string, BrainFunctionParameterSchema> input_set = 1; // TODO for hackathon
 }
 
 enum BrainImagePayloadType {
@@ -62,8 +60,8 @@ enum BrainImagePayloadType {
 }
 
 message BrainImageEvent {
-  BrainRecordKey key = 1;
-  string source_uri = 2;
-  BrainPayload payload = 3;
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> parameter_set = 4; // TODO for hackathon
+  // uri of image is a feature
+  // lat/long will be converted to feature or a context
+  // e.g. input ingestion timestamp will converted as context for season
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> input_set = 1;
 }

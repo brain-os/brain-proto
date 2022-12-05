@@ -29,18 +29,17 @@ message BrainInferenceEvent {
   uint32 model_id = 1;
   BrainRecordKey key = 2;
   oneof inference_is_one_of {
-    BrainMultivariateClassificationEvent multivariate_classification = 3;
-    BrainImageClassificationEvent image_classification = 4;
-    BrainRegressionEvent regression = 5;
+    BrainClassificationEvent classification = 3;
+    BrainRegressionEvent regression = 4;
   }
   // input to this inference. It will also have record key
   BrainModelInputEvent input_event = 6;
 }
 
-message BrainMultivariateClassificationEvent {
+message BrainClassificationEvent {
   // binary quantity (positive) in case of binary classification
   // symbolic quantity in case of multi class classification
-  jio.brain.proto.quantity.BrainQuantity class_label = 1;
+  jio.brain.proto.quantity.BrainQuantity dominant_class_label = 1;
   // distribution quantity - probability of each class
   jio.brain.proto.quantity.BrainQuantity probability_distribution = 2;
 }
