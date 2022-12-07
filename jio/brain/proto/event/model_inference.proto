@@ -6,10 +6,10 @@ option java_package = "com.jio.brain.proto.event";
 option java_multiple_files = true;
 
 import "jio/brain/proto/event/model_input.proto";
+import "jio/brain/proto/event/inference.proto";
 import "jio/brain/proto/event/event_common.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/quantity/quantity_atomic.proto";
-import "jio/brain/proto/inference/inference.proto";
 import "jio/brain/proto/base/token.proto";
 
 /*
@@ -74,5 +74,5 @@ message BrainRegressionEvent {
 }
 message BrainRegressionEventSchema {
   //BrainRecordKeySchema key = 1;
-  map<string, jio.brain.proto.inference.BrainInferenceSchema> inference = 2; // multi value regression
+  map<string, jio.brain.proto.event.BrainInferenceSchema> inference = 2; // multi value regression
 }
