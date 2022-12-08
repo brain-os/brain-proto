@@ -13,8 +13,10 @@ service ImagePreprocessService {
 message ImagePreprocessRequest {
   repeated CortexModelImagePreprocessor preprocessor = 1; // list for preprocessor
   string url = 2;
+  bytes image_bytes =3;
 }
 
 message ImagePreprocessResponse {
   string processed_url = 1;
+  bytes preprocessed_image_bytes =3;
 }

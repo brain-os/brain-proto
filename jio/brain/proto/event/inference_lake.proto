@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package jio.brain.proto.inference.api;
+package jio.brain.proto.event;
 
 import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/quantity/quantity.proto";

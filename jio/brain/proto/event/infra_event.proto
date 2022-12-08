@@ -6,31 +6,30 @@ option java_package = "com.jio.brain.proto.event";
 option java_multiple_files = true;
 
 import "jio/brain/proto/os/deployment.proto";
-import "jio/brain/proto/repository/feature/feature_repository.proto";
-import "jio/brain/proto/repository/inference/inference_repository.proto";
+import "jio/brain/proto/event/feature_repository.proto";
+import "jio/brain/proto/event/inference_repository.proto";
 import "jio/brain/proto/repository/knowledge/command.proto";
-import "jio/brain/proto/feature/api/repository_route.proto";
-import "jio/brain/proto/feature/api/feature_lake.proto";
-import  "jio/brain/proto/feature/feature.proto";
-import  "jio/brain/proto/inference/inference.proto";
-
+import "jio/brain/proto/event/feature_lake.proto";
+import "jio/brain/proto/event/feature.proto";
+import "jio/brain/proto/event/inference.proto";
+import "jio/brain/proto/event/repository_route.proto";
 message BrainInfraEvent {
   oneof infra_event_is_one_of {
     // BrainIngestionEvent ingestion_event = 1;
     jio.brain.proto.os.DeploymentRequest deployment_request = 2;
-    jio.brain.proto.repository.feature.FeatureCommand feature_command = 3;
-    jio.brain.proto.repository.inference.InferenceCommand inference_command = 4;
+    jio.brain.proto.event.FeatureCommand feature_command = 3;
+    jio.brain.proto.event.InferenceCommand inference_command = 4;
     jio.brain.proto.repository.knowledge.EntityCommand entity_command = 5;
-    jio.brain.proto.feature.api.RepositoryRouterTopics repository_router_topic = 6;
-    jio.brain.proto.feature.api.BrainFunctionNameSet brain_function_name_set = 7;
+    jio.brain.proto.event.RepositoryRouterTopics repository_router_topic = 6;
+    jio.brain.proto.event.BrainFunctionNameSet brain_function_name_set = 7;
     BrainSchemaCacheService cache_brain_schema = 8;
   }
 }
 
 message BrainSchemaCacheService{
   oneof brain_schema_is_one_of {
-    jio.brain.proto.inference.BrainInferenceSetSchema brain_inference_set_schema = 1;
-    jio.brain.proto.feature.BrainFeatureSetSchema brain_feature_set_schema = 2;
+    jio.brain.proto.event.BrainInferenceSetSchema brain_inference_set_schema = 1;
+    jio.brain.proto.event.BrainFeatureSetSchema brain_feature_set_schema = 2;
   }
 }
 

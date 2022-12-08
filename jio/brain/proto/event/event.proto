@@ -9,7 +9,7 @@ import "google/protobuf/any.proto";
 import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/entity/entity.proto";
-import "jio/brain/proto/feature/feature.proto";
+import "jio/brain/proto/event/feature.proto";
 import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/event/iot_event.proto";
 import "jio/brain/proto/event/model_inference.proto";
@@ -190,7 +190,7 @@ message BrainEventFeatureKeyValueSchema {
 
 message BrainEventFeatureValueSchema {
   // key = mid(/m/<vertical>/<domain>/<event>/<property>)
-  jio.brain.proto.feature.BrainFeatureSetSchema features = 1;
+  BrainFeatureSetSchema features = 1;
   //jio.brain.proto.entity.BrainAttributeSetSchema attribute_schema = 2; // TODO remove schema
 }
 
