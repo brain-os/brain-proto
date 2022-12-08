@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package jio.brain.proto.repository.inference;
+package jio.brain.proto.event;
 
-option java_package = "com.jio.brain.proto.repository.inference";
+option java_package = "com.jio.brain.proto.event";
 option java_multiple_files = true;
 
 import "google/protobuf/timestamp.proto";
@@ -102,7 +102,7 @@ message InferenceKeyComponentResponse {
   jio.brain.proto.base.BrainStatus brainStatus = 2;
 }
 
-message BrainEventKeyShaMapping {
-  string sha_key = 1;
-  jio.brain.proto.event.BrainEventKey event_key = 2;
-}
+//message BrainEventKeyShaMapping {
+//  string sha_key = 1;
+//  jio.brain.proto.event.BrainEventKey event_key = 2;
+//}
