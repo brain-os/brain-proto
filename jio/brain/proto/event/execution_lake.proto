@@ -5,46 +5,21 @@ package jio.brain.proto.event;
 import "jio/brain/proto/event/event.proto";
 import "jio/brain/proto/base/token.proto";
 import "jio/brain/proto/quantity/quantity.proto";
-//import "jio/brain/proto/quantity/quantity.proto";
 
 option java_package = "com.jio.brain.proto.feature.api";
 option java_multiple_files = true;
-
-message BrainFeatureRepositoryEvent {
-  jio.brain.proto.event.BrainEventMetadata brain_event_meta_data = 1;
-  jio.brain.proto.event.BrainEventKey feature_key = 2;
-  BrainEventFeatureValue feature_value = 3;
-}
-message BrainEventFeatureValue {
-  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
-}
-
-//Input of Delta Cache Service
-//message DeltaCacheInput {
-//  string key = 1;
-//  repeated uint32 name = 2;
-//}
 
 //Input of Feature Resolver
 message BrainFunctionNameSet {
   repeated BrainFunctionNameSetForKey function_set_for_key = 1;
 }
 
-//message KeyFunctionMap {
-//  string sha_key = 1;
-//  repeated string function_name = 2;
-//}
-
 message BrainFunctionNameSetForKey {
   string sha_key = 1;
   repeated jio.brain.proto.base.BrainToken function_set = 2;//todo change it to string or uint32
 }
 
-//Input of Function Executor service
-//message KeyFunctionEventSet{ // todo:wrong :delete it
-//  repeated KeyFunctionEventSet keyFunctionEventSet = 1;
-//}
-
+//Output of Feature resolver
 message BrainExecutableFunctionSet{
   repeated BrainExecutableFunctionForKey function_set = 1;
 }
@@ -53,9 +28,31 @@ message BrainExecutableFunctionForKey{
   string sha_key = 1;
   repeated jio.brain.proto.event.BrainEvent feature_event = 2; // BrainEventFeatureKeyValue
 }
-message BrainAttributeQuantitySchema{
+
+//Input of Delta Cache Service
+//message DeltaCacheInput {
+//  string key = 1;
+//  repeated uint32 name = 2;
+//}
+
+
+
+//message KeyFunctionMap {
+//  string sha_key = 1;
+//  repeated string function_name = 2;
+//}
+
+
+
+//Input of Function Executor service
+//message KeyFunctionEventSet{ // todo:wrong :delete it
+//  repeated KeyFunctionEventSet keyFunctionEventSet = 1;
+//}
+
+
+/*message BrainAttributeQuantitySchema{
   map<uint32, jio.brain.proto.quantity.BrainQuantitySchema> quantitySchema = 1;
-}
+}*/
 
 /**
 Handle time series and latest

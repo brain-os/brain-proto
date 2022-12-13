@@ -10,7 +10,6 @@ import "google/protobuf/timestamp.proto";
 import "jio/brain/proto/quantity/quantity.proto";
 import "jio/brain/proto/base/status.proto";
 import "jio/brain/proto/event/event.proto";
-import "jio/brain/proto/event/feature_lake.proto";
 
 message FeatureCommand {
   oneof command_is_one_of {
@@ -41,11 +40,20 @@ message FeatureCommand {
 
 // TODO do we event schema id, sha256key here
 message FeatureCreateCommand {
-    jio.brain.proto.event.BrainFeatureRepositoryEvent brain_feature_event = 1;   // of type feature_key_valye
+    BrainFeatureRepositoryEvent brain_feature_event = 1;   // of type feature_key_valye
     uint32 event_schema = 2;
     jio.brain.proto.base.BrainTimeWindowType window_time_type = 3;
     string sha256key = 4;
     jio.brain.proto.base.BrainStatus brainStatus = 5;
+}
+
+message BrainFeatureRepositoryEvent {
+  jio.brain.proto.event.BrainEventMetadata brain_event_meta_data = 1;
+  jio.brain.proto.event.BrainEventKey feature_key = 2;
+  BrainEventFeatureValue feature_value = 3;
+}
+message BrainEventFeatureValue {
+  map<uint32, jio.brain.proto.quantity.BrainQuantity> value = 1;
 }
 
 /*message FeatureUpdateEvent {

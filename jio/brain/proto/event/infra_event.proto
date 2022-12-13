@@ -9,7 +9,7 @@ import "jio/brain/proto/os/deployment.proto";
 import "jio/brain/proto/event/feature_repository.proto";
 import "jio/brain/proto/event/inference_repository.proto";
 import "jio/brain/proto/repository/knowledge/command.proto";
-import "jio/brain/proto/event/feature_lake.proto";
+import "jio/brain/proto/event/execution_lake.proto";
 import "jio/brain/proto/event/feature.proto";
 import "jio/brain/proto/event/inference.proto";
 import "jio/brain/proto/event/repository_route.proto";
