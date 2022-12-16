@@ -30,6 +30,16 @@ message BrainSchemaCacheService{
   oneof brain_schema_is_one_of {
     jio.brain.proto.event.BrainInferenceSetSchema brain_inference_set_schema = 1;
     jio.brain.proto.event.BrainFeatureSetSchema brain_feature_set_schema = 2;
+    BrainFeatureDelete brainFeatureDelete = 3;
+    BrainInferenceDelete brainInferenceDelete = 4;
   }
+}
+
+message BrainFeatureDelete{
+  uint32 featureId = 1;
+}
+
+message BrainInferenceDelete{
+  uint32 inferenceId = 1;
 }
 
