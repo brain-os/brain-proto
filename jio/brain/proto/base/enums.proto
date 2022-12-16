@@ -81,6 +81,7 @@ enum BrainTokenType {
     BRAIN_FEATURE_TOKEN = 14;
     BRAIN_ATTRIBUTE_FAMILY_TOKEN = 15;
     BRAIN_FUNCTION_TOKEN=16; // TODO:review :: rename to model-token ??
+    BRAIN_INFERENCE_TOKEN = 17;
 }
 
 // Temporal
