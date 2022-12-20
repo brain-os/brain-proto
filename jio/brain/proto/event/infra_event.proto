@@ -26,6 +26,10 @@ message BrainInfraEvent {
   }
 }
 
+message BrainInfraEventPool{
+  repeated BrainInfraEvent brain_infra_event_pool = 1;
+}
+
 message BrainSchemaCacheService{
   oneof brain_schema_is_one_of {
     jio.brain.proto.event.BrainInferenceSetSchema brain_inference_set_schema = 1;
